@@ -2,6 +2,11 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.1'
     id 'io.spring.dependency-management' version '1.1.5'
+
+    //test-fixture
+    id 'java-library'
+    id 'java-test-fixtures'
+    id 'maven-publish'
 }
 
 group = 'com.check-in'
@@ -31,6 +36,7 @@ dependencies {
 
     //db
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
     implementation 'com.mysql:mysql-connector-j'
 
     //test

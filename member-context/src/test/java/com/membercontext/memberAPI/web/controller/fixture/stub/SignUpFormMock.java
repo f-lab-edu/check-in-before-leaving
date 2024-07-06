@@ -1,7 +1,6 @@
-package com.membercontext.memberAPI.web.controller.stub;
+package com.membercontext.memberAPI.web.controller.fixture.stub;
 
-import com.membercontext.memberAPI.web.form.SignUpForm;
-import lombok.Getter;
+import com.membercontext.memberAPI.web.controller.form.SignUpForm;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

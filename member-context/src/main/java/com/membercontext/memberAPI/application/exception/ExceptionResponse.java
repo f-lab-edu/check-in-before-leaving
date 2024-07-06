@@ -1,6 +1,6 @@
-package com.membercontext.memberAPI.web.exception;
+package com.membercontext.memberAPI.application.exception;
 
-import com.membercontext.memberAPI.web.exception.member.MemberErrorCode;
+import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

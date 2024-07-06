@@ -1,15 +1,17 @@
 package com.membercontext.memberAPI.domain.service;
 
+import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.Member;
 import com.membercontext.memberAPI.repository.SignUpJPARepository;
-import com.membercontext.memberAPI.web.exception.member.MemberException;
-import com.membercontext.memberAPI.web.form.SignUpForm;
+
+import com.membercontext.memberAPI.web.controller.form.SignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import static com.membercontext.memberAPI.web.exception.member.MemberErrorCode.ALREADY_REGISTERED_USER;
+import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.ALREADY_REGISTERED_USER;
+
 
 @Service
 @RequiredArgsConstructor
