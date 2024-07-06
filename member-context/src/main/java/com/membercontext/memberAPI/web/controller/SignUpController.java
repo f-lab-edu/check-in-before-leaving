@@ -30,5 +30,5 @@ public class SignUpController {
     public ResponseEntity<String> delete() {
         return ResponseEntity.ok("회원탈퇴 성공");
     }
-
+    //TODO: checking commit
 }
