@@ -1,7 +1,10 @@
 package com.membercontext.memberAPI.web.controller;
 
-import com.membercontext.memberAPI.domain.service.SignUpService;
-import com.membercontext.memberAPI.web.form.SignUpForm;
+import com.membercontext.memberAPI.application.service.SignUpService;
+import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.web.controller.form.SignUpForm;
+import com.membercontext.memberAPI.web.controller.form.UpdateForm;
+import com.membercontext.memberAPI.web.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,22 +16,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/sign-in")
 public class SignUpController {
 
-    private SignUpService signUpService;
+    private final SignUpService signUpService;
 
     @PostMapping
     public ResponseEntity<String> signIn(@Validated @RequestBody SignUpForm signUpForm) {
-
-        return ResponseEntity.ok(signUpService.signUp(signUpForm));
+        return ResponseEntity.ok(signUpService.signUp(Member.from(signUpForm)));
     }
 
     @PutMapping
-    public ResponseEntity<String> update() {
-        return ResponseEntity.ok("회원정보 수정 성공");
+    public ResponseEntity<MemberDto> update(@Validated @RequestBody UpdateForm updateForm) {
+        return ResponseEntity.ok(MemberDto.from(signUpService.update(Member.from(updateForm))));
     }
 
     @DeleteMapping
-    public ResponseEntity<String> delete() {
-        return ResponseEntity.ok("회원탈퇴 성공");
+    public ResponseEntity<String> delete(@RequestParam Long id) {
+        return ResponseEntity.ok(signUpService.delete(id));
     }
 
 }
