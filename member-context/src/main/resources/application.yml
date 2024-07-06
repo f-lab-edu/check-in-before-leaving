@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: member-context
+  datasource:
+    url: jdbc:mysql://localhost:3306/member?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: true
+server:
+  port: 8080
