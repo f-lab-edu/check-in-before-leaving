@@ -33,7 +33,6 @@ public class Member {
 
     private Long point;
 
-    //Fixme 테스트: 도메인의 경우 서비스에서 사용되는데 따로 보통 테스트를 만드는지 궁금합니다.
     public void update(Member updatingMember) {
         this.email = updatingMember.getEmail();
         this.password = updatingMember.getPassword();

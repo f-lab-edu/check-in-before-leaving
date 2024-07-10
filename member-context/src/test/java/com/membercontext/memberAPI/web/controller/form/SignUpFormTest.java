@@ -65,7 +65,6 @@ class SignUpFormTest {
         //then
         resultActions.andExpect(status().isBadRequest());
         verify(signUpService, times(0)).signUp(any(Member.class));
-        //Fixme: 여기서 Member.from(form)도 검증 하는게 좋을까요?
     }
 
     @Test
