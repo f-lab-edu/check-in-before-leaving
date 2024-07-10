@@ -8,9 +8,10 @@ import lombok.*;
 @Entity
 @Getter
 @Setter(AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE) //Todo: protected가 맞을지?
+@Builder(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+//Fixme: 이렇게 Protected로 풀어서 Test Fixture를 만들려고 합니다.
 public class Member {
 
     @Id

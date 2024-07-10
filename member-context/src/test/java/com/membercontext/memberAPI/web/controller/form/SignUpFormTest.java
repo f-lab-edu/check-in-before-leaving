@@ -5,6 +5,7 @@ import com.membercontext.memberAPI.application.service.SignUpServiceImpl;
 import com.membercontext.memberAPI.domain.entity.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import com.membercontext.memberAPI.web.controller.fixture.SignUpFormTestFixture;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,7 @@ class SignUpFormTest {
 
     @Test
     @DisplayName("이름 없음.")
+    @Transactional
     public void signUp_NoName() throws Exception {
         //given
         SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();

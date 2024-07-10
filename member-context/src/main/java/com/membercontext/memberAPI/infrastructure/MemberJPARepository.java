@@ -39,7 +39,6 @@ public class MemberJPARepository implements MemberRepository {
                 .ifPresent(registeredMember -> {
                     throw new MemberException(ALREADY_REGISTERED_USER);
                 });
-        //Fixme 정렬: 줄 정렬 이렇게 하는 게 맞을까요?
         memberSpringJPARepository.save(member);
     }
 
