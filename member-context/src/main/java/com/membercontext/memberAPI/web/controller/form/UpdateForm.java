@@ -1,12 +1,15 @@
-package com.membercontext.memberAPI.web.form;
+package com.membercontext.memberAPI.web.controller.form;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Getter;
 
 @Getter
-public class SignUpForm {
+public class UpdateForm {
+
+    @NotNull(message = "회원번호를 입력해주세요")
+    private Long id;
 
     @Email(message = "이메일 형식에 맞게 입력해주세요")
     @NotBlank(message = "이메일을 입력해주세요")
@@ -27,6 +30,7 @@ public class SignUpForm {
     @NotNull(message = "위치 서비스 사용 여부를 입력해주세요")
     private Boolean isLocationServiceEnabled;
 
+    @NotNull(message = "현재 포인트를 입력해주세요")
     Long point;
 
 

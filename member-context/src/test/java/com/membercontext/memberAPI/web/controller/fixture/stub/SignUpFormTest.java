@@ -1,12 +1,8 @@
-package com.membercontext.memberAPI.web.controller.stub;
+package com.membercontext.memberAPI.web.controller.fixture.stub;
 
-import com.membercontext.memberAPI.web.form.SignUpForm;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
+import com.membercontext.memberAPI.web.controller.form.SignUpForm;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 
 @Getter

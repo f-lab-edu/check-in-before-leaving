@@ -1,7 +1,6 @@
-package com.membercontext.memberAPI.web.exception;
+package com.membercontext.memberAPI.application.exception;
 
-import com.membercontext.memberAPI.web.exception.member.MemberException;
-import lombok.Getter;
+import com.membercontext.memberAPI.application.exception.member.MemberException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
