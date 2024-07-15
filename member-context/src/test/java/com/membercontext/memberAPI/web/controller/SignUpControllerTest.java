@@ -77,7 +77,7 @@ public class SignUpControllerTest {
                 .andExpect(jsonPath("$").value("회원가입 성공"));
         member.verify(() -> Member.from(any(SignUpForm.class)), times(1));
         verify(signUpService, times(1)).signUp(any(Member.class));
-        //Todo: 언제 any를 쓰고 언제 안 쓰는지 기준을 알아 보기.
+        //check: 언제 any를 쓰고 언제 안 쓰는지 기준을 알아 보기.
     }
 
     @Test
@@ -86,7 +86,6 @@ public class SignUpControllerTest {
         //given
         UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
 
-        //Fixme: A. 결합부분
         MemberTestFixture memberTestFixture = new MemberTestFixture();
         Member updatedMember = memberTestFixture.from_Mock(form);
 
@@ -116,13 +115,6 @@ public class SignUpControllerTest {
         memberDto.verify(() -> MemberDto.from(any(Member.class)), times(1));
         verify(signUpService, times(1)).update(any(Member.class));
 
-        //Fixme 테스트: from으로 변경하는 부분 호출도 테스트 하고 싶고 값도 테스트 하고 싶다 보니까 모킹 객체를 많이 만들게 되는데
-        //            Fixture 클래스로 숨겨 놓긴 했지만 과해지는 것같은 느낌이 있어서 지금 방식이 과한지 체크 받고 싶습니다.
-        //            Member.from, MemberDto.from이 작동해야 데이터가 잘 변경 되어서 도메인으로 보내 주었다 (input의 문제라고 생각)
-        //            DTO로 변경해야 데이터가 잘 변경 되어서 클라이언트에게 보내 주었다 (output의 문제라고 생각)
-        //            UpdateForm을 HttpRequest에서 ObjectMapper로 넘기는 것까지만 input으로 보고 "200 성공" 정도만 output으로 보아야 할지 검증의 범위가 고민 됩니다.
-
-        //Fixme 테스트(픽스쳐): 도메인 테스트에서 쓰이는 Fixture와 인터페이스에서 쓰이는 Fixture가 결합된 형태로 쓰여도 괜찮은지 신경 쓰입니다. (*A. 결합부분)
 
     }
 

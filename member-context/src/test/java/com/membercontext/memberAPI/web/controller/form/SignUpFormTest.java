@@ -5,6 +5,7 @@ import com.membercontext.memberAPI.application.service.SignUpServiceImpl;
 import com.membercontext.memberAPI.domain.entity.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import com.membercontext.memberAPI.web.controller.fixture.SignUpFormTestFixture;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,11 +66,11 @@ class SignUpFormTest {
         //then
         resultActions.andExpect(status().isBadRequest());
         verify(signUpService, times(0)).signUp(any(Member.class));
-        //Fixme: 여기서 Member.from(form)도 검증 하는게 좋을까요?
     }
 
     @Test
     @DisplayName("이름 없음.")
+    @Transactional
     public void signUp_NoName() throws Exception {
         //given
         SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();

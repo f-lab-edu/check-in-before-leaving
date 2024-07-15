@@ -67,7 +67,6 @@ class SignUpServiceTest {
         UpdateFormTestFixture updateFormTestFixture = new UpdateFormTestFixture();
         Member registeredMember = spy(Member.class);
         Member updatingMember = Member.from(updateFormTestFixture.createAllFilledUpdateForm_Mock());
-        //Fixme 픽스처: 이렇게 MemberFixture 만들지 않고 실제 객체와 섞여서 쓰면 안좋을까요?
         given(memberRepository.findById(updatingMember.getId())).willReturn(Optional.of(registeredMember));
 
         //when

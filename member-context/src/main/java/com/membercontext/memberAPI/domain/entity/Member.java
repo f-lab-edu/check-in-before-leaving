@@ -8,9 +8,10 @@ import lombok.*;
 @Entity
 @Getter
 @Setter(AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE) //Todo: protected가 맞을지?
+@Builder(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+//Fixme: 이렇게 Protected로 풀어서 Test Fixture를 만들려고 합니다.
 public class Member {
 
     @Id
@@ -33,7 +34,6 @@ public class Member {
 
     private Long point;
 
-    //Fixme 테스트: 도메인의 경우 서비스에서 사용되는데 따로 보통 테스트를 만드는지 궁금합니다.
     public void update(Member updatingMember) {
         this.email = updatingMember.getEmail();
         this.password = updatingMember.getPassword();
