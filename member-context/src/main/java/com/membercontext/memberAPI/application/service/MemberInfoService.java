@@ -1,6 +1,6 @@
 package com.membercontext.memberAPI.application.service;
 
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.domain.entity.member.Member;
 
 public interface MemberInfoService {
 

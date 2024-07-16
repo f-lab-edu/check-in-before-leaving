@@ -2,7 +2,7 @@ package com.membercontext.memberAPI.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.memberAPI.application.service.MemberInfoService;
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.fixture.MemberTestFixture;
 import com.membercontext.memberAPI.web.controller.fixture.MemberDtoTextFixture;
 import com.membercontext.memberAPI.web.dto.MemberDto;

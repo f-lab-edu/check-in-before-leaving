@@ -1,8 +1,13 @@
-package com.membercontext.memberAPI.domain.entity.testFixture;
+package com.membercontext.memberAPI.domain.entity.member.testFixture;
 
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.domain.entity.member.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 
 public class MemberTest extends Member {
+
 
     public static Member createMember(Long id, String email, String password, String name, String phone, String location, Boolean isLocationServiceEnabled, Long point) {
         return Member.builder()

@@ -1,10 +1,11 @@
-package com.membercontext.memberAPI.application.service;
+package com.membercontext.memberAPI.application.service.SignUpSerivces;
 
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.domain.entity.member.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.SIGNUP_FAILED;

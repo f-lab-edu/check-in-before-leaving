@@ -1,9 +1,10 @@
-package com.membercontext.memberAPI.application.service;
+package com.membercontext.memberAPI.application.service.signUp;
 
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.domain.entity.Member;
-import com.membercontext.memberAPI.domain.fixture.MemberTestFixture;
+import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpServiceImpl;
+import com.membercontext.memberAPI.domain.entity.member.Member;
+import com.membercontext.memberAPI.domain.entity.member.testFixture.MemberTest;
 import com.membercontext.memberAPI.web.controller.fixture.UpdateFormTestFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SignUpServiceTest {
+class SignUpServiceImplTest {
 
     @InjectMocks
     private SignUpServiceImpl signUpService;
@@ -28,15 +29,11 @@ class SignUpServiceTest {
     @Mock
     private MemberRepository memberRepository;
 
-    private final MemberTestFixture memberTestFixture = new MemberTestFixture();
-
-
     @Test
     @DisplayName("회원가입 성공.")
     void signUp() {
         //given
-        Member newMember = mock(Member.class);
-        given(memberRepository.findByEmail(newMember.getEmail())).willReturn(Optional.empty());
+        Member newMember = MemberTest.createMember(1L, "test@test.com", "test", "test", "test", "test", true, 0L);
 
         //when
         String result = signUpService.signUp(newMember);

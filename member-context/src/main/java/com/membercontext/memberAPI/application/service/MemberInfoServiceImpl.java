@@ -3,7 +3,7 @@ package com.membercontext.memberAPI.application.service;
 import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.domain.entity.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
