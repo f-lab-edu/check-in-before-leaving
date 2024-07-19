@@ -1,8 +1,8 @@
 package com.membercontext.memberAPI.web.controller.form;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.membercontext.memberAPI.application.service.SignUpServiceImpl;
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpServiceImpl;
+import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import com.membercontext.memberAPI.web.controller.fixture.UpdateFormTestFixture;
 import org.junit.jupiter.api.DisplayName;

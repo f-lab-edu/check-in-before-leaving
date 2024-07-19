@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.domain.entity;
+package com.membercontext.memberAPI.domain.entity.member;
 
 import com.membercontext.memberAPI.web.controller.form.SignUpForm;
 import com.membercontext.memberAPI.web.controller.form.UpdateForm;
@@ -32,6 +32,11 @@ public class Member {
     private Boolean isLocationServiceEnabled;
 
     private Long point;
+
+    public void encryptPassword(String encryptedPassword){
+        this.password = encryptedPassword;
+    }
+
 
     public void update(Member updatingMember) {
         this.email = updatingMember.getEmail();

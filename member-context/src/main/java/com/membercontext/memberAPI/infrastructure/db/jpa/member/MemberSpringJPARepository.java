@@ -1,6 +1,6 @@
-package com.membercontext.memberAPI.infrastructure;
+package com.membercontext.memberAPI.infrastructure.db.jpa.member;
 
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.domain.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

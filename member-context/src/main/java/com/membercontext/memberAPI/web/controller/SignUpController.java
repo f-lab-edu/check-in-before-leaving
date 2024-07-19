@@ -1,7 +1,7 @@
 package com.membercontext.memberAPI.web.controller;
 
-import com.membercontext.memberAPI.application.service.SignUpService;
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
+import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.form.SignUpForm;
 import com.membercontext.memberAPI.web.controller.form.UpdateForm;
 import com.membercontext.memberAPI.web.dto.MemberDto;
@@ -32,5 +32,5 @@ public class SignUpController {
     public ResponseEntity<String> delete(@RequestParam Long id) {
         return ResponseEntity.ok(signUpService.delete(id));
     }
-    //TODO: checking commit
+
 }

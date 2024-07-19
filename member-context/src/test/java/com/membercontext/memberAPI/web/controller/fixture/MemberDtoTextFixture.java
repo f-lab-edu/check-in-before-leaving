@@ -1,6 +1,6 @@
 package com.membercontext.memberAPI.web.controller.fixture;
 
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.dto.MemberDto;
 
 import static org.mockito.Mockito.mock;

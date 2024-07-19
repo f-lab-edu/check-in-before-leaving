@@ -1,6 +1,6 @@
 package com.membercontext.memberAPI.web.dto;
 
-import com.membercontext.memberAPI.domain.entity.Member;
+import com.membercontext.memberAPI.domain.entity.member.Member;
 import lombok.*;
 
 @Getter
