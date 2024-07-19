@@ -1,8 +1,7 @@
-package com.membercontext.memberAPI.application.service.signUp;
+package com.membercontext.memberAPI.application.service.signUp.deco;
 
 import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.application.repository.encryption.javaCrypto.JavaCryptoEncryption;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpPasswordEncryptionServiceImpl_JavaCrypto;
+import com.membercontext.memberAPI.application.service.SignUpSerivces.deco.SignUpPasswordEncryptionServiceImpl_JavaCrypto;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpServiceImpl;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.testFixture.MemberTest;
@@ -14,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SignUpPasswordEncryptionServiceImplTest_JavaCrypto {

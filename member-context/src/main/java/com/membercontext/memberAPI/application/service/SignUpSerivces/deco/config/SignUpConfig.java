@@ -1,16 +1,14 @@
-package com.membercontext.memberAPI.application.service.SignUpSerivces.config;
+package com.membercontext.memberAPI.application.service.SignUpSerivces.deco.config;
 
 import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.application.repository.encryption.javaCrypto.JavaCryptoAdapter;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpEmailServiceImpl;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpPasswordEncryptionServiceImpl_JavaCrypto;
+import com.membercontext.memberAPI.application.service.SignUpSerivces.deco.SignUpEmailServiceImpl;
+import com.membercontext.memberAPI.application.service.SignUpSerivces.deco.SignUpPasswordEncryptionServiceImpl_JavaCrypto;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class SignUpConfig {
 
     //@Autowired

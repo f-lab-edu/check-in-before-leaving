@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.application.service.signUp.integrated.current;
+package com.membercontext.memberAPI.application.service.signUp.deco.integrated.current;
 
 import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
 import com.membercontext.memberAPI.domain.entity.member.Member;

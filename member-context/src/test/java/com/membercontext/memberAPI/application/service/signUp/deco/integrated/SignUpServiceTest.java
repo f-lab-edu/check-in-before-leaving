@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.application.service.signUp.integrated;
+package com.membercontext.memberAPI.application.service.signUp.deco.integrated;
 
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;

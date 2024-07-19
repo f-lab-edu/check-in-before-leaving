@@ -1,7 +1,7 @@
-package com.membercontext.memberAPI.application.service.signUp;
+package com.membercontext.memberAPI.application.service.signUp.deco;
 
 import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpEmailServiceImpl;
+import com.membercontext.memberAPI.application.service.SignUpSerivces.deco.SignUpEmailServiceImpl;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpServiceImpl;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.testFixture.MemberTest;
