@@ -4,9 +4,9 @@ import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.*;
 
@@ -17,13 +17,15 @@ public class MemberJPARepository implements MemberRepository {
     private final MemberSpringJPARepository memberSpringJPARepository;
 
     @Override
-    public Optional<Member> findByEmail(String email) {
-        return memberSpringJPARepository.findByEmail(email);
+    public Member findByEmail(String email) {
+        return memberSpringJPARepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException(NOT_EXITING_USER));
     }
 
     @Override
-    public Optional<Member> findById(Long id) {
-        return memberSpringJPARepository.findById(id);
+    public Member findById(Long id) {
+        return memberSpringJPARepository.findById(id)
+                .orElseThrow(() -> new MemberException(NOT_EXITING_USER));
     }
 
     @Override
@@ -50,7 +52,7 @@ public class MemberJPARepository implements MemberRepository {
         memberSpringJPARepository.save(member);
 
         //check: Interface 추가 or findById로 돌려주기
-        return memberSpringJPARepository.findById(updatingMember.getId())
+        return memberSpringJPARepository.findById(member.getId())
                 .orElseThrow(() -> new MemberException(UPDATE_FAILED));
     }
 
