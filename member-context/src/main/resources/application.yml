@@ -16,7 +16,9 @@ server:
   port: 8080
 
 encryption:
-  algorithm: AES
-  mode: ECB
-  padding: PKCS5Padding
   key: pkl14nskhapj2n8j
+
+logging:
+  level:
+    root: INFO
+

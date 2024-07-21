@@ -79,6 +79,7 @@ public class JavaCryptoUtil {
         if (key.getBytes().length != 16) throw new JavaCryptoException(BYTE_SIZE_LENGTH_WRONG);
         return 16;
     }
+
     private Cipher setMode(int mode, byte[] iv) {
         try {
             Cipher cipher;
