@@ -14,7 +14,7 @@ public class LogAspect {
 
     @Around("@annotation(com.membercontext.memberAPI.application.aop.annotation.Log)")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
-        //fixme: 로그인 구현 후 인증등 좀 더 복잡한 기능으로 구현해 보겠습니다.
+
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_BLUE = "\u001B[34m";
 
