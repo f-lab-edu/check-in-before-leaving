@@ -54,8 +54,6 @@ class LogInControllerTest {
 
     @Test
     void logIn() throws Exception {
-        //fixme: 또 통합 테스트가 되어 버린 것 같은데 이렇게 길어지면 자르는 방법을 찾아봐야 할까요?
-
         //when
         String requestURL = "/log-in";
         LogInForm form = mock(LogInForm.class);
