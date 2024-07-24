@@ -9,6 +9,13 @@ import org.springframework.http.HttpStatus;
 public enum MemberErrorCode {
 
     //Log-In
+    LOGIN_REQUIRED(HttpStatus.BAD_REQUEST, "로그인이 필요합니다."),
+
+    NO_COOKIE(HttpStatus.BAD_REQUEST, "이력을 찾을 수 없습니다. 로그인이 필요합니다."),
+    NOT_LOGGED_IN(HttpStatus.BAD_REQUEST, "로그인 정보가 없습니다. 로그인이 필요합니다."),
+    NO_SESSION(HttpStatus.BAD_REQUEST, "서버에 세션이 존재하지 않습니다."),
+    NO_SESSION_ID(HttpStatus.BAD_REQUEST, "로그인 정보가 서버에 존재하지 않습니다. 로그인이 필요합니다."),
+
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 
     //Sign-Up

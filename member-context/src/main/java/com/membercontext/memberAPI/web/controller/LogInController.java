@@ -1,5 +1,6 @@
 package com.membercontext.memberAPI.web.controller;
 
+import com.membercontext.memberAPI.application.aop.authentication.NoAuthentication;
 import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
@@ -28,6 +29,7 @@ public class LogInController {
     private final JavaCryptoUtil javaCryptoUtil;
 
     @PostMapping
+    @NoAuthentication
     public ResponseEntity logIn(HttpServletRequest request, HttpServletResponse response, @RequestBody LogInForm logInForm) {
 
         Member member = logInService.logIn(logInForm.getEmail(), logInForm.getPassword());
@@ -45,7 +47,7 @@ public class LogInController {
         session.setMaxInactiveInterval(SessionTime);
     }
     private void setCookie(HttpServletResponse response, String encryptedEmail){
-        final String cookieName = "CKB4LV";
+        final String cookieName = "CKIB4LV";
         Cookie logInCookie = new Cookie(cookieName, encryptedEmail);
         logInCookie.setHttpOnly(true);
         response.addCookie(logInCookie);

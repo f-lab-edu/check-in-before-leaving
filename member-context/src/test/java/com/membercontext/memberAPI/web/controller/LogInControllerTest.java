@@ -72,8 +72,8 @@ class LogInControllerTest {
         //then - response, cookie
         String encryptedEmail = javaCryptoUtil.encrypt(member.getEmail());
         resultActions.andExpect(status().isOk())
-                .andExpect(cookie().exists("CKB4LV"))
-                .andExpect(cookie().value("CKB4LV", encryptedEmail));
+                .andExpect(cookie().exists("CKIB4LV"))
+                .andExpect(cookie().value("CKIB4LV", encryptedEmail));
 
         //given - session
         MvcResult mvcResult = resultActions.andReturn();

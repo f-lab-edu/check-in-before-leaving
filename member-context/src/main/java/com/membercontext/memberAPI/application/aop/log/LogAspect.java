@@ -12,7 +12,7 @@ import org.slf4j.event.Level;
 @Aspect
 public class LogAspect {
 
-    @Around("@annotation(com.membercontext.memberAPI.application.aop.annotation.Log)")
+    @Around("@annotation(com.membercontext.memberAPI.application.aop.log.Log)")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
 
         final String ANSI_RESET = "\u001B[0m";

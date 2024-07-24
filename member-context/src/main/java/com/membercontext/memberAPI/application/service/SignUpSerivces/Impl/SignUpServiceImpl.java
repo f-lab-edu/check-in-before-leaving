@@ -1,7 +1,6 @@
 package com.membercontext.memberAPI.application.service.SignUpSerivces.Impl;
 
-import com.membercontext.memberAPI.application.aop.annotation.Log;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.application.aop.log.Log;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
@@ -9,9 +8,6 @@ import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.ALREADY_REGISTERED_USER;
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.SIGNUP_FAILED;
 
 @Service
 @RequiredArgsConstructor
