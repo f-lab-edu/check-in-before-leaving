@@ -1,14 +1,14 @@
 package com.membercontext.memberAPI.application.service.signUp;
 
+import com.membercontext.memberAPI.application.aop.log.LogAspect;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.testFixture.MemberTest;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,8 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) //GenerationType.IDENTITY
-//fixme: GenerationType.IDENTITY로 하니 ID값을 DB에서 정해준 값만 쓸수 있어서 테스테에 순서가 필요하게 됩니다.
-//       테스트는 순서에 상관없이 작성해야 된다고 하던데 이런 경우는 괜찮은 걸까요?
+@Import(LogAspect.class)
 class SignUpServiceImplTest_Integrated {
 
     @Autowired
@@ -49,7 +48,7 @@ class SignUpServiceImplTest_Integrated {
 
         //given
         Member registeredMember = MemberTest.createMember("test@test.com", "test", "test", "test", "test", true, 0L);
-        sut.signUp(registeredMember); //fixme: ID값을 따로 안 받아 와도 업데이트가 되는데 JPA라서 그런 걸까요?
+        sut.signUp(registeredMember);
 
         Member updatingMember = MemberTest.createUpdatingMember(registeredMember.getId(), "updated@test.com", "updated", "updated", "updated", "updated", false, 100L);
 
