@@ -54,8 +54,6 @@ class LogInControllerTest {
 
     @Test
     void logIn() throws Exception {
-        //fixme: 또 통합 테스트가 되어 버린 것 같은데 이렇게 길어지면 자르는 방법을 찾아봐야 할까요?
-
         //when
         String requestURL = "/log-in";
         LogInForm form = mock(LogInForm.class);
@@ -72,8 +70,8 @@ class LogInControllerTest {
         //then - response, cookie
         String encryptedEmail = javaCryptoUtil.encrypt(member.getEmail());
         resultActions.andExpect(status().isOk())
-                .andExpect(cookie().exists("CKB4LV"))
-                .andExpect(cookie().value("CKB4LV", encryptedEmail));
+                .andExpect(cookie().exists("CKIB4LV"))
+                .andExpect(cookie().value("CKIB4LV", encryptedEmail));
 
         //given - session
         MvcResult mvcResult = resultActions.andReturn();
