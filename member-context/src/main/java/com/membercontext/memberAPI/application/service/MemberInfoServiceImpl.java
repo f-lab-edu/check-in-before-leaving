@@ -15,7 +15,6 @@ public class MemberInfoServiceImpl implements MemberInfoService{
 
     @Override
     public Member getMemberInfo(Long id) {
-        return memberRepository.findById(id)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_EXITING_USER));
+        return memberRepository.findById(id);
     }
 }

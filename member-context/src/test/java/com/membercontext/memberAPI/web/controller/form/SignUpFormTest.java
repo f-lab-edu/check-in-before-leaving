@@ -1,7 +1,7 @@
 package com.membercontext.memberAPI.web.controller.form;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpServiceImpl;
+import com.membercontext.memberAPI.application.service.SignUpSerivces.Impl.SignUpServiceImpl;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import com.membercontext.memberAPI.web.controller.fixture.SignUpFormTestFixture;

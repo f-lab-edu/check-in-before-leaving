@@ -34,7 +34,7 @@ class MemberInfoServiceImplTest {
     void getMemberInfo() {
         //given
         Member memberToSearch = memberTestFixture.create_Mock();
-        when(memberRepository.findById(anyLong())).thenReturn(Optional.of(memberToSearch));
+        when(memberRepository.findById(anyLong())).thenReturn(memberToSearch);
 
         //when
         Member memberReturned = memberInfoService.getMemberInfo(memberToSearch.getId());
@@ -48,20 +48,5 @@ class MemberInfoServiceImplTest {
         assertEquals(memberToSearch.getLocation(), memberReturned.getLocation());
         assertEquals(memberToSearch.getIsLocationServiceEnabled(), memberReturned.getIsLocationServiceEnabled());
         assertEquals(memberToSearch.getPoint(), memberReturned.getPoint());
-    }
-
-    @Test
-    @DisplayName("회원 정보가 없을 때")
-    void getMemberInfo_NotExisting() {
-        //given
-        Long memberId = 1L;
-        when(memberRepository.findById(anyLong())).thenReturn(Optional.empty());
-
-        //when
-        Exception exception = assertThrows(MemberException.class, () -> memberInfoService.getMemberInfo(memberId));
-
-        //then
-        System.out.println(exception.getClass().getName());
-
     }
 }
