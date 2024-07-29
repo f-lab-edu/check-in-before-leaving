@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.application.service;
+package com.membercontext.memberAPI.application.service.MemberInfo;
 
 import com.membercontext.memberAPI.domain.entity.member.Member;
 

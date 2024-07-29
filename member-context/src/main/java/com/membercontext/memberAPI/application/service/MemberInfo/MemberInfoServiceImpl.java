@@ -1,7 +1,5 @@
-package com.membercontext.memberAPI.application.service;
+package com.membercontext.memberAPI.application.service.MemberInfo;
 
-import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import lombok.RequiredArgsConstructor;

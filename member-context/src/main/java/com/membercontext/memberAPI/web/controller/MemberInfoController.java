@@ -1,6 +1,6 @@
 package com.membercontext.memberAPI.web.controller;
 
-import com.membercontext.memberAPI.application.service.MemberInfoService;
+import com.membercontext.memberAPI.application.service.MemberInfo.MemberInfoService;
 import com.membercontext.memberAPI.web.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
