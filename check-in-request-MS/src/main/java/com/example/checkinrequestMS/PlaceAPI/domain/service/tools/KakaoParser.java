@@ -11,14 +11,13 @@ import java.util.List;
 
 @Component
 public class KakaoParser {
-    //fixme: 이렇게 tools 폴더를 만들어 써도 되는지 모르겠습니다. service랑은 성격이 다른것 같아서 격리하였습니다.
-    public List<Place> parsePlaceInfo(StringBuilder response) throws JsonProcessingException {
+
+    public List<Place> parsePlaceInfo(String response) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(response.toString());
-        JsonNode documents = rootNode.get("documents");
+        JsonNode rootNode = objectMapper.readTree(response);
 
         List<Place> places = new ArrayList<>();
-        for(JsonNode document : documents){
+        for(JsonNode document : rootNode){
             Place place = new Place();
             place.setValues(document);
             places.add(place);
