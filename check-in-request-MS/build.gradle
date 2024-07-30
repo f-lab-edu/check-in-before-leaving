@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.2'
+    id 'org.springframework.boot' version '3.3.1'
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
@@ -18,12 +18,26 @@ repositories {
 }
 
 dependencies {
-   // implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    //web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    //runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    //validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
+    //db
+    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //implementation 'com.mysql:mysql-connector-j'
+
+    //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
+    testAnnotationProcessor('org.projectlombok:lombok')}
 
 tasks.named('test') {
     useJUnitPlatform()
