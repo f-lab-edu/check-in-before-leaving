@@ -20,8 +20,10 @@ import java.net.URLEncoder;
 public class KakaoAPIRequest {
 
     @Value("${kakao-map-api.key}")
-    private String apiKey;// = "a0dc4e7625b15b5b4cef4e0a028119b3";
+    private String apiKey;
 
+    //fixme: 기술 선택부터 해야겠지만 이런 내부 요청들도 connection pool을 만들어서 사용하나요? 아니면 최초에 톰캣 요청에서 커넥션풀을
+    // 만들어서 관리해 주고 있으니까 괜찮은 건가요?
     public String getStoreInfo(String query, double x, double y, int radius) {
 
         int page = 1;
@@ -44,12 +46,12 @@ public class KakaoAPIRequest {
 
         return collectedResponse;
     }
-
+    //fixme: 이렇게 private 메소드가 많아 지면 가독성에서 불리 할까요?
     private  String getRequestURL(String query, double x, double y, int radius, int page) {
         try {
             String apiURL = "https://dapi.kakao.com/v2/local/search/keyword.json"
                     + "?sort=accuracy"
-                    + "&query=" + URLEncoder.encode("맛집", "UTF-8")
+                    + "&query=" + URLEncoder.encode(query, "UTF-8")
                     + "&x=" + x
                     + "&y=" + y
                     + "&radius=" + 50

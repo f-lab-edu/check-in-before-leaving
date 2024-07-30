@@ -15,7 +15,7 @@ class JavaCrpytoUtilTest {
     @Autowired
     private JavaCryptoUtil javaCryptoUtil;
 
-    //todo: 단위 테스트 작성.
+    //check: 단위 테스트 작성.
     @Test
     void encrypt_With_IV(){
         //given
