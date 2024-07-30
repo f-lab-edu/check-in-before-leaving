@@ -1,32 +1,18 @@
-package com.example.checkinrequestMS.PlaceAPI.domain.tool;
+package com.example.checkinrequestMS.PlaceAPI.domain.service.tools;
 
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-public class JsonParser {
+class KakaoParserTest {
 
-    public void jsonParse(StringBuilder response) throws JsonProcessingException {
-        // JSON 파싱
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(response.toString());
-        JsonNode documents = rootNode.get("documents");
-
-        List<Place> places = new ArrayList<>();
-        for(JsonNode document : documents){
-            Place place = new Place();
-            place.setValues(document);
-            places.add(place);
-        }
-
-        print(places);
+    @Test
+    void parsePlaceInfo() {
     }
-    private void print(List<Place> places){
+    private void print(List<Place> places) {
         for (Place place : places) {
             System.out.println("장소명: " + place.getPlaceName());
             System.out.println("주소: " + place.getAddressName());
@@ -43,7 +29,5 @@ public class JsonParser {
         //JsonNode meta = rootNode.get("meta");
         //System.out.println("총 검색 결과 수: " + meta.get("total_count").asInt());
         //System.out.println("페이지 결과 여부: " + (meta.get("is_end").asBoolean() ? "마지막 페이지" : "더 있음"));
-
     }
-
 }
