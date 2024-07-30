@@ -1,4 +1,4 @@
-package com.example.checkinrequestms;
+package com.example.checkinrequestMS;
 
 
 import org.springframework.boot.SpringApplication;
