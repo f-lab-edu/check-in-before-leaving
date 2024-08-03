@@ -1,13 +1,22 @@
 package com.example.checkinrequestMS.PlaceAPI.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.context.annotation.Primary;
 
 @Getter
 @Setter(AccessLevel.PRIVATE)
+@Entity
 public class Place {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private String placeName;
     private String addressName;
     private String roadAddressName;

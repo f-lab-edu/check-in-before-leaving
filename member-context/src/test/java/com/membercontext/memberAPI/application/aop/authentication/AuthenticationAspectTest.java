@@ -137,7 +137,6 @@ class AuthenticationAspectTest {
                     assertTrue(result.getResolvedException() instanceof MemberException);
                     assertEquals("이력을 찾을 수 없습니다. 로그인이 필요합니다.", result.getResolvedException().getMessage());
                 });
-        //fixme: exception을 이렇게 처리하는게 맞을 지.
         verify(authenticationAspect, times(1)).authenticate();
 
     }
