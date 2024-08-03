@@ -1,26 +1,24 @@
 package com.example.checkinrequestMS.PlaceAPI.domain.service;
 
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
-import com.example.checkinrequestMS.PlaceAPI.domain.service.tools.KakaoParser;
+import com.example.checkinrequestMS.PlaceAPI.domain.service.tools.KakaoAPIStoreInfoSaver;
 import com.example.checkinrequestMS.PlaceAPI.infra.StoreRepository;
-import com.example.checkinrequestMS.PlaceAPI.web.rest.KakaoAPIRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class SearchPlaceServiceTest {
 
     @InjectMocks
@@ -30,29 +28,27 @@ class SearchPlaceServiceTest {
     StoreRepository storeRepository;
 
     @Mock
-    KakaoParser parser;
-
-    @Mock
-    KakaoAPIRequest kakaoAPIRequest;
-
+    KakaoAPIStoreInfoSaver infoSaver;
 
 
     @Test
-    void searchWithKeyword() throws JsonProcessingException, UnsupportedEncodingException {
+    void searchWithKeyword() {
         //given
         String query = "맛집";
         double x = 126.98561429978552;
         double y = 37.56255453417897;
         int radius = 50;
-        given(parser.parsePlaceInfo(anyString())).willReturn(List.of(new Place()));
-        given(kakaoAPIRequest.getStoreInfo(anyString(), anyDouble(), anyDouble(), anyInt())).willReturn("test");
+
+        List<Place> places = mock();
+        doNothing().when(infoSaver).balanceKeyWordSearch(query, x, y, radius);
+        given(storeRepository.getStoresByNameAndRadius(x, y, radius)).willReturn(Optional.of(places));
 
         //when
-        sut.searchWithKeyword(query, x, y, radius);
+        List<Place> returnedPlaces = sut.searchWithKeyword(query, x, y, radius);
 
         //then
-        verify(kakaoAPIRequest).getStoreInfo("맛집", 126.98561429978552, 37.56255453417897, 50);
-        verify(parser).parsePlaceInfo("test");
-        verify(storeRepository).save(any(Place.class));
+        verify(infoSaver).balanceKeyWordSearch(query, x, y, radius);
+        verify(storeRepository).getStoresByNameAndRadius(x, y, radius);
+        assertEquals(places, returnedPlaces);
     }
 }

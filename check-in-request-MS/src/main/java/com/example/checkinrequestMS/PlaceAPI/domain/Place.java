@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.context.annotation.Primary;
 
+import java.util.Objects;
+
 @Getter
 @Setter(AccessLevel.PRIVATE)
 @Entity
@@ -35,6 +37,14 @@ public class Place {
         this.setPlaceUrl(document.get("place_url").asText());
         this.setX(document.get("x").asDouble());
         this.setY(document.get("y").asDouble());
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Place)) return false;
+
+        Place p = (Place) o;
+        return Objects.equals(placeName, p.getPlaceName());
     }
 
 }
