@@ -10,16 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-
+@Disabled
+// Kakao API를 요청해보는 테스트 코드 입니다.
+// Kakao API에서의 변경에 따라 테스트가 깨질 가능성이 있어 Disabled 처리하였습니다.
 class KakaoAPIRequestTest {
 
     @Autowired
     KakaoStoreAPIRequest kakaoAPIRequest;
 
-    //fixme:처음에 통신이 잘 되는지 확인하기 위해 사용하였습니다.
-    //      이 부분은 통신이 필요할 것 같아서 통합테스트로 제작하여 기능작동 확인 하였지만
-    //      KakaoAPI에서 무언가 변경시 깨지기 쉬울것 같아서 Disabled 처리하였습니다.
-    //      차라리 지우는게 남들이 보기에 덜 헷갈릴 지 궁금합니다.
     @Test
     @DisplayName("카카오 맵 API 가게정보 기능 정상 통신 됨")
     void getStoreInfo()  {
