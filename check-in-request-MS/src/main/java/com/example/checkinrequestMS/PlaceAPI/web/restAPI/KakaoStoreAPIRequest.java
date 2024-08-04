@@ -22,7 +22,7 @@ public class KakaoStoreAPIRequest {
     @Value("${kakao-map-api.key}")
     private String apiKey;
 
-    //todo: unchecked exception에 대해 메시징 이외의 예외 방법 생각해보기.
+    //check: unchecked exception에 대해 메시징 이외의 예외 방법 생각해보기.
     //      이 부분은 이후에 추가하겠습니다.
     public String getStoreInfo(String query, double x, double y, int radius) {
 
