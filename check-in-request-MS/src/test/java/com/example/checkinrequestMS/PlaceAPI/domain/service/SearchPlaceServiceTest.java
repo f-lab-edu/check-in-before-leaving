@@ -2,15 +2,13 @@ package com.example.checkinrequestMS.PlaceAPI.domain.service;
 
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.domain.service.tools.KakaoAPIStoreInfoSaver;
-import com.example.checkinrequestMS.PlaceAPI.infra.StoreRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +23,7 @@ class SearchPlaceServiceTest {
     SearchPlaceService sut;
 
     @Mock
-    StoreRepository storeRepository;
+    PlaceRepository storeRepository;
 
     @Mock
     KakaoAPIStoreInfoSaver infoSaver;

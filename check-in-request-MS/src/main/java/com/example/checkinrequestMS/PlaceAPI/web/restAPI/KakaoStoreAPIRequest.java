@@ -1,6 +1,6 @@
 package com.example.checkinrequestMS.PlaceAPI.web.restAPI;
 
-import com.example.checkinrequestMS.PlaceAPI.web.exception.kakaoMap.KakaoStoreAPIException;
+import com.example.checkinrequestMS.PlaceAPI.web.exceptions.kakaoMap.KakaoStoreAPIException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,10 +12,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.*;
 
-import static com.example.checkinrequestMS.PlaceAPI.web.exception.kakaoMap.KakaoStoreAPIErrorCode.*;
+import static com.example.checkinrequestMS.PlaceAPI.web.exceptions.kakaoMap.KakaoStoreAPIErrorCode.*;
 
 @Component
 public class KakaoStoreAPIRequest {

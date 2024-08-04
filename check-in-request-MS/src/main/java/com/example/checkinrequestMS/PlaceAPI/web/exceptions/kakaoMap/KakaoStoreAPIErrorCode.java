@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.PlaceAPI.web.exception.kakaoMap;
+package com.example.checkinrequestMS.PlaceAPI.web.exceptions.kakaoMap;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

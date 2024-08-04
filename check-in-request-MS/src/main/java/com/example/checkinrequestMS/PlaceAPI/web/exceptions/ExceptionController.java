@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.PlaceAPI.web.exception;
+package com.example.checkinrequestMS.PlaceAPI.web.exceptions;
 
 import com.example.checkinrequestMS.PlaceAPI.common.exception.DomainException;
 import com.example.checkinrequestMS.PlaceAPI.common.exception.WebException;
