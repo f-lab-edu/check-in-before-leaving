@@ -1,2 +1,19 @@
-kakao:
-  apikey: a0dc4e7625b15b5b4cef4e0a028119b3
+spring:
+  application:
+    name: member-context
+  datasource:
+    url: jdbc:mysql://localhost:3306/place?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: true
+server:
+  port: 8081
+
+kakao-map-api:
+  key: a0dc4e7625b15b5b4cef4e0a028119b3
