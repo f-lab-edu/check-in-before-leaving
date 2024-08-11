@@ -1,6 +1,8 @@
 package com.example.checkinrequestMS.PlaceAPI.web.exceptions.kakaoMap;
 
-import com.example.checkinrequestMS.PlaceAPI.common.exception.WebException;
+
+import com.example.checkinrequestMS.common.exception.types.DomainException;
+import com.example.checkinrequestMS.common.exception.types.WebException;
 
 public class KakaoStoreAPIException extends WebException {
 

@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.PlaceAPI.common.exception;
+package com.example.checkinrequestMS.common.exception.types;
 
 
 

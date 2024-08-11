@@ -1,6 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.domain.exceptions;
 
-import com.example.checkinrequestMS.HelpAPI.common.exception.DomainException;
+import com.example.checkinrequestMS.common.exception.types.DomainException;
 
 
 public class HelpException extends DomainException {

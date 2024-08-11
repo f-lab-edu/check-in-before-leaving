@@ -1,7 +1,7 @@
 package com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place;
 
-import com.example.checkinrequestMS.PlaceAPI.common.exception.DomainException;
 
+import com.example.checkinrequestMS.common.exception.types.DomainException;
 
 public class PlaceException extends DomainException {
 
