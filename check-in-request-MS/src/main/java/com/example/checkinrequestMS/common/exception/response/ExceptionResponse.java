@@ -1,15 +1,18 @@
-package com.example.checkinrequestMS.PlaceAPI.common.exception.response;
+package com.example.checkinrequestMS.common.exception.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @ToString
-@AllArgsConstructor
 public class ExceptionResponse {
-    private HttpStatus status;
+    public ExceptionResponse(String message) {
+        this.message = message;
+    }
+
     private String message;
 }
 
