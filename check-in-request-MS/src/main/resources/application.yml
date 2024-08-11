@@ -14,6 +14,14 @@ spring:
     generate-ddl: true
 server:
   port: 8081
+management:
+  endpoints:
+    web:
+      exposure:
+          include: "*"
+    health:
+      show-components: always
+
 
 kakao-map-api:
   key: a0dc4e7625b15b5b4cef4e0a028119b3
