@@ -1,5 +1,6 @@
 package com.membercontext.memberAPI.web.controller;
 
+import com.membercontext.memberAPI.application.aop.authentication.NoAuthentication;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.form.SignUpForm;
@@ -19,6 +20,7 @@ public class SignUpController {
     private final SignUpService signUpService;
 
     @PostMapping
+    @NoAuthentication
     public ResponseEntity<String> signIn(@Validated @RequestBody SignUpForm signUpForm) {
         return ResponseEntity.ok(signUpService.signUp(Member.from(signUpForm)));
     }
@@ -32,5 +34,7 @@ public class SignUpController {
     public ResponseEntity<String> delete(@RequestParam Long id) {
         return ResponseEntity.ok(signUpService.delete(id));
     }
+
+
 
 }

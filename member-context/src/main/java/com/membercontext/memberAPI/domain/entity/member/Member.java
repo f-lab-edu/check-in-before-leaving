@@ -37,7 +37,6 @@ public class Member {
         this.password = encryptedPassword;
     }
 
-
     public void update(Member updatingMember) {
         this.email = updatingMember.getEmail();
         this.password = updatingMember.getPassword();
