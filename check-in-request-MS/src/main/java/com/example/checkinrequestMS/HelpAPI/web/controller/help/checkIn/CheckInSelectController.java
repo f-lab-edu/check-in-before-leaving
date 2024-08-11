@@ -1,7 +1,7 @@
-package com.example.checkinrequestMS.HelpAPI.web.controller.checkIn;
+package com.example.checkinrequestMS.HelpAPI.web.controller.help.checkIn;
 
 import com.example.checkinrequestMS.HelpAPI.domain.service.checkIn.CheckInSelectService;
-import com.example.checkinrequestMS.HelpAPI.web.dto.checkIn.CheckInDTO;
+import com.example.checkinrequestMS.HelpAPI.web.dto.help.checkIn.CheckInDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/help/checkin")
+@RequestMapping("/help/checkIn")
 @RequiredArgsConstructor
 public class CheckInSelectController {
 

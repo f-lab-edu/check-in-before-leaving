@@ -28,10 +28,10 @@ class CheckInSelectServiceTest {
     void selectCheckIn() {
         //given
         Long id = 1L;
+        given(checkInJPARepository.findById(id)).willReturn(Optional.of(mock(CheckIn.class)));
 
         //when
         CheckIn returned = sut.selectCheckIn(id);
-
 
         //then
         verify(checkInJPARepository, times(1)).findById(1L);

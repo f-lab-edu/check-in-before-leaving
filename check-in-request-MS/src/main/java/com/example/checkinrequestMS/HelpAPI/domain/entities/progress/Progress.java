@@ -31,8 +31,6 @@ public class Progress {
     }
 
     public static Progress from(ProgressRegisterForm form) {
-        //fixme: 이렇게 ID만 가지고 생성해도 괜찮은 걸까요?
-        //       이후에 서비스에서 조회해서 바꿔치기 하려고 합니다.
         Help help = Help.createEmptyHelpWithOnlyId(form.getHelpId());
 
         return Progress.builder()

@@ -2,7 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.entities.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.Help;
 import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
-import com.example.checkinrequestMS.HelpAPI.web.form.checkIn.CheckInRegisterForm;
+import com.example.checkinrequestMS.HelpAPI.web.form.help.checkIn.CheckInRegisterForm;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import jakarta.persistence.Entity;
 import lombok.*;

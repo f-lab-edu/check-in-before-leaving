@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.web.form.checkIn;
+package com.example.checkinrequestMS.HelpAPI.web.form.help.checkIn;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

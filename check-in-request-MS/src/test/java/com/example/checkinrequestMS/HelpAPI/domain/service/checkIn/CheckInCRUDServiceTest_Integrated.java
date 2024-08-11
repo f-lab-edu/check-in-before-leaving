@@ -1,7 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.domain.service.checkIn;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
 import org.junit.jupiter.api.Disabled;
@@ -11,9 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 @SpringBootTest
 @Disabled
@@ -31,14 +27,14 @@ class CheckInCRUDServiceTest_Integrated {
         //given
         Place place = Place.createEmptyPlaceWithOnlyId(1L);
         placeRepository.save(place);
+        //Place Name API에서 바로 저장해서 지금은 null
+        //Id 는 auto increment로 되어있어서 바뀜.
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime thirtyMinLater = now.plusMinutes(30);
         CheckIn checkInToRegister = CheckIn.builder().memberId(1L).title("title").place(place).start(now).end(thirtyMinLater).reward(100L).build();
 
-
         //when
         sut.registerCheckIn(checkInToRegister);
-
     }
 }

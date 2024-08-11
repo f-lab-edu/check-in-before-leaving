@@ -1,9 +1,9 @@
-package com.example.checkinrequestMS.HelpAPI.web.controller.checkIn;
+package com.example.checkinrequestMS.HelpAPI.web.controller.help.checkIn;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.service.checkIn.CheckInSelectService;
-import com.example.checkinrequestMS.HelpAPI.web.dto.checkIn.CheckInDTO;
+import com.example.checkinrequestMS.HelpAPI.web.dto.help.checkIn.CheckInDTO;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -49,7 +49,7 @@ class CheckInSelectControllerTest {
         }
 
         // Perform the GET request and verify the response
-        ResultActions result = mockMvc.perform(get("/help/checkin/" + checkInId));
+        ResultActions result = mockMvc.perform(get("/help/checkIn/" + checkInId));
 
         // Verify that the service method was called
         result.andExpect(status().isOk())
@@ -60,4 +60,6 @@ class CheckInSelectControllerTest {
         verify(checkInSelectService, times(1)).selectCheckIn(checkInId);
 
     }
+
+
 }
