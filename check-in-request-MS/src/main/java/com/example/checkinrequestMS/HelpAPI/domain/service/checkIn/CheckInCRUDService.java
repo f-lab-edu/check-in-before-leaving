@@ -1,22 +1,23 @@
-package com.example.checkinrequestMS.HelpAPI.domain.service;
+package com.example.checkinrequestMS.HelpAPI.domain.service.checkIn;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.domain.exceptions.HelpException;
-import com.example.checkinrequestMS.HelpAPI.infra.HelpJPARepository;
+import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
+import com.example.checkinrequestMS.HelpAPI.infra.db.help.CheckInJPARepository;
+import com.example.checkinrequestMS.HelpAPI.infra.exceptions.JPAException;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceException;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.example.checkinrequestMS.HelpAPI.domain.exceptions.HelpErrorCode.CHECK_IN_REGISTER_FAILED;
+import static com.example.checkinrequestMS.HelpAPI.infra.exceptions.JPAErrorCode.ERROR_SAVING;
 import static com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceErrorCode.NO_PLACE_INFO;
 
 @Service
 @RequiredArgsConstructor
-public class HelpRegisterService {
+public class CheckInCRUDService {
 
-    private final HelpJPARepository helpJPARepository;
+    private final CheckInJPARepository checkInJPARepository;
     private final PlaceRepository placeRepository;
 
     public void registerCheckIn(CheckIn checkIn) {
@@ -27,13 +28,9 @@ public class HelpRegisterService {
         checkIn.setCheckInTitle(place);
 
         try {
-            //fixme: 저번에도 궁금했는데 잊어버렸었네요. DB에서 에러가 생길 수 있다고 생각하는데
-            //       예외처리를 한번 해주는게 좋지 않을까요?
-            //       이렇게 하는 경우를 본적이 없어서 멘토님의 생각이 궁금합니다.
-            //       이거는 repository에서 잡아야 하는가 싶기도 합니다.
-            helpJPARepository.save(checkIn);
+            checkInJPARepository.save(checkIn);
         } catch (Exception e) {
-            throw new HelpException(CHECK_IN_REGISTER_FAILED);
+            throw new JPAException(ERROR_SAVING);
         }
     }
 }

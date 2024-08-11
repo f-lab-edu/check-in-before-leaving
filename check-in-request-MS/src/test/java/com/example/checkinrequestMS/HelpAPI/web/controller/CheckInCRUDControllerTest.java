@@ -1,13 +1,11 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller;
 
-import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.domain.service.HelpRegisterService;
-import com.example.checkinrequestMS.HelpAPI.web.form.CheckInRegisterForm;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.checkinrequestMS.HelpAPI.domain.service.checkIn.CheckInCRUDService;
+import com.example.checkinrequestMS.HelpAPI.web.controller.checkIn.CheckInCRUDController;
+import com.example.checkinrequestMS.HelpAPI.web.form.checkIn.CheckInRegisterForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,7 +15,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -25,11 +22,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(HelpController.class)
-class HelpControllerTest {
+@WebMvcTest(CheckInCRUDController.class)
+class CheckInCRUDControllerTest {
 
     @MockBean
-    private HelpRegisterService helpRegisterService;
+    private CheckInCRUDService helpRegisterService;
 
     @Autowired
     private MockMvc mockMvc;

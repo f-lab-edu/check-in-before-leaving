@@ -1,7 +1,8 @@
 package com.example.checkinrequestMS.HelpAPI.domain.entities.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.Help;
-import com.example.checkinrequestMS.HelpAPI.web.form.CheckInRegisterForm;
+import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
+import com.example.checkinrequestMS.HelpAPI.web.form.checkIn.CheckInRegisterForm;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import jakarta.persistence.Entity;
 import lombok.*;
@@ -20,6 +21,9 @@ public class CheckIn extends Help {
     }
     public void setPlaceWithFullInfo(Place place){
         this.place = place;
+    }
+    public void setProgress(Progress progress){
+        this.progress = progress;
     }
 
     public static CheckIn from(CheckInRegisterForm form){
