@@ -22,7 +22,7 @@ public class LineUpCRUDService {
 
     @Transactional
     public void registerLineUp(LineUp lineUp) {
-        Place place = placeRepository.findById(lineUp.getPlace().getId())
+        Place place = placeRepository.findById(lineUp.getPlaceId())
                 .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
         lineUp.setPlaceWithFullInfo(place);
         lineUp.setLineUpTitle(place);
