@@ -25,9 +25,10 @@ public class Help {
     protected LocalDateTime start;
     protected LocalDateTime end;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "place_id")
-    protected Place place;
+    protected Place place;*/
+    protected Long placeId;
 
     @OneToOne(mappedBy = "help")
     protected Progress progress;
