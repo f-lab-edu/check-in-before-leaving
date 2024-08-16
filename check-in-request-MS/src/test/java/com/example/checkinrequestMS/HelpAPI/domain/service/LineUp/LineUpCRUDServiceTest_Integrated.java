@@ -32,7 +32,7 @@ class LineUpCRUDServiceTest_Integrated {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime oneHourLater = now.plusHours(1);
-        LineUp lineUpToRegister = LineUp.builder().memberId(1L).title("title2").place(place).start(now).end(oneHourLater).reward(100L).build();
+        LineUp lineUpToRegister = LineUp.builder().memberId(1L).title("title2").placeId(1L).start(now).end(oneHourLater).reward(100L).build();
 
         //when
         sut.registerLineUp(lineUpToRegister);

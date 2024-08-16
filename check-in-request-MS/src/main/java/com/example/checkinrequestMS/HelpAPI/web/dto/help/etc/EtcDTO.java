@@ -30,7 +30,7 @@ public class EtcDTO {
                 .id(etc.getId())
                 .memberId(etc.getMemberId())
                 .title(etc.getTitle())
-                .place(PlaceDTO.from(etc.getPlace()))
+                //.place(PlaceDTO.from(etc.getPlace()))
                 .start(etc.getStart())
                 .end(etc.getEnd())
                 .contents(etc.getContents())

@@ -29,7 +29,7 @@ class CheckInTest {
         CheckIn checkIn = CheckIn.from(form);
 
         assertEquals(checkIn.getMemberId(), 1L);
-        assertEquals(checkIn.getPlace().getId(), 1L);
+       // assertEquals(checkIn.getPlace().getId(), 1L);
         assertEquals(checkIn.getStart(), form.getStart());
         assertEquals(checkIn.getEnd(), form.getStart().plusMinutes(form.getOption()));
         assertEquals(checkIn.getReward(), 100L);

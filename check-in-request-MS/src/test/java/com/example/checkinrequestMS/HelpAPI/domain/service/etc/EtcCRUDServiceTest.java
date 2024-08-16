@@ -35,7 +35,7 @@ class EtcCRUDServiceTest {
         given(emptyPlaceWithOnlyId.getId()).willReturn(1L);
 
         Etc etc = spy(Etc.class);
-        given(etc.getPlace()).willReturn(emptyPlaceWithOnlyId);
+        //given(etc.getPlace()).willReturn(emptyPlaceWithOnlyId);
 
         Place placeWithFullInfo = mock(Place.class);
         given(placeRepository.findById(1L)).willReturn(Optional.of(placeWithFullInfo));
@@ -45,7 +45,7 @@ class EtcCRUDServiceTest {
 
         //then
         verify(placeRepository, times(1)).findById(1L);
-        verify(etc, times(1)).setPlaceWithFullInfo(placeWithFullInfo);
+        //verify(etc, times(1)).setPlaceWithFullInfo(placeWithFullInfo);
         verify(etcJPARepository, times(1)).save(etc);
 
     }

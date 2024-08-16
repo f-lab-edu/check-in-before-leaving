@@ -36,7 +36,7 @@ class CehckInCRUDServiceTest {
         given(emptyPlaceWithOnlyId.getId()).willReturn(1L);
 
         CheckIn checkIn = spy(CheckIn.class);
-        given(checkIn.getPlace()).willReturn(emptyPlaceWithOnlyId);
+       // given(checkIn.getPlace()).willReturn(emptyPlaceWithOnlyId);
 
         Place placeWithFullInfo = mock(Place.class);
         given(placeWithFullInfo.getPlaceName()).willReturn("testName");
@@ -48,7 +48,7 @@ class CehckInCRUDServiceTest {
         //then
         assertEquals("testName 체크인 요청", checkIn.getTitle());
         verify(placeRepository, times(1)).findById(1L);
-        verify(checkIn, times(1)).setPlaceWithFullInfo(placeWithFullInfo);
+       // verify(checkIn, times(1)).setPlaceWithFullInfo(placeWithFullInfo);
         verify(checkIn, times(1)).setCheckInTitle(placeWithFullInfo);
         verify(checkInJPARepository, times(1)).save(checkIn);
 

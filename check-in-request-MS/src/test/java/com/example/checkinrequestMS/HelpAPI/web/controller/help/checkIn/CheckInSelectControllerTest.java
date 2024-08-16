@@ -38,7 +38,7 @@ class CheckInSelectControllerTest {
 
             Place place = mock(Place.class);
             given(place.getId()).willReturn(1L);
-            given(checkIn.getPlace()).willReturn(place);
+          //  given(checkIn.getPlace()).willReturn(place);
 
             Progress progress = mock(Progress.class);
             given(progress.getId()).willReturn(1L);

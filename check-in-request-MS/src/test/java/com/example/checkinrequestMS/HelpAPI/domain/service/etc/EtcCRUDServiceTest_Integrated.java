@@ -30,7 +30,7 @@ public class EtcCRUDServiceTest_Integrated {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime oneHourLater = now.plusHours(1);
-        Etc etcToRegister = Etc.builder().memberId(1L).title("title").place(place).start(now).end(oneHourLater).reward(100L).build();
+        Etc etcToRegister = Etc.builder().memberId(1L).title("title").placeId(1L).start(now).end(oneHourLater).reward(100L).build();
 
         //when
         sut.registerEtc(etcToRegister);

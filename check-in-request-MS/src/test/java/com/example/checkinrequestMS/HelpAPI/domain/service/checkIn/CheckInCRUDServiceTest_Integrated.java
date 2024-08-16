@@ -32,7 +32,7 @@ class CheckInCRUDServiceTest_Integrated {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime thirtyMinLater = now.plusMinutes(30);
-        CheckIn checkInToRegister = CheckIn.builder().memberId(1L).title("title").place(place).start(now).end(thirtyMinLater).reward(100L).build();
+        CheckIn checkInToRegister = CheckIn.builder().memberId(1L).title("title").placeId(1L).start(now).end(thirtyMinLater).reward(100L).build();
 
         //when
         sut.registerCheckIn(checkInToRegister);
