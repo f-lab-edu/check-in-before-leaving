@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -24,7 +26,7 @@ public class LineUpSelectServiceTest {
     void selectLineUp() {
         //given
         Long id = 1L;
-        given(lineUpJPARepository.findById(id)).willReturn(java.util.Optional.of(mock(LineUp.class)));
+        given(lineUpJPARepository.findById(id)).willReturn(Optional.of(mock(LineUp.class)));
 
         //when
         LineUp returned = sut.selectLineUp(id);

@@ -1,6 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.infra.aop;
 
-import com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAException;
+import com.example.checkinrequestMS.HelpAPI.infra.exceptions.jpa.JPAException;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.HelpJPARepository;
 import com.example.checkinrequestMS.HelpAPI.infra.db.progress.ProgressJPARepository;
 import org.junit.jupiter.api.Test;

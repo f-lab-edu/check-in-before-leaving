@@ -1,9 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.service.checkIn;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAErrorCode;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.CheckInJPARepository;
-import com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAException;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceException;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;

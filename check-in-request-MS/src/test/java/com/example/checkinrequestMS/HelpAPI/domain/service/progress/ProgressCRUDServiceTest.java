@@ -37,9 +37,7 @@ class ProgressCRUDServiceTest {
         //given
         Progress progress = spy(Progress.class);
         Help help = mock(Help.class);
-        given(progress.getHelp()).willReturn(help);
-        given(help.getId()).willReturn(1L);
-        given(helpJPARepository.findById(progress.getHelp().getId())).willReturn(Optional.of(help));
+        given(progress.getHelpId()).willReturn(1L);
 
         given(progress.getId()).willReturn(1L);
         given(progressJPARepository.findById(anyLong())).willReturn(Optional.of(progress));
@@ -48,7 +46,6 @@ class ProgressCRUDServiceTest {
         sut.registerProgress(progress);
 
         //then
-        verify(progress, times(1)).setHelp(help);
         verify(progressJPARepository, times(1)).save(progress);
     }
 
@@ -58,9 +55,8 @@ class ProgressCRUDServiceTest {
         //given
         Progress progress = spy(Progress.class);
         Help help = mock(Help.class);
-        given(progress.getHelp()).willReturn(help);
-        given(help.getId()).willReturn(1L);
-        given(helpJPARepository.findById(progress.getHelp().getId())).willReturn(null);
+        given(progress.getHelpId()).willReturn(1L);
+
 
         //when
         HelpException exception = assertThrows(HelpException.class, () -> sut.registerProgress(progress));
