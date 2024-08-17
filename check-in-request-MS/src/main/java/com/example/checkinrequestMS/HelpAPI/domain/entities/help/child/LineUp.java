@@ -27,7 +27,6 @@ public class LineUp extends Help {
     }
 
     public static LineUp from(LineUpRegisterForm form){
-        Place place = Place.createEmptyPlaceWithOnlyId(form.getPlaceId());
 
         return LineUp.builder()
                 .memberId(form.getMemberId())

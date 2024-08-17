@@ -32,11 +32,8 @@ class LineUpCRUDServiceTest {
     @Test
     void registerLineUp() {
         //given
-        Place emptyPlaceWithOnlyId = mock(Place.class);
-        given(emptyPlaceWithOnlyId.getId()).willReturn(1L);
-
         LineUp lineUp = spy(LineUp.class);
-        //given(lineUp.getPlace()).willReturn(emptyPlaceWithOnlyId);
+        given(lineUp.getPlaceId()).willReturn(1L);
 
         Place placeWithFullInfo = mock(Place.class);
         given(placeWithFullInfo.getPlaceName()).willReturn("testLineUp");

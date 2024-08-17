@@ -32,11 +32,8 @@ class CehckInCRUDServiceTest {
     @Test
     void registerCheckIn() {
         //given
-        Place emptyPlaceWithOnlyId = mock(Place.class);
-        given(emptyPlaceWithOnlyId.getId()).willReturn(1L);
-
         CheckIn checkIn = spy(CheckIn.class);
-       // given(checkIn.getPlace()).willReturn(emptyPlaceWithOnlyId);
+        given(checkIn.getPlaceId()).willReturn(1L);
 
         Place placeWithFullInfo = mock(Place.class);
         given(placeWithFullInfo.getPlaceName()).willReturn("testName");

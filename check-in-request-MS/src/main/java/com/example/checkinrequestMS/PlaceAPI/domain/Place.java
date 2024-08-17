@@ -33,9 +33,6 @@ public class Place {
     public static Place createEmptyPlace(){
         return Place.builder().build();
     }
-    public static Place createEmptyPlaceWithOnlyId(Long id){
-        return Place.builder().id(id).build();
-    }
 
     public void setValues(JsonNode document){
         this.setPlaceName(document.get("place_name").asText());

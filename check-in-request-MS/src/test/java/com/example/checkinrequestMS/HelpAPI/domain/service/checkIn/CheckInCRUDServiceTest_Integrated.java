@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
+import static org.mockito.Mockito.mock;
+
 
 @SpringBootTest
 @Disabled
@@ -25,7 +27,7 @@ class CheckInCRUDServiceTest_Integrated {
     @Test
     void registerCheckIn() {
         //given
-        Place place = Place.createEmptyPlaceWithOnlyId(1L);
+        Place place = mock(Place.class);
         placeRepository.save(place);
         //Place Name API에서 바로 저장해서 지금은 null
         //Id 는 auto increment로 되어있어서 바뀜.
