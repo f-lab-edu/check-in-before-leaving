@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.web.form.progress;
+package com.example.checkinrequestMS.HelpAPI.web.form.progress.crud;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

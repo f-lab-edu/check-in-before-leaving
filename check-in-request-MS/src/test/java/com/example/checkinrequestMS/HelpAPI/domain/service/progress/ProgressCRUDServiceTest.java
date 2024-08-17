@@ -2,7 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.service.progress;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.Help;
 import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
-import com.example.checkinrequestMS.HelpAPI.domain.exceptions.HelpException;
+import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.HelpJPARepository;
 import com.example.checkinrequestMS.HelpAPI.infra.db.progress.ProgressJPARepository;
 import org.junit.jupiter.api.DisplayName;
@@ -11,12 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Optional;
 
-import static com.example.checkinrequestMS.HelpAPI.domain.exceptions.HelpErrorCode.NO_HELP_INFO;
+import static com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode.NO_HELP_INFO;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -43,8 +41,11 @@ class ProgressCRUDServiceTest {
         given(help.getId()).willReturn(1L);
         given(helpJPARepository.findById(progress.getHelp().getId())).willReturn(Optional.of(help));
 
+        given(progress.getId()).willReturn(1L);
+        given(progressJPARepository.findById(anyLong())).willReturn(Optional.of(progress));
+
         //when
-        Progress returned = sut.registerProgress(progress);
+        sut.registerProgress(progress);
 
         //then
         verify(progress, times(1)).setHelp(help);
@@ -59,7 +60,7 @@ class ProgressCRUDServiceTest {
         Help help = mock(Help.class);
         given(progress.getHelp()).willReturn(help);
         given(help.getId()).willReturn(1L);
-        given(helpJPARepository.findById(progress.getHelp().getId())).willReturn(Optional.empty());
+        given(helpJPARepository.findById(progress.getHelp().getId())).willReturn(null);
 
         //when
         HelpException exception = assertThrows(HelpException.class, () -> sut.registerProgress(progress));

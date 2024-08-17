@@ -1,8 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.domain.service.etc;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.Etc;
+import com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAErrorCode;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.EtcJPARepository;
-import com.example.checkinrequestMS.HelpAPI.infra.exceptions.JPAException;
+import com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAException;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceException;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
@@ -10,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.checkinrequestMS.HelpAPI.infra.exceptions.JPAErrorCode.ERROR_SAVING;
+
+import static com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAErrorCode.ERROR_SAVE;
 import static com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceErrorCode.NO_PLACE_INFO;
 
 @Service
@@ -21,14 +23,11 @@ public class EtcCRUDService {
 
     @Transactional
     public void registerEtc(Etc etc) {
-        Place place = placeRepository.findById(etc.getPlace().getId())
+        Place place = placeRepository.findById(etc.getPlaceId())
                 .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
-        etc.setPlaceWithFullInfo(place);
+        //etc.setPlaceWithFullInfo(place);
 
-        try {
-            etcJPARepository.save(etc);
-        } catch (Exception e) {
-            throw new JPAException(ERROR_SAVING);
-        }
+        etcJPARepository.save(etc);
+
     }
 }
