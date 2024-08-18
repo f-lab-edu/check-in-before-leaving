@@ -4,7 +4,7 @@ import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.CheckInJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceException;
-import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import static com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.Plac
 public class CheckInCRUDService {
 
     private final CheckInJPARepository checkInJPARepository;
-    private final PlaceRepository placeRepository;
+    private final PlaceJPARepository placeRepository;
 
     public void registerCheckIn(CheckIn checkIn) {
         // check: CheckIn 중복 허용. ID로 구분. 사진으로 인증하며 여러 인증이 있는 경우 최신 사진을 전체 공개.

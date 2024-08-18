@@ -4,7 +4,7 @@ import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.LineUp;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.LineUpJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceException;
-import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import static com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.Plac
 public class LineUpCRUDService {
 
     private final LineUpJPARepository lineUpJPARepository;
-    private final PlaceRepository placeRepository;
+    private final PlaceJPARepository placeRepository;
 
     @Transactional
     public void registerLineUp(LineUp lineUp) {

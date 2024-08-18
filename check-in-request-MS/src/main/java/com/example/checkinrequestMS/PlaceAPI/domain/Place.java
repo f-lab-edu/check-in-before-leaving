@@ -1,5 +1,6 @@
 package com.example.checkinrequestMS.PlaceAPI.domain;
 
+import com.example.checkinrequestMS.PlaceAPI.web.form.PlaceRegisterForm;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,7 +34,31 @@ public class Place {
     public static Place createEmptyPlace(){
         return Place.builder().build();
     }
+    public static Place from(PlaceRegisterForm form){
+        return Place.builder()
+                .placeName(form.getPlaceName())
+                .address(form.getAddress())
+                .roadAddressName(form.getRoadAddressName())
+                .categoryName(form.getCategoryName())
+                .phone(form.getPhone())
+                .placeUrl(form.getPlaceUrl())
+                .x(form.getX())
+                .y(form.getY())
+                .build();
+    }
+    public static Place fromJsonNode(JsonNode document){
+        return Place.builder()
+                .placeName(document.get("place_name").asText())
+                .address(document.get("address_name").asText())
+                .roadAddressName(document.get("road_address_name").asText())
+                .categoryName(document.get("category_name").asText())
+                .phone(document.get("phone").asText())
+                .placeUrl(document.get("place_url").asText())
+                .x(document.get("x").asDouble())
+                .y(document.get("y").asDouble())
+                .build();
 
+    }
     public void setValues(JsonNode document){
         this.setPlaceName(document.get("place_name").asText());
         this.setAddress(document.get("address_name").asText());

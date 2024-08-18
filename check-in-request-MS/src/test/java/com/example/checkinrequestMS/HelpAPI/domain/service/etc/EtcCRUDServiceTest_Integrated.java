@@ -2,7 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.service.etc;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.Etc;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
-import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class EtcCRUDServiceTest_Integrated {
     private EtcCRUDService sut;
 
     @Autowired
-    private PlaceRepository placeRepository;
+    private PlaceJPARepository placeRepository;
 
     @Test
     void registerEtc() {

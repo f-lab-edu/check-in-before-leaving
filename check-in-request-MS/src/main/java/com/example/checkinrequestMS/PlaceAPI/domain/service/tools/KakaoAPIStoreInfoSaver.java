@@ -1,7 +1,7 @@
 package com.example.checkinrequestMS.PlaceAPI.domain.service.tools;
 
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
-import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.web.restAPI.KakaoStoreAPIRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KakaoAPIStoreInfoSaver {
 
-    private final PlaceRepository storeRepository;
+    private final PlaceJPARepository storeRepository;
     private final KakaoStoreAPIRequest kakaoAPIRequest;
 
     //check: 이후 다양한 쿼리에서 저장 가능하게 하도록 하려고 합니다. **현재 getStoresByNameAndRadius도 이름은 뺴고 좌표의 범위로만 검색합니다. 이후 수정하겠습니다!
@@ -43,8 +43,7 @@ public class KakaoAPIStoreInfoSaver {
 
             List<Place> places = new ArrayList<>();
             for (JsonNode document : rootNode) {
-                Place place = Place.createEmptyPlace();
-                place.setValues(document);
+                Place place = Place.fromJsonNode(document);
                 places.add(place);
             }
             return places;

@@ -2,7 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.service.checkIn;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
-import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ class CheckInCRUDServiceTest_Integrated {
     CheckInCRUDService sut;
 
     @Autowired
-    PlaceRepository placeRepository;
+    PlaceJPARepository placeRepository;
 
     @Test
     void registerCheckIn() {

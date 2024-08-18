@@ -3,7 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.service.etc;
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.EtcJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
-import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -26,7 +25,7 @@ class EtcCRUDServiceTest {
     private EtcJPARepository etcJPARepository;
 
     @Mock
-    private PlaceRepository placeRepository;
+    private PlaceJPARepository placeRepository;
 
     @Test
     void registerEtc() {

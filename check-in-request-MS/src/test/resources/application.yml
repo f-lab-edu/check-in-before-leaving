@@ -9,7 +9,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none #개발 환경이라 create, update로도 가끔 쓰고 있습니다.
+      ddl-auto: create #개발 환경이라 create, update로도 가끔 쓰고 있습니다.
     database-platform: org.hibernate.dialect.MySQLDialect
     generate-ddl: true
 server:

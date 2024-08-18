@@ -75,6 +75,7 @@ public class SignUpControllerTest {
                 .content(mapper.writeValueAsString(form)));
 
         //then
+
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$").value("회원가입 성공"));
         member.verify(() -> Member.from(any(SignUpForm.class)), times(1));
