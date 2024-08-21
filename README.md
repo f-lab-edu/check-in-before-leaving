@@ -3,6 +3,7 @@
 
 - 서비스의 플로우 차트
   
-![Untitled (4)](https://github.com/user-attachments/assets/392ae8c8-b59b-4e94-b053-d8790de4d557)
+![Untitled (5)](https://github.com/user-attachments/assets/be02f178-19cd-45f4-8f4d-29dc37ec4d15)
+
 
 
