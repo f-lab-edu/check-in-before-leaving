@@ -70,7 +70,6 @@ class SignUpFormTest {
 
     @Test
     @DisplayName("이름 없음.")
-    @Transactional
     public void signUp_NoName() throws Exception {
         //given
         SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();

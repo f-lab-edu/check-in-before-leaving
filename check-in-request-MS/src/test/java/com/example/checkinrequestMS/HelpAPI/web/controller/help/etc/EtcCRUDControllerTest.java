@@ -1,8 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.help.etc;
 
-import com.example.checkinrequestMS.HelpAPI.domain.service.etc.EtcCRUDService;
+import com.example.checkinrequestMS.HelpAPI.domain.service.etc.EtcWriteService;
 import com.example.checkinrequestMS.HelpAPI.web.form.help.etc.EtcRegisterForm;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,11 +21,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(EtcCRUDController.class)
+@WebMvcTest(EtcWriteController.class)
 class EtcCRUDControllerTest {
 
     @MockBean
-    private EtcCRUDService etcCRUDService;
+    private EtcWriteService etcCRUDService;
 
     @Autowired
     private MockMvc mockMvc;

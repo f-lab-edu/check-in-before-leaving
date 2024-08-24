@@ -25,30 +25,21 @@ public class Help {
     protected LocalDateTime start;
     protected LocalDateTime end;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "place_id")
-    protected Place place;*/
-    protected Long placeId;
+    protected Place place;
 
-    @OneToOne
-    @JoinColumn(name = "progress_id")
+    @OneToOne(mappedBy = "help", cascade = CascadeType.ALL)
     protected Progress progress;
 
     protected Long reward;
 
-    public static Help createEmptyHelpWithOnlyId(Long helpId) {
-        return Help.builder()
-                .id(helpId)
-                .build();
-    }
-
     public void setProgress(Progress progress) {
         this.progress = progress;
     }
-
-
-    //private String content;
-
+    public void setPlace(Place place) {
+        this.place = place;
+    }
 
     //체크인 요청, 줄서기 요청, 기타 요청.
 

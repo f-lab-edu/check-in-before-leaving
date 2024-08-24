@@ -20,10 +20,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ProgressCRUDServiceTest {
+class ProgressWriteServiceTest {
 
     @InjectMocks
-    private ProgressCRUDService sut;
+    private ProgressWriteService sut;
 
     @Mock
     private ProgressJPARepository progressJPARepository;
@@ -36,20 +36,21 @@ class ProgressCRUDServiceTest {
     void registerProgress() {
         //given
         Progress progress = spy(Progress.class);
-
-        Help help = spy(Help.class);
-        given(helpJPARepository.findById(anyLong())).willReturn(Optional.of(help));
-
         given(progress.getId()).willReturn(1L);
+
+        Long helpId = 1L;
+        Help help = mock(Help.class);
+        given(help.getId()).willReturn(helpId);
+        given(helpJPARepository.findById(anyLong())).willReturn(Optional.of(help));
         given(progressJPARepository.findById(anyLong())).willReturn(Optional.of(progress));
 
         //when
-        sut.registerProgress(progress);
+        sut.registerProgress(progress, helpId);
 
         //then
-        //fixme: 약한 엔티티로 쓰게 되니까 progress변경시 help를 직접 변경해야 하는게 괜찮을지 궁금합니다.
-        assertEquals(progress, help.getProgress());
-        verify(helpJPARepository, times(1)).save(help);
+        assertEquals(help, progress.getHelp());
+        assertEquals(1L, progress.getHelp().getId());
+        verify(helpJPARepository, times(1)).findById(helpId);
         verify(progressJPARepository, times(1)).save(progress);
 
     }
@@ -60,11 +61,11 @@ class ProgressCRUDServiceTest {
         //given
         Progress progress = spy(Progress.class);
         Help help = mock(Help.class);
-        given(progress.getHelpId()).willReturn(1L);
+        Long helpId = 0L;
 
 
         //when
-        HelpException exception = assertThrows(HelpException.class, () -> sut.registerProgress(progress));
+        HelpException exception = assertThrows(HelpException.class, () -> sut.registerProgress(progress, helpId));
 
         //then
         assertEquals("도움 정보가 존재하지 않습니다.", NO_HELP_INFO.getDetail());

@@ -17,7 +17,9 @@ public class Progress {
     @Column(name = "progress_id", nullable = false)
     private Long id;
 
-    private Long helpId;
+    @OneToOne
+    @JoinColumn(name = "help_id")
+    private Help help;
 
     private Long helperId;
 
@@ -25,11 +27,14 @@ public class Progress {
 
     private boolean completed;
 
+    public void setHelp(Help help) {
+        this.help = help;
+    }
 
     public static Progress from(ProgressRegisterForm form) {
 
         return Progress.builder()
-                .helpId(form.getHelpId())
+                .help(null)
                 .helperId(form.getHelperId())
                 .photoPath(null)
                 .completed(false)

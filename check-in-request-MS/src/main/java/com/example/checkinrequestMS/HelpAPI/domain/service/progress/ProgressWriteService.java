@@ -16,19 +16,17 @@ import static com.example.checkinrequestMS.HelpAPI.domain.exceptions.progress.Pr
 
 @Service
 @RequiredArgsConstructor
-public class ProgressCRUDService {
+public class ProgressWriteService {
 
     private final ProgressJPARepository progressJPARepository;
     private final HelpJPARepository helpJPARepository;
 
     @Transactional
-    public Progress registerProgress(Progress progress) {
-        progressJPARepository.save(progress);
-
-        Help help = helpJPARepository.findById(progress.getId()).orElseThrow(
+    public Progress registerProgress(Progress progress, Long helpId) {
+        Help help = helpJPARepository.findById(helpId).orElseThrow(
                 () -> new HelpException(NO_HELP_INFO));
-        help.setProgress(progress);
-        helpJPARepository.save(help);
+        progress.setHelp(help);
+        progressJPARepository.save(progress);
 
         return progressJPARepository.findById(progress.getId()).orElseThrow(
                 () -> new ProgressException(NO_PROGRESS));

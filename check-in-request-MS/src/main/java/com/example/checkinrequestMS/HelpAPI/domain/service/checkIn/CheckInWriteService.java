@@ -13,15 +13,15 @@ import static com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.Plac
 
 @Service
 @RequiredArgsConstructor
-public class CheckInCRUDService {
+public class CheckInWriteService {
 
     private final CheckInJPARepository checkInJPARepository;
     private final PlaceJPARepository placeRepository;
 
-    public void registerCheckIn(CheckIn checkIn) {
-        // check: CheckIn 중복 허용. ID로 구분. 사진으로 인증하며 여러 인증이 있는 경우 최신 사진을 전체 공개.
-        Place place = placeRepository.findById(checkIn.getPlaceId())
+    public void registerCheckIn(CheckIn checkIn, Long placeId) {
+        Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
+        checkIn.setPlace(place);
         checkIn.setCheckInTitle(place);
 
         checkInJPARepository.save(checkIn);

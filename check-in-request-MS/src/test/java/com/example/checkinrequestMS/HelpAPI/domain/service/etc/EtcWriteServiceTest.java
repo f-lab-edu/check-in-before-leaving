@@ -12,14 +12,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class EtcCRUDServiceTest {
+class EtcWriteServiceTest {
 
     @InjectMocks
-    private EtcCRUDService sut;
+    private EtcWriteService sut;
 
     @Mock
     private EtcJPARepository etcJPARepository;
@@ -31,18 +32,18 @@ class EtcCRUDServiceTest {
     void registerEtc() {
         //given
         Etc etc = spy(Etc.class);
-        given(etc.getPlaceId()).willReturn(1L);
+        Long placeId = 1L;
 
-        Place placeWithFullInfo = mock(Place.class);
-        given(placeRepository.findById(1L)).willReturn(Optional.of(placeWithFullInfo));
+        Place place = mock(Place.class);
+        given(placeRepository.findById(1L)).willReturn(Optional.of(place));
 
         //when
-        sut.registerEtc(etc);
+        sut.registerEtc(etc, placeId);
 
         //then
+        assertEquals(place, etc.getPlace());
         verify(placeRepository, times(1)).findById(1L);
-        //verify(etc, times(1)).setPlaceWithFullInfo(placeWithFullInfo);
+        verify(etc, times(1)).setPlace(place);
         verify(etcJPARepository, times(1)).save(etc);
-
     }
 }

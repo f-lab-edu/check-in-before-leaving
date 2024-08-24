@@ -17,6 +17,7 @@ public class PlaceSelectController {
 
     private final PlaceSelectService placeSelectService;
 
+
     @GetMapping("/{name}")
     public ResponseEntity<PlaceDTO> selectPlaceDetail(@PathVariable String name) {
         return ResponseEntity.ok(PlaceDTO.from(placeSelectService.selectPlaceDetail(name)));

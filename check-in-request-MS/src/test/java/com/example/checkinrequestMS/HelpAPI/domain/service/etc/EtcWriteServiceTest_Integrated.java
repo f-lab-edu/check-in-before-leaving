@@ -1,6 +1,6 @@
-package com.example.checkinrequestMS.HelpAPI.domain.service.LineUp;
+package com.example.checkinrequestMS.HelpAPI.domain.service.etc;
 
-import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.LineUp;
+import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.Etc;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import org.junit.jupiter.api.Disabled;
@@ -14,17 +14,16 @@ import static org.mockito.Mockito.mock;
 
 @SpringBootTest
 @Disabled
-class LineUpCRUDServiceTest_Integrated {
+public class EtcWriteServiceTest_Integrated {
 
     @Autowired
-    private LineUpCRUDService sut;
+    private EtcWriteService sut;
 
     @Autowired
     private PlaceJPARepository placeRepository;
 
-
     @Test
-    void registerLineUp() {
+    void registerEtc() {
         //given
         Place place = mock(Place.class);
         placeRepository.save(place);
@@ -33,9 +32,17 @@ class LineUpCRUDServiceTest_Integrated {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime oneHourLater = now.plusHours(1);
-        LineUp lineUpToRegister = LineUp.builder().memberId(1L).title("title2").placeId(1L).start(now).end(oneHourLater).reward(100L).build();
+        Etc etcToRegister =
+                Etc.builder()
+                        .memberId(1L)
+                        .title(null)
+                        .place(null)
+                        .progress(null)
+                        .start(now)
+                        .end(oneHourLater)
+                        .reward(100L).build();
 
         //when
-        sut.registerLineUp(lineUpToRegister);
+        sut.registerEtc(etcToRegister, 1L);
     }
 }

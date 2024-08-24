@@ -18,10 +18,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CehckInCRUDServiceTest {
+class CheckInWriteServiceTest {
 
     @InjectMocks
-    private CheckInCRUDService sut;
+    private CheckInWriteService sut;
 
     @Mock
     private CheckInJPARepository checkInJPARepository;
@@ -33,20 +33,23 @@ class CehckInCRUDServiceTest {
     void registerCheckIn() {
         //given
         CheckIn checkIn = spy(CheckIn.class);
-        given(checkIn.getPlaceId()).willReturn(1L);
+        Long placeId = 1L;
 
-        Place placeWithFullInfo = mock(Place.class);
-        given(placeWithFullInfo.getPlaceName()).willReturn("testName");
-        given(placeRepository.findById(anyLong())).willReturn(Optional.of(placeWithFullInfo));
+        Place place = mock(Place.class);
+        given(place.getPlaceName()).willReturn("testCheckIn");
+        given(placeRepository.findById(anyLong())).willReturn(Optional.of(place));
 
         //when
-        sut.registerCheckIn(checkIn);
+        sut.registerCheckIn(checkIn, placeId);
 
         //then
-        assertEquals("testName 체크인 요청", checkIn.getTitle());
+        assertEquals(place, checkIn.getPlace());
+        assertEquals("testCheckIn", checkIn.getPlace().getPlaceName());
+        assertEquals("testCheckIn 체크인 요청", checkIn.getTitle());
+
         verify(placeRepository, times(1)).findById(1L);
-       // verify(checkIn, times(1)).setPlaceWithFullInfo(placeWithFullInfo);
-        verify(checkIn, times(1)).setCheckInTitle(placeWithFullInfo);
+        verify(checkIn, times(1)).setPlace(place);
+        verify(checkIn, times(1)).setCheckInTitle(place);
         verify(checkInJPARepository, times(1)).save(checkIn);
 
     }

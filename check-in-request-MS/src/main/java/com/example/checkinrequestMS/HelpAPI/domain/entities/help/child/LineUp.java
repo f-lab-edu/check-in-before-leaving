@@ -21,10 +21,6 @@ public class LineUp extends Help {
         final String lineUpCommonPhrase = " 줄서기 요청";
         this.title = place.getPlaceName() + lineUpCommonPhrase;
     }
-    //public void setPlaceWithFullInfo(Place place){this.place = place;}
-    public void setProgress(Progress progress){
-        this.progress = progress;
-    }
 
     public static LineUp from(LineUpRegisterForm form){
 
@@ -32,8 +28,8 @@ public class LineUp extends Help {
                 .memberId(form.getMemberId())
                 .start(form.getStart())
                 .end(form.getStart().plusHours(form.getOption())) // 체크인은 30분 단위, 줄서기는 시간 단위.
-                .placeId(form.getPlaceId())
-                //.place(place)
+                .place(null)
+                .progress(null)
                 .reward(form.getReward())
                 .build();
     }
