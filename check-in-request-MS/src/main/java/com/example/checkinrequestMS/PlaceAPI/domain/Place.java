@@ -18,10 +18,7 @@ import java.util.Objects;
 public class Place {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "place_id", nullable = false)
     private Long id;
-    @Column(unique = true)
     private String placeName;
     private String address;
     private String roadAddressName;
@@ -48,6 +45,7 @@ public class Place {
     }
     public static Place fromJsonNode(JsonNode document){
         return Place.builder()
+                .id(document.get("id").asLong())
                 .placeName(document.get("place_name").asText())
                 .address(document.get("address_name").asText())
                 .roadAddressName(document.get("road_address_name").asText())
@@ -78,4 +76,18 @@ public class Place {
         return Objects.equals(placeName, p.getPlaceName());
     }
 
+    @Override
+    public String toString() {
+        return "Place{" +
+                "id=" + id +
+                ", placeName='" + placeName + '\'' +
+                ", address='" + address + '\'' +
+                ", roadAddressName='" + roadAddressName + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", placeUrl='" + placeUrl + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

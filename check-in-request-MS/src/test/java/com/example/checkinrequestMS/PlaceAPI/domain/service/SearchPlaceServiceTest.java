@@ -23,11 +23,31 @@ class SearchPlaceServiceTest {
     SearchPlaceService sut;
 
     @Mock
-    PlaceJPARepository storeRepository;
+    PlaceJPARepository placeJPARepository;
 
     @Mock
     KakaoAPIStoreInfoSaver infoSaver;
 
+    @Test
+    void searchWithKeyword_Balance() {
+        //given
+        String query = "맛집";
+        double x = 126.98561429978552;
+        double y = 37.56255453417897;
+        int radius = 50;
+
+        List<Place> places = mock();
+        doNothing().when(infoSaver).balanceKeyWordSearch(query, x, y, radius);
+        given(placeJPARepository.getStoresByNameAndRadius(x, y, radius)).willReturn(Optional.of(places));
+
+        //when
+        List<Place> returnedPlaces = sut.searchWithKeyword_Balance(query, x, y, radius);
+
+        //then
+        verify(infoSaver).balanceKeyWordSearch(query, x, y, radius);
+        verify(placeJPARepository).getStoresByNameAndRadius(x, y, radius);
+        assertEquals(places, returnedPlaces);
+    }
 
     @Test
     void searchWithKeyword() {
@@ -38,15 +58,16 @@ class SearchPlaceServiceTest {
         int radius = 50;
 
         List<Place> places = mock();
-        doNothing().when(infoSaver).balanceKeyWordSearch(query, x, y, radius);
-        given(storeRepository.getStoresByNameAndRadius(x, y, radius)).willReturn(Optional.of(places));
+        doNothing().when(infoSaver).saveToDBWithKeyword(query, x, y, radius);
+        given(placeJPARepository.getStoresByNameAndRadius(x, y, radius)).willReturn(Optional.of(places));
 
         //when
         List<Place> returnedPlaces = sut.searchWithKeyword(query, x, y, radius);
 
         //then
-        verify(infoSaver).balanceKeyWordSearch(query, x, y, radius);
-        verify(storeRepository).getStoresByNameAndRadius(x, y, radius);
+        verify(infoSaver).saveToDBWithKeyword(query, x, y, radius);
+        verify(placeJPARepository).getStoresByNameAndRadius(x, y, radius);
         assertEquals(places, returnedPlaces);
     }
+
 }

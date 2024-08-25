@@ -25,10 +25,28 @@ public class SearchPlaceService {
     @Transactional
     public List<Place> searchWithKeyword(String query, double x, double y, int radius)  {
 
-        storeInfoBalancer.balanceKeyWordSearch(query, x, y, radius);
+        storeInfoBalancer.saveToDBWithKeyword(query, x, y, radius);
         List<Place> places = placeJPARepository.getStoresByNameAndRadius(x, y, radius)
                 .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
 
+        return places;
+    }
+    @Transactional
+    public List<Place> searchWithCategory(String query, double x, double y, int radius)  {
+
+        storeInfoBalancer.saveToDBWithCategory(query, x, y, radius);
+        List<Place> places = placeJPARepository.getStoresByNameAndRadius(x, y, radius)
+                .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
+
+        return places;
+    }
+
+    @Transactional
+    public List<Place> searchWithKeyword_Balance(String query, double x, double y, int radius)  {
+
+        storeInfoBalancer.balanceKeyWordSearch(query, x, y, radius);
+        List<Place> places = placeJPARepository.getStoresByNameAndRadius(x, y, radius)
+                .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
         return places;
     }
 
