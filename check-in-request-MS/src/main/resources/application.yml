@@ -12,6 +12,11 @@ spring:
       ddl-auto: create
     database-platform: org.hibernate.dialect.MySQLDialect
     generate-ddl: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 server:
   port: 8081
 management:
