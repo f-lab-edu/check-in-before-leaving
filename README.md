@@ -4,7 +4,7 @@
 ### 서비스의 플로우 차트
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/76f05268-9a64-473c-9f90-24cca39babe9" width="400" height="300"/>
+<img src="https://github.com/user-attachments/assets/76f05268-9a64-473c-9f90-24cca39babe9" width="500" height="300"/>
 </p>
 
 ### 서버 설계도
