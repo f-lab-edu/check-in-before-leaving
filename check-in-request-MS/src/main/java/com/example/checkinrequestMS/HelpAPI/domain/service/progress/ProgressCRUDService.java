@@ -19,20 +19,14 @@ import static com.example.checkinrequestMS.HelpAPI.domain.exceptions.progress.Pr
 public class ProgressCRUDService {
 
     private final ProgressJPARepository progressJPARepository;
-    private final HelpJPARepository helpJPARepository;
 
     @Transactional
     public Progress registerProgress(Progress progress) {
-        Help help = helpJPARepository.findById(progress.getHelp().getId()).orElseThrow(
-                () -> new HelpException(NO_HELP_INFO));
-        progress.setHelp(help);
-        //todo: 내부 요청으로 MemberID
         progressJPARepository.save(progress);
 
         return progressJPARepository.findById(progress.getId()).orElseThrow(
                 () -> new ProgressException(NO_PROGRESS));
     }
-
     //사진파일저장, 인증 변화.
 
 }

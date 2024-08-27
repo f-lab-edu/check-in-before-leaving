@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions;
+package com.example.checkinrequestMS.HelpAPI.infra.exceptions.jpa;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
