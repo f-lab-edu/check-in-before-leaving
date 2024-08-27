@@ -1,7 +1,7 @@
 package com.example.checkinrequestMS.PlaceAPI.domain.service.tools;
 
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
-import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.web.restAPI.KakaoStoreAPIRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +26,7 @@ class KakaoAPIStoreInfoSaverTest {
     KakaoAPIStoreInfoSaver sut;
 
     @Mock
-    private PlaceRepository storeRepository;
+    private PlaceJPARepository storeRepository;
 
     @Mock
     private KakaoStoreAPIRequest kakaoAPIRequest;

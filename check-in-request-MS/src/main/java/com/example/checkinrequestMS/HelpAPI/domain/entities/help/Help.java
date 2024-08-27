@@ -42,6 +42,10 @@ public class Help {
                 .build();
     }
 
+    public void setProgress(Progress progress) {
+        this.progress = progress;
+    }
+
 
     //private String content;
 

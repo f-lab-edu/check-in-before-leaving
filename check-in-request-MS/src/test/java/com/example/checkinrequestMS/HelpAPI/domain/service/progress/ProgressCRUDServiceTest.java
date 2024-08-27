@@ -32,12 +32,13 @@ class ProgressCRUDServiceTest {
     private HelpJPARepository helpJPARepository;
 
     @Test
-    @DisplayName("진행 정보 등록 성공")
+    @DisplayName("진행 등록 - 진행 정보 등록 성공")
     void registerProgress() {
         //given
         Progress progress = spy(Progress.class);
-        Help help = mock(Help.class);
-        given(progress.getHelpId()).willReturn(1L);
+
+        Help help = spy(Help.class);
+        given(helpJPARepository.findById(anyLong())).willReturn(Optional.of(help));
 
         given(progress.getId()).willReturn(1L);
         given(progressJPARepository.findById(anyLong())).willReturn(Optional.of(progress));
@@ -46,7 +47,11 @@ class ProgressCRUDServiceTest {
         sut.registerProgress(progress);
 
         //then
+        //fixme: 약한 엔티티로 쓰게 되니까 progress변경시 help를 직접 변경해야 하는게 괜찮을지 궁금합니다.
+        assertEquals(progress, help.getProgress());
+        verify(helpJPARepository, times(1)).save(help);
         verify(progressJPARepository, times(1)).save(progress);
+
     }
 
     @Test

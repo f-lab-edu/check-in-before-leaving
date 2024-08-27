@@ -49,7 +49,7 @@ public class ProgressBusinessCRUDController {
 
     @PostMapping("/photo")
     public ResponseEntity<String> addPhoto(@RequestPart("file") List<MultipartFile> file,
-                                           @Validated @RequestPart("data") ProgressPhotoForm data) throws IOException, ServletException {
+                                           @Validated @RequestPart("data") ProgressPhotoForm data) {
         if(file.size() > 1){
             return ResponseEntity.badRequest().body(NOT_ONE_PHOTO);
         }

@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.progress;
 import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.service.progress.ProgressBusinessCRUDService;
 import com.example.checkinrequestMS.HelpAPI.domain.service.progress.ProgressCRUDService;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,16 @@ import org.springframework.util.StreamUtils;
 
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
 
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Disabled
 //Progress의 총 과정을 테스트 해보기 위한 통합테스트 입니다.
 //코드 수정 사항이 있을 시 재작성후 사용하여야 할 수 있습니다.
 public class ProgressTest {
@@ -34,9 +37,90 @@ public class ProgressTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    PlaceJPARepository placeJPARepository;
+
+    @Test
+    void place() throws Exception {
+        //0-0. Register Place.
+        String content = "{\n" +
+                "    \"placeName\": \"테스트중 맛집\",\n" +
+                "    \"address\": \"맛집의 주소\",\n" +
+                "    \"roadAddressName\": \"맛집의 도로명\",\n" +
+                "    \"categoryName\": \"한식 맛집\",\n" +
+                "    \"phone\": \"010-1111-1111\",\n" +
+                "    \"placeUrl\": \"test@test.com\",\n" +
+                "    \"x\": 0,\n" +
+                "    \"y\": 0\n" +
+                "}";
+
+        ResultActions result = mockMvc.perform(post("/place")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("장소가 등록 되었습니다."));
+
+        //SELECT
+        ResultActions selected = mockMvc.perform(get("/place/{name}", "테스트중 맛집"));
+        selected.andExpect(status().isOk());
+
+        //HELP
+        ResultActions helpResult = mockMvc.perform(post("/help/checkIn")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"memberId\": 1, " +
+                        "\"placeId\": 1, " +
+                        "\"start\": \"" + LocalDateTime.now().toString() + "\"," +
+                        "\"option\": 30, " +
+                        "\"reward\": 1000" +
+                        "}"));
+
+        helpResult.andExpect(status().isOk());
+
+
+    }
     @Test
     void test() throws Exception {
-        //1. Register
+
+        //0-0. Register Place.
+        String content = "{\n" +
+                "    \"placeName\": \"테스트중 맛집\",\n" +
+                "    \"address\": \"맛집의 주소\",\n" +
+                "    \"roadAddressName\": \"맛집의 도로명\",\n" +
+                "    \"categoryName\": \"한식 맛집\",\n" +
+                "    \"phone\": \"010-1111-1111\",\n" +
+                "    \"placeUrl\": \"test@test.com\",\n" +
+                "    \"x\": 0,\n" +
+                "    \"y\": 0\n" +
+                "}";
+
+        ResultActions result = mockMvc.perform(post("/place")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("장소가 등록 되었습니다."));
+
+        //SELECT
+        ResultActions selected = mockMvc.perform(get("/place/{name}", "테스트중 맛집"));
+        selected.andExpect(status().isOk());
+
+        //HELP
+        ResultActions helpResult = mockMvc.perform(post("/help/checkIn")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"memberId\": 1, " +
+                        "\"placeId\": 1, " +
+                        "\"start\": \"" + LocalDateTime.now().toString() + "\"," +
+                        "\"option\": 30, " +
+                        "\"reward\": 1000" +
+                        "}"));
+
+        helpResult.andExpect(status().isOk());
+
+
+        //1. Register Progress
         ResultActions registerResult = mockMvc.perform(post("/help/progress")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\n" +

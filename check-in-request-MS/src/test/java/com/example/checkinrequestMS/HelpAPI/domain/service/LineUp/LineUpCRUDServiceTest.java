@@ -3,7 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.service.LineUp;
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.LineUp;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.LineUpJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
-import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
+import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +27,7 @@ class LineUpCRUDServiceTest {
     private LineUpJPARepository lineUpJPARepository;
 
     @Mock
-    private PlaceRepository placeRepository;
+    private PlaceJPARepository placeRepository;
 
     @Test
     void registerLineUp() {

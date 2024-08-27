@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,7 +52,9 @@ class CheckInCRUDControllerTest {
 
         //then
         result.andExpect(status().isOk())
-                .andExpect(jsonPath("$").value("체크인 요청 등록 성공"));
+                .andExpect(jsonPath("$").value("체크인 요청 등록 성공"))
+                .andDo(print());
+
     }
 
 
