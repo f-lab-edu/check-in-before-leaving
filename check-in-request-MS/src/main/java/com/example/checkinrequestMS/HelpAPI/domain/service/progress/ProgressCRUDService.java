@@ -2,16 +2,17 @@ package com.example.checkinrequestMS.HelpAPI.domain.service.progress;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.Help;
 import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
-import com.example.checkinrequestMS.HelpAPI.domain.exceptions.HelpException;
+import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
+
+import com.example.checkinrequestMS.HelpAPI.domain.exceptions.progress.ProgressException;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.HelpJPARepository;
 import com.example.checkinrequestMS.HelpAPI.infra.db.progress.ProgressJPARepository;
-import com.example.checkinrequestMS.HelpAPI.infra.exceptions.JPAException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.checkinrequestMS.HelpAPI.domain.exceptions.HelpErrorCode.NO_HELP_INFO;
-import static com.example.checkinrequestMS.HelpAPI.infra.exceptions.JPAErrorCode.ERROR_SAVING;
+import static com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode.NO_HELP_INFO;
+import static com.example.checkinrequestMS.HelpAPI.domain.exceptions.progress.ProgressErrorCode.NO_PROGRESS;
 
 @Service
 @RequiredArgsConstructor
@@ -23,15 +24,13 @@ public class ProgressCRUDService {
     @Transactional
     public Progress registerProgress(Progress progress) {
         Help help = helpJPARepository.findById(progress.getHelp().getId()).orElseThrow(
-                () -> new HelpException(NO_HELP_INFO)
-        );
+                () -> new HelpException(NO_HELP_INFO));
         progress.setHelp(help);
+        //todo: 내부 요청으로 MemberID
+        progressJPARepository.save(progress);
 
-        try{
-            return progressJPARepository.save(progress);
-        }catch (Exception e) {
-            throw new JPAException(ERROR_SAVING);
-        }
+        return progressJPARepository.findById(progress.getId()).orElseThrow(
+                () -> new ProgressException(NO_PROGRESS));
     }
 
     //사진파일저장, 인증 변화.

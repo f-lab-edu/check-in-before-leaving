@@ -29,7 +29,7 @@ public class LineUpDTO {
                 .id(lineUp.getId())
                 .memberId(lineUp.getMemberId())
                 .title(lineUp.getTitle())
-                .place(PlaceDTO.from(lineUp.getPlace()))
+                //.place(PlaceDTO.from(lineUp.getPlace()))
                 .start(lineUp.getStart())
                 .end(lineUp.getEnd())
                 .progress(ProgressDTO.from(lineUp.getProgress()))

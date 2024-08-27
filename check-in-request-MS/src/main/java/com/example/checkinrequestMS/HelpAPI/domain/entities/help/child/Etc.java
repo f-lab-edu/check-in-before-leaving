@@ -19,22 +19,22 @@ public class Etc extends Help {
 
     private String contents;
 
-    public void setPlaceWithFullInfo(Place place){
-        this.place = place;
-    }
+//    public void setPlaceWithFullInfo(Place place){
+//        this.place = place;
+//    }
     public void setProgress(Progress progress){
         this.progress = progress;
     }
 
     public static Etc from(EtcRegisterForm form){
-        Place place = Place.createEmptyPlaceWithOnlyId(form.getPlaceId());
+        //Place place = Place.createEmptyPlaceWithOnlyId(form.getPlaceId());
 
         return Etc.builder()
                 .title(form.getTitle())
                 .memberId(form.getMemberId())
                 .start(form.getStart())
                 .end(form.getStart().plusHours(form.getOption())) // 체크인은 30분 단위, 나머지는 시간 단위.
-                .place(place)
+                .placeId(form.getPlaceId())
                 .reward(form.getReward())
                 .contents(form.getContents())
                 .build();

@@ -41,7 +41,7 @@ class EtcSelectControllerTest {
 
             Place place = mock(Place.class);
             given(place.getId()).willReturn(1L);
-            given(etc.getPlace()).willReturn(place);
+            //given(etc.getPlace()).willReturn(place);
 
             Progress progress = mock(Progress.class);
             given(progress.getId()).willReturn(1L);

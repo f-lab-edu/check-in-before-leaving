@@ -21,21 +21,19 @@ public class LineUp extends Help {
         final String lineUpCommonPhrase = " 줄서기 요청";
         this.title = place.getPlaceName() + lineUpCommonPhrase;
     }
-    public void setPlaceWithFullInfo(Place place){
-        this.place = place;
-    }
+    //public void setPlaceWithFullInfo(Place place){this.place = place;}
     public void setProgress(Progress progress){
         this.progress = progress;
     }
 
     public static LineUp from(LineUpRegisterForm form){
-        Place place = Place.createEmptyPlaceWithOnlyId(form.getPlaceId());
 
         return LineUp.builder()
                 .memberId(form.getMemberId())
                 .start(form.getStart())
                 .end(form.getStart().plusHours(form.getOption())) // 체크인은 30분 단위, 줄서기는 시간 단위.
-                .place(place)
+                .placeId(form.getPlaceId())
+                //.place(place)
                 .reward(form.getReward())
                 .build();
     }
