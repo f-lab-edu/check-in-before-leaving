@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: member
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+  member-context:
+    build:
+      context: ./member-context
+      dockerfile: Dockerfile
+    ports:
+        - "8080:8080"
+    restart: on-failure
+    depends_on:
+      - db
+  check-in-request-ms:
+    build:
+      context: ./check-in-request-MS
+      dockerfile: Dockerfile
+    ports:
+        - "8081:8081"
+    restart: on-failure
+    depends_on:
+      - db
+
+
+
