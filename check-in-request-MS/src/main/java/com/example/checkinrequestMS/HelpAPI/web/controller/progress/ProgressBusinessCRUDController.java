@@ -34,13 +34,6 @@ public class ProgressBusinessCRUDController {
     public ResponseEntity<String> approveProgress(@Validated @RequestBody ProgressApproveForm form){
 
         progressBusinessService.approveProgress(form.getProgressId());
-        //fixme: 보통 이런 요청이 오면 프론트에서 리프레시 된다고 생각해서
-        //       그 때 Entity(이 경우 ProgressDTO)를 다시 받아오면 되지 않나 싶은데 이렇게 스트링값으로 문제없음을 알려주기만 해도 될까요?
-        //       Entity 전체값을 가져오는 것이 이 URI의 목적은 아니라고 생각이 되지만
-        //       편의를 위해서는 항상 Entity의 전체 값들을 반환하는 게 좋을까요?
-
-        //fixme: 여기서 이 요청을 하면 인증이 완료되어 결제 된다는 경고를 주고 싶은데 이것은 프론트에서 처리하면 간편할 것같은데
-        //       이런 경고를 주는 것은 백엔드에서 하는 것이 맞을까요?
         return ResponseEntity.ok(APPROVED);
     }
 

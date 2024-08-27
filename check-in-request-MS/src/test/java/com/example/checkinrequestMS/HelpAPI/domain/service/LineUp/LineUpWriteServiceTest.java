@@ -18,10 +18,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class LineUpCRUDServiceTest {
+class LineUpWriteServiceTest {
 
     @InjectMocks
-    private LineUpCRUDService sut;
+    private LineUpWriteService sut;
 
     @Mock
     private LineUpJPARepository lineUpJPARepository;
@@ -33,20 +33,22 @@ class LineUpCRUDServiceTest {
     void registerLineUp() {
         //given
         LineUp lineUp = spy(LineUp.class);
-        given(lineUp.getPlaceId()).willReturn(1L);
+        Long placeId = 1L;
 
-        Place placeWithFullInfo = mock(Place.class);
-        given(placeWithFullInfo.getPlaceName()).willReturn("testLineUp");
-        given(placeRepository.findById(anyLong())).willReturn(Optional.of(placeWithFullInfo));
+        Place place = mock(Place.class);
+        given(place.getPlaceName()).willReturn("testLineUp");
+        given(placeRepository.findById(anyLong())).willReturn(Optional.of(place));
 
         //when
-        sut.registerLineUp(lineUp);
+        sut.registerLineUp(lineUp, placeId);
 
         //then
+        assertEquals(place, lineUp.getPlace());
+        assertEquals("testLineUp", lineUp.getPlace().getPlaceName());
         assertEquals("testLineUp 줄서기 요청", lineUp.getTitle());
         verify(placeRepository, times(1)).findById(1L);
-        //verify(lineUp, times(1)).setPlaceWithFullInfo(placeWithFullInfo);
-        verify(lineUp, times(1)).setLineUpTitle(placeWithFullInfo);
+        verify(lineUp, times(1)).setPlace(place);
+        verify(lineUp, times(1)).setLineUpTitle(place);
         verify(lineUpJPARepository, times(1)).save(lineUp);
     }
 }

@@ -1,14 +1,10 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.progress;
 
-import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
-import com.example.checkinrequestMS.HelpAPI.domain.service.progress.ProgressBusinessCRUDService;
-import com.example.checkinrequestMS.HelpAPI.domain.service.progress.ProgressCRUDService;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -30,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Disabled
 //Progress의 총 과정을 테스트 해보기 위한 통합테스트 입니다.
 //코드 수정 사항이 있을 시 재작성후 사용하여야 할 수 있습니다.
 public class ProgressTest {

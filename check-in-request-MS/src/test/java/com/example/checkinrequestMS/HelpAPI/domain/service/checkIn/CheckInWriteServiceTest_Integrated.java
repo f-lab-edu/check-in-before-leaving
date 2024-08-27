@@ -16,10 +16,10 @@ import static org.mockito.Mockito.mock;
 @SpringBootTest
 @Disabled
 // DB 입력 확인을 위한 통합 테스트 코드 입니다.
-class CheckInCRUDServiceTest_Integrated {
+class CheckInWriteServiceTest_Integrated {
 
     @Autowired
-    CheckInCRUDService sut;
+    CheckInWriteService sut;
 
     @Autowired
     PlaceJPARepository placeRepository;
@@ -34,9 +34,18 @@ class CheckInCRUDServiceTest_Integrated {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime thirtyMinLater = now.plusMinutes(30);
-        CheckIn checkInToRegister = CheckIn.builder().memberId(1L).title("title").placeId(1L).start(now).end(thirtyMinLater).reward(100L).build();
+        CheckIn checkInToRegister =
+                CheckIn.builder()
+                        .memberId(1L)
+                        .title(null)
+                        .place(null)
+                        .progress(null)
+                        .start(now)
+                        .end(thirtyMinLater)
+                        .reward(100L)
+                        .build();
 
         //when
-        sut.registerCheckIn(checkInToRegister);
+        sut.registerCheckIn(checkInToRegister, 1L);
     }
 }

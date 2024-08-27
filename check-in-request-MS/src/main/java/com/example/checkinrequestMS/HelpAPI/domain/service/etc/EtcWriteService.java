@@ -14,17 +14,16 @@ import static com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.Plac
 
 @Service
 @RequiredArgsConstructor
-public class EtcCRUDService {
+public class EtcWriteService {
     private final EtcJPARepository etcJPARepository;
     private final PlaceJPARepository placeRepository;
 
     @Transactional
-    public void registerEtc(Etc etc) {
-        Place place = placeRepository.findById(etc.getPlaceId())
+    public void registerEtc(Etc etc, Long placeId) {
+        Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
-        //etc.setPlaceWithFullInfo(place);
+        etc.setPlace(place);
 
         etcJPARepository.save(etc);
-
     }
 }

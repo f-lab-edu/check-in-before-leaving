@@ -1,7 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.help.lineUp;
 
-import com.example.checkinrequestMS.HelpAPI.domain.service.LineUp.LineUpCRUDService;
-import com.example.checkinrequestMS.HelpAPI.web.controller.help.lineUp.LineUpCRUDController;
+import com.example.checkinrequestMS.HelpAPI.domain.service.LineUp.LineUpWriteService;
 import com.example.checkinrequestMS.HelpAPI.web.form.help.lineUp.LineUpRegisterForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -21,11 +20,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(LineUpCRUDController.class)
+@WebMvcTest(LineUpWriteController.class)
 class LineUpCRUDControllerTest {
 
     @MockBean
-    private LineUpCRUDService lineUpCRUDService;
+    private LineUpWriteService lineUpCRUDService;
 
     @Autowired
     private MockMvc mockMvc;

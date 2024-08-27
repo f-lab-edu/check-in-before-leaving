@@ -1,6 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.help.checkIn;
 
-import com.example.checkinrequestMS.HelpAPI.domain.service.checkIn.CheckInCRUDService;
+import com.example.checkinrequestMS.HelpAPI.domain.service.checkIn.CheckInWriteService;
 import com.example.checkinrequestMS.HelpAPI.web.form.help.checkIn.CheckInRegisterForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -21,11 +21,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(CheckInCRUDController.class)
+@WebMvcTest(CheckInWriteController.class)
 class CheckInCRUDControllerTest {
 
     @MockBean
-    private CheckInCRUDService checkInCRUDService;
+    private CheckInWriteService checkInCRUDService;
 
     @Autowired
     private MockMvc mockMvc;

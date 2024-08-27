@@ -13,16 +13,16 @@ import static com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.Plac
 
 @Service
 @RequiredArgsConstructor
-public class LineUpCRUDService {
+public class LineUpWriteService {
 
     private final LineUpJPARepository lineUpJPARepository;
     private final PlaceJPARepository placeRepository;
 
     @Transactional
-    public void registerLineUp(LineUp lineUp) {
-        Place place = placeRepository.findById(lineUp.getPlaceId())
+    public void registerLineUp(LineUp lineUp, Long placeId) {
+        Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
-        //lineUp.setPlaceWithFullInfo(place);
+        lineUp.setPlace(place);
         lineUp.setLineUpTitle(place);
 
         lineUpJPARepository.save(lineUp);
