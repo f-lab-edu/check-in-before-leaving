@@ -4,12 +4,12 @@
 ### 서비스의 플로우 차트
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/76f05268-9a64-473c-9f90-24cca39babe9" width="800" height="500"/>
+<img src="https://github.com/user-attachments/assets/76f05268-9a64-473c-9f90-24cca39babe9" width="600" height="400"/>
 </p>
 
 ### 서버 설계도
 <p align="center">
-<img src="https://github.com/user-attachments/assets/4a9dbb34-2afc-4661-b9b1-90ac0757e8e0" width="900" height="500"/>
+<img src="https://github.com/user-attachments/assets/4a9dbb34-2afc-4661-b9b1-90ac0757e8e0" width="700" height="400"/>
 </p>
 
 
