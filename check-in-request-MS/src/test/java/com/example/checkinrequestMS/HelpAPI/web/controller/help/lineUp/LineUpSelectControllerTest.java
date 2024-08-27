@@ -41,7 +41,7 @@ class LineUpSelectControllerTest {
 
             Place place = mock(Place.class);
             given(place.getId()).willReturn(1L);
-            given(lineUp.getPlace()).willReturn(place);
+            //given(lineUp.getPlace()).willReturn(place);
 
             Progress progress = mock(Progress.class);
             given(progress.getId()).willReturn(1L);

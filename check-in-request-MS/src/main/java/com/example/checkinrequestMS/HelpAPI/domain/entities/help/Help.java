@@ -30,7 +30,8 @@ public class Help {
     protected Place place;*/
     protected Long placeId;
 
-    @OneToOne(mappedBy = "help")
+    @OneToOne
+    @JoinColumn(name = "progress_id")
     protected Progress progress;
 
     protected Long reward;

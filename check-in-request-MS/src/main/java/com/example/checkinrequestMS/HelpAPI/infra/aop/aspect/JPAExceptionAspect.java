@@ -1,13 +1,13 @@
 package com.example.checkinrequestMS.HelpAPI.infra.aop.aspect;
 
 
-import com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAException;
+import com.example.checkinrequestMS.HelpAPI.infra.exceptions.jpa.JPAException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
-import static com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAErrorCode.*;
+import static com.example.checkinrequestMS.HelpAPI.infra.exceptions.jpa.JPAErrorCode.*;
 
 @Component
 @Aspect

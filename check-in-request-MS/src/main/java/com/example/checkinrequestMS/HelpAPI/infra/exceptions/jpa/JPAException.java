@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions;
+package com.example.checkinrequestMS.HelpAPI.infra.exceptions.jpa;
 
 import com.example.checkinrequestMS.common.exception.types.InfraException;
 

@@ -20,11 +20,13 @@ public class ProgressDTO {
     private String picturePath;
     private boolean isCompleted;
 
+    public static final String NO_PHOTO_YET = "사진 인증이 아직 존재하지 않습니다.";
+
     public static ProgressDTO from(Progress progress) {
         return ProgressDTO.builder()
                 .id(progress.getId())
                 .helperId(progress.getHelperId())
-                .picturePath(progress.getPicturePath())
+                .picturePath(progress.getPhotoPath() == null ? NO_PHOTO_YET : progress.getPhotoPath())
                 .isCompleted(progress.isCompleted())
                 .build();
     }

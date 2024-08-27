@@ -1,9 +1,10 @@
 package com.example.checkinrequestMS.HelpAPI.domain.entities.progress;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.Help;
-import com.example.checkinrequestMS.HelpAPI.web.form.progress.ProgressRegisterForm;
+import com.example.checkinrequestMS.HelpAPI.web.form.progress.crud.ProgressRegisterForm;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Entity
 @Getter
@@ -16,28 +17,29 @@ public class Progress {
     @Column(name = "progress_id", nullable = false)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "help_id")
-    private Help help;
+    private Long helpId;
 
     private Long helperId;
 
-    private String picturePath;
+    private String photoPath;
 
-    private boolean isCompleted;
+    private boolean completed;
 
-    public void setHelp(Help help) {
-        this.help = help;
-    }
 
     public static Progress from(ProgressRegisterForm form) {
-        Help help = Help.createEmptyHelpWithOnlyId(form.getHelpId());
 
         return Progress.builder()
+                .helpId(form.getHelpId())
                 .helperId(form.getHelperId())
-                .help(help)
+                .photoPath(null)
+                .completed(false)
                 .build();
     }
 
-
+    public void approve() {
+        this.completed = true;
+    }
+    public void setPhotoPath(String photoPath){
+        this.photoPath = photoPath;
+    }
 }

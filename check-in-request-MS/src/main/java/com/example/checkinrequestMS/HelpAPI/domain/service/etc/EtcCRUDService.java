@@ -1,9 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.service.etc;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.Etc;
-import com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAErrorCode;
 import com.example.checkinrequestMS.HelpAPI.infra.db.help.EtcJPARepository;
-import com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAException;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceException;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import static com.example.checkinrequestMS.HelpAPI.infra.aop.exceptions.JPAErrorCode.ERROR_SAVE;
 import static com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceErrorCode.NO_PLACE_INFO;
 
 @Service
