@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.PlaceAPI.domain.service.tools;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.web.restAPI.KakaoStoreAPIRequest;
+import com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchType.KEYWORD;
+
 @Component
 @RequiredArgsConstructor
 public class KakaoAPIStoreInfoSaver {
@@ -20,20 +23,32 @@ public class KakaoAPIStoreInfoSaver {
     private final PlaceJPARepository storeRepository;
     private final KakaoStoreAPIRequest kakaoAPIRequest;
 
+    //SAVE TO DB : DB에 바로 저장.
+    public void saveToDBWithCategory(String query, double x, double y, int radius){
+        saveStoreInfoToDB(SearchType.CATEGORY, query, x, y, radius);
+    }
+    public void saveToDBWithKeyword(String query, double x, double y, int radius){
+        saveStoreInfoToDB(SearchType.KEYWORD, query, x, y, radius);
+    }
+    private void saveStoreInfoToDB(SearchType type, String query, double x, double y, int radius){
+        String response = kakaoAPIRequest.getStoreInfo(type, query, x, y, radius);
+        List<Place> list = parsePlaceInfo(response);
+
+        if (list.isEmpty()) return;
+        for (Place place : list) storeRepository.save(place);
+    }
+
+    //BALANCE : 이전에 사용하던 DB 내용과 비교 후 저장.
     //check: 이후 다양한 쿼리에서 저장 가능하게 하도록 하려고 합니다. **현재 getStoresByNameAndRadius도 이름은 뺴고 좌표의 범위로만 검색합니다. 이후 수정하겠습니다!
     public void balanceKeyWordSearch(String query, double x, double y, int radius){
-        String response = kakaoAPIRequest.getStoreInfo(query, x, y, radius);
+        String response = kakaoAPIRequest.getStoreInfo(KEYWORD, query, x, y, radius);
 
         List<Place> placesFromAPI = parsePlaceInfo(response); //Brute Force 이후 범위를 경도/위도 조합을 스캔하며 저장해서 끝난 부분은 다시 검색 안해도 됨.
         List<Place> placesFromDB = storeRepository.getStoresByNameAndRadius(x, y, radius).get();
         List<Place> list = placesFromAPI.stream().filter(place -> placesFromDB.stream().noneMatch(a -> place.equals(a))).collect(Collectors.toList());
 
-        if (list.isEmpty()) {
-            return;
-        }
-        for (Place place : list) {
-            storeRepository.save(place);
-        }
+        if (list.isEmpty()) return;
+        for (Place place : list) storeRepository.save(place);
 
     }
     private List<Place> parsePlaceInfo(String response){

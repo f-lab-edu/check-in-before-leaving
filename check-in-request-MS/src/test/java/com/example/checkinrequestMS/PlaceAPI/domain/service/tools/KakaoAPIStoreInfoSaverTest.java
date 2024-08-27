@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.PlaceAPI.domain.service.tools;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.web.restAPI.KakaoStoreAPIRequest;
+import com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,7 @@ class KakaoAPIStoreInfoSaverTest {
         //given
         List<Place> placesFromDB = mock();
 
-        given(kakaoAPIRequest.getStoreInfo(anyString(), anyDouble(), anyDouble(), anyInt())).willReturn(response);
+        given(kakaoAPIRequest.getStoreInfo(any(SearchType.class), anyString(), anyDouble(), anyDouble(), anyInt())).willReturn(response);
         given(storeRepository.getStoresByNameAndRadius(anyDouble(), anyDouble(), anyInt())).willReturn(Optional.of(placesFromDB));
 
         //when
@@ -63,7 +64,7 @@ class KakaoAPIStoreInfoSaverTest {
         given(place1.getPlaceName()).willReturn("명동교자 본점");
         List<Place> placesFromDB = spy(Arrays.asList(place1));
 
-        given(kakaoAPIRequest.getStoreInfo(anyString(), anyDouble(), anyDouble(), anyInt())).willReturn(response);
+        given(kakaoAPIRequest.getStoreInfo(any(SearchType.class), anyString(), anyDouble(), anyDouble(), anyInt())).willReturn(response);
         given(storeRepository.getStoresByNameAndRadius(anyDouble(), anyDouble(), anyInt())).willReturn(Optional.of(placesFromDB));
 
         //when
@@ -82,7 +83,7 @@ class KakaoAPIStoreInfoSaverTest {
         given(place2.getPlaceName()).willReturn("순남시래기 명동직영점");
         List<Place> placesFromDB = spy(Arrays.asList(place1, place2));
 
-        given(kakaoAPIRequest.getStoreInfo(anyString(), anyDouble(), anyDouble(), anyInt())).willReturn(response);
+        given(kakaoAPIRequest.getStoreInfo(any(SearchType.class), anyString(), anyDouble(), anyDouble(), anyInt())).willReturn(response);
         given(storeRepository.getStoresByNameAndRadius(anyDouble(), anyDouble(), anyInt())).willReturn(Optional.of(placesFromDB));
 
         //when

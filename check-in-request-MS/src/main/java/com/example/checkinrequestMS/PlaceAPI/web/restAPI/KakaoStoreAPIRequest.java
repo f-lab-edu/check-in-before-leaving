@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 import java.net.*;
 
 import static com.example.checkinrequestMS.PlaceAPI.web.exceptions.kakaoMap.KakaoStoreAPIErrorCode.*;
+import static com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchType.CATEGORY;
+import static com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchType.KEYWORD;
 
 @Component
 public class KakaoStoreAPIRequest {
@@ -24,10 +26,10 @@ public class KakaoStoreAPIRequest {
 
     //check: unchecked exception에 대해 메시징 이외의 예외 방법 생각해보기.
     //      이 부분은 이후에 추가하겠습니다.
-    public String getStoreInfo(String query, double x, double y, int radius) {
 
+    public String getStoreInfo(SearchType type, String query, double x, double y, int radius) {
         int page = 1;
-        URL apiURL = getRequestURL(query, x, y, radius, page);
+        URL apiURL = getRequestURL(query, x, y, radius, page, type);
 
         String currentResponse = connectAndReadByOnePage(apiURL);
         String collectedResponse = parseFirstPage(currentResponse);
@@ -39,16 +41,27 @@ public class KakaoStoreAPIRequest {
 
         for (int i = 1; i < repeat; i++) {
             page++;
-            currentResponse = connectAndReadByOnePage(getRequestURL(query, x, y, radius, page));
+            currentResponse = connectAndReadByOnePage(getRequestURL(query, x, y, radius, page, type));
             collectedResponse = addPages(collectedResponse, currentResponse);
         }
         return collectedResponse;
     }
-    private  URL getRequestURL(String query, double x, double y, int radius, int page){
+    private  URL getRequestURL(String query, double x, double y, int radius, int page, SearchType type){
+        String searchType = "";
+        String searchQuery = "";
+
+        if(type == KEYWORD){
+            searchType = "keyword.json";
+            searchQuery = "query";
+        }else if(type == CATEGORY){
+            searchType = "category.json";
+            searchQuery = "category_group_code";
+        }
+
         try {
-            URL apiURI = UriComponentsBuilder.fromHttpUrl("https://dapi.kakao.com/v2/local/search/keyword.json")
+            URL apiURI = UriComponentsBuilder.fromHttpUrl("https://dapi.kakao.com/v2/local/search/" + searchType)
                     .queryParam("sort", "accuracy")
-                    .queryParam("query", query)
+                    .queryParam(searchQuery, query)
                     .queryParam("x", x)
                     .queryParam("y", y)
                     .queryParam("radius", 50)
@@ -61,7 +74,6 @@ public class KakaoStoreAPIRequest {
         } catch (MalformedURLException e) {
             throw new KakaoStoreAPIException(URL_CONNECTION_ERROR);
         }
-
     }
 
     private  String addPages(String collectedResponse, String currentResponse) {
@@ -98,13 +110,12 @@ public class KakaoStoreAPIRequest {
         }
     }
 
-    private  int checkLeftPage(String response) {
+    private int checkLeftPage(String response) {
         JsonNode responseNode = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             responseNode = objectMapper.readTree(response);
             JsonNode meta = responseNode.get("meta");
-            System.out.println(meta);
 
             return meta.get("total_count").asInt();
         } catch (JsonProcessingException e) {
@@ -145,7 +156,6 @@ public class KakaoStoreAPIRequest {
                 response.append(inputLine);
             }
             br.close();
-            System.out.println(response);
             return response.toString();
         } catch (IOException e) {
             throw new KakaoStoreAPIException(DATA_STREAM_EXCEPTION);
