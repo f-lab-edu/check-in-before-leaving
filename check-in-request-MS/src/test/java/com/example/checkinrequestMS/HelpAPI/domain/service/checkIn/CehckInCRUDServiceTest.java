@@ -1,7 +1,7 @@
-package com.example.checkinrequestMS.HelpAPI.domain.service;
+package com.example.checkinrequestMS.HelpAPI.domain.service.checkIn;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.infra.HelpJPARepository;
+import com.example.checkinrequestMS.HelpAPI.infra.db.help.CheckInJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
 import org.junit.jupiter.api.Test;
@@ -18,13 +18,13 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class HelpRegisterServiceTest {
+class CehckInCRUDServiceTest {
 
     @InjectMocks
-    private HelpRegisterService sut;
+    private CheckInCRUDService sut;
 
     @Mock
-    private HelpJPARepository helpJPARepository;
+    private CheckInJPARepository checkInJPARepository;
 
     @Mock
     private PlaceRepository placeRepository;
@@ -50,7 +50,7 @@ class HelpRegisterServiceTest {
         verify(placeRepository, times(1)).findById(1L);
         verify(checkIn, times(1)).setPlaceWithFullInfo(placeWithFullInfo);
         verify(checkIn, times(1)).setCheckInTitle(placeWithFullInfo);
-        verify(helpJPARepository, times(1)).save(checkIn);
+        verify(checkInJPARepository, times(1)).save(checkIn);
 
     }
 }

@@ -34,4 +34,6 @@ public class ProgressCRUDService {
         }
     }
 
+    //사진파일저장, 인증 변화.
+
 }

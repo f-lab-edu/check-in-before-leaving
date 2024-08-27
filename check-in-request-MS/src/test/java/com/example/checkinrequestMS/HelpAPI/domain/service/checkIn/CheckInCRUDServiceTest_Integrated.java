@@ -1,6 +1,5 @@
-package com.example.checkinrequestMS.HelpAPI.domain.service;
+package com.example.checkinrequestMS.HelpAPI.domain.service.checkIn;
 
-import com.example.checkinrequestMS.HelpAPI.domain.entities.help.Help;
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceRepository;
@@ -11,15 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Disabled
 // DB 입력 확인을 위한 통합 테스트 코드 입니다.
-class HelpRegisterServiceTest_Integrated {
+class CheckInCRUDServiceTest_Integrated {
 
     @Autowired
-    HelpRegisterService sut;
+    CheckInCRUDService sut;
 
     @Autowired
     PlaceRepository placeRepository;
@@ -29,6 +27,8 @@ class HelpRegisterServiceTest_Integrated {
         //given
         Place place = Place.createEmptyPlaceWithOnlyId(1L);
         placeRepository.save(place);
+        //Place Name API에서 바로 저장해서 지금은 null
+        //Id 는 auto increment로 되어있어서 바뀜.
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime thirtyMinLater = now.plusMinutes(30);
@@ -36,6 +36,5 @@ class HelpRegisterServiceTest_Integrated {
 
         //when
         sut.registerCheckIn(checkInToRegister);
-
     }
 }

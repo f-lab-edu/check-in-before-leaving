@@ -1,8 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.entities.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.web.form.CheckInRegisterForm;
-import com.example.checkinrequestMS.PlaceAPI.domain.Place;
+import com.example.checkinrequestMS.HelpAPI.web.form.help.checkIn.CheckInRegisterForm;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
