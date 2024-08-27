@@ -4,8 +4,10 @@ package com.example.checkinrequestMS.HelpAPI.web.dto.progress;
 import com.example.checkinrequestMS.HelpAPI.domain.entities.progress.Progress;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder(access = AccessLevel.PRIVATE)
+@Getter
 public class ProgressDTO {
 
     // fixme: Progress 엔티티에서는 Help 엔티티를 참조하고 있지만
