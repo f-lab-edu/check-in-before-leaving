@@ -18,12 +18,12 @@ public class CheckInWriteService {
     private final CheckInJPARepository checkInJPARepository;
     private final PlaceJPARepository placeRepository;
 
-    public void registerCheckIn(CheckIn checkIn, Long placeId) {
+    public Long registerCheckIn(CheckIn checkIn, Long placeId) {
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
         checkIn.setPlace(place);
         checkIn.setCheckInTitle(place);
 
-        checkInJPARepository.save(checkIn);
+        return checkInJPARepository.save(checkIn);
     }
 }

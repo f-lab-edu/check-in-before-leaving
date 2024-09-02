@@ -4,9 +4,6 @@ import com.example.checkinrequestMS.PlaceAPI.web.form.PlaceRegisterForm;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -35,6 +32,7 @@ public class Place implements Serializable {
     }
     public static Place from(PlaceRegisterForm form){
         return Place.builder()
+                .id(form.getId())
                 .placeName(form.getPlaceName())
                 .address(form.getAddress())
                 .roadAddressName(form.getRoadAddressName())

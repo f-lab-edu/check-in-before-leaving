@@ -6,6 +6,8 @@ import lombok.Getter;
 
 @Getter
 public class PlaceRegisterForm {
+
+    private Long id;
     @NotBlank
     private String placeName;
     @NotBlank

@@ -14,7 +14,7 @@ import static com.example.checkinrequestMS.HelpAPI.domain.exceptions.progress.Pr
 
 @Service
 @RequiredArgsConstructor
-public class ProgressBusinessCRUDService {
+public class ProgressBusinessWriteService {
 
     private final ProgressJPARepository progressJPARepository;
     private final PhotoSaver photoSaver;

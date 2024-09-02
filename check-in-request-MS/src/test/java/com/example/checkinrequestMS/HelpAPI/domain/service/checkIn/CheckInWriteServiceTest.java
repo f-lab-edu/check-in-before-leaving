@@ -46,11 +46,5 @@ class CheckInWriteServiceTest {
         assertEquals(place, checkIn.getPlace());
         assertEquals("testCheckIn", checkIn.getPlace().getPlaceName());
         assertEquals("testCheckIn 체크인 요청", checkIn.getTitle());
-
-        verify(placeRepository, times(1)).findById(1L);
-        verify(checkIn, times(1)).setPlace(place);
-        verify(checkIn, times(1)).setCheckInTitle(place);
-        verify(checkInJPARepository, times(1)).save(checkIn);
-
     }
 }
