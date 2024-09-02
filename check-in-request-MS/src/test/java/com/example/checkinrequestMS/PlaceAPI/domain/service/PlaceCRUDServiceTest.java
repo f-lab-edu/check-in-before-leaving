@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 class PlaceCRUDServiceTest {
 
     @InjectMocks
-    private PlaceCRUDService sut;
+    private PlaceWriteService sut;
 
     @Mock
     private PlaceJPARepository placeJPARepository;
