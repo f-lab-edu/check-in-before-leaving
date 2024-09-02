@@ -1,0 +1,27 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+
+rule_files:
+
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'spring-acutator'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ['member-context:8080', 'check-in-request-ms:8081']
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: [ 'node_exporter:9100' ]
+  - job_name: 'mysql_exporter'
+    static_configs:
+      - targets: [ 'mysql_exporter:9104' ]

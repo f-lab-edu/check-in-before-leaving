@@ -1,0 +1,6 @@
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:mysql://db:3306/place?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true

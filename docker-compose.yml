@@ -1,6 +1,7 @@
 version: "3.8"
 services:
   db:
+    container_name: db
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: 1234
@@ -9,7 +10,10 @@ services:
       - "3306:3306"
     volumes:
       - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - monitoring
   member-context:
+    container_name: member-context
     build:
       context: ./member-context
       dockerfile: Dockerfile
@@ -18,7 +22,10 @@ services:
     restart: on-failure
     depends_on:
       - db
+    networks:
+      - monitoring
   check-in-request-ms:
+    container_name: check-in-request-ms
     build:
       context: ./check-in-request-MS
       dockerfile: Dockerfile
@@ -27,6 +34,50 @@ services:
     restart: on-failure
     depends_on:
       - db
+    networks:
+      - monitoring
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    restart: on-failure
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - monitoring
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    restart: on-failure
+    ports:
+      - "9100:9100"
+    networks:
+      - monitoring
+#  mysql_exporter:
+#    image: prom/mysqld-exporter:latest
+#    container_name: mysql_exporter
+#    restart: on-failure
+#    environment:
+#      - DATA_SOURCE_NAME=root:1234@tcp(db:3306)/
+#    ports:
+#      - "9104:9104"
+#    networks:
+#      - monitoring
+#    depends_on:
+#      - db
 
-
+networks:
+  monitoring:
+    driver: bridge
 

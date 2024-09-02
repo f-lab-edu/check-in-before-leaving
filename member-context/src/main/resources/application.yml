@@ -2,7 +2,7 @@ spring:
   application:
     name: member-context
   datasource:
-    url: jdbc:mysql://db:3306/member?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/member?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 1234
@@ -14,6 +14,9 @@ spring:
     generate-ddl: true
 server:
   port: 8080
+  tomcat:
+    mbeanregistry:
+      enabled: true
 
 encryption:
   key: pkl14nskhapj2n8j
