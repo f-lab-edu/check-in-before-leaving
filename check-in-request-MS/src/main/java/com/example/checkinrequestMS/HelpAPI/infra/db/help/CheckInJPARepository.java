@@ -14,8 +14,9 @@ public class CheckInJPARepository {
     private final CheckInSpringJPARepository checkInSpringJPARepository;
 
     @JPASave
-    public void save(CheckIn checkIn) {
-        checkInSpringJPARepository.save(checkIn);
+    public Long save(CheckIn checkIn) {
+        CheckIn checkin = checkInSpringJPARepository.save(checkIn);
+        return checkin.getId();
     }
     @JPARead
     public Optional<CheckIn> findById(Long id){

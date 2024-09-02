@@ -52,7 +52,7 @@ class CheckInCRUDControllerTest {
 
         //then
         result.andExpect(status().isOk())
-                .andExpect(jsonPath("$").value("체크인 요청 등록 성공"))
+                .andExpect(jsonPath("$.message").value("체크인 요청 등록 성공"))
                 .andDo(print());
 
     }
