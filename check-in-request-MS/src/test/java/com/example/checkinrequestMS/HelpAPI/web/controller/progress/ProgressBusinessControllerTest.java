@@ -1,6 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.progress;
 
-import com.example.checkinrequestMS.HelpAPI.domain.service.progress.ProgressBusinessCRUDService;
+import com.example.checkinrequestMS.HelpAPI.domain.service.progress.ProgressBusinessWriteService;
 import com.example.checkinrequestMS.HelpAPI.infra.fileIO.PhotoSaver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,13 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ProgressBusinessCRUDController.class)
+@WebMvcTest(ProgressBusinessWriteController.class)
 @Import(PhotoSaver.class)
 class ProgressBusinessControllerTest {
 
@@ -28,7 +27,7 @@ class ProgressBusinessControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ProgressBusinessCRUDService progressBusinessService;
+    private ProgressBusinessWriteService progressBusinessService;
 
     @Test
     @DisplayName("사진 추가 - 정상적인 사진등록 요청")
@@ -41,16 +40,16 @@ class ProgressBusinessControllerTest {
                 InputStream.nullInputStream() //실제 이미지 대신 null값 사용
         );
 
-        MockMultipartFile jsonFile = new MockMultipartFile(
-                "data",
-                "",
-                "application/json",
-                "{\"progressId\":123}".getBytes()
-        );
+//        MockMultipartFile jsonFile = new MockMultipartFile(
+//                "data",
+//                "",
+//                "application/json",
+//                "{\"progressId\":123}".getBytes()
+//        );
 
         mockMvc.perform(MockMvcRequestBuilders.multipart("/help/progress/photo")
                         .file(file1)
-                        .file(jsonFile)
+                        .param("progressId", "123")
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk());
     }
