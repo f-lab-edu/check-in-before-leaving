@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.domain.exceptions.progress;
+package com.example.checkinrequestMS.HelpAPI.application.exceptions.progress;
 
 import com.example.checkinrequestMS.common.exception.types.DomainException;
 
