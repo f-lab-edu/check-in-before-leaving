@@ -23,8 +23,8 @@ class KakaoAPIRequestTest_Integrated {
 
     @Test
     @DisplayName("카카오 맵 API 가게정보 키워드 검색 기능 정상 통신 됨")
-    void getStoreInfo_Keyword()  {
-       //given
+    void getStoreInfo_Keyword() {
+        //given
         String query = "맛집";
         double x = 126.98561429978552;
         double y = 37.56255453417897;
@@ -38,22 +38,22 @@ class KakaoAPIRequestTest_Integrated {
         String[] all = response.split("}");
         assertEquals(25, all.length);
     }
+
     @Test
     @DisplayName("카카오 맵 API 가게정보 카테고리 검색 정상 통신 됨")
-    void getStoreInfo_Category()  {
+    void getStoreInfo_Category() {
         //given
         double x = 126.98561429978552;
         double y = 37.56255453417897;
         int radius = 50;
 
         //when
-        String response = kakaoAPIRequest.getStoreInfo(CATEGORY, RESTAURANT.code(), x, y, radius);
-        System.out.println(response);
+        String response = kakaoAPIRequest.getStoreInfo(CATEGORY, FD6.name(), x, y, radius);
 
         //then
         response = response.replace("[", "").replace("]", "");
         String[] all = response.split("}");
-        assertEquals(23, all.length);
+        assertEquals(24, all.length);
 
         System.out.println(all.length);
 

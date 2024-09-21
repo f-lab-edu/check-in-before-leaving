@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.PlaceAPI.web.dto;
 
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
+import com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchCategory;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ public class PlaceDTO {
     private String placeName;
     private String address;
     private String roadAddressName;
-    private String categoryName;
+    private String category;
     private String phone;
     private String placeUrl;
     private double x;
@@ -25,14 +26,13 @@ public class PlaceDTO {
                 .placeName(place.getPlaceName())
                 .address(place.getAddress())
                 .roadAddressName(place.getRoadAddressName())
-                .categoryName(place.getCategoryName())
+                .category(place.getCategoryName())
                 .phone(place.getPhone())
                 .placeUrl(place.getPlaceUrl())
                 .x(place.getX())
                 .y(place.getY())
                 .build();
     }
-
 
 
 }
