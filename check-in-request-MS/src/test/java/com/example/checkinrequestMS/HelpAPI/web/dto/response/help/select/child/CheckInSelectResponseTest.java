@@ -2,7 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read.ProgressSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read.child.CreatedSelectResponse;
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child.CheckInFixture;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +25,7 @@ class CheckInSelectResponseTest {
         assertEquals(sut.getStart(), checkIn.getStart());
         assertEquals(sut.getEnd(), checkIn.getEnd());
         assertEquals(sut.getReward(), checkIn.getReward());
-        assertEquals(sut.getProgressDTO().getClass(), ProgressSelectResponse.getProgressDTO(checkIn.getProgress()).getClass());
+        assertEquals(CreatedSelectResponse.class.getSimpleName(), sut.getProgressSelectResponse().getClass().getSimpleName());
+
     }
 }

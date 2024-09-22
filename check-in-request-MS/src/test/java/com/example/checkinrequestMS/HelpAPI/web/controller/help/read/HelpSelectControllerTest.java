@@ -86,7 +86,7 @@ class HelpSelectControllerTest {
         ResultActions result = mockMvc.perform(get("/help/" + id.toString())
                 .contentType(MediaType.APPLICATION_JSON));
         System.out.println(etc.getStart());
-        System.out.println(Variables.startTime);
+        System.out.println(Variables.START_TIME);
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.helpRegisterId").value(1L))
