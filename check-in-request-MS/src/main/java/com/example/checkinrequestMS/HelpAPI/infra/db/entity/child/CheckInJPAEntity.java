@@ -21,11 +21,11 @@ import static com.example.checkinrequestMS.HelpAPI.application.service.HelpDBAda
 public class CheckInJPAEntity extends HelpJPAEntity {
 
     @Builder(access = AccessLevel.PROTECTED)
-    protected CheckInJPAEntity(Long id, Long helpRegisterId, String title, Long placeId, ProgressValue progressValue, Long reward, LocalDateTime start, LocalDateTime end) {
+    protected CheckInJPAEntity(Long id, Long helpRegisterId, String title, String placeId, ProgressValue progressValue, Long reward, LocalDateTime start, LocalDateTime end) {
         super(id, helpRegisterId, title, start, end, placeId, progressValue, reward);
     }
 
-    public static CheckInJPAEntity from(Help help){
+    public static CheckInJPAEntity from(Help help) {
         return CheckInJPAEntity.builder()
                 .id(help.getId())
                 .helpRegisterId(help.getHelpRegisterId())

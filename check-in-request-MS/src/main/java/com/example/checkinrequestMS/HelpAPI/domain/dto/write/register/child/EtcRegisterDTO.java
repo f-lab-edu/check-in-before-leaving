@@ -18,13 +18,13 @@ public class EtcRegisterDTO extends HelpRegisterDTO {
     private String contents;
 
     @Builder(access = AccessLevel.PROTECTED)
-    protected EtcRegisterDTO(Long helpRegisterId, Long placeId, java.time.LocalDateTime start, LocalDateTime end, Long reward, String title, String contents) {
+    protected EtcRegisterDTO(Long helpRegisterId, String placeId, java.time.LocalDateTime start, LocalDateTime end, Long reward, String title, String contents) {
         super(helpRegisterId, placeId, start, end, reward);
         this.title = title;
         this.contents = contents;
     }
 
-    public static EtcRegisterDTO from(EtcRegisterForm form){
+    public static EtcRegisterDTO from(EtcRegisterForm form) {
         return EtcRegisterDTO.builder()
                 .helpRegisterId(form.getHelpRegisterId())
                 .start(form.getStart())

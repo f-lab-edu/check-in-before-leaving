@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 public class CheckInRegisterDTO extends HelpRegisterDTO {
 
     @Builder(access = AccessLevel.PROTECTED)
-    protected CheckInRegisterDTO(Long helpRegisterId, Long placeId, LocalDateTime start, LocalDateTime end, Long reward) {
+    protected CheckInRegisterDTO(Long helpRegisterId, String placeId, LocalDateTime start, LocalDateTime end, Long reward) {
         super(helpRegisterId, placeId, start, end, reward);
     }
 
-    public static CheckInRegisterDTO from(CheckInRegisterForm form){
+    public static CheckInRegisterDTO from(CheckInRegisterForm form) {
         return CheckInRegisterDTO.builder()
                 .helpRegisterId(form.getHelpRegisterId())
                 .start(form.getStart())

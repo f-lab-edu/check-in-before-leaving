@@ -21,14 +21,17 @@ public class EtcJPAEntity extends HelpJPAEntity {
     private String contents;
 
     @Builder(access = AccessLevel.PROTECTED)
-    protected EtcJPAEntity(Long id, Long helpRegisterId, String title, Long placeId, ProgressValue progressValue, Long reward, LocalDateTime start, LocalDateTime end, String contents) {
+    protected EtcJPAEntity(Long id, Long helpRegisterId, String title, String placeId, ProgressValue progressValue, Long reward, LocalDateTime start, LocalDateTime end, String contents) {
         super(id, helpRegisterId, title, start, end, placeId, progressValue, reward);
         this.contents = contents;
     }
 
 
-    public static EtcJPAEntity from(Etc etc){
+    public static EtcJPAEntity from(Etc etc) {
         return EtcJPAEntity.builder()
+                .id(etc.getId())
+                .helpRegisterId(etc.getHelpRegisterId())
+                .progressValue(ProgressValue.from(etc.getProgress()))
                 .title(etc.getTitle())
                 .placeId(etc.getPlaceId())
                 .start(etc.getStart())

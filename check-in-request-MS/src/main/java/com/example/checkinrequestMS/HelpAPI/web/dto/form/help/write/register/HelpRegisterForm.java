@@ -21,7 +21,7 @@ public abstract class HelpRegisterForm {
     private Long helpRegisterId;
 
     @NotNull(message = NO_PLACE_ID)
-    private Long placeId;
+    private String placeId;
 
     @NotNull(message = NO_START)
     private LocalDateTime start;
@@ -32,7 +32,7 @@ public abstract class HelpRegisterForm {
     @NotNull(message = NO_REWARD)
     private Long reward;
 
-    protected HelpRegisterForm(Long helpRegisterId, Long placeId, LocalDateTime start, int option, Long reward) {
+    protected HelpRegisterForm(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward) {
         this.helpRegisterId = helpRegisterId;
         this.placeId = placeId;
         this.start = start;
