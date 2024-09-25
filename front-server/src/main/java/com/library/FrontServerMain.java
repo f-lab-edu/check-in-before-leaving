@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FrontServerMain {
     public static void main(String[] args) {
+        //todo: Geolocation API는 프로덕션 환경에서 HTTPS만 지원. 이후 EC2에서는 HTTPS로 전환 필요.
         SpringApplication.run(FrontServerMain.class, args);
     }
 }
