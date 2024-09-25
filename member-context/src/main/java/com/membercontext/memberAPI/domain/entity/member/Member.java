@@ -1,9 +1,13 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
+import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.web.controller.form.SignUpForm;
+import com.membercontext.memberAPI.web.controller.form.TrackForm;
 import com.membercontext.memberAPI.web.controller.form.UpdateForm;
 import jakarta.persistence.*;
 import lombok.*;
+
+import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
 
 @Entity
 @Getter
@@ -13,10 +17,12 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
+    public static final String MEMBER_ID = "member_id";
+
     @Id
-    @Column(name="member_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = MEMBER_ID, nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(unique = true)
     private String email;
@@ -29,12 +35,24 @@ public class Member {
 
     private String location; //동단위 위치.
 
-    private Boolean isLocationServiceEnabled;
+    private boolean locationServiceEnabled; //이후 변경
+
+    @Embedded
+    @Builder.Default
+    private MemberLocation memberLocation = MemberLocation.UNKNOWN;
 
     private Long point;
 
-    public void encryptPassword(String encryptedPassword){
+    public void encryptPassword(String encryptedPassword) {
         this.password = encryptedPassword;
+    }
+
+    public void updateLocation(TrackForm form) {
+        if (!this.isLocationServiceEnabled()) {
+            throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
+        }
+        MemberLocation memberLocation = new MemberLocation(form.getLatitude(), form.getLongitude(), form.getTimestamp());
+        this.memberLocation = memberLocation;
     }
 
     public void update(Member updatingMember) {
@@ -43,23 +61,24 @@ public class Member {
         this.name = updatingMember.getName();
         this.phone = updatingMember.getPhone();
         this.location = updatingMember.getLocation();
-        this.isLocationServiceEnabled = updatingMember.getIsLocationServiceEnabled();
+        this.locationServiceEnabled = updatingMember.isLocationServiceEnabled();
         this.point = updatingMember.getPoint();
     }
 
-    public static Member from(SignUpForm form){
+    public static Member from(SignUpForm form) {
         return Member.builder()
                 .email(form.getEmail())
                 .password(form.getPassword())
                 .name(form.getName())
                 .phone(form.getPhone())
                 .location(form.getLocation())
-                .isLocationServiceEnabled(form.getIsLocationServiceEnabled())
+                .locationServiceEnabled(form.getIsLocationServiceEnabled())
                 .point(form.getPoint())
                 .build();
 
     }
-    public static Member from(UpdateForm form){
+
+    public static Member from(UpdateForm form) {
         return Member.builder()
                 .id(form.getId())
                 .email(form.getEmail())
@@ -67,9 +86,10 @@ public class Member {
                 .name(form.getName())
                 .phone(form.getPhone())
                 .location(form.getLocation())
-                .isLocationServiceEnabled(form.getIsLocationServiceEnabled())
+                .locationServiceEnabled(form.getIsLocationServiceEnabled())
                 .point(form.getPoint())
                 .build();
     }
+
 
 }
