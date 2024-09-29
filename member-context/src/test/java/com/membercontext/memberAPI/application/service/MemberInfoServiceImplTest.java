@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,7 +33,7 @@ class MemberInfoServiceImplTest {
     void getMemberInfo() {
         //given
         Member memberToSearch = memberTestFixture.create_Mock();
-        when(memberRepository.findById(anyLong())).thenReturn(memberToSearch);
+        when(memberRepository.findById(anyString())).thenReturn(memberToSearch);
 
         //when
         Member memberReturned = memberInfoService.getMemberInfo(memberToSearch.getId());
@@ -44,7 +45,7 @@ class MemberInfoServiceImplTest {
         assertEquals(memberToSearch.getName(), memberReturned.getName());
         assertEquals(memberToSearch.getPhone(), memberReturned.getPhone());
         assertEquals(memberToSearch.getLocation(), memberReturned.getLocation());
-        assertEquals(memberToSearch.getIsLocationServiceEnabled(), memberReturned.getIsLocationServiceEnabled());
+        assertEquals(memberToSearch.isLocationServiceEnabled(), memberReturned.isLocationServiceEnabled());
         assertEquals(memberToSearch.getPoint(), memberReturned.getPoint());
     }
 }

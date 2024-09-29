@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Optional;
+import java.util.UUID;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,6 +45,7 @@ class MemberJPARepositoryTest {
         //then
         verify(memberSpringJPARepository).findByEmail(member.getEmail());
     }
+
     @Test
     @DisplayName("이메일로 조회 - 존재하지 않는 회원.")
     void findByEmail_NOT_EXISTING_MEMBER() {
@@ -56,6 +58,7 @@ class MemberJPARepositoryTest {
         //then
         assertThrows(MemberException.class, () -> sut.findByEmail(member.getEmail()));
     }
+
     @Test
     @DisplayName("회원 ID로 조회 - 성공.")
     void findById() {
@@ -69,6 +72,7 @@ class MemberJPARepositoryTest {
         //then
         verify(memberSpringJPARepository).findById(member.getId());
     }
+
     @Test
     @DisplayName("회원 ID로 조회 - 존재하지 않는 회원.")
     void findById_NOT_EXISTING_MEMBER() {
@@ -81,18 +85,20 @@ class MemberJPARepositoryTest {
         //then
         assertThrows(MemberException.class, () -> sut.findById(member.getId()));
     }
+
     @Test
     @DisplayName("회원가입 - 성공.")
     void save() {
-      //given
-      Member member = mock(Member.class);
-      given(memberSpringJPARepository.findByEmail(member.getEmail())).willReturn(Optional.empty());
+        //given
+        Member member = mock(Member.class);
+        given(memberSpringJPARepository.findByEmail(member.getEmail())).willReturn(Optional.empty());
 
-      sut.save(member);
+        sut.save(member);
 
-      verify(memberSpringJPARepository).save(member);
+        verify(memberSpringJPARepository).save(member);
 
     }
+
     @Test
     @DisplayName("회원가입 - 이미 가입한 회원.")
     void save_ALREADY_REGISTERED_USER_Exception() {
@@ -107,10 +113,11 @@ class MemberJPARepositoryTest {
         //then
         assertThrows(MemberException.class, () -> sut.save(newMember));
     }
+
     @Test
     void delete() {
         //given
-        Long id = 1L;
+        String id = UUID.randomUUID().toString();
         Member member = mock(Member.class);
         given(memberSpringJPARepository.findById(id)).willReturn(Optional.of(member));
 
@@ -120,13 +127,15 @@ class MemberJPARepositoryTest {
         //then
         verify(memberSpringJPARepository).delete(member);
     }
+
     @Test
     @DisplayName("회원 삭제 - 존재하지 않는 회원.")
     void delete_NOT_EXISTING_USER_Exception() {
 
         //given
+        String id = "NOT_EXIST";
         Member registeredMember = mock(Member.class);
-        given(registeredMember.getId()).willReturn(1L);
+        given(registeredMember.getId()).willReturn(id);
         given(memberSpringJPARepository.findById(registeredMember.getId())).willReturn(Optional.empty());
 
         //when
@@ -134,6 +143,7 @@ class MemberJPARepositoryTest {
         //then
         assertThrows(MemberException.class, () -> sut.delete(registeredMember.getId()));
     }
+
     @Test
     void update() {
         //given
@@ -148,13 +158,15 @@ class MemberJPARepositoryTest {
         verify(member).update(updatingMember);
         verify(memberSpringJPARepository).save(member);
     }
+
     @Test
     @DisplayName("회원 수정 - 존재하지 않는 회원.")
     void Update_NOT_EXISTING_USER_Exception() {
 
         //given
+        String id = "NOT_EXIST";
         Member updatingMember = mock(Member.class);
-        given(updatingMember.getId()).willReturn(1L);
+        given(updatingMember.getId()).willReturn(id);
         given(memberSpringJPARepository.findById(updatingMember.getId())).willReturn(Optional.empty());
 
         //when
@@ -162,6 +174,7 @@ class MemberJPARepositoryTest {
         //then
         assertThrows(MemberException.class, () -> sut.update(updatingMember));
     }
+
     @Test
     @DisplayName("회원 수정 - 실패.")
     void Update_FAILED_Exception() {

@@ -23,13 +23,13 @@ public class MemberJPARepository implements MemberRepository {
     }
 
     @Override
-    public Member findById(Long id) {
+    public Member findById(String id) {
         return memberSpringJPARepository.findById(id)
                 .orElseThrow(() -> new MemberException(NOT_EXITING_USER));
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         Member member = memberSpringJPARepository.findById(id)
                 .orElseThrow(() -> new MemberException(NOT_EXITING_USER));
         memberSpringJPARepository.delete(member);

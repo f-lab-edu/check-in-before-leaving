@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MemberInfoServiceImpl implements MemberInfoService{
+public class MemberInfoServiceImpl implements MemberInfoService {
 
     private final MemberRepository memberRepository;
 
     @Override
-    public Member getMemberInfo(Long id) {
+    public Member getMemberInfo(String id) {
         return memberRepository.findById(id);
     }
 }

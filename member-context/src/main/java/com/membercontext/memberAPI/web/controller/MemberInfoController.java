@@ -17,7 +17,7 @@ public class MemberInfoController {
     private final MemberInfoService memberInfoService;
 
     @PostMapping
-    public ResponseEntity<MemberDto> getMemberInfo(@RequestParam Long id) {
+    public ResponseEntity<MemberDto> getMemberInfo(@RequestParam String id) {
         return ResponseEntity.ok(MemberDto.from(memberInfoService.getMemberInfo(id)));
     }
 }

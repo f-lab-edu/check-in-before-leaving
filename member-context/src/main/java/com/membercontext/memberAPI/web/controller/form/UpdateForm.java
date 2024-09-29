@@ -9,7 +9,7 @@ import lombok.Getter;
 public class UpdateForm {
 
     @NotNull(message = "회원번호를 입력해주세요")
-    private Long id;
+    private String id;
 
     @Email(message = "이메일 형식에 맞게 입력해주세요")
     @NotBlank(message = "이메일을 입력해주세요")
@@ -32,7 +32,6 @@ public class UpdateForm {
 
     @NotNull(message = "현재 포인트를 입력해주세요")
     Long point;
-
 
 
 }
