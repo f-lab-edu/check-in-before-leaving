@@ -9,6 +9,7 @@ import com.membercontext.memberAPI.domain.entity.member.testFixture.MemberTest;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.infrastructure.encryption.db.JavaCryptoIVRepository;
 import com.membercontext.memberAPI.web.controller.form.LogInForm;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,17 +35,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(LogInController.class)
-@Import(JavaCryptoUtil.class)
 class LogInControllerTest {
 
     @MockBean
     LogInService logInService;
-
-    @Autowired
-    JavaCryptoUtil javaCryptoUtil;
-
-    @MockBean
-    JavaCryptoIVRepository javaCryptoIVRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -55,11 +49,12 @@ class LogInControllerTest {
     @Test
     void logIn() throws Exception {
         //when
+        String UUID = "UUID_Test";
         String requestURL = "/log-in";
         LogInForm form = mock(LogInForm.class);
 
         Member member = mock(Member.class);
-        given(member.getEmail()).willReturn("test@test.com");
+        given(member.getId()).willReturn(UUID);
         given(logInService.logIn(form.getEmail(), form.getPassword())).willReturn(member);
 
         //when
@@ -68,23 +63,18 @@ class LogInControllerTest {
                 .content(mapper.writeValueAsString(form)));
 
         //then - response, cookie
-        String encryptedEmail = javaCryptoUtil.encrypt(member.getEmail());
         resultActions.andExpect(status().isOk())
-                .andExpect(cookie().exists("CKIB4LV"))
-                .andExpect(cookie().value("CKIB4LV", encryptedEmail));
+                .andExpect(cookie().exists("CKIB4LV"));
 
         //given - session
         MvcResult mvcResult = resultActions.andReturn();
+        Cookie cookie = mvcResult.getResponse().getCookie("CKIB4LV");
         MockHttpSession session = (MockHttpSession) mvcResult.getRequest().getSession();
-        String decryptedEmail = javaCryptoUtil.decrypt(encryptedEmail);
-
-        //when - session
-        String sessionId = (String) session.getAttribute(decryptedEmail);
+        String UUIDInSession = (String) session.getAttribute(cookie.getValue());
 
         //then - session
-        assertEquals("test@test.com", decryptedEmail);
-        assertNotNull(sessionId);
-        System.out.println("Session ID: " + sessionId);
+        assertNotNull(UUIDInSession);
+        System.out.println("Session ID: " + UUIDInSession);
 
     }
 }
