@@ -1,9 +1,6 @@
 package com.membercontext.memberAPI.domain.entity.member.testFixture;
 
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 
 public class MemberTest extends Member {
@@ -16,11 +13,12 @@ public class MemberTest extends Member {
                 .name(name)
                 .phone(phone)
                 .location(location)
-                .isLocationServiceEnabled(isLocationServiceEnabled)
+                .locationServiceEnabled(isLocationServiceEnabled)
                 .point(point)
                 .build();
     }
-    public static Member createUpdatingMember(Long id, String email, String password, String name, String phone, String location, Boolean isLocationServiceEnabled, Long point) {
+
+    public static Member createUpdatingMember(String id, String email, String password, String name, String phone, String location, Boolean isLocationServiceEnabled, Long point) {
         return Member.builder()
                 .id(id)
                 .email(email)
@@ -28,7 +26,7 @@ public class MemberTest extends Member {
                 .name(name)
                 .phone(phone)
                 .location(location)
-                .isLocationServiceEnabled(isLocationServiceEnabled)
+                .locationServiceEnabled(isLocationServiceEnabled)
                 .point(point)
                 .build();
     }

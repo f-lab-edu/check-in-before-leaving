@@ -8,5 +8,5 @@ public interface SignUpService {
 
     public Member update(Member updatingMember);
 
-    public String delete(Long id);
+    public String delete(String id);
 }

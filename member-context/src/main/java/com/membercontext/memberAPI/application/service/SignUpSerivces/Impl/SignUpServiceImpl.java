@@ -37,7 +37,7 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     @Transactional
-    public String delete(Long id) {
+    public String delete(String id) {
         final String deleteSuccessMessage = "회원 삭제 성공";
 
         memberRepository.delete(id);
