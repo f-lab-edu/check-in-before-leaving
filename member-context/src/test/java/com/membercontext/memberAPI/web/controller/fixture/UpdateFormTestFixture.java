@@ -7,10 +7,10 @@ import static org.mockito.Mockito.when;
 
 public class UpdateFormTestFixture {
 
-    public UpdateForm createAllFilledUpdateForm_Mock(){
+    public UpdateForm createAllFilledUpdateForm_Mock() {
         UpdateForm form = mock(UpdateForm.class);
 
-        when(form.getId()).thenReturn(1L);
+        when(form.getId()).thenReturn("UPDATING_ID");
         when(form.getName()).thenReturn("tester");
         when(form.getEmail()).thenReturn("test@test.com");
         when(form.getPassword()).thenReturn("testPassword");

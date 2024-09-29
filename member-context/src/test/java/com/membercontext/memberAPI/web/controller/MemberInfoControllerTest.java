@@ -48,6 +48,7 @@ class MemberInfoControllerTest {
     static void setUp() {
         memberDto = mockStatic(MemberDto.class);
     }
+
     @AfterAll
     static void tearDown() {
         memberDto.close();
@@ -63,13 +64,13 @@ class MemberInfoControllerTest {
         MemberDtoTextFixture memberDtoTextFixture = new MemberDtoTextFixture();
         MemberDto expectedDto = memberDtoTextFixture.from_Mock(memberToSearch);
 
-        when(memberInfoService.getMemberInfo(anyLong())).thenReturn(memberToSearch);
+        when(memberInfoService.getMemberInfo(anyString())).thenReturn(memberToSearch);
         when(MemberDto.from(any(Member.class))).thenReturn(expectedDto);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestUrl)
-                                        .contentType(MediaType.APPLICATION_JSON)
-                                        .param("id", "1"));
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("id", "1"));
 
         //then
         resultActions.andExpect(status().isOk())
@@ -81,8 +82,9 @@ class MemberInfoControllerTest {
                 .andExpect(jsonPath("$.location").value(expectedDto.getLocation()))
                 .andExpect(jsonPath("$.isLocationServiceEnabled").value(expectedDto.getIsLocationServiceEnabled()))
                 .andExpect(jsonPath("$.point").value(expectedDto.getPoint()));
-        verify(memberInfoService, times(1)).getMemberInfo(anyLong());
+        verify(memberInfoService, times(1)).getMemberInfo(anyString());
     }
+
     @Test
     @DisplayName("아이디가 존재하지 않음.")
     void getMemberInfo_NoId() throws Exception {
@@ -90,11 +92,11 @@ class MemberInfoControllerTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestUrl)
-                                        .param("id", "notId")
-                                        .contentType(MediaType.APPLICATION_JSON));
+                .param("id", "notId")
+                .contentType(MediaType.APPLICATION_JSON));
 
         //then
         resultActions.andExpect(status().isBadRequest());
-        verify(memberInfoService, never()).getMemberInfo(anyLong());
+        verify(memberInfoService, never()).getMemberInfo(anyString());
     }
 }

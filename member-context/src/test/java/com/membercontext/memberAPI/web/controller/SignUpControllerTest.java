@@ -54,6 +54,7 @@ public class SignUpControllerTest {
         member = mockStatic(Member.class);
         memberDto = mockStatic(MemberDto.class);
     }
+
     @AfterAll
     static void tearDown() {
         member.close();
@@ -104,7 +105,7 @@ public class SignUpControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(form)));
 
-       //then
+        //then
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(expectedDto.getId()))
                 .andExpect(jsonPath("$.email").value(expectedDto.getEmail()))
@@ -126,17 +127,18 @@ public class SignUpControllerTest {
     @DisplayName("회원 삭제 요청 성공.")
     void delete_URL() throws Exception {
         //given
-        when(signUpService.delete(anyLong())).thenReturn("회원 삭제 성공");
+        String id = "ANY_ID";
+        when(signUpService.delete(anyString())).thenReturn("회원 삭제 성공");
 
         //when
         ResultActions resultActions = mockMvc.perform(delete(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("id", "1"));
+                .param("id", id));
 
         //then
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$").value("회원 삭제 성공"));
-        verify(signUpService, times(1)).delete(1L);
+        verify(signUpService, times(1)).delete(id);
     }
 
 
