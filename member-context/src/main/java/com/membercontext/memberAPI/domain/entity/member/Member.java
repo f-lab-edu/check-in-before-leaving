@@ -7,6 +7,7 @@ import com.membercontext.memberAPI.web.controller.form.UpdateForm;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
 
 @Entity
@@ -51,8 +52,8 @@ public class Member {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
-        MemberLocation memberLocation = new MemberLocation(form.getLatitude(), form.getLongitude(), form.getTimestamp());
-        this.memberLocation = memberLocation;
+        MemberLocation memberLocation = this.memberLocation;
+        memberLocation.addLocation(form.getLatitude(), form.getLongitude(), form.getTimestamp());
     }
 
     public void update(Member updatingMember) {
@@ -91,5 +92,11 @@ public class Member {
                 .build();
     }
 
-
+    public void enableLocationAlarm(String token) {
+        if (!this.isLocationServiceEnabled()) {
+            throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
+        }
+        MemberLocation memberLocation = this.memberLocation;
+        memberLocation.addFCMToken(token);
+    }
 }

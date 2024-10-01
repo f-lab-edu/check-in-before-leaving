@@ -31,10 +31,9 @@ public class SignUpController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> delete(@RequestParam Long id) {
+    public ResponseEntity<String> delete(@RequestParam String id) {
         return ResponseEntity.ok(signUpService.delete(id));
     }
-
 
 
 }

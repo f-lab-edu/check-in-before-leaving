@@ -1,6 +1,7 @@
 package com.membercontext.memberAPI.application.service;
 
 
+import com.google.firebase.messaging.Notification;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
 import com.membercontext.memberAPI.web.controller.form.TrackForm;
@@ -16,10 +17,13 @@ public class TrackService {
 
     @Transactional
     public void saveCurrentLocation(TrackForm form, String memberId) {
-
         Member member = memberRepository.findById(memberId);
         member.updateLocation(form);
-
     }
 
+    @Transactional
+    public void saveToken(String token, String memberId) {
+        Member member = memberRepository.findById(memberId);
+        member.enableLocationAlarm(token);
+    }
 }
