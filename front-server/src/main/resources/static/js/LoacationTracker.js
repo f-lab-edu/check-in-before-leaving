@@ -1,3 +1,5 @@
+import {getFCMDeviceToken} from "./Firebase.js";
+
 class LocationTracker {
     constructor(apiUrl) {
         this.apiUrl = apiUrl;
@@ -7,7 +9,7 @@ class LocationTracker {
     start() {
         this.intervalSet = setInterval(() => {
             this.getAndSendLocation();
-        }, 10000); // 60000 밀리초 = 1분
+        }, 60000); // 60000 밀리초 = 1분
     }
 
     stop() {
@@ -53,9 +55,9 @@ class LocationTracker {
 }
 
 const tracker = new LocationTracker('http:///localhost:8080/track');
-tracker.start(); // 추적 시작
 
-function hello() {
+
+function signUp() {
     console.log("click");
     const signUpData = {
         email: 'example@example.com',
@@ -99,9 +101,30 @@ function login() {
     })
         .then(response => response.text())
         .then(data => {
-            console.log('Success:', data);
+            console.log('Success:', data)
+            tracker.start();
+            getAPIKEY();
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 }
+
+function getAPIKEY() {
+    fetch('http://localhost:8082/key', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    }).then(response => response.text())
+        .then(data => {
+            getFCMDeviceToken(data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+document.getElementById('btn-login').addEventListener('click', login);
+document.getElementById('btn-signup').addEventListener('click', signUp);
