@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>지도 서비스</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/LoacationTracker.js"></script>
+    <html xmlns:th="http://www.thymeleaf.org"></html>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script type="module" th:src="@{js/LoacationTracker.js}"></script>
+    <script type="module" th:src="@{js/Firebase.js}"></script>
+    <!--    <script type="module" th:src="@{firebase-messaging-sw.js}"></script>-->
+
 </head>
 <body>
 <div id="container">
@@ -35,8 +39,8 @@
     <div id="user-sidebar" class="collapsed">
         <div id="user-sidebar-content">
             <div id="auth-buttons">
-                <button id="btn-login" onclick="login()">로그인</button>
-                <button id="btn-signup" onclick="hello()">회원 가입</button>
+                <button id="btn-login">로그인</button>
+                <button id="btn-signup">회원 가입</button>
             </div>
             <div id="user-info">
                 <!-- 여기에 유저 정보가 표시됩니다 -->

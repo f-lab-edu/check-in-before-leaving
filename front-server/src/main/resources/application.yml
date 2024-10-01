@@ -1,2 +1,5 @@
 server:
   port: 8082
+spring:
+  config:
+    import: classpath:Firebase.env[.properties]
