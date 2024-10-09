@@ -4,9 +4,9 @@ import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
+
+import java.util.List;
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.*;
 
@@ -54,6 +54,11 @@ public class MemberJPARepository implements MemberRepository {
         //check: Interface 추가 or findById로 돌려주기
         return memberSpringJPARepository.findById(member.getId())
                 .orElseThrow(() -> new MemberException(UPDATE_FAILED));
+    }
+
+    @Override
+    public List<Member> findNearByMember(double x, double y, int radius) {
+        return memberSpringJPARepository.findNearByMember(x, y, radius);
     }
 
 
