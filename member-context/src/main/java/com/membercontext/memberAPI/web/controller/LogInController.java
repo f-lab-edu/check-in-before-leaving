@@ -4,15 +4,18 @@ import com.membercontext.memberAPI.application.aop.authentication.NoAuthenticati
 import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
-import com.membercontext.memberAPI.web.controller.form.LogInForm;
+import com.membercontext.memberAPI.web.controller.dto.DefaultHTTPResponse;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,33 +29,49 @@ public class LogInController {
 
     private final LogInService logInService;
 
+    public static final String MEMBER_LOG_IN_SUCCESS_MESSAGE = "로그인 성공";
     public static final String COOKIE_NAME = "CKIB4LV";
-
+    private static final int SESSION_TIME = 90 * 60; //분 * 초
+    private static final String COOKIE_PATH = "/";
 
     @PostMapping
     @NoAuthentication
-    public ResponseEntity<String> logIn(HttpServletRequest request, HttpServletResponse response, @RequestBody LogInForm logInForm) {
+    public ResponseEntity<DefaultHTTPResponse<Void>> logIn(HttpServletRequest request, HttpServletResponse response, @Validated @RequestBody LogInRequest logInForm) {
         Member member = logInService.logIn(logInForm.getEmail(), logInForm.getPassword());
         String UUID = setSession(request, member.getId());
         setCookie(response, UUID);
-        return ResponseEntity.ok("로그인 성공.");
-        //취약점: 이 서버에 있는 이메일이고 현재 로그인 상태면 로그인이 될수도 있다.
+        return ResponseEntity.ok(new DefaultHTTPResponse<>(MEMBER_LOG_IN_SUCCESS_MESSAGE));
+        //취약점: 이 서버에 있는 이메일이고 현재 로그인 상태면 로그인이 될수도 있다.(?)
     }
 
     private String setSession(HttpServletRequest request, String email) {
-        final int SessionTime = 90 * 60; //분 * 초
         HttpSession session = request.getSession(true);
         String sessionId = UUID.randomUUID().toString();
         session.setAttribute(sessionId, email);
-        session.setMaxInactiveInterval(SessionTime);
+        session.setMaxInactiveInterval(SESSION_TIME);
         return sessionId;
     }
 
     private void setCookie(HttpServletResponse response, String UUID) {
         Cookie logInCookie = new Cookie(COOKIE_NAME, UUID);
         logInCookie.setHttpOnly(true);
-        logInCookie.setPath("/");
+        logInCookie.setPath(COOKIE_PATH);
         response.addCookie(logInCookie);
+    }
+
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder(access = AccessLevel.PROTECTED)
+    public static class LogInRequest {
+
+        public static final String LOG_IN_EMAIL_VALIDATION_MESSAGE = "이메일이 없습니다.";
+        public static final String LOG_IN_PASSWORD_VALIDATION_MESSAGE = "비밀번호가 없습니다.";
+
+        @NotBlank(message = LOG_IN_EMAIL_VALIDATION_MESSAGE)
+        private String email;
+
+        @NotBlank(message = LOG_IN_PASSWORD_VALIDATION_MESSAGE)
+        private String password;
     }
 
 
