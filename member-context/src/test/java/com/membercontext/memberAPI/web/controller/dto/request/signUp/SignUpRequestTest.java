@@ -1,11 +1,12 @@
-package com.membercontext.memberAPI.web.controller.form;
+package com.membercontext.memberAPI.web.controller.dto.request.signUp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.Impl.SignUpServiceImpl;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
-import com.membercontext.memberAPI.web.controller.fixture.SignUpFormTestFixture;
-import jakarta.transaction.Transactional;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(SignUpController.class)
-class SignUpFormTest {
+class SignUpRequestTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,35 +35,41 @@ class SignUpFormTest {
     private SignUpServiceImpl signUpService;
 
     private final String requestURL = "/sign-in";
-    private final SignUpFormTestFixture signUpFormTestFixture = new SignUpFormTestFixture();
+
+    private SignUpController.SignUpRequest req;
+
+    @BeforeEach
+    void setUp() {
+        req = spy(SignUpRequestFixture.create());
+    }
 
     @Test
     @DisplayName("이메일 없음.")
     void signUp_NoEmail() throws Exception {
         //given
-        SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();
-        when(form.getEmail()).thenReturn(null);
+        when(req.getEmail()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(status().isBadRequest())
+                .andDo(print());
         verify(signUpService, times(0)).signUp(any(Member.class));
     }
+
     @Test
     @DisplayName("이메일 포멧 다름.")
     void signUp_EmailFormatError() throws Exception {
         //given
-        SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();
-        when(form.getEmail()).thenReturn("test");
+        when(req.getEmail()).thenReturn("test");
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -72,13 +80,12 @@ class SignUpFormTest {
     @DisplayName("이름 없음.")
     public void signUp_NoName() throws Exception {
         //given
-        SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();
-        when(form.getName()).thenReturn(null);
+        when(req.getName()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -89,13 +96,12 @@ class SignUpFormTest {
     @DisplayName("비밀번호 없음.")
     public void signUp_NoPassword() throws Exception {
         //given
-        SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();
-        when(form.getPassword()).thenReturn(null);
+        when(req.getPassword()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -106,13 +112,12 @@ class SignUpFormTest {
     @DisplayName("전화번호 없음.")
     public void signUp_NoPhone() throws Exception {
         //given
-        SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();
-        when(form.getPhone()).thenReturn(null);
+        when(req.getPhone()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -123,13 +128,12 @@ class SignUpFormTest {
     @DisplayName("위치 없음.")
     public void signUp_NoLocation() throws Exception {
         //given
-        SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();
-        when(form.getLocation()).thenReturn(null);
+        when(req.getAddress()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -140,24 +144,15 @@ class SignUpFormTest {
     @DisplayName("위치 서비스 사용 여부 없음.")
     public void signUp_NoIsLocationServiceEnabled() throws Exception {
         //given
-        SignUpForm form = signUpFormTestFixture.createAllFilledSignUpForm_Mock();
-        when(form.getIsLocationServiceEnabled()).thenReturn(null);
+        when(req.getIsLocationServiceEnabled()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
         verify(signUpService, times(0)).signUp(any(Member.class));
     }
-
-
-
-
-
-
-
-
 }
