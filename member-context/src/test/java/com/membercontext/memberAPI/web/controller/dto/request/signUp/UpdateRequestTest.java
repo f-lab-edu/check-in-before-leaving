@@ -1,10 +1,10 @@
-package com.membercontext.memberAPI.web.controller.form;
+package com.membercontext.memberAPI.web.controller.dto.request.signUp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.Impl.SignUpServiceImpl;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
-import com.membercontext.memberAPI.web.controller.fixture.UpdateFormTestFixture;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(SignUpController.class)
-class UpdateFormTest {
+class UpdateRequestTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,13 +31,17 @@ class UpdateFormTest {
     private SignUpServiceImpl signUpService;
 
     private final String requestURL = "/sign-in";
-    private final UpdateFormTestFixture updateFormTestFixture = new UpdateFormTestFixture();
+    private SignUpController.UpdateRequest form;
+
+    @BeforeEach
+    void setUp() {
+        form = mock(SignUpController.UpdateRequest.class);
+    }
 
     @Test
     @DisplayName("회원 아이디(PK) 미입력.")
     void update_URL() throws Exception {
         //given
-        UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
         when(form.getId()).thenReturn(null);
 
         //when
@@ -48,11 +52,11 @@ class UpdateFormTest {
         //then
         resultActions.andExpect(status().isBadRequest());
     }
+
     @Test
     @DisplayName("이름 미입력.")
     void update_NoName() throws Exception {
         //given
-        UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
         when(form.getName()).thenReturn(null);
 
         //when
@@ -68,7 +72,6 @@ class UpdateFormTest {
     @DisplayName("이메일 미입력.")
     void update_NoEmail() throws Exception {
         //given
-        UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
         when(form.getEmail()).thenReturn(null);
 
         //when
@@ -79,11 +82,11 @@ class UpdateFormTest {
         //then
         resultActions.andExpect(status().isBadRequest());
     }
+
     @Test
     @DisplayName("이메일 형식 오류.")
     void update_InvalidEmail() throws Exception {
         //given
-        UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
         when(form.getEmail()).thenReturn("invalidEmail");
 
         //when
@@ -99,7 +102,6 @@ class UpdateFormTest {
     @DisplayName("비밀번호 미입력.")
     void update_NoPassword() throws Exception {
         //given
-        UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
         when(form.getPassword()).thenReturn(null);
 
         //when
@@ -115,7 +117,6 @@ class UpdateFormTest {
     @DisplayName("전화번호 미입력.")
     void update_NoPhone() throws Exception {
         //given
-        UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
         when(form.getPhone()).thenReturn(null);
 
         //when
@@ -131,7 +132,6 @@ class UpdateFormTest {
     @DisplayName("위치 미입력.")
     void update_NoLocation() throws Exception {
         //given
-        UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
         when(form.getLocation()).thenReturn(null);
 
         //when
@@ -147,7 +147,6 @@ class UpdateFormTest {
     @DisplayName("위치 서비스 사용 여부 없음.")
     public void signUp_NoIsLocationServiceEnabled() throws Exception {
         //given
-        UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
         when(form.getIsLocationServiceEnabled()).thenReturn(null);
 
         //when
@@ -164,7 +163,6 @@ class UpdateFormTest {
     @DisplayName("포인트 미입력.")
     void update_NoPoint() throws Exception {
         //given
-        UpdateForm form = updateFormTestFixture.createAllFilledUpdateForm_Mock();
         when(form.getPoint()).thenReturn(null);
 
         //when
@@ -175,9 +173,6 @@ class UpdateFormTest {
         //then
         resultActions.andExpect(status().isBadRequest());
     }
-
-
-
 
 
 }
