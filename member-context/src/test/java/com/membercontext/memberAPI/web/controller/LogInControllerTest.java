@@ -1,38 +1,26 @@
 package com.membercontext.memberAPI.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.memberAPI.application.service.LogInService;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.domain.entity.member.testFixture.MemberTest;
-import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
-import com.membercontext.memberAPI.infrastructure.encryption.db.JavaCryptoIVRepository;
-import com.membercontext.memberAPI.web.controller.form.LogInForm;
+
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.membercontext.memberAPI.web.controller.LogInController.MEMBER_LOG_IN_SUCCESS_MESSAGE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(LogInController.class)
 class LogInControllerTest {
@@ -51,7 +39,7 @@ class LogInControllerTest {
         //when
         String UUID = "UUID_Test";
         String requestURL = "/log-in";
-        LogInForm form = mock(LogInForm.class);
+        LogInController.LogInRequest form = mock(LogInController.LogInRequest.class);
 
         Member member = mock(Member.class);
         given(member.getId()).willReturn(UUID);
@@ -64,6 +52,7 @@ class LogInControllerTest {
 
         //then - response, cookie
         resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value(MEMBER_LOG_IN_SUCCESS_MESSAGE))
                 .andExpect(cookie().exists("CKIB4LV"));
 
         //given - session
@@ -75,6 +64,5 @@ class LogInControllerTest {
         //then - session
         assertNotNull(UUIDInSession);
         System.out.println("Session ID: " + UUIDInSession);
-
     }
 }
