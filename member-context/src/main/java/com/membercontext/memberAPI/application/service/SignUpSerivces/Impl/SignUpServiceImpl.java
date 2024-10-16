@@ -18,15 +18,10 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     @Transactional
-    @Log
     public String signUp(Member member) {
-        final String signUpSuccessMessage = "회원가입 성공";
         String encryptedPassword = encryption.encrypt(member.getPassword()); // 초기화 백터(IV) 미적용
         member.encryptPassword(encryptedPassword);
-
-        memberRepository.save(member);
-
-        return signUpSuccessMessage;
+        return memberRepository.save(member);
     }
 
     @Override
@@ -37,11 +32,8 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     @Transactional
-    public String delete(String id) {
-        final String deleteSuccessMessage = "회원 삭제 성공";
-
+    public void delete(String id) {
         memberRepository.delete(id);
-        return deleteSuccessMessage;
     }
 
 }

@@ -1,22 +1,23 @@
 package com.membercontext.memberAPI.application.service.signUp;
 
+import com.membercontext.common.stub.MemberJPARepositoryStub;
+import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.Impl.SignUpServiceImpl;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
+
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.domain.entity.member.testFixture.MemberTest;
+import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
-import com.membercontext.memberAPI.web.controller.fixture.UpdateFormTestFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.given;
+import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,8 +26,8 @@ class SignUpServiceImplTest {
     @InjectMocks
     private SignUpServiceImpl sut;
 
-    @Mock
-    private MemberRepository memberRepository;
+    @Spy
+    private MemberRepository memberRepository = new MemberJPARepositoryStub();
 
     @Mock
     private JavaCryptoUtil encryption;
@@ -35,44 +36,51 @@ class SignUpServiceImplTest {
     @DisplayName("회원가입 성공.")
     void signUp() {
         //given
-        Member newMember = MemberTest.createMember( "test@test.com", "test", "test", "test", "test", true, 0L);
+        Member newMember = MemberFixture.create();
+        when(encryption.encrypt(newMember.getPassword())).thenReturn("encryptedPassword");
 
         //when
-        String result = sut.signUp(newMember);
+        String id = sut.signUp(newMember);
 
         //then
-        assertEquals("회원가입 성공", result);
-        verify(memberRepository, times(1)).save(newMember);
+        assertNotNull(id);
     }
 
     @Test
     @DisplayName("회원 수정 성공.")
-    void update() {//Member를 받는다면
+    void update() {
 
         //given
-        Member updatingMember = mock(Member.class);
+        Member originalMember = MemberFixture.create();
+        String id = memberRepository.save(originalMember);
+        Member updatingMember = MemberFixture.createUpdatingMember(id, "updatedName", "updatedPassword", "updatedname", "010000000", "updatedLoc", false, 10L);
 
         //when
-        sut.update(updatingMember);
+        Member returned = sut.update(updatingMember);
 
         //then
-        verify(memberRepository, times(1)).update(updatingMember);
-
+        assertEquals(updatingMember.getId(), returned.getId());
+        assertEquals(updatingMember.getEmail(), returned.getEmail());
+        assertEquals(updatingMember.getName(), returned.getName());
+        assertEquals(updatingMember.getPassword(), returned.getPassword());
+        assertEquals(updatingMember.getPhone(), returned.getPhone());
+        assertEquals(updatingMember.getAddress(), returned.getAddress());
+        assertEquals(updatingMember.isLocationServiceEnabled(), returned.isLocationServiceEnabled());
+        assertEquals(updatingMember.getPoint(), returned.getPoint());
     }
 
     @Test
     @DisplayName("회원 삭제 성공.")
     void delete() {
         //given
-        Member registeredMember = mock(Member.class);
+        Member registeredMember = MemberFixture.create();
+        String id = memberRepository.save(registeredMember);
 
         //when
-        String result = sut.delete(registeredMember.getId());
+        sut.delete(id);
 
         //then
-        assertEquals("회원 삭제 성공", result);
-        verify(memberRepository, times(1)).delete(registeredMember.getId());
+        Exception exception = assertThrows(MemberException.class, () -> memberRepository.findById(id));
+        assertEquals(NOT_EXITING_USER.getDeatil(), exception.getMessage());
     }
-
-
 }

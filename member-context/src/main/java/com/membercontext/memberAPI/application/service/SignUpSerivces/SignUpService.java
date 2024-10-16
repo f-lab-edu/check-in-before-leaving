@@ -4,9 +4,9 @@ import com.membercontext.memberAPI.domain.entity.member.Member;
 
 
 public interface SignUpService {
-    public String signUp(Member member);
+    String signUp(Member member);
 
-    public Member update(Member updatingMember);
+    Member update(Member updatingMember);
 
-    public String delete(String id);
+    void delete(String id);
 }

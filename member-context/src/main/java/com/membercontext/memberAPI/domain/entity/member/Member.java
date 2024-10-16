@@ -1,9 +1,9 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
 import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.web.controller.form.SignUpForm;
-import com.membercontext.memberAPI.web.controller.form.TrackForm;
-import com.membercontext.memberAPI.web.controller.form.UpdateForm;
+import com.membercontext.memberAPI.web.controller.SignUpController;
+import com.membercontext.memberAPI.web.controller.TrackController;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,7 +34,7 @@ public class Member {
 
     private String phone;
 
-    private String location; //동단위 위치.
+    private String address; //동단위 위치.
 
     private boolean locationServiceEnabled; //이후 변경
 
@@ -48,7 +48,7 @@ public class Member {
         this.password = encryptedPassword;
     }
 
-    public void updateLocation(TrackForm form) {
+    public void updateLocation(TrackController.TrackRequest form) {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
@@ -61,42 +61,45 @@ public class Member {
         this.password = updatingMember.getPassword();
         this.name = updatingMember.getName();
         this.phone = updatingMember.getPhone();
-        this.location = updatingMember.getLocation();
+        this.address = updatingMember.getAddress();
         this.locationServiceEnabled = updatingMember.isLocationServiceEnabled();
         this.point = updatingMember.getPoint();
     }
 
-    public static Member from(SignUpForm form) {
-        return Member.builder()
-                .email(form.getEmail())
-                .password(form.getPassword())
-                .name(form.getName())
-                .phone(form.getPhone())
-                .location(form.getLocation())
-                .locationServiceEnabled(form.getIsLocationServiceEnabled())
-                .point(form.getPoint())
-                .build();
-
-    }
-
-    public static Member from(UpdateForm form) {
-        return Member.builder()
-                .id(form.getId())
-                .email(form.getEmail())
-                .password(form.getPassword())
-                .name(form.getName())
-                .phone(form.getPhone())
-                .location(form.getLocation())
-                .locationServiceEnabled(form.getIsLocationServiceEnabled())
-                .point(form.getPoint())
-                .build();
-    }
-
-    public void enableLocationAlarm(String token) {
+    public void startLocationAlarm(String token) {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
         MemberLocation memberLocation = this.memberLocation;
         memberLocation.addFCMToken(token);
     }
+
+
+    public static Member from(SignUpController.SignUpRequest req) {
+        return Member.builder()
+                .email(req.getEmail())
+                .password(req.getPassword())
+                .name(req.getName())
+                .phone(req.getPhone())
+                .address(req.getAddress())
+                .locationServiceEnabled(req.getIsLocationServiceEnabled())
+                .point(req.getPoint())
+                .build();
+
+    }
+
+    public static Member from(SignUpController.UpdateRequest req) {
+        return Member.builder()
+                .id(req.getId())
+                .email(req.getEmail())
+                .password(req.getPassword())
+                .name(req.getName())
+                .phone(req.getPhone())
+                .address(req.getLocation())
+                .locationServiceEnabled(req.getIsLocationServiceEnabled())
+                .point(req.getPoint())
+                .build();
+    }
+
+
 }

@@ -1,19 +1,23 @@
 package com.membercontext.memberAPI.application.service;
 
+import com.membercontext.common.fixture.domain.MemberFixture;
+import com.membercontext.common.stub.MemberJPARepositoryStub;
+import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
+import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.application.service.MemberInfo.MemberInfoServiceImpl;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.domain.fixture.MemberTestFixture;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -21,31 +25,44 @@ import static org.mockito.Mockito.when;
 class MemberInfoServiceImplTest {
 
     @InjectMocks
-    MemberInfoServiceImpl memberInfoService;
+    private MemberInfoServiceImpl memberInfoService;
 
-    @Mock
-    private MemberRepository memberRepository;
+    @Spy
+    private MemberRepository memberRepository = new MemberJPARepositoryStub();
 
-    private final MemberTestFixture memberTestFixture = new MemberTestFixture();
 
     @Test
     @DisplayName("아이디로 회원 정보 가져옴")
     void getMemberInfo() {
         //given
-        Member memberToSearch = memberTestFixture.create_Mock();
-        when(memberRepository.findById(anyString())).thenReturn(memberToSearch);
+        Member memberToSearch = MemberFixture.create();
+        String id = memberRepository.save(memberToSearch);
 
         //when
-        Member memberReturned = memberInfoService.getMemberInfo(memberToSearch.getId());
+        Member memberReturned = memberInfoService.getMemberInfo(id);
 
         //then
-        assertEquals(memberToSearch.getId(), memberReturned.getId());
+        assertEquals(id, memberReturned.getId());
         assertEquals(memberToSearch.getPassword(), memberReturned.getPassword());
         assertEquals(memberToSearch.getEmail(), memberReturned.getEmail());
         assertEquals(memberToSearch.getName(), memberReturned.getName());
         assertEquals(memberToSearch.getPhone(), memberReturned.getPhone());
-        assertEquals(memberToSearch.getLocation(), memberReturned.getLocation());
+        assertEquals(memberToSearch.getAddress(), memberReturned.getAddress());
         assertEquals(memberToSearch.isLocationServiceEnabled(), memberReturned.isLocationServiceEnabled());
         assertEquals(memberToSearch.getPoint(), memberReturned.getPoint());
+    }
+
+    @Test
+    @DisplayName("아이디로 회원 정보 가져옴 - 회원이 없는 경우")
+    void getMemberInfo_NotExistingUser() {
+        //given
+        String id = "notExistingId";
+
+        //when
+        Exception exception = assertThrows(Exception.class, () -> memberInfoService.getMemberInfo(id));
+
+        //then
+        assertEquals(exception.getClass(), MemberException.class);
+        assertEquals(exception.getMessage(), MemberErrorCode.NOT_EXITING_USER.getDeatil());
     }
 }
