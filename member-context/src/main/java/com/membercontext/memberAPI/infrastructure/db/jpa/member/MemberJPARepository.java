@@ -30,30 +30,24 @@ public class MemberJPARepository implements MemberRepository {
 
     @Override
     public void delete(String id) {
-        Member member = memberSpringJPARepository.findById(id)
-                .orElseThrow(() -> new MemberException(NOT_EXITING_USER));
+        Member member = this.findById(id);
         memberSpringJPARepository.delete(member);
     }
 
     @Override
-    public void save(Member member) {
+    public String save(Member member) {
         memberSpringJPARepository.findByEmail(member.getEmail())
                 .ifPresent(registeredMember -> {
                     throw new MemberException(ALREADY_REGISTERED_USER);
                 });
-        memberSpringJPARepository.save(member);
+        return memberSpringJPARepository.save(member).getId();
     }
 
     @Override
     public Member update(Member updatingMember) {
-        Member member = memberSpringJPARepository.findById(updatingMember.getId())
-                .orElseThrow(() -> new MemberException(NOT_EXITING_USER));
+        Member member = this.findById(updatingMember.getId());
         member.update(updatingMember);
-        memberSpringJPARepository.save(member);
-
-        //check: Interface 추가 or findById로 돌려주기
-        return memberSpringJPARepository.findById(member.getId())
-                .orElseThrow(() -> new MemberException(UPDATE_FAILED));
+        return member;
     }
 
     @Override
