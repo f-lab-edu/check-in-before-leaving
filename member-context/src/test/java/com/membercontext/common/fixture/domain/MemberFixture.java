@@ -45,13 +45,12 @@ public class MemberFixture extends Member {
                 .build();
     }
 
-    public static Member createMemberWithDifferentLocation(double latitude, double longitude) {
+    public static Member createMemberWithDifferentEmail(String email) {
         return Member.builder()
-                .email("testerNearby@test.com") //show be different
+                .email(email)
                 .password(Variables.TEST_PASSWORD)
-                .name(Variables.TEST_NAME + " NearBy")
+                .name(Variables.TEST_NAME)
                 .phone(Variables.TEST_PHONE)
-                .memberLocation(new MemberLocation(latitude, longitude, Variables.TEST_TIME_STAMP, Variables.TEST_FCM_TOKEN_NAME))
                 .address(Variables.TEST_LOCATION)
                 .locationServiceEnabled(Variables.TEST_IS_LOCATION_SERVICE_ENABLED)
                 .point(Variables.TEST_POINT)

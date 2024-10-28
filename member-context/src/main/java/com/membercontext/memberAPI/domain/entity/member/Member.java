@@ -40,7 +40,7 @@ public class Member {
 
     @Embedded
     @Builder.Default
-    private MemberLocation memberLocation = MemberLocation.UNKNOWN;
+    private MemberLocation memberLocation = new MemberLocation().UNKNOWN;
 
     private Long point;
 
@@ -52,8 +52,7 @@ public class Member {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
-        MemberLocation memberLocation = this.memberLocation;
-        memberLocation.addLocation(form.getLatitude(), form.getLongitude(), form.getTimestamp());
+        this.memberLocation = this.memberLocation.addLocation(form.getLatitude(), form.getLongitude(), form.getTimestamp());
     }
 
     public void update(Member updatingMember) {
@@ -70,8 +69,7 @@ public class Member {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
-        MemberLocation memberLocation = this.memberLocation;
-        memberLocation.addFCMToken(token);
+        this.memberLocation = this.memberLocation.addFCMToken(token);
     }
 
 

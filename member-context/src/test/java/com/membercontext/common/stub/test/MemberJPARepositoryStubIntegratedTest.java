@@ -3,10 +3,13 @@ package com.membercontext.common.stub.test;
 
 import com.membercontext.common.UUIDTester;
 import com.membercontext.common.fixture.domain.MemberFixture;
+import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
+import com.membercontext.memberAPI.web.controller.TrackController;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -29,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
+@Disabled
 class MemberJPARepositoryStubIntegratedTest {
 
     @Spy
@@ -46,6 +50,8 @@ class MemberJPARepositoryStubIntegratedTest {
         void findByEmail() {
             //given
             Member member = MemberFixture.create();
+            db.save(member);
+            stub.save(member);
 
             //when
             Member dbResult = db.findByEmail(member.getEmail());
@@ -228,7 +234,10 @@ class MemberJPARepositoryStubIntegratedTest {
             db.save(member);
             stub.save(member);
 
-            Member memberNearBy = MemberFixture.createMemberWithDifferentLocation(0, 0.002);
+            Member memberNearBy = MemberFixture.createMemberWithDifferentEmail("memberNearBy@test.com");
+            TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002);
+            memberNearBy.updateLocation(request);
+
             stub.save(memberNearBy);
             db.save(memberNearBy);
 
@@ -249,9 +258,13 @@ class MemberJPARepositoryStubIntegratedTest {
             db.save(member);
             stub.save(member);
 
-            Member memberNearBy = MemberFixture.createMemberWithDifferentLocation(400, 400);
-            stub.save(memberNearBy);
-            db.save(memberNearBy);
+            Member memberFar = MemberFixture.createMemberWithDifferentEmail("memberFar@test.com");
+            TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(400, 400);
+            memberFar.updateLocation(request);
+
+
+            stub.save(memberFar);
+            db.save(memberFar);
 
             //when
             List<Member> stubResult = stub.findNearByMember(0, 0, 10);

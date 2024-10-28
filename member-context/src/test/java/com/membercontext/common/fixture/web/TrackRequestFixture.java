@@ -20,4 +20,12 @@ public class TrackRequestFixture extends TrackController.TrackRequest {
                 .timestamp(Variables.TEST_TIME_STAMP)
                 .build();
     }
+
+    public static TrackController.TrackRequest createRequestWithDifferentLocation(double latitude, double longitude) {
+        return TrackController.TrackRequest.builder()
+                .latitude(latitude)
+                .longitude(longitude)
+                .timestamp(Variables.TEST_TIME_STAMP)
+                .build();
+    }
 }

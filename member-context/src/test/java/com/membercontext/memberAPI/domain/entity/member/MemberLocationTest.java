@@ -33,16 +33,16 @@ class MemberLocationTest {
     void addLocation() {
         //given
         Member member = MemberFixture.create();
+        MemberLocation memberLocation = member.getMemberLocation();
 
         //when
-        MemberLocation memberLocation = member.getMemberLocation();
-        memberLocation.addLocation(1.0, 2.0, LocalDateTime.of(2021, 1, 1, 0, 0, 0));
+        MemberLocation changedMemberLocation = memberLocation.addLocation(1.0, 2.0, LocalDateTime.of(2021, 1, 1, 0, 0, 0));
 
         //then
-        assertEquals(1.0, memberLocation.getLatitude());
-        assertEquals(2.0, memberLocation.getLongitude());
-        assertEquals(LocalDateTime.of(2021, 1, 1, 0, 0, 0), memberLocation.getTimestamp());
-        assertEquals(MemberLocation.UNKNOWN.getFcmToken(), memberLocation.getFcmToken());
+        assertEquals(1.0, changedMemberLocation.getLatitude());
+        assertEquals(2.0, changedMemberLocation.getLongitude());
+        assertEquals(LocalDateTime.of(2021, 1, 1, 0, 0, 0), changedMemberLocation.getTimestamp());
+        assertEquals(MemberLocation.UNKNOWN.getFcmToken(), changedMemberLocation.getFcmToken());
     }
 
     @Test
@@ -50,16 +50,17 @@ class MemberLocationTest {
     void addFcmToken() {
         //given
         Member member = MemberFixture.create();
+        MemberLocation memberLocation = member.getMemberLocation();
+
 
         //when
-        MemberLocation memberLocation = member.getMemberLocation();
-        memberLocation.addFCMToken("token");
+        MemberLocation changedMemberLocation = memberLocation.addFCMToken("token");
 
         //then
-        assertEquals("token", memberLocation.getFcmToken());
-        assertEquals(MemberLocation.UNKNOWN.getLatitude(), memberLocation.getLatitude());
-        assertEquals(MemberLocation.UNKNOWN.getLongitude(), memberLocation.getLongitude());
-        assertEquals(MemberLocation.UNKNOWN.getTimestamp(), memberLocation.getTimestamp());
+        assertEquals("token", changedMemberLocation.getFcmToken());
+        assertEquals(MemberLocation.UNKNOWN.getLatitude(), changedMemberLocation.getLatitude());
+        assertEquals(MemberLocation.UNKNOWN.getLongitude(), changedMemberLocation.getLongitude());
+        assertEquals(MemberLocation.UNKNOWN.getTimestamp(), changedMemberLocation.getTimestamp());
     }
 
     @Test
