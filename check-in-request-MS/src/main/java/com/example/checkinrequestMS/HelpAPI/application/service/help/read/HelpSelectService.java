@@ -14,7 +14,7 @@ public class HelpSelectService {
 
     private final HelpDBAdapter helpDBAdapter;
 
-    public Help<?> selectHelp(Long id) {
+    public Help selectHelp(Long id) {
         return helpDBAdapter.findById(id);
     }
 

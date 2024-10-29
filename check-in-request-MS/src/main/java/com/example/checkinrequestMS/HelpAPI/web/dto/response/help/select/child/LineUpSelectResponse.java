@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public class LineUpSelectResponse extends HelpSelectResponse {
 
     @Builder(access = AccessLevel.PROTECTED)
-    private LineUpSelectResponse(Long id, Long helpRegisterId, String title, Long placeId, LocalDateTime start, LocalDateTime end, ProgressSelectResponse progressDTO, Long reward) {
-        super(id, helpRegisterId, title, placeId, start, end, progressDTO, reward);
+    private LineUpSelectResponse(Long id, Long helpRegisterId, String title, String placeId, LocalDateTime start, LocalDateTime end, ProgressSelectResponse progressSelectResponse, Long reward) {
+        super(id, helpRegisterId, title, placeId, start, end, progressSelectResponse, reward);
     }
 
     public static LineUpSelectResponse from(LineUp lineUp) {
@@ -30,7 +30,7 @@ public class LineUpSelectResponse extends HelpSelectResponse {
                 .start(lineUp.getStart())
                 .end(lineUp.getEnd())
                 .reward(lineUp.getReward())
-                .progressDTO(ProgressSelectResponse.getProgressDTO(lineUp.getProgress()))
+                .progressSelectResponse(ProgressSelectResponse.getProgressSelectResponse(lineUp.getProgress()))
                 .build();
     }
 }

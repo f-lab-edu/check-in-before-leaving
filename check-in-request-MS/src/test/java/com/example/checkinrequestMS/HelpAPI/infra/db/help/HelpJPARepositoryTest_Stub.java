@@ -1,6 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.help;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.infra.db.stub.HelpSpringJPARepositoryStub;
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child.CheckInFixture;
@@ -24,7 +24,7 @@ class HelpJPARepositoryTest_Stub {
     @Test
     void save() {
         //given
-        CheckIn checkIn = CheckInFixture.createCheckInNoId(Created.create());
+        CheckIn checkIn = CheckInFixture.createCheckInNoId(Progress.DEFAULT);
 
         //when
         Long id = sut.save(checkIn);
@@ -36,7 +36,7 @@ class HelpJPARepositoryTest_Stub {
     @Test
     void findById() {
         //given
-        Long id = sut.save(CheckInFixture.createCheckInNoId(Created.create()));
+        Long id = sut.save(CheckInFixture.createCheckInNoId(Progress.DEFAULT));
 
         //when
         CheckIn checkIn = (CheckIn) sut.findById(id);

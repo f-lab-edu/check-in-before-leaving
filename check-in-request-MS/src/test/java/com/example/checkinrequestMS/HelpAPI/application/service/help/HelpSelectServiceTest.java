@@ -2,7 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.application.service.help;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.read.HelpSelectService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.infra.db.stub.HelpDBAdapterStub;
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child.CheckInFixture;
@@ -37,8 +37,8 @@ class HelpSelectServiceTest {
     class selectHelp {
         static Stream<Arguments> models() {
             return Stream.of(
-                    Arguments.of(CheckInFixture.createCheckInWithId(Created.create(), 1L), "체크인"),
-                    Arguments.of(LineUpFixture.createLineUpWithId(Created.create(), 2L), "줄서기")
+                    Arguments.of(CheckInFixture.createCheckInWithId(Progress.DEFAULT, 1L), "체크인"),
+                    Arguments.of(LineUpFixture.createLineUpWithId(Progress.DEFAULT, 2L), "줄서기")
             );
         }
 
@@ -87,8 +87,8 @@ class HelpSelectServiceTest {
         void onePlaceId() {
             String placeId = "API:1";
             //given
-            CheckIn check = CheckInFixture.createCheckInWithIdAndPlaceId(Created.create(), 1L, placeId);
-            CheckIn check2 = CheckInFixture.createCheckInWithIdAndPlaceId(Created.create(), 2L, placeId);
+            CheckIn check = CheckInFixture.createCheckInWithIdAndPlaceId(Progress.DEFAULT, 1L, placeId);
+            CheckIn check2 = CheckInFixture.createCheckInWithIdAndPlaceId(Progress.DEFAULT, 2L, placeId);
 
             Long id = helpDBAdapter.save(check);
             Long id2 = helpDBAdapter.save(check2);
@@ -110,8 +110,8 @@ class HelpSelectServiceTest {
         void twoPlaceID() {
             String placeId = "API:1";
             //given
-            CheckIn check = CheckInFixture.createCheckInWithIdAndPlaceId(Created.create(), 1L, placeId);
-            CheckIn check2 = CheckInFixture.createCheckInWithIdAndPlaceId(Created.create(), 2L, placeId);
+            CheckIn check = CheckInFixture.createCheckInWithIdAndPlaceId(Progress.DEFAULT, 1L, placeId);
+            CheckIn check2 = CheckInFixture.createCheckInWithIdAndPlaceId(Progress.DEFAULT, 2L, placeId);
 
             Long id = helpDBAdapter.save(check);
             Long id2 = helpDBAdapter.save(check2);

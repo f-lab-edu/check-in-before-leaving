@@ -26,17 +26,17 @@ public abstract class HelpJPAEntity {
     @Column(name = "place_id")
     protected String placeId;
     @Embedded
-    protected ProgressValue progressValue;
+    protected ProgressVO progressVO; //check: 이렇게 짜도 될까?
     protected Long reward;
 
-    protected HelpJPAEntity(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, ProgressValue progressValue, Long reward) {
+    protected HelpJPAEntity(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, ProgressVO progressVO, Long reward) {
         this.id = id;
         this.helpRegisterId = helpRegisterId;
         this.title = title;
         this.start = start;
         this.end = end;
         this.placeId = placeId;
-        this.progressValue = progressValue;
+        this.progressVO = progressVO;
         this.reward = reward;
     }
     //체크인 요청, 줄서기 요청, 기타 요청.
