@@ -14,5 +14,6 @@ public class ExceptionResponse {
     }
 
     private String message;
+
 }
 

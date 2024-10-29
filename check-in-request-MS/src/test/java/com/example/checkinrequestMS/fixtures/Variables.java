@@ -1,6 +1,5 @@
 package com.example.checkinrequestMS.fixtures;
 
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressValue;
 import com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchCategory;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ public interface Variables {
     public static final String TITLE = "title";
     public static final String PLACE_ID = "DB:1";
     public static final Long REWARD = 100L;
-    public static final String PROGRESS_VALUE = ProgressValue.CREATED;
+    //public static final String PROGRESS_VALUE = ProgressValue.CREATED;
     public static final boolean NOT_COMPLETED = false;
     public static final int ONE_HOUR = 1;
     public static final int THIRTY_MINUTES = 30;
