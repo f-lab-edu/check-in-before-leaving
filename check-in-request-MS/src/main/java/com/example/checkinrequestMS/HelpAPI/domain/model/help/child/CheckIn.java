@@ -1,8 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.CheckInRegisterDTO;
+import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressVO;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInJPAEntity;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import lombok.AccessLevel;
@@ -15,17 +16,17 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CheckIn<T extends Progress> extends Help<T> {
+public class CheckIn extends Help {
 
     public static final String CHECK_IN_TITLE = "체크인 요청";
 
     @Builder(access = AccessLevel.PROTECTED)
-    protected CheckIn(Long id, Long helpRegisterId, String title, String placeId, Long reward, T progress, LocalDateTime start, LocalDateTime end) {
+    protected CheckIn(Long id, Long helpRegisterId, String title, String placeId, Long reward, Progress progress, LocalDateTime start, LocalDateTime end) {
         super(id, helpRegisterId, title, start, end, placeId, reward, progress);
     }
 
-    public static <T extends Progress> CheckIn<T> of(CheckInRegisterDTO dto, Place place, T progress) {
-        return CheckIn.<T>builder()
+    public static CheckIn of(CheckInRegisterDTO dto, Place place, Progress progress) {
+        return CheckIn.builder()
                 .helpRegisterId(dto.getHelpRegisterId())
                 .title(place.getPlaceName() + CHECK_IN_TITLE)
                 .start(dto.getStart())
@@ -44,7 +45,7 @@ public class CheckIn<T extends Progress> extends Help<T> {
                 .start(jpaEntity.getStart())
                 .end(jpaEntity.getEnd())
                 .placeId(jpaEntity.getPlaceId())
-                .progress(getProgress(jpaEntity.getProgressValue()))
+                .progress(Progress.from(jpaEntity.getProgressVO()))
                 .reward(jpaEntity.getReward())
                 .build();
     }

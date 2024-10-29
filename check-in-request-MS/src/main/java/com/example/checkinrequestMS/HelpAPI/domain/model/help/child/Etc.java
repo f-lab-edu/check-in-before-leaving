@@ -2,7 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.EtcRegisterDTO;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.EtcJPAEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,18 +14,18 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Etc<T extends Progress> extends Help<T> {
+public class Etc extends Help {
 
     private String contents;
 
     @Builder(access = AccessLevel.PROTECTED)
-    protected Etc(Long id, Long helpRegisterId, String title, String placeId, Long reward, T progress, LocalDateTime start, LocalDateTime end, String contents) {
+    protected Etc(Long id, Long helpRegisterId, String title, String placeId, Long reward, LocalDateTime start, LocalDateTime end, String contents, Progress progress) {
         super(id, helpRegisterId, title, start, end, placeId, reward, progress);
         this.contents = contents;
     }
 
-    public static <T extends Progress> Etc<T> of(EtcRegisterDTO dto, T progress) {
-        return Etc.<T>builder()
+    public static Etc of(EtcRegisterDTO dto, Progress progress) {
+        return Etc.builder()
                 .helpRegisterId(dto.getHelpRegisterId())
                 .title(dto.getTitle())
                 .start(dto.getStart())
@@ -44,6 +44,7 @@ public class Etc<T extends Progress> extends Help<T> {
                 .start(japEntity.getStart())
                 .end(japEntity.getEnd())
                 .placeId(japEntity.getPlaceId())
+                .progress(Progress.from(japEntity.getProgressVO()))
                 .reward(japEntity.getReward())
                 .contents(japEntity.getContents())
                 .build();
