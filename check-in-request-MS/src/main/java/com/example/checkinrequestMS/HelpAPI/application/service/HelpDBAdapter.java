@@ -12,7 +12,7 @@ public interface HelpDBAdapter {
     public Long save(Help help);
 
     @JPARead
-    public Help<?> findById(Long id);
+    public Help findById(Long id);
 
     public List<Help> findAllHelpByPlaceId(List<String> ids);
 
