@@ -1,8 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressValue;
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child.CheckInFixture;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +12,7 @@ class CheckInJPAEntityTest {
     @Test
     void from() {
         //given
-        CheckIn checkIn = CheckInFixture.createCheckInWithId(Created.create(), 1L);
+        CheckIn checkIn = CheckInFixture.createCheckInWithId(Progress.DEFAULT, 1L);
 
         //when
         CheckInJPAEntity sut = CheckInJPAEntity.from(checkIn);
@@ -26,6 +25,6 @@ class CheckInJPAEntityTest {
         assertEquals(checkIn.getStart(), sut.getStart());
         assertEquals(checkIn.getEnd(), sut.getEnd());
         assertEquals(checkIn.getReward(), sut.getReward());
-        assertEquals(ProgressValue.CREATED, sut.getProgressValue().getStatus());
+        assertEquals(Progress.ProgressStatus.CREATED, sut.getProgressVO().getStatus());
     }
 }
