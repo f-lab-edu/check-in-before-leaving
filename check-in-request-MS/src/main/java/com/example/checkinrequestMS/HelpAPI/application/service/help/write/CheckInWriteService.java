@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
+import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.CheckInRegisterDTO;
 import com.example.checkinrequestMS.HelpAPI.application.service.HelpDBAdapter;
@@ -20,12 +21,20 @@ public class CheckInWriteService {
 
     private final HelpDBAdapter helpDBAdapter;
     private final PlaceJPARepository placeRepository;
+    private final AlarmService alarmService;
 
     @Transactional
     public Long registerCheckIn(CheckInRegisterDTO dto) {
-        Place place = placeRepository.findById(Long.parseLong(dto.getPlaceId()))
-                .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
-        CheckIn<Created> checkIn = CheckIn.of(dto, place, Created.create());
+        String idToSearch = dto.getPlaceId();
+        if (idToSearch.contains("DB")) {
+            idToSearch = idToSearch.replaceAll("[^0-9]", "");
+        }
+        Place place = placeRepository.findById(Long.parseLong(idToSearch))
+                .orElseThrow(() -> new PlaceException(NO_PLACE_INFO)); //check: DB외에도 처리 해야함.
+        CheckIn checkIn = CheckIn.of(dto, place, Progress.DEFAULT);
+
+        alarmService.sendAlarmToUsersNearby(place.getPlaceName(), place.getX(), place.getY());
+
         return helpDBAdapter.save(checkIn);
     }
 

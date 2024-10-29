@@ -1,5 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
+import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.CheckInRegisterDTO;
 import com.example.checkinrequestMS.HelpAPI.infra.db.stub.HelpDBAdapterStub;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
@@ -35,6 +36,9 @@ class CheckInWriteServiceTest {
     @Mock
     private PlaceJPARepository placeRepository;
 
+    @Mock
+    private AlarmService alarmService;
+
     @Nested
     class registerCheckIn {
 
@@ -64,7 +68,8 @@ class CheckInWriteServiceTest {
 
             Place place = mock(Place.class);
             given(place.getPlaceName()).willReturn("placeName");
-            given(placeRepository.findById(1L)).willReturn(Optional.of(place));
+            given(placeRepository.findById(anyLong())).willReturn(Optional.of(place));
+            doNothing().when(alarmService).sendAlarmToUsersNearby(any(), anyDouble(), anyDouble());
 
             //when
             Long id = sut.registerCheckIn(dto);
