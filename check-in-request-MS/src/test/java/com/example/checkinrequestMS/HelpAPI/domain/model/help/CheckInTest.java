@@ -1,9 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.CheckInRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressValue;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInJPAEntity;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.dto.register.CheckInRegisterDTOFixture;
@@ -26,7 +24,7 @@ class CheckInTest {
         given(place.getPlaceName()).willReturn("placeName");
 
         //when
-        CheckIn<Created> sut = CheckIn.of(dto, place, Created.create());
+        CheckIn sut = CheckIn.of(dto, place, Progress.DEFAULT);
 
         //then
         assertEquals(dto.getHelpRegisterId(), sut.getHelpRegisterId());
@@ -53,9 +51,7 @@ class CheckInTest {
         assertEquals(entity.getReward(), checkIn.getReward());
         assertEquals(entity.getStart(), checkIn.getStart());
         assertEquals(entity.getEnd(), checkIn.getEnd());
-        assertEquals(entity.getProgressValue().isCompleted(), false);
-        assertEquals(entity.getProgressValue().getStatus(), ProgressValue.CREATED);
-
-
+        assertEquals(entity.getProgressVO().isCompleted(), false);
+        assertEquals(entity.getProgressVO().getStatus(), Progress.ProgressStatus.CREATED);
     }
 }

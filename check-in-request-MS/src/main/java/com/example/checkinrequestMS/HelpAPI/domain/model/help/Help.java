@@ -1,30 +1,35 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.*;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressValue;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-import static com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressValue.*;
 
 @Getter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Help<T extends Progress> {
+public abstract class Help {
 
     protected Long id;
+    @NotNull
     protected Long helpRegisterId;
-
+    @NotBlank
     protected String title;
+    @NotNull
     protected LocalDateTime start;
+    @NotNull
     protected LocalDateTime end;
+    @NotNull
     protected String placeId;
+    @NotNull
     protected Long reward;
-    protected T progress;
+    @NotNull
+    protected Progress progress;
 
-    protected Help(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, Long reward, T progress) {
+    protected Help(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, Long reward, Progress progress) {
         this.id = id;
         this.helpRegisterId = helpRegisterId;
         this.title = title;
@@ -35,32 +40,16 @@ public abstract class Help<T extends Progress> {
         this.progress = progress;
     }
 
-    protected static Progress getProgress(ProgressValue progressEntity) {
-        switch (progressEntity.getStatus()) {
-            case ONGOING:
-                return Ongoing.from(progressEntity.getHelperId());
-            case CREATED:
-                return Created.create();
-            case AUTHENTICATED:
-                return Authenticated.of(progressEntity.getHelperId(), progressEntity.getPhotoPath());
-            case COMPLETED:
-                return Completed.of(progressEntity.getHelperId(), progressEntity.getPhotoPath());
-        }
-        throw new RuntimeException("illegal Progress type");
+    public void start(Long helperId) {
+        this.progress = this.progress.registerHelper(helperId);
     }
 
-    public void registerHelper(Long helperId) {
-        this.progress = (T) Ongoing.from(helperId);
+    public void authenticate(String photoPath) {
+        this.progress = this.progress.addPhoto(photoPath);
     }
 
-    public void addPhoto(String photoPath) {
-        Ongoing ongoing = (Ongoing) this.progress;
-        this.progress = (T) Authenticated.of(ongoing.getHelperId(), photoPath);
-    }
-
-    public void approved() {
-        Authenticated authenticated = (Authenticated) this.progress;
-        this.progress = (T) Completed.of(authenticated.getHelperId(), authenticated.getPhotoPath());
+    public void approve() {
+        this.progress = this.progress.approve();
     }
 
 

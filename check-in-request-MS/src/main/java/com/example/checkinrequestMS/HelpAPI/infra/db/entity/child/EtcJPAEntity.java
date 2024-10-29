@@ -1,8 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity.child;
 
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.HelpJPAEntity;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressValue;
+import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressVO;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.*;
@@ -21,8 +22,8 @@ public class EtcJPAEntity extends HelpJPAEntity {
     private String contents;
 
     @Builder(access = AccessLevel.PROTECTED)
-    protected EtcJPAEntity(Long id, Long helpRegisterId, String title, String placeId, ProgressValue progressValue, Long reward, LocalDateTime start, LocalDateTime end, String contents) {
-        super(id, helpRegisterId, title, start, end, placeId, progressValue, reward);
+    protected EtcJPAEntity(Long id, Long helpRegisterId, String title, String placeId, ProgressVO progress, Long reward, LocalDateTime start, LocalDateTime end, String contents) {
+        super(id, helpRegisterId, title, start, end, placeId, progress, reward);
         this.contents = contents;
     }
 
@@ -31,7 +32,7 @@ public class EtcJPAEntity extends HelpJPAEntity {
         return EtcJPAEntity.builder()
                 .id(etc.getId())
                 .helpRegisterId(etc.getHelpRegisterId())
-                .progressValue(ProgressValue.from(etc.getProgress()))
+                .progress(ProgressVO.from(etc.getProgress()))
                 .title(etc.getTitle())
                 .placeId(etc.getPlaceId())
                 .start(etc.getStart())
