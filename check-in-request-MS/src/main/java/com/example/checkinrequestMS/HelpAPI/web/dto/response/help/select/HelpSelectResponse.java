@@ -1,7 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class HelpSelectResponse<T extends ProgressSelectResponse> {
+public abstract class HelpSelectResponse {
 
     protected Long id;
     protected Long helpRegisterId;

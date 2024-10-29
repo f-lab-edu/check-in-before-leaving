@@ -1,7 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child;
 
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.HelpSelectResponse;
 import com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read.ProgressSelectResponse;
