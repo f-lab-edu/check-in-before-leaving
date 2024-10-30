@@ -24,10 +24,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ProgressBusinessCRUDServiceTest {
+class ProgressBusinessWriteServiceTest {
 
     @InjectMocks
-    private ProgressBusinessCRUDService sut;
+    private ProgressBusinessWriteService sut;
 
     @Mock
     private PhotoSaver photoSaver;
