@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.PlaceAPI.web.rest;
 
 import com.example.checkinrequestMS.PlaceAPI.web.restAPI.KakaoStoreAPIRequest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import static com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchType.KEYWO
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-//@Disabled
+@Disabled
 // Kakao API를 요청해보는 테스트 코드 입니다.
 // Kakao API에서의 변경에 따라 테스트가 깨질 가능성이 있어 Disabled 처리하였습니다.
 class KakaoAPIRequestTest_Integrated {
@@ -52,7 +53,7 @@ class KakaoAPIRequestTest_Integrated {
         //then
         response = response.replace("[", "").replace("]", "");
         String[] all = response.split("}");
-        //assertEquals(23, all.length);
+        assertEquals(23, all.length);
 
         System.out.println(all.length);
 
