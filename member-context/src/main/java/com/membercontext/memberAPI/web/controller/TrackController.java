@@ -44,7 +44,7 @@ public class TrackController {
     }
 
     @Getter
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder(access = AccessLevel.PROTECTED)
     public static class TrackRequest {
 
