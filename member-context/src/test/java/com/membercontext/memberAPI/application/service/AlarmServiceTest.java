@@ -1,36 +1,33 @@
 package com.membercontext.memberAPI.application.service;
 
-import com.membercontext.fixture.AlarmFormFixture;
+import com.membercontext.common.fixture.web.AlarmRequestFixture;
+import com.membercontext.common.stub.MemberJPARepositoryStub;
+import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.domain.entity.member.testFixture.MemberTest;
-import com.membercontext.memberAPI.domain.fixture.MemberTestFixture;
-import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
+import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.memberAPI.web.controller.AlarmController;
 import com.membercontext.memberAPI.web.pushMessage.FireBaseCloudMessageClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AlarmServiceTest {
-
+    //todo: 남은 외부 의존성인 FireBaseCloudMessageClient, JavaCryptoUtil 테스트 재평가 및 개선.
+    //check: 복잡한 수식을 이용한 쿼리라면 Stub 클래스 구현에 어려움을 겪을 수 있다.
     @InjectMocks
     private AlarmService sut;
 
-    @Mock
-    private MemberJPARepository memberJPARepository;
+    @Spy
+    private MemberRepository memberRepository = new MemberJPARepositoryStub();
 
     @Mock
     private FireBaseCloudMessageClient fireBaseCloudMessageClient;
@@ -46,17 +43,17 @@ class AlarmServiceTest {
         @DisplayName("푸시 메시지 보내기 - 성공.")
         void sendPushMessage() {
             // given
-            AlarmController.AlarmForm alarmForm = AlarmFormFixture.create();
+            AlarmController.AlarmRequest alarmForm = AlarmRequestFixture.create();
 
-            Member member1 = MemberTest.createUpdatingMember("UUID", "tester@test.com", "password", "tester", "010-1234-5678", "서울시 강남구", true, 1000L);
-            Member member2 = MemberTest.createUpdatingMember("UUID2", "tester@test.com", "password", "tester", "010-1234-5678", "서울시 강남구", true, 1000L);
-            given(memberJPARepository.findNearByMember(anyDouble(), anyDouble(), anyInt())).willReturn(List.of(member1, member2));
+            Member member1 = MemberFixture.createMemberWithId("UUID");
+            Member member2 = MemberFixture.createMemberWithId("UUID2");
+            memberRepository.save(member1);
+            memberRepository.save(member2);
 
             //when
             sut.sendPushMessage(alarmForm);
 
             //then
-
             verify(fireBaseCloudMessageClient).sendMultipleMessages(listCaptor.capture(), eq(alarmForm.getTitle()), eq(alarmForm.getMessage()));
 
             List<String> tokens = listCaptor.getValue();
@@ -69,8 +66,8 @@ class AlarmServiceTest {
         @DisplayName("푸시 메시지 보내기 - 빈 리스트.")
         void sendPushMessage_EmptyList() {
             // given
-            AlarmController.AlarmForm alarmForm = AlarmFormFixture.create();
-            given(memberJPARepository.findNearByMember(anyDouble(), anyDouble(), anyInt())).willReturn(List.of());
+            List<Member> memberList = List.of();
+            AlarmController.AlarmRequest alarmForm = AlarmRequestFixture.create();
 
             //when
             sut.sendPushMessage(alarmForm);

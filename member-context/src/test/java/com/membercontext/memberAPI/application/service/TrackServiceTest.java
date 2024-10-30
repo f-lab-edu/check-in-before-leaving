@@ -1,20 +1,22 @@
 package com.membercontext.memberAPI.application.service;
 
+import com.membercontext.common.fixture.domain.MemberFixture;
+import com.membercontext.common.fixture.web.TrackRequestFixture;
+import com.membercontext.common.stub.MemberJPARepositoryStub;
+import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
-import com.membercontext.memberAPI.web.controller.form.TrackForm;
+
+import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
+
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class TrackServiceTest {
@@ -22,40 +24,37 @@ class TrackServiceTest {
     @InjectMocks
     private TrackService sut;
 
-    @Mock
-    private MemberJPARepository memberRepository;
+    @Spy
+    private MemberRepository memberRepository = new MemberJPARepositoryStub();
 
     @Test
     void saveCurrentLocation() {
         // given
-        TrackForm form = TrackForm.builder().longitude(0).latitude(0).timestamp(LocalDateTime.now()).build();
-        String memberId = "UUID";
-
-        Member member = mock(Member.class);
-        given(memberRepository.findById(memberId)).willReturn(member);
+        Member member = MemberFixture.create();
+        String id = memberRepository.save(member);
+        TrackController.TrackRequest form = TrackRequestFixture.create();
 
         //when
-        sut.saveCurrentLocation(form, memberId);
+        sut.saveCurrentLocation(form, id);
 
         // then
-        verify(memberRepository).findById(memberId);
-        verify(member).updateLocation(form);
+        assertEquals(member.getMemberLocation().getLongitude(), form.getLongitude());
+        assertEquals(member.getMemberLocation().getLatitude(), form.getLatitude());
+        assertEquals(member.getMemberLocation().getTimestamp(), form.getTimestamp());
     }
 
     @Test
     void saveToken() {
         // given
         String token = "token";
-        String memberId = "UUID";
-
-        Member member = mock(Member.class);
-        given(memberRepository.findById(memberId)).willReturn(member);
+        Member member = MemberFixture.create();
+        String id = memberRepository.save(member);
 
         //when
-        sut.saveToken(token, memberId);
+        sut.saveToken(token, id);
 
         // then
-        verify(memberRepository).findById(memberId);
-        verify(member).enableLocationAlarm(token);
+        assertThat(member.getMemberLocation().getFcmToken()).isEqualTo(token);
     }
+
 }

@@ -1,10 +1,9 @@
 package com.membercontext.memberAPI.application.service;
 
 
-import com.google.firebase.messaging.Notification;
+import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
-import com.membercontext.memberAPI.web.controller.form.TrackForm;
+import com.membercontext.memberAPI.web.controller.TrackController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class TrackService {
 
-    private final MemberJPARepository memberRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
-    public void saveCurrentLocation(TrackForm form, String memberId) {
+    public void saveCurrentLocation(TrackController.TrackRequest form, String memberId) {
         Member member = memberRepository.findById(memberId);
         member.updateLocation(form);
     }
@@ -24,6 +23,6 @@ public class TrackService {
     @Transactional
     public void saveToken(String token, String memberId) {
         Member member = memberRepository.findById(memberId);
-        member.enableLocationAlarm(token);
+        member.startLocationAlarm(token);
     }
 }
