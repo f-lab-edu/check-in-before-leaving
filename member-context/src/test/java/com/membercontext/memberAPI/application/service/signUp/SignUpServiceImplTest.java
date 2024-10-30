@@ -1,5 +1,6 @@
 package com.membercontext.memberAPI.application.service.signUp;
 
+import com.membercontext.common.stub.JavaCryptoUtilMockStub;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
@@ -18,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+
 
 @ExtendWith(MockitoExtension.class)
 class SignUpServiceImplTest {
@@ -30,14 +31,13 @@ class SignUpServiceImplTest {
     private MemberRepository memberRepository = new MemberJPARepositoryStub();
 
     @Mock
-    private JavaCryptoUtil encryption;
+    private JavaCryptoUtil encryption = new JavaCryptoUtilMockStub();
 
     @Test
     @DisplayName("회원가입 성공.")
     void signUp() {
         //given
         Member newMember = MemberFixture.create();
-        when(encryption.encrypt(newMember.getPassword())).thenReturn("encryptedPassword");
 
         //when
         String id = sut.signUp(newMember);

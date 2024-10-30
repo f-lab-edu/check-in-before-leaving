@@ -2,15 +2,16 @@ package com.membercontext.memberAPI.infrastructure.db.jpa.member;
 
 import com.membercontext.common.UUIDTester;
 import com.membercontext.common.fixture.domain.MemberFixture;
+import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.MemberSpringJPARepositoryStub;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
+import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
@@ -166,7 +167,6 @@ class MemberJPARepositoryTest {
 
     @Nested
     @DisplayName("update 테스트")
-    @SpringBootTest
     class updateTest {
 
         @Test
@@ -195,6 +195,7 @@ class MemberJPARepositoryTest {
     @Nested
     @DisplayName("findNearByMember 테스트")
     class findNearByMemberTest {
+
         @Test
         @DisplayName("주변 회원 조회 - 성공.")
         void findNearByMember() {
@@ -204,9 +205,12 @@ class MemberJPARepositoryTest {
             int radius = 500; // 500km
 
             Member memberAt0 = MemberFixture.create();
-            Member memberNear = MemberFixture.createMemberWithDifferentLocation(0, 0.002);
+            Member memberNear = MemberFixture.createMemberWithDifferentEmail("nearMember@test.com");
+            TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002);
+            memberNear.updateLocation(request);
+
             memberSpringJPARepository.save(memberAt0);
-            memberSpringJPARepository.save(memberNear);
+            memberNear = memberSpringJPARepository.save(memberNear);
 
             //when
             List<Member> list = sut.findNearByMember(x, y, radius);
@@ -218,7 +222,7 @@ class MemberJPARepositoryTest {
         }
 
         @Test
-        @DisplayName("주변 회원 조회 - 성공.")
+        @DisplayName("주변 회원 조회 - 실패.")
         void findNearByMember_nearBy() {
             //given
             double x = 0;
@@ -226,9 +230,12 @@ class MemberJPARepositoryTest {
             int radius = 1;
 
             Member memberAt0 = MemberFixture.create();
-            Member memberNear = MemberFixture.createMemberWithDifferentLocation(300, 300);
+            Member memberFar = MemberFixture.createMemberWithDifferentEmail("farMember@test.com");
+            TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(300, 300);
+            memberFar.updateLocation(request);
+
             memberSpringJPARepository.save(memberAt0);
-            memberSpringJPARepository.save(memberNear);
+            memberFar = memberSpringJPARepository.save(memberFar);
 
             //when
             List<Member> list = sut.findNearByMember(x, y, radius);

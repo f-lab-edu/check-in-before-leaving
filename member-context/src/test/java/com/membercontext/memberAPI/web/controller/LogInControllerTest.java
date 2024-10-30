@@ -1,6 +1,7 @@
 package com.membercontext.memberAPI.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.membercontext.common.fixture.web.LogInRequestFixture;
 import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
@@ -39,16 +40,17 @@ class LogInControllerTest {
         //when
         String UUID = "UUID_Test";
         String requestURL = "/log-in";
-        LogInController.LogInRequest form = mock(LogInController.LogInRequest.class);
+        LogInController.LogInRequest request = LogInRequestFixture.create();
+
 
         Member member = mock(Member.class);
         given(member.getId()).willReturn(UUID);
-        given(logInService.logIn(form.getEmail(), form.getPassword())).willReturn(member);
+        given(logInService.logIn(request.getEmail(), request.getPassword())).willReturn(member);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(request)));
 
         //then - response, cookie
         resultActions.andExpect(status().isOk())

@@ -38,9 +38,10 @@ class TrackServiceTest {
         sut.saveCurrentLocation(form, id);
 
         // then
-        assertEquals(member.getMemberLocation().getLongitude(), form.getLongitude());
-        assertEquals(member.getMemberLocation().getLatitude(), form.getLatitude());
-        assertEquals(member.getMemberLocation().getTimestamp(), form.getTimestamp());
+        Member updatedMember = memberRepository.findById(id);
+        assertEquals(updatedMember.getMemberLocation().getLongitude(), form.getLongitude());
+        assertEquals(updatedMember.getMemberLocation().getLatitude(), form.getLatitude());
+        assertEquals(updatedMember.getMemberLocation().getTimestamp(), form.getTimestamp());
     }
 
     @Test
@@ -54,7 +55,8 @@ class TrackServiceTest {
         sut.saveToken(token, id);
 
         // then
-        assertThat(member.getMemberLocation().getFcmToken()).isEqualTo(token);
+        Member updatedMember = memberRepository.findById(id);
+        assertThat(updatedMember.getMemberLocation().getFcmToken()).isEqualTo(token);
     }
 
 }

@@ -10,17 +10,17 @@ import static com.membercontext.memberAPI.application.exception.member.MemberErr
 
 @Embeddable
 @Getter
-public class MemberLocation {
+public final class MemberLocation {
 
     public static MemberLocation UNKNOWN = new MemberLocation(0, 0, LocalDateTime.now(), "NOT_AVAILABLE");
 
     private double latitude;
     private double longitude;
     private LocalDateTime timestamp;
-    private String fcmToken;
+    private String fcmToken; //check: 엄밀히 말하면 여기는 다른 context
 
 
-    public MemberLocation(double i, double i1, LocalDateTime currentTime, String fcmToken) {
+    private MemberLocation(double i, double i1, LocalDateTime currentTime, String fcmToken) {
         this.latitude = i;
         this.longitude = i1;
         this.timestamp = currentTime;
@@ -30,14 +30,12 @@ public class MemberLocation {
     protected MemberLocation() {
     }
 
-    public void addLocation(double latitude, double longitude, LocalDateTime timestamp) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.timestamp = timestamp;
+    public MemberLocation addLocation(double latitude, double longitude, LocalDateTime timestamp) {
+        return new MemberLocation(latitude, longitude, timestamp, this.fcmToken);
     }
 
-    public void addFCMToken(String token) {
-        this.fcmToken = token;
+    public MemberLocation addFCMToken(String token) {
+        return new MemberLocation(this.latitude, this.longitude, this.timestamp, token);
     }
 
     public LocalDateTime getTimeStamp(Member member) {
@@ -60,4 +58,5 @@ public class MemberLocation {
         }
         return latitude;
     }
+
 }

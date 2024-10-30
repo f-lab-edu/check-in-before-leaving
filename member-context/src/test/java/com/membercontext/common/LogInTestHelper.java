@@ -1,6 +1,7 @@
 package com.membercontext.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.membercontext.common.fixture.web.LogInRequestFixture;
 import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.LogInController;
@@ -27,7 +28,7 @@ public class LogInTestHelper {
 
         //given
         String requestURL = "/log-in";
-        LogInController.LogInRequest form = mock(LogInController.LogInRequest.class);
+        LogInController.LogInRequest form = LogInRequestFixture.create();
 
         Member member = mock(Member.class);
         given(member.getId()).willReturn(UUID.randomUUID().toString());
