@@ -1,108 +1,130 @@
 package com.membercontext.memberAPI.infrastructure.db.jpa.member;
 
+import com.membercontext.common.UUIDTester;
+import com.membercontext.common.fixture.domain.MemberFixture;
+import com.membercontext.common.stub.MemberSpringJPARepositoryStub;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.List;
 
+import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.ALREADY_REGISTERED_USER;
+import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class MemberJPARepositoryTest {
 
     @InjectMocks
-    MemberJPARepository sut;
+    private MemberJPARepository sut;
 
-    @Mock
-    MemberSpringJPARepository memberSpringJPARepository;
+    @Spy
+    private MemberSpringJPARepositoryStub memberSpringJPARepository;
 
     @Nested
     @DisplayName("findByEmail 테스트")
     class FindByEmailTest {
+
         @Test
         @DisplayName("이메일로 조회 - 성공.")
         void findByEmail() {
             //given
-            Member member = mock(Member.class);
-            given(memberSpringJPARepository.findByEmail(member.getEmail())).willReturn(Optional.of(member));
+            Member member = MemberFixture.create();
+            Member saved = memberSpringJPARepository.save(member);
 
             //when
-            sut.findByEmail(member.getEmail());
+            Member returned = sut.findByEmail(member.getEmail());
 
             //then
-            verify(memberSpringJPARepository).findByEmail(member.getEmail());
+            assertThat(returned.getId()).isEqualTo(saved.getId());
+            assertThat(returned.getEmail()).isEqualTo(member.getEmail());
+            assertThat(returned.getName()).isEqualTo(member.getName());
+            assertThat(returned.getPassword()).isEqualTo(member.getPassword());
+            assertThat(returned.getPhone()).isEqualTo(member.getPhone());
+            assertThat(returned.getAddress()).isEqualTo(member.getAddress());
+            assertThat(returned.isLocationServiceEnabled()).isEqualTo(member.isLocationServiceEnabled());
+            assertThat(returned.getPoint()).isEqualTo(member.getPoint());
         }
 
         @Test
         @DisplayName("이메일로 조회 - 존재하지 않는 회원.")
         void findByEmail_NOT_EXISTING_MEMBER() {
             //given
-            Member member = mock(Member.class);
-            given(memberSpringJPARepository.findByEmail(member.getEmail())).willReturn(Optional.empty());
+            Member member = MemberFixture.create();
 
             //when
+            Exception exception = assertThrows(MemberException.class, () -> sut.findByEmail(member.getEmail()));
 
             //then
-            assertThrows(MemberException.class, () -> sut.findByEmail(member.getEmail()));
+            assertEquals(MemberException.class, exception.getClass());
+            assertEquals(NOT_EXITING_USER.getDeatil(), exception.getMessage());
         }
     }
 
     @Nested
     @DisplayName("findById 테스트")
     class findByIdTest {
+
         @Test
         @DisplayName("회원 ID로 조회 - 성공.")
         void findById() {
             //given
-            Member member = mock(Member.class);
-            given(memberSpringJPARepository.findById(member.getId())).willReturn(Optional.of(member));
+            Member member = MemberFixture.create();
+            Member saved = memberSpringJPARepository.save(member);
 
             //when
-            sut.findById(member.getId());
+            Member returned = sut.findById(saved.getId());
 
             //then
-            verify(memberSpringJPARepository).findById(member.getId());
+            assertThat(returned.getId()).isEqualTo(saved.getId());
+            assertThat(returned.getEmail()).isEqualTo(member.getEmail());
+            assertThat(returned.getName()).isEqualTo(member.getName());
+            assertThat(returned.getPassword()).isEqualTo(member.getPassword());
+            assertThat(returned.getPhone()).isEqualTo(member.getPhone());
+            assertThat(returned.getAddress()).isEqualTo(member.getAddress());
+            assertThat(returned.isLocationServiceEnabled()).isEqualTo(member.isLocationServiceEnabled());
+            assertThat(returned.getPoint()).isEqualTo(member.getPoint());
         }
 
         @Test
         @DisplayName("회원 ID로 조회 - 존재하지 않는 회원.")
         void findById_NOT_EXISTING_MEMBER() {
             //given
-            Member member = mock(Member.class);
-            given(memberSpringJPARepository.findById(member.getId())).willReturn(Optional.empty());
+            Member member = MemberFixture.create();
 
             //when
+            Exception exception = assertThrows(MemberException.class, () -> sut.findById(member.getId()));
 
             //then
-            assertThrows(MemberException.class, () -> sut.findById(member.getId()));
+            assertThat(exception.getClass()).isEqualTo(MemberException.class);
+            assertThat(exception.getMessage()).isEqualTo(NOT_EXITING_USER.getDeatil());
         }
     }
 
     @Nested
     @DisplayName("save 테스트")
     class saveTest {
+
         @Test
         @DisplayName("회원가입 - 성공.")
         void save() {
             //given
-            Member member = mock(Member.class);
-            given(memberSpringJPARepository.findByEmail(member.getEmail())).willReturn(Optional.empty());
+            Member member = MemberFixture.create();
 
-            sut.save(member);
+            //when
+            String id = sut.save(member);
 
-            verify(memberSpringJPARepository).save(member);
-
+            //then
+            assertNull(member.getId());
+            assertNotNull(id);
+            assertThat(UUIDTester.isUUID(id)).isTrue();
         }
 
         @Test
@@ -110,14 +132,15 @@ class MemberJPARepositoryTest {
         void save_ALREADY_REGISTERED_USER_Exception() {
 
             //given
-            Member registeredMember = mock(Member.class);
-            Member newMember = mock(Member.class);
-            given(memberSpringJPARepository.findByEmail(newMember.getEmail())).willReturn(Optional.of(registeredMember));
+            Member member = MemberFixture.create();
+            sut.save(member);
 
             //when
+            Exception exception = assertThrows(MemberException.class, () -> sut.save(member));
 
             //then
-            assertThrows(MemberException.class, () -> sut.save(newMember));
+            assertThat(exception.getClass()).isEqualTo(MemberException.class);
+            assertThat(exception.getMessage()).isEqualTo(ALREADY_REGISTERED_USER.getDeatil());
         }
     }
 
@@ -127,85 +150,45 @@ class MemberJPARepositoryTest {
         @Test
         @DisplayName("회원 삭제 - 성공.")
         void delete() {
+            //todo: deleteById로 변경 고려.
             //given
-            String id = UUID.randomUUID().toString();
-            Member member = mock(Member.class);
-            given(memberSpringJPARepository.findById(id)).willReturn(Optional.of(member));
+            Member member = MemberFixture.create();
+            Member saved = memberSpringJPARepository.save(member);
 
             //when
-            sut.delete(id);
+            sut.delete(saved.getId());
 
             //then
-            verify(memberSpringJPARepository).delete(member);
-        }
-
-        @Test
-        @DisplayName("회원 삭제 - 존재하지 않는 회원.")
-        void delete_NOT_EXISTING_USER_Exception() {
-
-            //given
-            String id = "NOT_EXIST";
-            Member registeredMember = mock(Member.class);
-            given(registeredMember.getId()).willReturn(id);
-            given(memberSpringJPARepository.findById(registeredMember.getId())).willReturn(Optional.empty());
-
-            //when
-
-            //then
-            assertThrows(MemberException.class, () -> sut.delete(registeredMember.getId()));
+            Exception exception = assertThrows(MemberException.class, () -> sut.findById(member.getId()));
+            assertEquals(NOT_EXITING_USER.getDeatil(), exception.getMessage());
         }
     }
 
     @Nested
     @DisplayName("update 테스트")
+    @SpringBootTest
     class updateTest {
+
         @Test
         @DisplayName("회원 수정 - 성공.")
         void update() {
             //given
-            Member updatingMember = mock(Member.class);
-            Member member = mock(Member.class);
-            given(memberSpringJPARepository.findById(updatingMember.getId())).willReturn(Optional.of(member));
+            Member originalMember = MemberFixture.create();
+            Member saved = memberSpringJPARepository.save(originalMember);
+            Member updatingMember = MemberFixture.createUpdatingMember(saved.getId(), "updated@update.com", "updatedName", "updatedPassword", "01000000000", "updatedAddress", false, 10L);
 
             //when
-            sut.update(updatingMember);
+            Member result = sut.update(updatingMember);
 
             //then
-            verify(member).update(updatingMember);
-            verify(memberSpringJPARepository).save(member);
-        }
-
-        @Test
-        @DisplayName("회원 수정 - 존재하지 않는 회원.")
-        void Update_NOT_EXISTING_USER_Exception() {
-
-            //given
-            String id = "NOT_EXIST";
-            Member updatingMember = mock(Member.class);
-            given(updatingMember.getId()).willReturn(id);
-            given(memberSpringJPARepository.findById(updatingMember.getId())).willReturn(Optional.empty());
-
-            //when
-
-            //then
-            assertThrows(MemberException.class, () -> sut.update(updatingMember));
-        }
-
-        @Test
-        @DisplayName("회원 수정 - 실패.")
-        void Update_FAILED_Exception() {
-
-            //given
-            Member updatingMember = mock(Member.class);
-            Member member = mock(Member.class);
-            given(memberSpringJPARepository.findById(updatingMember.getId())).willReturn(Optional.of(member));
-            sut.update(updatingMember);
-            given(memberSpringJPARepository.findById(updatingMember.getId())).willReturn(Optional.empty());
-
-            //when
-
-            //then
-            assertThrows(MemberException.class, () -> sut.update(updatingMember));
+            assertEquals(result.getId(), updatingMember.getId());
+            assertEquals(result.getEmail(), updatingMember.getEmail());
+            assertEquals(result.getPassword(), updatingMember.getPassword());
+            assertEquals(result.getName(), updatingMember.getName());
+            assertEquals(result.getPhone(), updatingMember.getPhone());
+            assertEquals(result.getAddress(), updatingMember.getAddress());
+            assertEquals(result.isLocationServiceEnabled(), updatingMember.isLocationServiceEnabled());
+            assertEquals(result.getPoint(), updatingMember.getPoint());
         }
     }
 
@@ -218,13 +201,41 @@ class MemberJPARepositoryTest {
             //given
             double x = 0;
             double y = 0;
-            int radius = 100;
+            int radius = 500; // 500km
+
+            Member memberAt0 = MemberFixture.create();
+            Member memberNear = MemberFixture.createMemberWithDifferentLocation(0, 0.002);
+            memberSpringJPARepository.save(memberAt0);
+            memberSpringJPARepository.save(memberNear);
 
             //when
-            sut.findNearByMember(x, y, radius);
+            List<Member> list = sut.findNearByMember(x, y, radius);
 
             //then
-            verify(memberSpringJPARepository).findNearByMember(x, y, radius);
+            assertEquals(2, list.size());
+            System.out.println(list.get(0).getName());
+            System.out.println(list.get(1).getName());
+        }
+
+        @Test
+        @DisplayName("주변 회원 조회 - 성공.")
+        void findNearByMember_nearBy() {
+            //given
+            double x = 0;
+            double y = 0;
+            int radius = 1;
+
+            Member memberAt0 = MemberFixture.create();
+            Member memberNear = MemberFixture.createMemberWithDifferentLocation(300, 300);
+            memberSpringJPARepository.save(memberAt0);
+            memberSpringJPARepository.save(memberNear);
+
+            //when
+            List<Member> list = sut.findNearByMember(x, y, radius);
+
+            //then
+            assertEquals(1, list.size());
+            System.out.println(list.get(0).getName());
         }
 
     }
