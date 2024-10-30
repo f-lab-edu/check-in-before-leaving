@@ -50,88 +50,87 @@ public class SignUpController {
     public static final String LOCATION_VALIDATION_MESSAGE = "동을 입력해주세요";
     public static final String LOCATION_SERVICE_VALIDATION_MESSAGE = "위치 서비스 사용 여부를 입력해주세요";
 
-    //fixme: Request와 Response는 final을 붙여서 불변으로 만드는게 좋을것 같은데 어떨까요?
     @Getter
     @Builder(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SignUpRequest {
 
         @Email(message = EMAIL_FORMAT_VALIDATION_MESSAGE)
         @NotBlank(message = EMAIL_VALIDATION_MESSAGE)
-        private String email;
+        private final String email;
 
         @NotBlank(message = PASSWORD_VALIDATION_MESSAGE)
-        private String password;
+        private final String password;
 
         @NotBlank(message = NAME_VALIDATION_MESSAGE)
-        private String name;
+        private final String name;
 
         @NotBlank(message = PHONE_VALIDATION_MESSAGE)
-        private String phone;
+        private final String phone;
 
         @NotBlank(message = LOCATION_VALIDATION_MESSAGE)
-        private String address;
+        private final String address;
 
         @NotNull(message = LOCATION_SERVICE_VALIDATION_MESSAGE)
-        private Boolean isLocationServiceEnabled;
+        private final boolean isLocationServiceEnabled;
 
-        private Long point;
+        private final long point;
     }
 
 
     @Getter
     @Builder(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateRequest {
 
         public static final String MEMBER_ID_VALIDATION_MESSAGE = "회원번호를 입력해주세요";
         public static final String POINT_UPDATE_VALIDATION_MESSAGE = "현재 포인트를 입력해주세요";
 
         @NotNull(message = MEMBER_ID_VALIDATION_MESSAGE)
-        private String id;
+        private final String id;
 
         @Email(message = EMAIL_FORMAT_VALIDATION_MESSAGE)
         @NotBlank(message = EMAIL_VALIDATION_MESSAGE)
-        private String email;
+        private final String email;
 
         @NotBlank(message = PASSWORD_VALIDATION_MESSAGE)
-        private String password;
+        private final String password;
 
         @NotBlank(message = NAME_VALIDATION_MESSAGE)
-        private String name;
+        private final String name;
 
         @NotBlank(message = PHONE_VALIDATION_MESSAGE)
-        private String phone;
+        private final String phone;
 
         @NotBlank(message = LOCATION_VALIDATION_MESSAGE)
-        private String location;
+        private final String location;
 
         @NotNull(message = LOCATION_SERVICE_VALIDATION_MESSAGE)
-        private Boolean isLocationServiceEnabled;
+        private final boolean isLocationServiceEnabled;
 
         @NotNull(message = POINT_UPDATE_VALIDATION_MESSAGE)
-        private Long point;
+        private final long point;
     }
 
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
     public static class MemberResponse {
 
-        private String id;
+        private final String id;
 
-        private String email;
+        private final String email;
 
-        private String password;
+        private final String password;
 
-        private String name;
+        private final String name;
 
-        private String phone;
+        private final String phone;
 
-        private String address;
+        private final String address;
 
-        private Boolean isLocationServiceEnabled;
+        private final boolean isLocationServiceEnabled;
 
-        private Long point;
+        private final long point;
 
         public static MemberResponse from(Member member) {
             return MemberResponse.builder()

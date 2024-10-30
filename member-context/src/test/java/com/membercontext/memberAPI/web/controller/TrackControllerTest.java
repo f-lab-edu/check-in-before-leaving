@@ -45,7 +45,7 @@ class TrackControllerTest {
     @Nested
     class Track {
 
-        private final TrackRequest trackForm = TrackRequestFixture.create();
+        private final TrackRequest trackRequest = TrackRequestFixture.create();
 
         @Test
         @DisplayName("로그인 - 위치 추적 시작.")
@@ -62,7 +62,7 @@ class TrackControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .cookie(cookie)
                     .session(session)
-                    .content(mapper.writeValueAsString(trackForm)));
+                    .content(mapper.writeValueAsString(trackRequest)));
 
             //then
             resultActions.andExpect(status().isOk())
@@ -78,7 +78,7 @@ class TrackControllerTest {
             //when
             ResultActions resultActions = mockMvc.perform(post(requestURL)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(mapper.writeValueAsString(trackForm)));
+                    .content(mapper.writeValueAsString(trackRequest)));
 
             //then
             resultActions.andExpect(status().isBadRequest());
@@ -88,7 +88,7 @@ class TrackControllerTest {
     @Nested
     class Token {
 
-        private final FCMTokenRequest fcmTokenForm = FCMTokenRequestFixture.create();
+        private final FCMTokenRequest fcmTokenRequest = FCMTokenRequestFixture.create();
 
         @Test
         @DisplayName("로그인 - 토큰 저장")
@@ -106,7 +106,7 @@ class TrackControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .cookie(cookie)
                     .session(session)
-                    .content(mapper.writeValueAsString(fcmTokenForm)));
+                    .content(mapper.writeValueAsString(fcmTokenRequest)));
 
             //then
             resultActions.andExpect(status().isOk())
@@ -122,7 +122,7 @@ class TrackControllerTest {
             //when
             ResultActions resultActions = mockMvc.perform(post(requestURL)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(mapper.writeValueAsString(fcmTokenForm)));
+                    .content(mapper.writeValueAsString(fcmTokenRequest)));
 
             //then
             resultActions.andExpect(status().isBadRequest());
