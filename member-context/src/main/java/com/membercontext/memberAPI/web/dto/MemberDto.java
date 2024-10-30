@@ -10,7 +10,7 @@ import lombok.*;
 
 public class MemberDto {
 
-    private Long id;
+    private String id;
 
     private String email;
 
@@ -27,7 +27,7 @@ public class MemberDto {
     private Long point;
 
 
-    public static MemberDto from(Member member){
+    public static MemberDto from(Member member) {
         return MemberDto.builder()
                 .id(member.getId())
                 .email(member.getEmail())
@@ -35,11 +35,10 @@ public class MemberDto {
                 .name(member.getName())
                 .phone(member.getPhone())
                 .location(member.getLocation())
-                .isLocationServiceEnabled(member.getIsLocationServiceEnabled())
+                .isLocationServiceEnabled(member.isLocationServiceEnabled())
                 .point(member.getPoint())
                 .build();
     }
-
 
 
 }

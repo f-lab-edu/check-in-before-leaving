@@ -9,13 +9,13 @@ import static org.mockito.Mockito.when;
 public class MemberDtoTextFixture {
     public MemberDto from_Mock(Member member) {
 
-        Long id = member.getId();
+        String id = member.getId();
         String email = member.getEmail();
         String password = member.getPassword();
         String name = member.getName();
         String phone = member.getPhone();
         String location = member.getLocation();
-        Boolean isLocationServiceEnabled = member.getIsLocationServiceEnabled();
+        Boolean isLocationServiceEnabled = member.isLocationServiceEnabled();
         Long point = member.getPoint();
 
         MemberDto memberDto = mock(MemberDto.class);
