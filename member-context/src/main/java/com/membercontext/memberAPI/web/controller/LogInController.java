@@ -60,7 +60,7 @@ public class LogInController {
     }
 
     @Getter
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder(access = AccessLevel.PROTECTED)
     public static class LogInRequest {
 
@@ -68,10 +68,10 @@ public class LogInController {
         public static final String LOG_IN_PASSWORD_VALIDATION_MESSAGE = "비밀번호가 없습니다.";
 
         @NotBlank(message = LOG_IN_EMAIL_VALIDATION_MESSAGE)
-        private String email;
+        private final String email;
 
         @NotBlank(message = LOG_IN_PASSWORD_VALIDATION_MESSAGE)
-        private String password;
+        private final String password;
     }
 
 

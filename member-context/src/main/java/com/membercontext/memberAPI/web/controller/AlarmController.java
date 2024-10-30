@@ -28,7 +28,7 @@ public class AlarmController {
     }
 
     @Getter
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder(access = AccessLevel.PROTECTED)
     public static class AlarmRequest {
 
@@ -38,16 +38,16 @@ public class AlarmController {
         public static final String ALARM_MESSAGE_NOT_FOUND = "알람 내용이 없습니다.";
 
         @NotNull(message = ALARM_X_NOT_FOUND)
-        private Double x;
+        private final double x;
 
         @NotNull(message = ALARM_Y_NOT_FOUND)
-        private Double y;
+        private final double y;
 
         @NotBlank(message = ALARM_TITLE_NOT_FOUND)
-        private String title;
+        private final String title;
 
         @NotBlank(message = ALARM_MESSAGE_NOT_FOUND)
-        private String message;
+        private final String message;
     }
 
 
