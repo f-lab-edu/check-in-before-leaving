@@ -23,7 +23,7 @@ public class CheckInWriteService {
 
     @Transactional
     public Long registerCheckIn(CheckInRegisterDTO dto) {
-        Place place = placeRepository.findById(Long.parseLong(dto.getPlaceId()))
+        Place place = placeRepository.findById(dto.getPlaceId())
                 .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
         CheckIn<Created> checkIn = CheckIn.of(dto, place, Created.create());
         return helpDBAdapter.save(checkIn);

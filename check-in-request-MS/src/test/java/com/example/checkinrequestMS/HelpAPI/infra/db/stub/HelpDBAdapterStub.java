@@ -11,10 +11,8 @@ import com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child.Lin
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 @NoRepositoryBean
 public class HelpDBAdapterStub implements HelpDBAdapter {
@@ -24,7 +22,7 @@ public class HelpDBAdapterStub implements HelpDBAdapter {
 
     @Override
     public Long save(Help help) {
-        if (help.getId() != null && helpList.containsKey(help.getId())) {
+        if(help.getId() != null && helpList.containsKey(help.getId())){
             helpList.replace(help.getId(), help);
             return help.getId();
         }
@@ -33,27 +31,18 @@ public class HelpDBAdapterStub implements HelpDBAdapter {
         helpList.put(id, help);
         return id;
     }
-
-    private Help addId(Help help, Long id) {
-        if (help instanceof CheckIn) {
+    private Help addId(Help help, Long id){
+        if(help instanceof CheckIn) {
             return CheckInFixture.attachId((CheckIn) help, id);
-        } else if (help instanceof LineUp) {
+        }else if(help instanceof LineUp){
             return LineUpFixture.attachId((LineUp) help, id);
-        } else if (help instanceof Etc) {
+        }else if(help instanceof Etc){
             return EtcFixture.attachId((Etc) help, id);
         }
         throw new RuntimeException("Help not found");
     }
-
     @Override
     public Help findById(Long id) {
         return helpList.get(id);
-    }
-
-    @Override
-    public List<Help> findAllHelpByPlaceId(List<String> ids) {
-        return helpList.values().stream()
-                .filter(help -> ids.contains(help.getPlaceId()))
-                .collect(Collectors.toList());
     }
 }

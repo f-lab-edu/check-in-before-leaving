@@ -6,16 +6,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SearchCategory {
 
-    FD6("음식점"),
-    CT1("문화시설"),
-    CE7("카페"),
-    CS2("편의점");
+    CULTURE("CT1"),
+    CAFE("CE7"),
+    CONVENIENT_STORE("CS2"),
+    RESTAURANT("FD6");
 
-    private final String description;
+    private final String code;
 
-    public String getDescription() {
-        return description;
+    public String code () {
+        return code;
     }
-
-
 }

@@ -23,7 +23,7 @@ public class EtcRegisterForm extends HelpRegisterForm {
     private String title;
 
     @Builder(access = AccessLevel.PROTECTED)
-    public EtcRegisterForm(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward, String contents, String title) {
+    public EtcRegisterForm(Long helpRegisterId, Long placeId, LocalDateTime start, int option, Long reward, String contents, String title) {
         super(helpRegisterId, placeId, start, option, reward);
         this.contents = contents;
         this.title = title;

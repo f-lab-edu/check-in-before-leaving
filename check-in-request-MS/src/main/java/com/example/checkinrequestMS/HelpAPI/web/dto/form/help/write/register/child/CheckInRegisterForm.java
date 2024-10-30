@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class CheckInRegisterForm extends HelpRegisterForm {
 
     @Builder(access = AccessLevel.PROTECTED)
-    private CheckInRegisterForm(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward) {
+    private CheckInRegisterForm(Long helpRegisterId, Long placeId, LocalDateTime start, int option, Long reward) {
         super(helpRegisterId, placeId, start, option, reward);
     }
 }

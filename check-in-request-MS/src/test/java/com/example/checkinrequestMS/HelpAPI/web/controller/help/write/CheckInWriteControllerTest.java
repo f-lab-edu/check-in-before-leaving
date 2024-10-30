@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.web.controller.help.write;
+package com.example.checkinrequestMS.HelpAPI.web.controller.help.write.checkIn;
 
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteService;

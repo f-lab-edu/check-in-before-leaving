@@ -1,7 +1,9 @@
-package com.example.checkinrequestMS.PlaceAPI.domain.service.tools.deprecated.innerDB;
+package com.example.checkinrequestMS.PlaceAPI.domain.service;
 
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
+import com.example.checkinrequestMS.PlaceAPI.domain.PlaceRedis;
 import com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceException;
+import com.example.checkinrequestMS.PlaceAPI.domain.service.tools.KakaoAPIStoreInfoSaver;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.infra.redis.PlaceRedisRepository;
 import com.example.checkinrequestMS.PlaceAPI.infra.redis.RedisGeo;
@@ -14,19 +16,43 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceErrorCode.NO_PLACE_INFO;
+import static com.example.checkinrequestMS.PlaceAPI.infra.redis.RedisGeo.GEO_KEY;
 
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Deprecated
-public class SearchPlaceService_DBSaver {
+public class SearchPlaceService {
 
+    private final PlaceRedisRepository placeRedisRepository;
     private final PlaceJPARepository placeJPARepository;
-    private final KakaoAPIStoreInfoDBSaver storeInfoSaver;
+    private final KakaoAPIStoreInfoSaver storeInfoSaver;
+    private final RedisGeo redisGeo;
 
-    //1차 계획(현재 미사용): 상세내역 deprecated/innerDB/KakaoAPIStoreInfoDBSaver에 위치.
 
+    public List<PlaceRedis> searchWithKeyword(String query, double x, double y, int radius) {
+        storeInfoSaver.saveToRedisWithKeyWord(query, x, y, radius);
+        //fixme: static 상수를 다른 파일까지 가져와서 써도 괜찮을까요?
+        return redisGeo.findByRadius(GEO_KEY, x, y, radius).stream()
+                .map(placeId -> {
+                    return placeRedisRepository.findById(placeId)
+                            .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
+                })
+                .toList();
+    }
+
+    public List<PlaceRedis> searchWithCategory(SearchCategory category, double x, double y, int radius) {
+        storeInfoSaver.saveToRedisWithCategory(category, x, y, radius);
+        return redisGeo.findByRadius(GEO_KEY, x, y, radius).stream()
+                .map(placeId -> {
+                    return placeRedisRepository.findById(placeId)
+                            .orElseThrow(() -> new PlaceException(NO_PLACE_INFO));
+                })
+                .toList();
+    }
+
+    // DB에 저장
+    // 주의: deprecated, Save to Redis 사용.
     @Transactional
     public List<Place> searchWithKeyword_db(String query, double x, double y, int radius) {
         storeInfoSaver.saveToDBWithKeyword(query, x, y, radius);

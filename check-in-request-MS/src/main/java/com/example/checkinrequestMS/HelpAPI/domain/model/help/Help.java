@@ -1,6 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.*;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Authenticated;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Ongoing;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressValue;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,11 +23,11 @@ public abstract class Help<T extends Progress> {
     protected String title;
     protected LocalDateTime start;
     protected LocalDateTime end;
-    protected String placeId;
+    protected Long placeId;
     protected Long reward;
     protected T progress;
 
-    protected Help(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, Long reward, T progress) {
+    protected Help(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, Long placeId, Long reward, T progress) {
         this.id = id;
         this.helpRegisterId = helpRegisterId;
         this.title = title;
@@ -42,26 +45,27 @@ public abstract class Help<T extends Progress> {
             case CREATED:
                 return Created.create();
             case AUTHENTICATED:
-                return Authenticated.of(progressEntity.getHelperId(), progressEntity.getPhotoPath());
-            case COMPLETED:
-                return Completed.of(progressEntity.getHelperId(), progressEntity.getPhotoPath());
+                return Authenticated.of(progressEntity.getHelperId(), progressEntity.getPhotoPath(), progressEntity.isCompleted());
         }
         throw new RuntimeException("illegal Progress type");
     }
-
-    public void registerHelper(Long helperId) {
+    public void registerHelper(Long helperId){
         this.progress = (T) Ongoing.from(helperId);
     }
-
-    public void addPhoto(String photoPath) {
+    public void addPhoto(String photoPath){
         Ongoing ongoing = (Ongoing) this.progress;
-        this.progress = (T) Authenticated.of(ongoing.getHelperId(), photoPath);
+        this.progress = (T) Authenticated.of(ongoing.getHelperId(), photoPath, ongoing.isCompleted());
     }
-
     public void approved() {
         Authenticated authenticated = (Authenticated) this.progress;
-        this.progress = (T) Completed.of(authenticated.getHelperId(), authenticated.getPhotoPath());
+        authenticated.approved();
+        this.progress = (T) authenticated;
     }
+
+    //체크인 요청, 줄서기 요청, 기타 요청.
+
+
+
 
 
 }

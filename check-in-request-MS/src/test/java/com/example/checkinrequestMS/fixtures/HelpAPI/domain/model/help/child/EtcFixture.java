@@ -4,37 +4,35 @@ import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progres
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.fixtures.Variables;
 
-import static com.example.checkinrequestMS.fixtures.Variables.*;
+import java.time.LocalDateTime;
 
-public class EtcFixture extends Etc {
-    public static <T extends Progress> Etc<T> createEtcNoId(T progress) {
+public class EtcFixture extends Etc{
+    public static <T extends Progress> Etc<T> createEtcNoId(T progress){
         return Etc.<T>builder()
-                .helpRegisterId(HELP_REGISTER_ID)
+                .helpRegisterId(1L)
                 .title("Etc title")
-                .start(START_TIME)
-                .end(START_TIME.plusMinutes(THIRTY_MINUTES))
-                .placeId(PLACE_ID)
+                .start(Variables.startTime)
+                .end(Variables.startTime.plusMinutes(30))
+                .placeId(1L)
                 .progress(progress)
-                .reward(REWARD)
+                .reward(100L)
                 .contents("Etc contents")
                 .build();
     }
-
-    public static <T extends Progress> Etc<T> createEtcWithId(T progress, Long id) {
+    public static <T extends Progress> Etc<T> createEtcWithId(T progress, Long id){
         return Etc.<T>builder()
                 .id(id)
-                .helpRegisterId(HELP_REGISTER_ID)
+                .helpRegisterId(1L)
                 .title("Etc title")
-                .start(START_TIME)
-                .end(START_TIME.plusMinutes(THIRTY_MINUTES))
-                .placeId(PLACE_ID)
+                .start(Variables.startTime)
+                .end(Variables.startTime.plusMinutes(30))
+                .placeId(1L)
                 .progress(progress)
-                .reward(REWARD)
+                .reward(100L)
                 .contents("Etc contents")
                 .build();
     }
-
-    public static Etc attachId(Etc etc, Long id) {
+    public static Etc attachId(Etc etc, Long id){
         return Etc.builder()
                 .id(id)
                 .helpRegisterId(etc.getHelpRegisterId())

@@ -4,50 +4,35 @@ import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progres
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.fixtures.Variables;
 
-import static com.example.checkinrequestMS.fixtures.Variables.*;
+import java.time.LocalDateTime;
 
 
-public class CheckInFixture extends CheckIn {
+public class CheckInFixture extends CheckIn{
 
-    public static <T extends Progress> CheckIn<T> createCheckInNoId(T progress) {
+   public static <T extends Progress> CheckIn<T> createCheckInNoId(T progress){
         return CheckIn.<T>builder()
-                .helpRegisterId(HELP_REGISTER_ID)
+                .helpRegisterId(1L)
                 .title("CheckIn title")
-                .start(START_TIME)
-                .end(START_TIME.plusMinutes(THIRTY_MINUTES))
-                .placeId(PLACE_ID)
+                .start(Variables.startTime)
+                .end(Variables.startTime.plusMinutes(30))
+                .placeId(1L)
                 .progress(progress)
-                .reward(REWARD)
+                .reward(100L)
+                .build();
+   }
+    public static <T extends Progress> CheckIn<T> createCheckInWithId(T progress, Long id){
+        return CheckIn.<T>builder()
+                .id(1L)
+                .helpRegisterId(1L)
+                .title("CheckIn title")
+                .start(Variables.startTime)
+                .end(Variables.startTime.plusMinutes(30))
+                .placeId(1L)
+                .progress(progress)
+                .reward(100L)
                 .build();
     }
-
-    public static <T extends Progress> CheckIn<T> createCheckInWithId(T progress, Long id) {
-        return CheckIn.<T>builder()
-                .id(id)
-                .helpRegisterId(HELP_REGISTER_ID)
-                .title("CheckIn title")
-                .start(START_TIME)
-                .end(START_TIME.plusMinutes(THIRTY_MINUTES))
-                .placeId(PLACE_ID)
-                .progress(progress)
-                .reward(REWARD)
-                .build();
-    }
-
-    public static <T extends Progress> CheckIn<T> createCheckInWithIdAndPlaceId(T progress, Long id, String placeId) {
-        return CheckIn.<T>builder()
-                .id(id)
-                .helpRegisterId(HELP_REGISTER_ID)
-                .title("CheckIn title")
-                .start(START_TIME)
-                .end(START_TIME.plusMinutes(THIRTY_MINUTES))
-                .placeId(placeId)
-                .progress(progress)
-                .reward(REWARD)
-                .build();
-    }
-
-    public static CheckIn attachId(CheckIn checkIn, Long id) {
+   public static CheckIn attachId(CheckIn checkIn, Long id){
         return CheckIn.builder()
                 .id(id)
                 .helpRegisterId(checkIn.getHelpRegisterId())
@@ -59,6 +44,8 @@ public class CheckInFixture extends CheckIn {
                 .reward(checkIn.getReward())
                 .build();
     }
+
+
 
 
 }
