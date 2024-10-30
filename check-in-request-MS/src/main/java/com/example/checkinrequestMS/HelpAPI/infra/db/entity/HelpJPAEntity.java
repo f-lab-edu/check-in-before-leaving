@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @DiscriminatorColumn(name = "dtype")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "help")
-public class HelpJPAEntity {
+public abstract class HelpJPAEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +24,12 @@ public class HelpJPAEntity {
     protected LocalDateTime start;
     protected LocalDateTime end;
     @Column(name = "place_id")
-    protected Long placeId;
+    protected String placeId;
     @Embedded
     protected ProgressValue progressValue;
     protected Long reward;
 
-    protected HelpJPAEntity(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, Long placeId, ProgressValue progressValue, Long reward) {
+    protected HelpJPAEntity(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, ProgressValue progressValue, Long reward) {
         this.id = id;
         this.helpRegisterId = helpRegisterId;
         this.title = title;
@@ -39,11 +39,6 @@ public class HelpJPAEntity {
         this.progressValue = progressValue;
         this.reward = reward;
     }
-
-    public void setProgress(ProgressValue progress) {
-        this.progressValue = progress;
-    }
-
     //체크인 요청, 줄서기 요청, 기타 요청.
 
 }

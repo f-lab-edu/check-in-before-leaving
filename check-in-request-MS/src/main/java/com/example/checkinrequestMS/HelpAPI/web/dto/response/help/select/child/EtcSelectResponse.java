@@ -20,8 +20,8 @@ public class EtcSelectResponse extends HelpSelectResponse {
 
 
     @Builder(access = AccessLevel.PROTECTED)
-    private EtcSelectResponse(Long id, Long helpRegisterId, String title, Long placeId, LocalDateTime start, LocalDateTime end, ProgressSelectResponse progressDTO, Long reward, String contents) {
-        super(id, helpRegisterId, title, placeId, start, end, progressDTO, reward);
+    private EtcSelectResponse(Long id, Long helpRegisterId, String title, String placeId, LocalDateTime start, LocalDateTime end, ProgressSelectResponse progressSelectResponse, Long reward, String contents) {
+        super(id, helpRegisterId, title, placeId, start, end, progressSelectResponse, reward);
         this.contents = contents;
     }
 
@@ -31,7 +31,7 @@ public class EtcSelectResponse extends HelpSelectResponse {
                 .title(etc.getTitle())
                 .helpRegisterId(etc.getHelpRegisterId())
                 .placeId(etc.getPlaceId())
-                .progressDTO(ProgressSelectResponse.getProgressDTO(etc.getProgress()))
+                .progressSelectResponse(ProgressSelectResponse.getProgressSelectResponse(etc.getProgress()))
                 .start(etc.getStart())
                 .end(etc.getEnd())
                 .reward(etc.getReward())

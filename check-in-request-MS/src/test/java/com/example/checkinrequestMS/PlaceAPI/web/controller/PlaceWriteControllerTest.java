@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PlaceWriteController.class)
-class PlaceCRUDControllerTest {
+class PlaceWriteControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -26,10 +26,11 @@ class PlaceCRUDControllerTest {
     @Test
     void registerPlace() throws Exception {
         String content = "{\n" +
+                "    \"placeId\": 1,\n" +
                 "    \"placeName\": \"테스트중 맛집\",\n" +
                 "    \"address\": \"맛집의 주소\",\n" +
                 "    \"roadAddressName\": \"맛집의 도로명\",\n" +
-                "    \"categoryName\": \"한식 맛집\",\n" +
+                "    \"category\": \"RESTAURANT\",\n" +
                 "    \"phone\": \"010-1111-1111\",\n" +
                 "    \"placeUrl\": \"test@test.com\",\n" +
                 "    \"x\": 0,\n" +
