@@ -38,10 +38,10 @@ public class AlarmController {
         public static final String ALARM_MESSAGE_NOT_FOUND = "알람 내용이 없습니다.";
 
         @NotNull(message = ALARM_X_NOT_FOUND)
-        private final double x;
+        private final Double x;
 
         @NotNull(message = ALARM_Y_NOT_FOUND)
-        private final double y;
+        private final Double y;
 
         @NotBlank(message = ALARM_TITLE_NOT_FOUND)
         private final String title;

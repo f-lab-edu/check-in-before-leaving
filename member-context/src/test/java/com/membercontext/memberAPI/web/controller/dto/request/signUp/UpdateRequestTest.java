@@ -31,23 +31,23 @@ class UpdateRequestTest {
     private SignUpServiceImpl signUpService;
 
     private final String requestURL = "/sign-in";
-    private SignUpController.UpdateRequest form;
+    private SignUpController.UpdateRequest req;
 
     @BeforeEach
     void setUp() {
-        form = mock(SignUpController.UpdateRequest.class);
+        req = mock(SignUpController.UpdateRequest.class);
     }
 
     @Test
     @DisplayName("회원 아이디(PK) 미입력.")
     void update_URL() throws Exception {
         //given
-        when(form.getId()).thenReturn(null);
+        when(req.getId()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -57,12 +57,12 @@ class UpdateRequestTest {
     @DisplayName("이름 미입력.")
     void update_NoName() throws Exception {
         //given
-        when(form.getName()).thenReturn(null);
+        when(req.getName()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -72,12 +72,12 @@ class UpdateRequestTest {
     @DisplayName("이메일 미입력.")
     void update_NoEmail() throws Exception {
         //given
-        when(form.getEmail()).thenReturn(null);
+        when(req.getEmail()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -87,12 +87,12 @@ class UpdateRequestTest {
     @DisplayName("이메일 형식 오류.")
     void update_InvalidEmail() throws Exception {
         //given
-        when(form.getEmail()).thenReturn("invalidEmail");
+        when(req.getEmail()).thenReturn("invalidEmail");
 
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -102,12 +102,12 @@ class UpdateRequestTest {
     @DisplayName("비밀번호 미입력.")
     void update_NoPassword() throws Exception {
         //given
-        when(form.getPassword()).thenReturn(null);
+        when(req.getPassword()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -117,12 +117,12 @@ class UpdateRequestTest {
     @DisplayName("전화번호 미입력.")
     void update_NoPhone() throws Exception {
         //given
-        when(form.getPhone()).thenReturn(null);
+        when(req.getPhone()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -132,12 +132,12 @@ class UpdateRequestTest {
     @DisplayName("위치 미입력.")
     void update_NoLocation() throws Exception {
         //given
-        when(form.getLocation()).thenReturn(null);
+        when(req.getLocation()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -147,12 +147,12 @@ class UpdateRequestTest {
     @DisplayName("위치 서비스 사용 여부 없음.")
     public void signUp_NoIsLocationServiceEnabled() throws Exception {
         //given
-        when(form.getIsLocationServiceEnabled()).thenReturn(null);
+        when(req.getIsLocationServiceEnabled()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -163,16 +163,15 @@ class UpdateRequestTest {
     @DisplayName("포인트 미입력.")
     void update_NoPoint() throws Exception {
         //given
-        when(form.getPoint()).thenReturn(null);
+        when(req.getPoint()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(form)));
+                .content(mapper.writeValueAsString(req)));
 
         //then
         resultActions.andExpect(status().isBadRequest());
     }
-
 
 }

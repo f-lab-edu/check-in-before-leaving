@@ -53,10 +53,10 @@ public class TrackController {
         public static final String TRACK_TIMESTAMP_NOT_FOUND = "시간이 없습니다.";
 
         @NotNull(message = TRACK_LATITUDE_NOT_FOUND)
-        private final double latitude;
+        private final Double latitude;
 
         @NotNull(message = TRACK_LONGITUDE_NOT_FOUND)
-        private final double longitude;
+        private final Double longitude;
 
         @NotNull(message = TRACK_TIMESTAMP_NOT_FOUND)
         private final LocalDateTime timestamp;
