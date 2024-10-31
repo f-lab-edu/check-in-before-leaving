@@ -72,9 +72,10 @@ public class SignUpController {
         private final String address;
 
         @NotNull(message = LOCATION_SERVICE_VALIDATION_MESSAGE)
-        private final boolean isLocationServiceEnabled;
+        private final Boolean isLocationServiceEnabled;
 
         private final long point;
+
     }
 
 
@@ -106,10 +107,10 @@ public class SignUpController {
         private final String location;
 
         @NotNull(message = LOCATION_SERVICE_VALIDATION_MESSAGE)
-        private final boolean isLocationServiceEnabled;
+        private final Boolean isLocationServiceEnabled;
 
         @NotNull(message = POINT_UPDATE_VALIDATION_MESSAGE)
-        private final long point;
+        private final Long point;
     }
 
     @Getter
