@@ -46,9 +46,16 @@ public class MemberSpringJPARepositoryStub implements MemberSpringJPARepository 
     @Override
     public List<Member> findNearByMember(double x, double y, int radius) {
         return members.stream().filter(member ->
-                (Math.pow(member.getMemberLocation().getLongitude(), 2)
-                        + Math.pow(member.getMemberLocation().getLatitude(), 2))
-                        <= Math.pow((radius / Math.pow(10, 5)), 2)).toList();
+        {
+            Optional<Double> longitude = member.getMemberLocation().getLongitude(member);
+            Optional<Double> latitude = member.getMemberLocation().getLatitude(member);
+            if (longitude.isPresent()) {
+                return (Math.pow(longitude.get(), 2) + Math.pow(latitude.get(), 2))
+                        <= Math.pow((radius / Math.pow(10, 5)), 2);
+            } else {
+                return false;
+            }
+        }).toList();
     }
 
     @Override

@@ -25,8 +25,8 @@ public enum MemberErrorCode {
     SIGNUP_FAILED(HttpStatus.BAD_REQUEST, "회원가입이 실패하였습니다."),
 
     //Location
-    LOCATION_SERVICE_NOT_PERMITTED(HttpStatus.BAD_REQUEST, "위치정보 서비스가 허용되지 않았습니다.");
-
+    LOCATION_SERVICE_NOT_PERMITTED(HttpStatus.BAD_REQUEST, "위치정보 서비스가 허용되지 않았습니다."),
+    NO_VALUE(HttpStatus.BAD_REQUEST, "값이 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String deatil;

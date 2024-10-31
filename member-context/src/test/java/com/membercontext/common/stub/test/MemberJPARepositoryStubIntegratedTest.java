@@ -231,6 +231,8 @@ class MemberJPARepositoryStubIntegratedTest {
         void findNearByMember() {
             //given
             Member member = MemberFixture.create();
+            TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
+            member.updateLocation(targetLocation);
             db.save(member);
             stub.save(member);
 
@@ -247,7 +249,22 @@ class MemberJPARepositoryStubIntegratedTest {
 
             assertEquals(2, stubResult.size());
             assertEquals(2, dbResult.size());
+        }
 
+        @Test
+        @DisplayName("findNearByMember - 위치 값 없는 맴버")
+        void findNearByMember_NoLocation() {
+            Member member = MemberFixture.create();
+            db.save(member);
+            stub.save(member);
+
+            //when
+            List<Member> stubResult = stub.findNearByMember(0, 0, 10);
+            List<Member> dbResult = db.findNearByMember(0, 0, 10);
+
+            assertEquals(dbResult.size(), stubResult.size());
+            assertEquals(0, stubResult.size());
+            assertEquals(0, dbResult.size());
         }
 
         @Test
@@ -255,6 +272,8 @@ class MemberJPARepositoryStubIntegratedTest {
         void findNearByMember_OtherFar() {
             //given
             Member member = MemberFixture.create();
+            TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
+            member.updateLocation(targetLocation);
             db.save(member);
             stub.save(member);
 

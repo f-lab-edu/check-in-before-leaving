@@ -7,6 +7,7 @@ import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
 import com.membercontext.memberAPI.web.controller.TrackController;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,6 +29,7 @@ class TrackServiceTest {
     private MemberRepository memberRepository = new MemberJPARepositoryStub();
 
     @Test
+    @DisplayName("현재 위치 저장")
     void saveCurrentLocation() {
         // given
         Member member = MemberFixture.create();
@@ -39,12 +41,13 @@ class TrackServiceTest {
 
         // then
         Member updatedMember = memberRepository.findById(id);
-        assertEquals(updatedMember.getMemberLocation().getLongitude(), form.getLongitude());
-        assertEquals(updatedMember.getMemberLocation().getLatitude(), form.getLatitude());
-        assertEquals(updatedMember.getMemberLocation().getTimestamp(), form.getTimestamp());
+        assertEquals(updatedMember.getMemberLocation().getLongitude(updatedMember).get(), form.getLongitude());
+        assertEquals(updatedMember.getMemberLocation().getLatitude(updatedMember).get(), form.getLatitude());
+        assertEquals(updatedMember.getMemberLocation().getTimestamp(updatedMember).get(), form.getTimestamp());
     }
 
     @Test
+    @DisplayName("FCM 토큰 저장")
     void saveToken() {
         // given
         String token = "token";

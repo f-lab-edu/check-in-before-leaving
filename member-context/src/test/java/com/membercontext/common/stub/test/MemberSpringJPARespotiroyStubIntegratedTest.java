@@ -166,6 +166,10 @@ public class MemberSpringJPARespotiroyStubIntegratedTest {
         @DisplayName("findNearByMember - 가까이 있는 맴버.")
         void findNearByMember() {
             //given
+            TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
+            dbMember.updateLocation(targetLocation);
+            stubMember.updateLocation(targetLocation);
+
             Member memberNearBy = MemberFixture.createMemberWithDifferentEmail("memberNearBy@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002);
             memberNearBy.updateLocation(request);
@@ -177,14 +181,31 @@ public class MemberSpringJPARespotiroyStubIntegratedTest {
             List<Member> stubResult = stub.findNearByMember(0, 0, 500);
             List<Member> dbResult = memberSpringJPARepository.findNearByMember(0, 0, 500);
 
+            assertEquals(dbResult.size(), stubResult.size());
             assertEquals(2, stubResult.size());
             assertEquals(2, dbResult.size());
-
         }
+
+        @Test
+        @DisplayName("findNearByMember - 위치 값 없는 맴버")
+        void findNearByMember_NoLocation() {
+            //when
+            List<Member> stubResult = stub.findNearByMember(0, 0, 10);
+            List<Member> dbResult = memberSpringJPARepository.findNearByMember(0, 0, 10);
+
+            assertEquals(dbResult.size(), stubResult.size());
+            assertEquals(0, stubResult.size());
+            assertEquals(0, dbResult.size());
+        }
+
 
         @Test
         @DisplayName("findNearByMember - 떨어져 있는 맴버.")
         void findNearByMember_OtherFar() {
+            TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
+            dbMember.updateLocation(targetLocation);
+            stubMember.updateLocation(targetLocation);
+
             //given
             Member memberFar = MemberFixture.createMemberWithDifferentEmail("MemberFar@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(400, 400);
@@ -193,11 +214,11 @@ public class MemberSpringJPARespotiroyStubIntegratedTest {
             stub.save(memberFar);
             memberSpringJPARepository.save(memberFar);
 
-
             //when
             List<Member> stubResult = stub.findNearByMember(0, 0, 10);
             List<Member> dbResult = memberSpringJPARepository.findNearByMember(0, 0, 10);
 
+            assertEquals(dbResult.size(), stubResult.size());
             assertEquals(1, stubResult.size());
             assertEquals(1, dbResult.size());
         }

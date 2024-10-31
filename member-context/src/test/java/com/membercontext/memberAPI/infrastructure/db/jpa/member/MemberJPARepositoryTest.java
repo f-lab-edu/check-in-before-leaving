@@ -205,9 +205,10 @@ class MemberJPARepositoryTest {
             int radius = 500; // 500km
 
             Member memberAt0 = MemberFixture.create();
+            memberAt0.updateLocation(TrackRequestFixture.createRequestWithDifferentLocation(x, y));
+
             Member memberNear = MemberFixture.createMemberWithDifferentEmail("nearMember@test.com");
-            TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002);
-            memberNear.updateLocation(request);
+            memberNear.updateLocation(TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002));
 
             memberSpringJPARepository.save(memberAt0);
             memberNear = memberSpringJPARepository.save(memberNear);
@@ -222,6 +223,22 @@ class MemberJPARepositoryTest {
         }
 
         @Test
+        @DisplayName("주변 회원 조회 - 위치값 없는 회원.")
+        void findNearByMember_farAway() { //없는 경우
+            //given
+            double x = 0;
+            double y = 0;
+            int radius = 1;
+            Member memberAt0 = MemberFixture.create();
+            memberSpringJPARepository.save(memberAt0);
+
+            List<Member> list = sut.findNearByMember(x, y, radius);
+
+            System.out.println(list.size());
+        }
+
+
+        @Test
         @DisplayName("주변 회원 조회 - 실패.")
         void findNearByMember_nearBy() {
             //given
@@ -230,9 +247,10 @@ class MemberJPARepositoryTest {
             int radius = 1;
 
             Member memberAt0 = MemberFixture.create();
+            memberAt0.updateLocation(TrackRequestFixture.createRequestWithDifferentLocation(x, y));
+
             Member memberFar = MemberFixture.createMemberWithDifferentEmail("farMember@test.com");
-            TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(300, 300);
-            memberFar.updateLocation(request);
+            memberFar.updateLocation(TrackRequestFixture.createRequestWithDifferentLocation(300, 300));
 
             memberSpringJPARepository.save(memberAt0);
             memberFar = memberSpringJPARepository.save(memberFar);

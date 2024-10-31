@@ -2,61 +2,81 @@ package com.membercontext.memberAPI.domain.entity.member;
 
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import jakarta.persistence.Embeddable;
-import lombok.Getter;
+import lombok.*;
 
+import javax.annotation.Nullable;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
+import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NO_VALUE;
+
 
 @Embeddable
-@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 public final class MemberLocation {
 
-    public static MemberLocation UNKNOWN = new MemberLocation(0, 0, LocalDateTime.now(), "NOT_AVAILABLE");
+    public static MemberLocation UNKNOWN = new MemberLocation(null, null, null, "NOT_AVAILABLE");
 
-    private double latitude;
-    private double longitude;
-    private LocalDateTime timestamp;
-    private String fcmToken; //check: 엄밀히 말하면 여기는 다른 context
+    @Nullable
+    private final Double latitude;
 
+    @Nullable
+    private final Double longitude;
 
-    private MemberLocation(double i, double i1, LocalDateTime currentTime, String fcmToken) {
-        this.latitude = i;
-        this.longitude = i1;
-        this.timestamp = currentTime;
+    @Nullable
+    private final LocalDateTime timestamp;
+
+    @Getter
+    private final String fcmToken; //check: 엄밀히 말하면 여기는 다른 context
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private MemberLocation(@Nullable Double latitude, @Nullable Double longitude, @Nullable LocalDateTime timestamp, @Nullable String fcmToken) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.timestamp = timestamp;
         this.fcmToken = fcmToken;
     }
 
-    protected MemberLocation() {
-    }
-
-    public MemberLocation addLocation(double latitude, double longitude, LocalDateTime timestamp) {
+    public MemberLocation addLocation(Double latitude, Double longitude, LocalDateTime timestamp) {
+        if (latitude == null || longitude == null || timestamp == null) {
+            throw new MemberException(NO_VALUE);
+        }
         return new MemberLocation(latitude, longitude, timestamp, this.fcmToken);
     }
 
     public MemberLocation addFCMToken(String token) {
+        if (token == null) {
+            throw new MemberException(NO_VALUE);
+        }
         return new MemberLocation(this.latitude, this.longitude, this.timestamp, token);
     }
 
-    public LocalDateTime getTimeStamp(Member member) {
+    public Optional<LocalDateTime> getTimestamp(Member member) {
         if (!member.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
-        return this.timestamp;
+        return Optional.ofNullable(this.timestamp);
     }
 
-    public double getLongitude(Member member) {
+    public Optional<Double> getLongitude(Member member) {
         if (!member.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
-        return longitude;
+        return Optional.ofNullable(this.longitude);
     }
 
-    public double getLatitude(Member member) {
+    public Optional<Double> getLatitude(Member member) {
         if (!member.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
-        return latitude;
+        return Optional.ofNullable(this.latitude);
     }
+    //todo: FCM token도 nullable 하도록 변경
+//
+//    public Optional<String> getFcmToken(Member member) {
+//        return Optional.ofNullable(this.fcmToken);
+//    }
+
 
 }

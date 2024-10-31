@@ -40,7 +40,7 @@ public class Member {
 
     @Embedded
     @Builder.Default
-    private MemberLocation memberLocation = new MemberLocation().UNKNOWN;
+    private MemberLocation memberLocation = MemberLocation.UNKNOWN;
 
     private Long point;
 
