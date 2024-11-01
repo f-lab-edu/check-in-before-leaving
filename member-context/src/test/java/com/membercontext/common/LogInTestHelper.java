@@ -6,7 +6,9 @@ import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.LogInController;
 
+import jakarta.servlet.http.Cookie;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -14,11 +16,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.UUID;
 
+import static com.membercontext.memberAPI.web.controller.LogInController.COOKIE_NAME;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 public class LogInTestHelper {
+
+    public static Cookie TEST_COOKIE;
+    public static MockHttpSession TEST_SESSION;
+
 
     public static MvcResult Login() throws Exception {
 
@@ -37,6 +44,11 @@ public class LogInTestHelper {
         ResultActions resultActions = mockMvc.perform(post(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(form)));
+
+        MvcResult result = resultActions.andReturn();
+        TEST_COOKIE = result.getResponse().getCookie(COOKIE_NAME);
+        TEST_SESSION = (MockHttpSession) result.getRequest().getSession();
+
 
         return resultActions.andReturn();
     }
