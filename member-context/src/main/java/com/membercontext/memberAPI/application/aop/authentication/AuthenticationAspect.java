@@ -1,17 +1,14 @@
 package com.membercontext.memberAPI.application.aop.authentication;
 
-import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.web.controller.LogInController;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Member;
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.*;
 
@@ -30,7 +27,7 @@ public class AuthenticationAspect {
     }
 
     private String checkCookie() {
-        final String cookieName = "CKIB4LV";
+        final String cookieName = LogInController.COOKIE_NAME;
         Cookie[] cookies = request.getCookies();
 
         if (cookies == null) {
