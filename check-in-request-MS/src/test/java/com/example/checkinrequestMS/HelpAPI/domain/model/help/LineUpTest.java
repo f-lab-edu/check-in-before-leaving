@@ -1,9 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.LineUpRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressValue;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.LineUpJPAEntity;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.dto.register.LineUpRegisterDTOFixture;
@@ -27,7 +25,7 @@ class LineUpTest {
         given(place.getPlaceName()).willReturn("placeName");
 
         //when
-        LineUp<Created> sut = LineUp.of(dto, place, Created.create());
+        LineUp sut = LineUp.of(dto, place, Progress.DEFAULT);
 
         //then
         assertEquals(dto.getHelpRegisterId(), sut.getHelpRegisterId());
@@ -54,9 +52,7 @@ class LineUpTest {
         assertEquals(entity.getReward(), lineUp.getReward());
         assertEquals(entity.getStart(), lineUp.getStart());
         assertEquals(entity.getEnd(), lineUp.getEnd());
-        assertEquals(entity.getProgressValue().isCompleted(), false);
-        assertEquals(entity.getProgressValue().getStatus(), ProgressValue.CREATED);
-
-
+        assertEquals(entity.getProgressVO().isCompleted(), false);
+        assertEquals(entity.getProgressVO().getStatus(), Progress.ProgressStatus.CREATED);
     }
 }
