@@ -1,14 +1,13 @@
 package com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
-import com.example.checkinrequestMS.fixtures.Variables;
 
 import static com.example.checkinrequestMS.fixtures.Variables.*;
 
 public class EtcFixture extends Etc {
-    public static <T extends Progress> Etc<T> createEtcNoId(T progress) {
-        return Etc.<T>builder()
+    public static Etc createEtcNoId(Progress progress) {
+        return Etc.builder()
                 .helpRegisterId(HELP_REGISTER_ID)
                 .title("Etc title")
                 .start(START_TIME)
@@ -20,8 +19,8 @@ public class EtcFixture extends Etc {
                 .build();
     }
 
-    public static <T extends Progress> Etc<T> createEtcWithId(T progress, Long id) {
-        return Etc.<T>builder()
+    public static Etc createEtcWithId(Progress progress, Long id) {
+        return Etc.builder()
                 .id(id)
                 .helpRegisterId(HELP_REGISTER_ID)
                 .title("Etc title")

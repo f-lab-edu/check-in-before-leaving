@@ -1,16 +1,15 @@
 package com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
-import com.example.checkinrequestMS.fixtures.Variables;
 
 import static com.example.checkinrequestMS.fixtures.Variables.*;
 
 
 public class CheckInFixture extends CheckIn {
 
-    public static <T extends Progress> CheckIn<T> createCheckInNoId(T progress) {
-        return CheckIn.<T>builder()
+    public static CheckIn createCheckInNoId(Progress progress) {
+        return CheckIn.builder()
                 .helpRegisterId(HELP_REGISTER_ID)
                 .title("CheckIn title")
                 .start(START_TIME)
@@ -21,8 +20,8 @@ public class CheckInFixture extends CheckIn {
                 .build();
     }
 
-    public static <T extends Progress> CheckIn<T> createCheckInWithId(T progress, Long id) {
-        return CheckIn.<T>builder()
+    public static CheckIn createCheckInWithId(Progress progress, Long id) {
+        return CheckIn.builder()
                 .id(id)
                 .helpRegisterId(HELP_REGISTER_ID)
                 .title("CheckIn title")
@@ -34,8 +33,8 @@ public class CheckInFixture extends CheckIn {
                 .build();
     }
 
-    public static <T extends Progress> CheckIn<T> createCheckInWithIdAndPlaceId(T progress, Long id, String placeId) {
-        return CheckIn.<T>builder()
+    public static CheckIn createCheckInWithIdAndPlaceId(Progress progress, Long id, String placeId) {
+        return CheckIn.builder()
                 .id(id)
                 .helpRegisterId(HELP_REGISTER_ID)
                 .title("CheckIn title")

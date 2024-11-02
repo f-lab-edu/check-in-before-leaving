@@ -1,37 +1,38 @@
 package com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
-import com.example.checkinrequestMS.fixtures.Variables;
 
-import java.time.LocalDateTime;
+import static com.example.checkinrequestMS.fixtures.Variables.*;
 
 public class LineUpFixture extends LineUp {
 
-    public static <T extends Progress> LineUp<T> createLineUpNoId(T progress) {
-        return LineUp.<T>builder()
-                .helpRegisterId(1L)
+    public static LineUp createLineUpNoId(Progress progress) {
+        return LineUp.builder()
+                .helpRegisterId(HELP_REGISTER_ID)
                 .title("LineUp title")
-                .start(Variables.startTime)
-                .end(Variables.startTime.plusHours(1L))
-                .placeId(1L)
+                .start(START_TIME)
+                .end(START_TIME.plusHours(ONE_HOUR))
+                .placeId(PLACE_ID)
                 .progress(progress)
-                .reward(100L)
+                .reward(REWARD)
                 .build();
     }
-    public static <T extends Progress> LineUp<T> createLineUpWithId(T progress, Long id){
-        return LineUp.<T>builder()
+
+    public static LineUp createLineUpWithId(Progress progress, Long id) {
+        return LineUp.builder()
                 .id(1L)
-                .helpRegisterId(1L)
+                .helpRegisterId(HELP_REGISTER_ID)
                 .title("LineUp title")
-                .start(Variables.startTime)
-                .end(Variables.startTime.plusMinutes(30))
-                .placeId(1L)
+                .start(START_TIME)
+                .end(START_TIME.plusMinutes(THIRTY_MINUTES))
+                .placeId(PLACE_ID)
                 .progress(progress)
-                .reward(100L)
+                .reward(REWARD)
                 .build();
     }
-    public static LineUp attachId(LineUp lineUp, Long id){
+
+    public static LineUp attachId(LineUp lineUp, Long id) {
         return LineUp.builder()
                 .id(id)
                 .helpRegisterId(lineUp.getHelpRegisterId())
