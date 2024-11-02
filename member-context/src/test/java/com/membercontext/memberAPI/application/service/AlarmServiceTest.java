@@ -49,11 +49,11 @@ class AlarmServiceTest {
             TrackController.TrackRequest req = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
 
             Member member1 = MemberFixture.createMemberWithId("UUID");
-            member1.updateLocation(req);
+            member1.startLocationTracking(req);
             memberRepository.save(member1);
 
             Member member2 = MemberFixture.createMemberWithId("UUID2");
-            member2.updateLocation(req);
+            member2.startLocationTracking(req);
             memberRepository.save(member2);
 
             //when

@@ -29,7 +29,7 @@ public class TrackController {
     @PostMapping("/track")
     public ResponseEntity<DefaultHTTPResponse<Void>> track(@CookieValue(value = COOKIE_NAME) String cookieValue, HttpServletRequest request, @Validated @RequestBody TrackRequest trackRequest) {
         String email = (String) request.getSession().getAttribute(cookieValue);
-        trackService.saveCurrentLocation(trackRequest, email);
+        trackService.startLocationTracking(trackRequest, email);
 
         return ResponseEntity.ok().body(new DefaultHTTPResponse<>(LOCATION_TRACK_ONGOING));
     }
@@ -37,7 +37,7 @@ public class TrackController {
     @PostMapping(value = "/token", consumes = "application/json")
     public ResponseEntity<DefaultHTTPResponse<Void>> token(@CookieValue(value = COOKIE_NAME) String cookieValue, HttpServletRequest request, @Validated @RequestBody FCMTokenRequest fcmTokenRequest) {
         String id = (String) request.getSession().getAttribute(cookieValue);
-        trackService.saveToken(fcmTokenRequest.getToken(), id);
+        trackService.enablePushAlarm(fcmTokenRequest.getToken(), id);
 
         return ResponseEntity.ok().body(new DefaultHTTPResponse<>(FCM_TOKEN_REGISTERED));
     }
