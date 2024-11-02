@@ -1,21 +1,30 @@
 package com.membercontext.memberAPI.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.membercontext.common.LogInTestHelper;
 import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
 import com.membercontext.common.fixture.web.crud.UpdateRequestFixture;
+import com.membercontext.memberAPI.application.aop.authentication.AuthenticationAspect;
+import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.MockBeans;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.mock.mockito.SpyBeans;
 import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.membercontext.common.LogInTestHelper.TEST_COOKIE;
+import static com.membercontext.common.LogInTestHelper.TEST_SESSION;
 import static com.membercontext.memberAPI.web.controller.SignUpController.MEMBER_DELETE_SUCCESS_MESSAGE;
 import static com.membercontext.memberAPI.web.controller.SignUpController.MEMBER_SIGN_UP_SUCCESS_MESSAGE;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(SignUpController.class)
+@SpyBeans(@SpyBean(AuthenticationAspect.class))
 public class SignUpControllerTest {
 
     @Autowired
@@ -36,11 +46,17 @@ public class SignUpControllerTest {
     @MockBean
     private SignUpService signUpService;
 
+    @BeforeEach
+    void setUp() throws Exception {
+        LogInTestHelper.Login();
+    }
+
     private final String requestURL = "/sign-in";
 
     @Test
     @DisplayName("회원가입 요청 성공.")
     void signUp_Success() throws Exception {
+
         //given
         String idReturned = "UUID";
         SignUpController.SignUpRequest form = SignUpRequestFixture.create();
@@ -69,6 +85,8 @@ public class SignUpControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
+                .cookie(TEST_COOKIE)
+                .session(TEST_SESSION)
                 .content(mapper.writeValueAsString(form)));
 
         //then
@@ -80,14 +98,13 @@ public class SignUpControllerTest {
                 .andExpect(jsonPath("$.data.name").value(updatedMember.getName()))
                 .andExpect(jsonPath("$.data.phone").value(updatedMember.getPhone()))
                 .andExpect(jsonPath("$.data.address").value(updatedMember.getAddress()))
-                .andExpect(jsonPath("$.data.isLocationServiceEnabled").value(updatedMember.isLocationServiceEnabled()))
+                .andExpect(jsonPath("$.data.locationServiceEnabled").value(updatedMember.isLocationServiceEnabled()))
                 .andExpect(jsonPath("$.data.point").value(updatedMember.getPoint()));
     }
 
     @Test
     @DisplayName("회원 삭제 요청 성공.")
     void delete_URL() throws Exception {
-        //todo: Authentication이 없이 Update, Delete도 가능함. 왜 그런지 확인하기.
         //todo: UUID 체크법.
         //given
         String id = "ANY_ID";
@@ -95,6 +112,8 @@ public class SignUpControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(delete(requestURL)
                 .contentType(MediaType.APPLICATION_JSON)
+                .cookie(TEST_COOKIE)
+                .session(TEST_SESSION)
                 .param("id", id));
 
         //then

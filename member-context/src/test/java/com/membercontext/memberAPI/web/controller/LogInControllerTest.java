@@ -1,6 +1,7 @@
 package com.membercontext.memberAPI.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.common.fixture.web.LogInRequestFixture;
 import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
@@ -16,10 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Collections;
+
 import static com.membercontext.memberAPI.web.controller.LogInController.MEMBER_LOG_IN_SUCCESS_MESSAGE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -43,8 +45,7 @@ class LogInControllerTest {
         LogInController.LogInRequest request = LogInRequestFixture.create();
 
 
-        Member member = mock(Member.class);
-        given(member.getId()).willReturn(UUID);
+        Member member = MemberFixture.createMemberWithId(UUID);
         given(logInService.logIn(request.getEmail(), request.getPassword())).willReturn(member);
 
         //when
@@ -55,16 +56,15 @@ class LogInControllerTest {
         //then - response, cookie
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value(MEMBER_LOG_IN_SUCCESS_MESSAGE))
-                .andExpect(cookie().exists("CKIB4LV"));
-
-        //given - session
-        MvcResult mvcResult = resultActions.andReturn();
-        Cookie cookie = mvcResult.getResponse().getCookie("CKIB4LV");
-        MockHttpSession session = (MockHttpSession) mvcResult.getRequest().getSession();
-        String UUIDInSession = (String) session.getAttribute(cookie.getValue());
+                .andExpect(cookie().exists(LogInController.COOKIE_NAME));
 
         //then - session
-        assertNotNull(UUIDInSession);
-        System.out.println("Session ID: " + UUIDInSession);
+        MvcResult mvcResult = resultActions.andReturn();
+        Cookie cookie = mvcResult.getResponse().getCookie(LogInController.COOKIE_NAME);
+        assertNotNull(cookie);
+
+        MockHttpSession session = (MockHttpSession) mvcResult.getRequest().getSession();
+        assertTrue(Collections.list(session.getAttributeNames()).contains(cookie.getValue()));
+        assertEquals(member.getId(), (String) session.getAttribute(cookie.getValue()));
     }
 }

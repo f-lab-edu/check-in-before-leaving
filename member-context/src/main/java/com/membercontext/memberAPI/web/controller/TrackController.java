@@ -36,9 +36,8 @@ public class TrackController {
 
     @PostMapping(value = "/token", consumes = "application/json")
     public ResponseEntity<DefaultHTTPResponse<Void>> token(@CookieValue(value = COOKIE_NAME) String cookieValue, HttpServletRequest request, @Validated @RequestBody FCMTokenRequest fcmTokenRequest) {
-        String email = (String) request.getSession().getAttribute(cookieValue);
-        System.out.println(fcmTokenRequest.getToken());
-        trackService.saveToken(fcmTokenRequest.getToken(), email);
+        String id = (String) request.getSession().getAttribute(cookieValue);
+        trackService.saveToken(fcmTokenRequest.getToken(), id);
 
         return ResponseEntity.ok().body(new DefaultHTTPResponse<>(FCM_TOKEN_REGISTERED));
     }
