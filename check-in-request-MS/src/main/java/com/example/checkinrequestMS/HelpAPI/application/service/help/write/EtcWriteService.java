@@ -2,7 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
 
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.EtcRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.application.service.HelpDBAdapter;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class EtcWriteService {
 
     @Transactional
     public Long registerEtc(EtcRegisterDTO dto) {
-        Etc<Created> etc = Etc.of(dto, Created.create());
+        Etc etc = Etc.of(dto, Progress.DEFAULT);
         return helpDBAdapter.save(etc);
     }
 }
