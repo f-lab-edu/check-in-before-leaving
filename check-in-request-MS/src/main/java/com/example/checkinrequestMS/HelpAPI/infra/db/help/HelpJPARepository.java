@@ -24,6 +24,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class HelpJPARepository implements HelpDBAdapter {
+    
     private final HelpSpringJPARepository helpSpringJPARepository;
 
     @Override
@@ -57,6 +58,7 @@ public class HelpJPARepository implements HelpDBAdapter {
     }
 
     private <T extends Help> HelpJPAEntity mapToJPAEntity(T help) {
+
         if (help instanceof CheckIn) {
             return CheckInJPAEntity.from((CheckIn) help);
         } else if (help instanceof Etc) {
