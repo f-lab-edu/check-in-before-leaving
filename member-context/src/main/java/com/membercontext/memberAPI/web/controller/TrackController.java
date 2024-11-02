@@ -1,6 +1,7 @@
 package com.membercontext.memberAPI.web.controller;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.membercontext.memberAPI.application.service.TrackService;
 import com.membercontext.memberAPI.web.controller.dto.DefaultHTTPResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,24 +27,24 @@ public class TrackController {
     public static final String FCM_TOKEN_REGISTERED = "토큰 등록 성공";
 
     @PostMapping("/track")
-    public ResponseEntity<DefaultHTTPResponse<Void>> track(@CookieValue(value = COOKIE_NAME) String cookieValue, HttpServletRequest request, @Validated @RequestBody TrackRequest trackForm) {
+    public ResponseEntity<DefaultHTTPResponse<Void>> track(@CookieValue(value = COOKIE_NAME) String cookieValue, HttpServletRequest request, @Validated @RequestBody TrackRequest trackRequest) {
         String email = (String) request.getSession().getAttribute(cookieValue);
-        trackService.saveCurrentLocation(trackForm, email);
+        trackService.saveCurrentLocation(trackRequest, email);
 
         return ResponseEntity.ok().body(new DefaultHTTPResponse<>(LOCATION_TRACK_ONGOING));
     }
 
     @PostMapping(value = "/token", consumes = "application/json")
-    public ResponseEntity<DefaultHTTPResponse<Void>> token(@CookieValue(value = COOKIE_NAME) String cookieValue, HttpServletRequest request, @Validated @RequestBody FCMTokenRequest fcmTokenForm) {
+    public ResponseEntity<DefaultHTTPResponse<Void>> token(@CookieValue(value = COOKIE_NAME) String cookieValue, HttpServletRequest request, @Validated @RequestBody FCMTokenRequest fcmTokenRequest) {
         String email = (String) request.getSession().getAttribute(cookieValue);
-        System.out.println(fcmTokenForm.getToken());
-        trackService.saveToken(fcmTokenForm.getToken(), email);
+        System.out.println(fcmTokenRequest.getToken());
+        trackService.saveToken(fcmTokenRequest.getToken(), email);
 
         return ResponseEntity.ok().body(new DefaultHTTPResponse<>(FCM_TOKEN_REGISTERED));
     }
 
     @Getter
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder(access = AccessLevel.PROTECTED)
     public static class TrackRequest {
 
@@ -52,26 +53,29 @@ public class TrackController {
         public static final String TRACK_TIMESTAMP_NOT_FOUND = "시간이 없습니다.";
 
         @NotNull(message = TRACK_LATITUDE_NOT_FOUND)
-        private Double latitude;
+        private final double latitude;
 
         @NotNull(message = TRACK_LONGITUDE_NOT_FOUND)
-        private Double longitude;
+        private final double longitude;
 
         @NotNull(message = TRACK_TIMESTAMP_NOT_FOUND)
-        private LocalDateTime timestamp;
+        private final LocalDateTime timestamp;
     }
 
 
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder(access = AccessLevel.PROTECTED)
     public static class FCMTokenRequest {
 
         public static final String FCM_TOKEN_NOT_FOUND = "FCM 토큰이 없습니다.";
 
         @NotBlank(message = FCM_TOKEN_NOT_FOUND)
-        private String token;
+        private final String token;
+
+        @JsonCreator
+        public FCMTokenRequest(String token) {
+            this.token = token;
+        }
     }
 
 
