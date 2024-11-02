@@ -1,5 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
+import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.LineUpRegisterDTO;
 import com.example.checkinrequestMS.HelpAPI.infra.db.stub.HelpDBAdapterStub;
 import com.example.checkinrequestMS.PlaceAPI.domain.Place;
@@ -31,6 +32,9 @@ class LineUpWriteServiceTest {
     @Mock
     private PlaceJPARepository placeJPARepository;
 
+    @Mock
+    private AlarmService alarmService;
+
     @Nested
     class registerLineUp {
         @Test
@@ -40,7 +44,7 @@ class LineUpWriteServiceTest {
 
             Place place = mock(Place.class);
             given(place.getPlaceName()).willReturn("placeNameForLineUp");
-            given(placeJPARepository.findById(dto.getPlaceId())).willReturn(Optional.of(place));
+            given(placeJPARepository.findById((anyLong()))).willReturn(Optional.of(place));
 
             //when
             Long result = sut.registerLineUp(dto);
@@ -50,8 +54,6 @@ class LineUpWriteServiceTest {
             verify(placeJPARepository, times(1)).findById(1L);
         }
     }
-
-
 
 
 }
