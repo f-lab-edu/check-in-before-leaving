@@ -1,41 +1,27 @@
 package com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Authenticated;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Ongoing;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read.child.AuthenticatedSelectResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read.child.CreatedSelectResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read.child.OnGoingSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
-import java.util.stream.Stream;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProgressSelectResponseTest {
 
-    static Stream<Arguments> progress() {
-        return Stream.of(
-                Arguments.of(Created.create(), CreatedSelectResponse.class.getSimpleName()),
-                Arguments.of(Authenticated.of(1L, "photo", false), AuthenticatedSelectResponse.class.getSimpleName()),
-                Arguments.of(Ongoing.from(1L), OnGoingSelectResponse.class.getSimpleName())
 
-        );
-    }
-
-    @ParameterizedTest(name = "{index} - {1}")
-    @MethodSource("progress")
+    @Test
     @DisplayName("Progress 객체에 따라 ProgressResponse 객체를 반환.")
-    void getProgressDTO(Progress progress, String className) {
+    void getProgressSelectResponse() {
 
         //when
-        ProgressSelectResponse sut = ProgressSelectResponse.getProgressDTO(progress);
+        ProgressSelectResponse sut = ProgressSelectResponse.getProgressSelectResponse(Progress.DEFAULT);
 
         //then
-        assertEquals(sut.getClass().getSimpleName(), className);
+        assertEquals(Progress.ProgressStatus.CREATED, sut.getStatus());
+        assertEquals(Optional.empty(), sut.getHelperId());
+        assertEquals(Optional.empty(), sut.getPhotoPath());
     }
 }
