@@ -2,7 +2,7 @@ package com.membercontext.memberAPI.web.controller.dto.request.signUp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.Impl.SignUpServiceImpl;
+import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl.MemberWriteServiceImpl;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 
@@ -32,7 +32,7 @@ class SignUpRequestTest {
     private ObjectMapper mapper;
 
     @MockBean
-    private SignUpServiceImpl signUpService;
+    private MemberWriteServiceImpl signUpService;
 
     private final String requestURL = "/sign-in";
 
