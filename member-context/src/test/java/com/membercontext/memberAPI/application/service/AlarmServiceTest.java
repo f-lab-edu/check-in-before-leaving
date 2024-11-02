@@ -1,11 +1,13 @@
 package com.membercontext.memberAPI.application.service;
 
 import com.membercontext.common.fixture.web.AlarmRequestFixture;
+import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.memberAPI.web.controller.AlarmController;
+import com.membercontext.memberAPI.web.controller.TrackController;
 import com.membercontext.memberAPI.web.pushMessage.FireBaseCloudMessageClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -44,10 +46,14 @@ class AlarmServiceTest {
         void sendPushMessage() {
             // given
             AlarmController.AlarmRequest alarmForm = AlarmRequestFixture.create();
+            TrackController.TrackRequest req = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
 
             Member member1 = MemberFixture.createMemberWithId("UUID");
-            Member member2 = MemberFixture.createMemberWithId("UUID2");
+            member1.updateLocation(req);
             memberRepository.save(member1);
+
+            Member member2 = MemberFixture.createMemberWithId("UUID2");
+            member2.updateLocation(req);
             memberRepository.save(member2);
 
             //when
@@ -75,7 +81,6 @@ class AlarmServiceTest {
             //then
             verify(fireBaseCloudMessageClient, never()).sendMultipleMessages(anyList(), anyString(), anyString());
         }
-
-
     }
+
 }

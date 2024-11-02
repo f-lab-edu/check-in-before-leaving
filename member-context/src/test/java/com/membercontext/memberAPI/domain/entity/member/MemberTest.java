@@ -68,9 +68,9 @@ class MemberTest {
         member.updateLocation(req);
 
         //then
-        assertEquals(req.getLatitude(), member.getMemberLocation().getLatitude());
-        assertEquals(req.getLongitude(), member.getMemberLocation().getLongitude());
-        assertEquals(req.getTimestamp(), member.getMemberLocation().getTimestamp());
+        assertEquals(req.getLatitude(), member.getMemberLocation().getLatitude(member).get());
+        assertEquals(req.getLongitude(), member.getMemberLocation().getLongitude(member).get());
+        assertEquals(req.getTimestamp(), member.getMemberLocation().getTimestamp(member).get());
     }
 
     @Test
