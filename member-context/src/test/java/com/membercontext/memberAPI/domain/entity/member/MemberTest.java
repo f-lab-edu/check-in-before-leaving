@@ -1,29 +1,54 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
+import com.membercontext.common.fixture.Variables;
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
 import com.membercontext.common.fixture.web.crud.UpdateRequestFixture;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-
+@ExtendWith(MockitoExtension.class)
 class MemberTest {
 
     @Test
-    void encryptPassword() {
+    @DisplayName("회원가입 성공")
+    void signUp() {
         //given
         Member member = MemberFixture.createMemberWithId("UUID");
-        String password = "password";
+
+        String password = "encryptedPassword";
+        JavaCryptoUtil javaCryptoUtil = mock(JavaCryptoUtil.class);
+        when(javaCryptoUtil.encrypt(member.getPassword())).thenReturn(password);
 
         //when
-        member.encryptPassword(password);
+        member.signUp(javaCryptoUtil);
+
+        //then
+        assertEquals(password, member.getPassword());
+    }
+
+    @Test
+    void logIn() {
+        //given
+        Member member = MemberFixture.createMemberWithId("UUID");
+        String password = Variables.TEST_PASSWORD;
+
+        JavaCryptoUtil javaCryptoUtil = mock(JavaCryptoUtil.class);
+        when(javaCryptoUtil.encrypt(member.getPassword())).thenReturn(password);
+
+        //when
+        member.logIn(javaCryptoUtil, password);
 
         //then
         assertEquals(password, member.getPassword());
@@ -31,12 +56,12 @@ class MemberTest {
 
     @Test
     @DisplayName("위치 알람 시작 성공")
-    void startLocationAlarm() {
+    void enablePushAlarm() {
         //given
         Member member = MemberFixture.createMemberWithId("UUID");
 
         //when
-        member.startLocationAlarm("token");
+        member.enablePushAlarm("token");
 
         //then
         assertEquals("token", member.getMemberLocation().getFcmToken());
@@ -44,13 +69,13 @@ class MemberTest {
 
     @Test
     @DisplayName("위치 알람 시작 실패")
-    void startLocationAlarm_NOT_PERMITTED() {
+    void enablePushAlarm_NOT_PERMITTED() {
         //given
         Member member = MemberFixture.createMemberWithIdANDLocationNotAgreed("UUID");
 
         //todo: LocationService On & Off
         //when
-        Exception exception = assertThrows(MemberException.class, () -> member.startLocationAlarm("token"));
+        Exception exception = assertThrows(MemberException.class, () -> member.enablePushAlarm("token"));
 
         //then
         assertEquals(exception.getClass(), MemberException.class);
@@ -59,13 +84,13 @@ class MemberTest {
 
     @Test
     @DisplayName("위치정보 업데이트 성공.")
-    void updateLocation() {
+    void startLocationTracking() {
         //given
         Member member = MemberFixture.createMemberWithId("UUID");
         TrackController.TrackRequest req = TrackRequestFixture.create();
 
         //when
-        member.updateLocation(req);
+        member.startLocationTracking(req);
 
         //then
         assertEquals(req.getLatitude(), member.getMemberLocation().getLatitude(member).get());
@@ -75,14 +100,14 @@ class MemberTest {
 
     @Test
     @DisplayName("위치정보 업데이트 실패.")
-    void updateLocation_NOT_PERMITTED() {
+    void startLocation_Tracking_NOT_PERMITTED() {
         //given
         Member member = MemberFixture.createMemberWithIdANDLocationNotAgreed("UUID");
         TrackController.TrackRequest req = TrackRequestFixture.create();
 
         //todo: LocationService On & Off
         //when
-        Exception exception = assertThrows(MemberException.class, () -> member.updateLocation(req));
+        Exception exception = assertThrows(MemberException.class, () -> member.startLocationTracking(req));
 
         //then
         assertEquals(exception.getClass(), MemberException.class);

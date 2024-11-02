@@ -17,13 +17,9 @@ public class LogInService {
     private final MemberRepository memberRepository;
     private final JavaCryptoUtil javaCryptoUtil;
 
-    public Member logIn(String email, String password){
+    public Member logIn(String email, String password) {
         Member member = memberRepository.findByEmail(email);
-        if(member.getPassword().equals(javaCryptoUtil.encrypt(password))){
-            return member;
-        }else{
-            throw new MemberException(INVALID_PASSWORD);
-        }
+        return member.logIn(javaCryptoUtil, password);
     }
 
 }
