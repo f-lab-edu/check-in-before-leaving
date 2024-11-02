@@ -3,6 +3,7 @@ package com.membercontext.memberAPI.application.service;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
+import com.membercontext.memberAPI.domain.entity.member.service.MemberService;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,11 @@ import static com.membercontext.memberAPI.application.exception.member.MemberErr
 public class LogInService {
 
     private final MemberRepository memberRepository;
-    private final JavaCryptoUtil javaCryptoUtil;
+    private final MemberService memberService;
 
     public Member logIn(String email, String password) {
         Member member = memberRepository.findByEmail(email);
-        return member.logIn(javaCryptoUtil, password);
+        return member.logIn(memberService, password);
     }
 
 }

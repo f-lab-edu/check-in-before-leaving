@@ -38,7 +38,7 @@ public final class MemberLocation {
         this.fcmToken = fcmToken;
     }
 
-    public MemberLocation addLocation(Double latitude, Double longitude, LocalDateTime timestamp) {
+    public MemberLocation addCurrentLatitudeAndLongitude(Double latitude, Double longitude, LocalDateTime timestamp) {
         if (latitude == null || longitude == null || timestamp == null) {
             throw new MemberException(NO_VALUE);
         }

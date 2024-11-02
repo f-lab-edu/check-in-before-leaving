@@ -1,8 +1,8 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
-import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
+import com.membercontext.memberAPI.domain.entity.member.service.MemberLocationService;
+import com.membercontext.memberAPI.domain.entity.member.service.MemberService;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import com.membercontext.memberAPI.web.controller.TrackController;
 
@@ -11,7 +11,6 @@ import lombok.*;
 
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
 
 @Entity
 @Getter
@@ -50,14 +49,9 @@ public class Member {
 
     //CRUD
     //SignUp
-    public Member signUp(JavaCryptoUtil encryption) {
-        this.encryptPassword(encryption);
+    public Member signUp(MemberService memberService) {
+        this.password = memberService.encryptPassword(this.password);
         return this;
-    }
-
-    private void encryptPassword(JavaCryptoUtil javaCryptoUtil) {
-        String encryptedPassword = javaCryptoUtil.encrypt(this.password);
-        this.password = encryptedPassword;
     }
 
     public static Member from(SignUpController.SignUpRequest req) {
@@ -98,32 +92,18 @@ public class Member {
 
     //BUSINESS LOGICS
     //LogIn
-    public Member logIn(JavaCryptoUtil encryption, String password) {
-        return this.checkPassword(encryption, password);
-    }
-
-    private Member checkPassword(JavaCryptoUtil encryption, String password) {
-        if (this.password.equals(encryption.encrypt(password))) {
-            return this;
-        } else {
-            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
-        }
+    public Member logIn(MemberService memberService, String password) {
+        return memberService.checkPassword(this, password);
     }
 
     // Location Tracking
-    public void startLocationTracking(TrackController.TrackRequest form) {
-        if (!this.isLocationServiceEnabled()) {
-            throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
-        }
-        this.memberLocation = this.memberLocation.addLocation(form.getLatitude(), form.getLongitude(), form.getTimestamp());
+    public void startLocationTracking(MemberLocationService memberLocationService, TrackController.TrackRequest request) {
+        this.memberLocation = memberLocationService.updateCurrentLatitudeAndLongitude(this, request);
     }
 
     // Push Alarm
-    public void enablePushAlarm(String token) {
-        if (!this.isLocationServiceEnabled()) {
-            throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
-        }
-        this.memberLocation = this.memberLocation.addFCMToken(token);
+    public void enablePushAlarm(MemberLocationService memberLocationService, String token) {
+        this.memberLocation = memberLocationService.addFCMToken(this, token);
     }
 
 
