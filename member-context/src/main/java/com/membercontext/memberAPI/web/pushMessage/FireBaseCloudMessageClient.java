@@ -1,6 +1,5 @@
 package com.membercontext.memberAPI.web.pushMessage;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -12,7 +11,6 @@ import com.membercontext.memberAPI.application.exception.alarm.AlarmException;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.apache.http.HttpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -64,7 +62,7 @@ public class FireBaseCloudMessageClient {
             throw new AlarmException(FCM_MESSAGE_CREATION_FAILED, e);
         }
     }
-    
+
     private void initializeFirebaseApp() {
         try {
             FirebaseOptions options = FirebaseOptions.builder()
