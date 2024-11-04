@@ -1,34 +1,26 @@
 package com.example.checkinrequestMS.common;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.read.HelpSelectService;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Created;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.PlaceAPI.domain.PlaceRedis;
 import com.example.checkinrequestMS.PlaceAPI.domain.service.PlaceSearchService;
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child.CheckInFixture;
 import com.example.checkinrequestMS.fixtures.PlaceAPI.domain.PlaceRedisFixture;
-import org.junit.jupiter.api.Nested;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,7 +46,7 @@ class SearchControllerTest {
         int radius = 50;
 
         PlaceRedis redis1 = PlaceRedisFixture.createPlaceRedisFromAPIWithId(1L);
-        CheckIn checkIn1 = CheckInFixture.createCheckInWithIdAndPlaceId(Created.create(), 1L, redis1.getId());
+        CheckIn checkIn1 = CheckInFixture.createCheckInWithIdAndPlaceId(Progress.DEFAULT, 1L, redis1.getId());
         given(searchPlaceService.searchPlaceWithKeyword(keyword, x, y, radius)).willReturn(List.of(redis1));
         given(helpSelectService.selectAllHelp(List.of(redis1.getId()))).willReturn(List.of(checkIn1));
 
