@@ -46,7 +46,7 @@ class MemberLocationTest {
             MemberLocation memberLocation = member.getMemberLocation();
 
             //when
-            MemberLocation changedMemberLocation = memberLocation.addLocation(1.0, 2.0, LocalDateTime.of(2021, 1, 1, 0, 0, 0));
+            MemberLocation changedMemberLocation = memberLocation.updateLocation(1.0, 2.0, LocalDateTime.of(2021, 1, 1, 0, 0, 0));
 
             //then
             assertEquals(1.0, changedMemberLocation.getLatitude(member).get());
@@ -72,13 +72,12 @@ class MemberLocationTest {
             MemberLocation memberLocation = member.getMemberLocation();
 
             //when
-            Exception exception = assertThrows(MemberException.class, () -> memberLocation.addLocation(latitude, longitude, timestamp));
+            Exception exception = assertThrows(MemberException.class, () -> memberLocation.updateLocation(latitude, longitude, timestamp));
 
             //then
             assertEquals(exception.getClass(), MemberException.class);
             assertEquals(exception.getMessage(), NO_VALUE.getDeatil());
         }
-
     }
 
     @Nested

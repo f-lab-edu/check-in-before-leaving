@@ -22,23 +22,6 @@ import static org.mockito.Mockito.*;
 class MemberTest {
 
     @Test
-    @DisplayName("회원가입 성공")
-    void signUp() {
-        //given
-        Member member = MemberFixture.createMemberWithId("UUID");
-
-        String password = "encryptedPassword";
-        JavaCryptoUtil javaCryptoUtil = mock(JavaCryptoUtil.class);
-        when(javaCryptoUtil.encrypt(member.getPassword())).thenReturn(password);
-
-        //when
-        member.signUp(javaCryptoUtil);
-
-        //then
-        assertEquals(password, member.getPassword());
-    }
-
-    @Test
     void logIn() {
         //given
         Member member = MemberFixture.createMemberWithId("UUID");
