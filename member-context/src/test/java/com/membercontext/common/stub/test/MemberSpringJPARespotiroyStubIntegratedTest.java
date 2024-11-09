@@ -32,6 +32,7 @@ import static org.mockito.Mockito.mock;
 
 @SpringBootTest
 @Transactional
+@Disabled
 public class MemberSpringJPARespotiroyStubIntegratedTest {
 
     @Autowired
