@@ -7,8 +7,12 @@ import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.MemberSpringJPARepositoryStub;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
+import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberSpringJPARepository;
+import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.jupiter.api.*;
 import org.mockito.Spy;
@@ -24,10 +28,10 @@ import static com.membercontext.common.exception.TestException.NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 @SpringBootTest
 @Transactional
-@Disabled
 public class MemberSpringJPARespotiroyStubIntegratedTest {
 
     @Autowired
@@ -90,6 +94,11 @@ public class MemberSpringJPARespotiroyStubIntegratedTest {
     @DisplayName("이외 사용 메서드")
     class Other {
 
+        @Autowired
+        private MemberService memberService;
+
+        private MemberService memberService_stub;
+
         private Member dbMember;
         private Member stubMember;
 
@@ -98,6 +107,9 @@ public class MemberSpringJPARespotiroyStubIntegratedTest {
             Member member = MemberFixture.create();
             dbMember = memberSpringJPARepository.save(member);
             stubMember = stub.save(member);
+
+            MemberRepository memberStub = new MemberJPARepository(stub);
+            memberService_stub = new MemberService(memberStub, mock(JavaCryptoUtil.class));
         }
 
         @Test
@@ -166,15 +178,16 @@ public class MemberSpringJPARespotiroyStubIntegratedTest {
         void findNearByMember() {
             //given
             TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
-            dbMember.startLocationTracking(targetLocation);
-            stubMember.startLocationTracking(targetLocation);
+            memberService.startLocationTracking(dbMember.getId(), targetLocation);
+            memberService_stub.startLocationTracking(stubMember.getId(), targetLocation);
 
             Member memberNearBy = MemberFixture.createMemberWithDifferentEmail("memberNearBy@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002);
-            memberNearBy.startLocationTracking(request);
+            Member memberNearBy_stub = stub.save(memberNearBy);
+            Member memberNearBy_db = memberSpringJPARepository.save(memberNearBy);
 
-            stub.save(memberNearBy);
-            memberSpringJPARepository.save(memberNearBy);
+            memberService_stub.startLocationTracking(memberNearBy_stub.getId(), request);
+            memberService.startLocationTracking(memberNearBy_db.getId(), request);
 
             //when
             List<Member> stubResult = stub.findNearByMember(0, 0, 500);
@@ -202,16 +215,17 @@ public class MemberSpringJPARespotiroyStubIntegratedTest {
         @DisplayName("findNearByMember - 떨어져 있는 맴버.")
         void findNearByMember_OtherFar() {
             TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
-            dbMember.startLocationTracking(targetLocation);
-            stubMember.startLocationTracking(targetLocation);
+            memberService.startLocationTracking(dbMember.getId(), targetLocation);
+            memberService_stub.startLocationTracking(stubMember.getId(), targetLocation);
 
             //given
             Member memberFar = MemberFixture.createMemberWithDifferentEmail("MemberFar@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(400, 400);
-            memberFar.startLocationTracking(request);
+            Member memberFar_stub = stub.save(memberFar);
+            Member memberFar_db = memberSpringJPARepository.save(memberFar);
 
-            stub.save(memberFar);
-            memberSpringJPARepository.save(memberFar);
+            memberService_stub.startLocationTracking(memberFar_stub.getId(), request);
+            memberService.startLocationTracking(memberFar_db.getId(), request);
 
             //when
             List<Member> stubResult = stub.findNearByMember(0, 0, 10);

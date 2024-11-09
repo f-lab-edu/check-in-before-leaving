@@ -91,7 +91,7 @@ public class Member {
 
     //BUSINESS LOGICS
     //LogIn
-    public Member logIn(JavaCryptoUtil encryption, String password) {
+    protected Member logIn(JavaCryptoUtil encryption, String password) {
         return this.checkPassword(encryption, password);
     }
 
@@ -104,7 +104,7 @@ public class Member {
     }
 
     // Location Tracking
-    public void startLocationTracking(TrackController.TrackRequest form) {
+    protected void startLocationTracking(TrackController.TrackRequest form) {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
@@ -112,7 +112,7 @@ public class Member {
     }
 
     // Push Alarm
-    public void enablePushAlarm(String token) {
+    protected void enablePushAlarm(String token) {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
