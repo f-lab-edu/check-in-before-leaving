@@ -1,5 +1,6 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
+import com.membercontext.common.fixture.web.AlarmRequestFixture;
 import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.JavaCryptoUtilMockStub;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
@@ -8,7 +9,9 @@ import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 
 import com.membercontext.common.fixture.domain.MemberFixture;
+import com.membercontext.memberAPI.application.service.AlarmService;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
+import com.membercontext.memberAPI.web.controller.AlarmController;
 import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -18,6 +21,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.INVALID_PASSWORD;
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
@@ -137,7 +142,7 @@ class MemberServiceTest {
     class logIn {
         @Test
         @DisplayName("로그인 성공")
-        void logIn() {
+        void logIn_success() {
             //given
             Member member = MemberFixture.create();
             String id = memberRepository.save(member);
@@ -160,7 +165,7 @@ class MemberServiceTest {
         void logIn_PasswordInvalid() {
             //given
             Member member = MemberFixture.create();
-            String id = memberRepository.save(member);
+            memberRepository.save(member);
             when(javaCryptoUtil.encrypt(member.getPassword())).thenReturn(null);
 
             //when
@@ -192,7 +197,12 @@ class MemberServiceTest {
             assertEquals(updatedMember.getMemberLocation().getLatitude(updatedMember).get(), request.getLatitude());
             assertEquals(updatedMember.getMemberLocation().getTimestamp(updatedMember).get(), request.getTimestamp());
         }
+    }
 
+
+    @Nested
+    @DisplayName("푸시 알람 메서드")
+    class pushAlarm {
         @Test
         @DisplayName("FCM 토큰 저장")
         void enablePushAlarm() {
@@ -209,6 +219,43 @@ class MemberServiceTest {
             assertThat(updatedMember.getMemberLocation().getFcmToken()).isEqualTo(token);
         }
 
+        @Test
+        @DisplayName("주변 회원 FCM 토큰 가져오기")
+        void getNearByMemberTokens() {
+            // given
+            AlarmController.AlarmRequest alarmRequest = AlarmRequestFixture.create();
+            TrackController.TrackRequest req = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
+
+            Member member1 = MemberFixture.createMemberWithId("UUID");
+            member1.startLocationTracking(req);
+            memberRepository.save(member1);
+
+            Member member2 = MemberFixture.createMemberWithId("UUID2");
+            member2.startLocationTracking(req);
+            memberRepository.save(member2);
+
+            //when
+            List<String> tokens = sut.getNearByMemberTokens(alarmRequest.getX(), alarmRequest.getY(), AlarmService.PUSH_ALARM_RADIUS);
+
+            // then
+            assertEquals(2, tokens.size());
+            assertEquals(member1.getMemberLocation().getFcmToken(), tokens.get(0));
+            assertEquals(member2.getMemberLocation().getFcmToken(), tokens.get(1));
+        }
+
+        @Test
+        @DisplayName("매칭되는 토큰 없음.")
+        void noMatchingTokens() {
+            //given
+            AlarmController.AlarmRequest alarmRequest = AlarmRequestFixture.create();
+            when(memberRepository.findNearByMember(alarmRequest.getX(), alarmRequest.getY(), AlarmService.PUSH_ALARM_RADIUS)).thenReturn(List.of());
+
+            //when
+            List<String> tokens = sut.getNearByMemberTokens(alarmRequest.getX(), alarmRequest.getY(), AlarmService.PUSH_ALARM_RADIUS);
+
+            //then
+            assertNull(tokens);
+        }
     }
 
 }

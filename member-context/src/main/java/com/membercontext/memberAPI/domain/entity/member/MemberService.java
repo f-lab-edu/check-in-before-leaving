@@ -7,6 +7,8 @@ import com.membercontext.memberAPI.web.controller.TrackController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
 
 @Service
@@ -56,6 +58,17 @@ public class MemberService {
     public void enablePushAlarm(String token, String memberId) {
         Member member = memberRepository.findById(memberId);
         member.enablePushAlarm(token);
+    }
+
+    //Push Alarm
+    public List<String> getNearByMemberTokens(double x, double y, int radius) {
+        List<Member> membersToPush = memberRepository.findNearByMember(x, y, radius);
+        if (membersToPush.isEmpty()) {
+            return null;
+        }
+        return membersToPush.stream()
+                .map(member -> member.getMemberLocation().getFcmToken())
+                .toList();
     }
 
 

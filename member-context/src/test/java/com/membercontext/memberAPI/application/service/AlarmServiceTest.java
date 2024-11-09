@@ -1,13 +1,8 @@
 package com.membercontext.memberAPI.application.service;
 
 import com.membercontext.common.fixture.web.AlarmRequestFixture;
-import com.membercontext.common.fixture.web.TrackRequestFixture;
-import com.membercontext.common.stub.MemberJPARepositoryStub;
-import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.common.fixture.domain.MemberFixture;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.AlarmController;
-import com.membercontext.memberAPI.web.controller.TrackController;
 import com.membercontext.memberAPI.web.pushMessage.FireBaseCloudMessageClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -28,8 +23,8 @@ class AlarmServiceTest {
     @InjectMocks
     private AlarmService sut;
 
-    @Spy
-    private MemberRepository memberRepository = new MemberJPARepositoryStub();
+    @Mock
+    private MemberService memberService;
 
     @Mock
     private FireBaseCloudMessageClient fireBaseCloudMessageClient;
@@ -45,34 +40,27 @@ class AlarmServiceTest {
         @DisplayName("푸시 메시지 보내기 - 성공.")
         void sendPushMessage() {
             // given
-            AlarmController.AlarmRequest alarmForm = AlarmRequestFixture.create();
-            TrackController.TrackRequest req = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
+            AlarmController.AlarmRequest req = AlarmRequestFixture.create();
+            List<String> tokens = List.of("token1", "token2");
 
-            Member member1 = MemberFixture.createMemberWithId("UUID");
-            member1.startLocationTracking(req);
-            memberRepository.save(member1);
-
-            Member member2 = MemberFixture.createMemberWithId("UUID2");
-            member2.startLocationTracking(req);
-            memberRepository.save(member2);
+            when(memberService.getNearByMemberTokens(anyDouble(), anyDouble(), anyInt())).thenReturn(tokens);
 
             //when
-            sut.sendPushMessage(alarmForm);
+            sut.sendPushMessage(req);
 
             //then
-            verify(fireBaseCloudMessageClient).sendMultipleMessages(listCaptor.capture(), eq(alarmForm.getTitle()), eq(alarmForm.getMessage()));
+            verify(fireBaseCloudMessageClient).sendMultipleMessages(listCaptor.capture(), eq(req.getTitle()), eq(req.getMessage()));
 
-            List<String> tokens = listCaptor.getValue();
-            assertEquals(2, tokens.size());
-            assertEquals(member1.getMemberLocation().getFcmToken(), tokens.get(0));
-            assertEquals(member2.getMemberLocation().getFcmToken(), tokens.get(1));
+            List<String> returned = listCaptor.getValue();
+            assertEquals(2, returned.size());
+            assertEquals(tokens.get(0), returned.get(0));
+            assertEquals(tokens.get(1), returned.get(1));
         }
 
         @Test
         @DisplayName("푸시 메시지 보내기 - 빈 리스트.")
         void sendPushMessage_EmptyList() {
             // given
-            List<Member> memberList = List.of();
             AlarmController.AlarmRequest alarmForm = AlarmRequestFixture.create();
 
             //when

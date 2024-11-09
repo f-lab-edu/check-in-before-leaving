@@ -1,7 +1,6 @@
 package com.membercontext.memberAPI.application.service;
 
-import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.domain.entity.member.Member;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.AlarmController;
 import com.membercontext.memberAPI.web.pushMessage.FireBaseCloudMessageClient;
 import lombok.RequiredArgsConstructor;
@@ -13,22 +12,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AlarmService {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final FireBaseCloudMessageClient fireBaseCloudMessageClient;
 
-    private static final int radius = 40;
+
+    public static final int PUSH_ALARM_RADIUS = 40;
 
     public void sendPushMessage(AlarmController.AlarmRequest alarmRequest) {
-        //fixme: Member 일때랑 여러명의 맴버일때랑 어떻게 캡슐화를 해야 할지 고민이 됩니다.
-        //       이 부분은 하나의 맴버에 국한 된게 아니기도 하고 또, Help 도메인과 협력을 하는 부분이라 응용계층이 적합하지 않을까 합니다. 괜찮을까요?
-        List<Member> membersToPush = memberRepository.findNearByMember(alarmRequest.getX(), alarmRequest.getY(), radius);
-        if (membersToPush.isEmpty()) {
+
+        List<String> tokens = memberService.getNearByMemberTokens(alarmRequest.getX(), alarmRequest.getY(), PUSH_ALARM_RADIUS);
+        if (tokens.isEmpty()) {
             return;
         }
-        List<String> tokens = membersToPush.stream()
-                .map(member -> member.getMemberLocation().getFcmToken())
-                .toList();
-
+        //todo: 지금처럼 유효성 검사보다 200으로 검색 조건에 맞는 결과가 없음을 알려주는 쪽으로 변경.
         fireBaseCloudMessageClient.sendMultipleMessages(tokens, alarmRequest.getTitle(), alarmRequest.getMessage());
     }
 }
