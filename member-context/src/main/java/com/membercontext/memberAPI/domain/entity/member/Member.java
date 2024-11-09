@@ -65,7 +65,7 @@ public class Member {
     }
 
     // Update
-    public Member update(Member updatingMember) { //public
+    protected Member update(Member updatingMember) { //public
         this.email = updatingMember.getEmail();
         this.password = updatingMember.getPassword();
         this.name = updatingMember.getName();
