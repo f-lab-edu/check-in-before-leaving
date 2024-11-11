@@ -47,10 +47,9 @@ public class ExceptionController {
             MethodArgumentNotValidException.class
     })
     public ResponseEntity<ValidationResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        AtomicInteger i = new AtomicInteger(1);
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error -> {
-            errors.put(String.valueOf(i.getAndIncrement()), error.getDefaultMessage());
+            errors.put(error.getField(), error.getDefaultMessage());
         });
 
         return ResponseEntity.badRequest().body(new ValidationResponse(errors));
