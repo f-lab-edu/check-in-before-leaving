@@ -83,7 +83,7 @@ public class Member {
                 .password(req.getPassword())
                 .name(req.getName())
                 .phone(req.getPhone())
-                .address(req.getLocation())
+                .address(req.getAddress())
                 .locationServiceEnabled(req.getIsLocationServiceEnabled())
                 .point(req.getPoint())
                 .build();
