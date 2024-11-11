@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static com.membercontext.memberAPI.application.exception.ExceptionController.MEMBER_INPUT_ERROR;
 import static com.membercontext.memberAPI.web.controller.LogInController.COOKIE_NAME;
+import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_PASSWORD_VALIDATION_MESSAGE;
+import static com.membercontext.memberAPI.web.controller.TrackController.FCMTokenRequest.FCM_TOKEN_NOT_FOUND;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -52,9 +54,9 @@ class FCMTokenRequestTest {
                 .content(mapper.writeValueAsString(request)));
 
         //then
+        String fieldname = "token";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(TrackController.FCMTokenRequest.FCM_TOKEN_NOT_FOUND));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(FCM_TOKEN_NOT_FOUND));
     }
-
 }

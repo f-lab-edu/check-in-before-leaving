@@ -151,7 +151,7 @@ class MemberTest {
         assertEquals(updateRequest.getName(), member.getName());
         assertEquals(updateRequest.getPassword(), member.getPassword());
         assertEquals(updateRequest.getPhone(), member.getPhone());
-        assertEquals(updateRequest.getLocation(), member.getAddress());
+        assertEquals(updateRequest.getAddress(), member.getAddress());
         assertEquals(updateRequest.getIsLocationServiceEnabled(), member.isLocationServiceEnabled());
         assertEquals(updateRequest.getPoint(), member.getPoint());
     }

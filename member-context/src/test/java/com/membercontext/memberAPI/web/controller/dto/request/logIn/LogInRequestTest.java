@@ -17,6 +17,9 @@ import org.springframework.test.web.servlet.ResultActions;
 
 
 import static com.membercontext.memberAPI.application.exception.ExceptionController.MEMBER_INPUT_ERROR;
+import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_EMAIL_VALIDATION_MESSAGE;
+import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_PASSWORD_VALIDATION_MESSAGE;
+import static com.membercontext.memberAPI.web.controller.SignUpController.LOCATION_SERVICE_VALIDATION_MESSAGE;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -56,9 +59,10 @@ class LogInRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
+        String fieldname = "email";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(LogInController.LogInRequest.LOG_IN_EMAIL_VALIDATION_MESSAGE));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(LOG_IN_EMAIL_VALIDATION_MESSAGE));
     }
 
     @Test
@@ -73,8 +77,9 @@ class LogInRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
+        String fieldname = "password";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(LogInController.LogInRequest.LOG_IN_PASSWORD_VALIDATION_MESSAGE));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(LOG_IN_PASSWORD_VALIDATION_MESSAGE));
     }
 }

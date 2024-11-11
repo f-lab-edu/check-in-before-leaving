@@ -14,10 +14,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.membercontext.memberAPI.application.exception.ExceptionController.MEMBER_INPUT_ERROR;
+import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_PASSWORD_VALIDATION_MESSAGE;
+import static com.membercontext.memberAPI.web.controller.SignUpController.*;
+import static com.membercontext.memberAPI.web.controller.SignUpController.UpdateRequest.MEMBER_ID_VALIDATION_MESSAGE;
+import static com.membercontext.memberAPI.web.controller.SignUpController.UpdateRequest.POINT_UPDATE_VALIDATION_MESSAGE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(SignUpController.class)
@@ -50,7 +56,10 @@ class UpdateRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
+        String fieldname = "id";
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(MEMBER_ID_VALIDATION_MESSAGE));
     }
 
     @Test
@@ -65,7 +74,10 @@ class UpdateRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
+        String fieldname = "name";
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(NAME_VALIDATION_MESSAGE));
     }
 
     @Test
@@ -80,7 +92,10 @@ class UpdateRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
+        String fieldname = "email";
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(EMAIL_VALIDATION_MESSAGE));
     }
 
     @Test
@@ -95,7 +110,10 @@ class UpdateRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
+        String fieldname = "email";
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(EMAIL_FORMAT_VALIDATION_MESSAGE));
     }
 
     @Test
@@ -110,7 +128,10 @@ class UpdateRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
+        String fieldname = "password";
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(PASSWORD_VALIDATION_MESSAGE));
     }
 
     @Test
@@ -125,14 +146,17 @@ class UpdateRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
+        String fieldname = "phone";
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(PHONE_VALIDATION_MESSAGE));
     }
 
     @Test
     @DisplayName("위치 미입력.")
     void update_NoLocation() throws Exception {
         //given
-        when(req.getLocation()).thenReturn(null);
+        when(req.getAddress()).thenReturn(null);
 
         //when
         ResultActions resultActions = mockMvc.perform(put(requestURL)
@@ -140,7 +164,10 @@ class UpdateRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
+        String fieldname = "address";
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(ADDRESS_VALIDATION_MESSAGE));
     }
 
     @Test
@@ -155,8 +182,11 @@ class UpdateRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
-        verify(signUpService, times(0)).signUp(any(Member.class));
+        String fieldname = "isLocationServiceEnabled";
+        ;
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(LOCATION_SERVICE_VALIDATION_MESSAGE));
     }
 
     @Test
@@ -171,7 +201,9 @@ class UpdateRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
-        resultActions.andExpect(status().isBadRequest());
+        String fieldname = "point";
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(POINT_UPDATE_VALIDATION_MESSAGE));
     }
-
 }
