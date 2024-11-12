@@ -6,25 +6,20 @@ import com.example.checkinrequestMS.HelpAPI.application.service.HelpDBAdapter;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
-import com.example.checkinrequestMS.HelpAPI.infra.aop.aspect.JPARead;
-import com.example.checkinrequestMS.HelpAPI.infra.aop.aspect.JPASave;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.HelpJPAEntity;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInJPAEntity;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.EtcJPAEntity;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.LineUpJPAEntity;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.HelpSelectResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child.CheckInSelectResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository
 @RequiredArgsConstructor
 public class HelpJPARepository implements HelpDBAdapter {
-    
+
     private final HelpSpringJPARepository helpSpringJPARepository;
 
     @Override

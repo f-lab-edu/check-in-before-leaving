@@ -1,14 +1,15 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class HelpRegisterForm {
+public abstract class HelpRegisterRequest {
 
     public static final String NO_HELP_REGISTER_ID = "요청 등록자는 필수입니다.";
     public static final String NO_PLACE_ID = "가게 정보는 필수입니다.";
@@ -32,7 +33,7 @@ public abstract class HelpRegisterForm {
     @NotNull(message = NO_REWARD)
     private Long reward;
 
-    protected HelpRegisterForm(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward) {
+    protected HelpRegisterRequest(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward) {
         this.helpRegisterId = helpRegisterId;
         this.placeId = placeId;
         this.start = start;

@@ -1,13 +1,13 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child.CheckInSelectResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child.EtcSelectResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child.LineUpSelectResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read.ProgressSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.child.CheckInSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.child.EtcSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.child.LineUpSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.progress.read.ProgressSelectResponse;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

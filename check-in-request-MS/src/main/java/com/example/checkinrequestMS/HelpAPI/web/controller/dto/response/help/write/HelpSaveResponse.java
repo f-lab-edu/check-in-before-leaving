@@ -1,6 +1,8 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.response.help.write;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.write;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 
 
 @Getter

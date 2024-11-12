@@ -1,7 +1,8 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.help.read;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.read.HelpSelectService;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.HelpSelectResponse;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.HelpSelectResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

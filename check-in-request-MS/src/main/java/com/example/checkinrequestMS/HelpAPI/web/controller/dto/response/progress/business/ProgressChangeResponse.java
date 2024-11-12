@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.business;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.progress.business;
 
 import lombok.Builder;
 import lombok.Getter;

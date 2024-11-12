@@ -1,8 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.progress.business;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.progress.business.ProgressBusinessWriteService;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.business.ProgressChangeResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.progress.business.ProgressApproveRequest;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.progress.business.ProgressApproveRequest;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.progress.business.ProgressChangeResponse;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

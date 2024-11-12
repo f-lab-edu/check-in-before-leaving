@@ -3,8 +3,9 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.help.write;
 
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.LineUpRegisterDTO;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteService;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.LineUpRegisterRequest;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.write.HelpSaveResponse;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.LineUpRegisterRequest;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.write.HelpSaveResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

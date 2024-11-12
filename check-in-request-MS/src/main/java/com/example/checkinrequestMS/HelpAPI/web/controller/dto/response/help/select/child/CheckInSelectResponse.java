@@ -1,10 +1,13 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.child;
 
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.HelpSelectResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read.ProgressSelectResponse;
-import lombok.*;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.HelpSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.progress.read.ProgressSelectResponse;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 

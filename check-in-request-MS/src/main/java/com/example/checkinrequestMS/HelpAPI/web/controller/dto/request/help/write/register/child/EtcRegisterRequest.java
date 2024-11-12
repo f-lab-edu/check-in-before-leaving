@@ -1,6 +1,6 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child;
 
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.HelpRegisterForm;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.HelpRegisterRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EtcRegisterForm extends HelpRegisterForm {
+public class EtcRegisterRequest extends HelpRegisterRequest {
 
     public static final String NO_CONTENTS = "내용은 필수입니다.";
     public static final String NO_TITLE = "제목은 필수입니다.";
@@ -23,7 +23,7 @@ public class EtcRegisterForm extends HelpRegisterForm {
     private String title;
 
     @Builder(access = AccessLevel.PROTECTED)
-    public EtcRegisterForm(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward, String contents, String title) {
+    public EtcRegisterRequest(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward, String contents, String title) {
         super(helpRegisterId, placeId, start, option, reward);
         this.contents = contents;
         this.title = title;

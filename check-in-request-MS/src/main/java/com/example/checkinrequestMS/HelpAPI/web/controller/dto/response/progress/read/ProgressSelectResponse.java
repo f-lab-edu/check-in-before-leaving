@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.response.progress.read;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.progress.read;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import lombok.AccessLevel;

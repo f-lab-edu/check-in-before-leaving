@@ -1,7 +1,10 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.form.progress.write;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.progress.write;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PROTECTED)
