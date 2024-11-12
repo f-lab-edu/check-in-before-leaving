@@ -1,7 +1,8 @@
 package com.example.checkinrequestMS.HelpAPI.domain.dto.register;
 
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.CheckInRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.CheckInRegisterForm;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.CheckInRegisterRequest;
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.CheckInRegisterFormFixture;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ class CheckInRegisterDTOTest {
     @Test
     void from() {
         //given
-        CheckInRegisterForm form = CheckInRegisterFormFixture.create();
+        CheckInRegisterRequest form = CheckInRegisterFormFixture.create();
 
         //when
         CheckInRegisterDTO sut = CheckInRegisterDTO.from(form);

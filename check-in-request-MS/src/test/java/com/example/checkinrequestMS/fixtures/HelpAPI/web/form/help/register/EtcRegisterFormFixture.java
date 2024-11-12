@@ -1,14 +1,13 @@
 package com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register;
 
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.EtcRegisterForm;
-import com.example.checkinrequestMS.fixtures.Variables;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.EtcRegisterRequest;
 
 import static com.example.checkinrequestMS.fixtures.Variables.*;
 
-public class EtcRegisterFormFixture extends EtcRegisterForm {
+public class EtcRegisterFormFixture extends EtcRegisterRequest {
 
-    public static EtcRegisterForm create() {
-        return EtcRegisterForm.builder()
+    public static EtcRegisterRequest create() {
+        return EtcRegisterRequest.builder()
                 .helpRegisterId(HELP_REGISTER_ID)
                 .placeId(PLACE_ID)
                 .start(START_TIME)

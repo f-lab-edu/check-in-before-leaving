@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.child;
 
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
@@ -25,7 +25,7 @@ class CheckInSelectResponseTest {
         assertEquals(sut.getStart(), checkIn.getStart());
         assertEquals(sut.getEnd(), checkIn.getEnd());
         assertEquals(sut.getReward(), checkIn.getReward());
-        
+
 
     }
 }

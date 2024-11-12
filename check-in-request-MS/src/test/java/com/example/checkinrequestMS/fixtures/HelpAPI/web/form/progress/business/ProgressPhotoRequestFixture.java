@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.fixtures.HelpAPI.web.form.progress.business;
 
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.progress.business.ProgressPhotoRequest;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.progress.business.ProgressPhotoRequest;
 
 public class ProgressPhotoRequestFixture extends ProgressPhotoRequest {
 

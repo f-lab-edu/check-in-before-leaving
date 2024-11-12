@@ -1,8 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.progress;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.progress.write.ProgressWriteService;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.progress.write.ProgressRegisterRequest;
 import com.example.checkinrequestMS.HelpAPI.web.controller.progress.wrtie.ProgressWriteController;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.progress.write.ProgressRegisterRequest;
+
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.progress.register.ProgressRegisterRequestFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,6 @@ class ProgressWriteControllerTest {
 
         //given
         ProgressRegisterRequest request = ProgressRegisterRequestFixture.create();
-
         given(progressRegisterService.registerHelper(request.getHelpId(), request.getHelperId())).willReturn(request.getHelpId());
 
         //when

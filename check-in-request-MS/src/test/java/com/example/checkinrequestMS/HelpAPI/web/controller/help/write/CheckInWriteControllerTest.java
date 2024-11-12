@@ -2,8 +2,8 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.help.write;
 
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteService;
-import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.CheckInWriteController;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.CheckInRegisterForm;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.CheckInRegisterRequest;
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.CheckInRegisterFormFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ public class CheckInWriteControllerTest {
         @DisplayName("체크인 요청 등록 성공")
         void Form_Success() throws Exception {
             //given
-            CheckInRegisterForm form = CheckInRegisterFormFixture.create();
+            CheckInRegisterRequest form = CheckInRegisterFormFixture.create();
 
             //when
             ResultActions result = mockMvc.perform(post("/help/checkIn")

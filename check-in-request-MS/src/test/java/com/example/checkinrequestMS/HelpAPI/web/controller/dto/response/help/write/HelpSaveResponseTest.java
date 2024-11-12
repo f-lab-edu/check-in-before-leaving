@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.response.help.write;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.write;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,11 +1,12 @@
-package com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select;
+package com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child.CheckInSelectResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child.EtcSelectResponse;
-import com.example.checkinrequestMS.HelpAPI.web.dto.response.help.select.child.LineUpSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.child.CheckInSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.child.EtcSelectResponse;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.help.select.child.LineUpSelectResponse;
+
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child.CheckInFixture;
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child.EtcFixture;
 import com.example.checkinrequestMS.fixtures.HelpAPI.domain.model.help.child.LineUpFixture;
