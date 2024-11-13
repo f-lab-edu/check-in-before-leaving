@@ -33,7 +33,9 @@ public class CheckInWriteService {
                 .orElseThrow(() -> new PlaceException(NO_PLACE_INFO)); //check: DB외에도 처리 해야함.
         CheckIn checkIn = CheckIn.of(dto, place, Progress.DEFAULT);
 
-        alarmService.sendAlarmToUsersNearby(place.getPlaceName(), place.getX(), place.getY());
+        //alarmService.sendAlarmToUsersNearby(place.getId(), place.getX(), place.getY();
+        alarmService.sendAlarmToUsersNearby(dto.getHelpRegisterId(), place);
+
 
         return helpDBAdapter.save(checkIn);
     }
