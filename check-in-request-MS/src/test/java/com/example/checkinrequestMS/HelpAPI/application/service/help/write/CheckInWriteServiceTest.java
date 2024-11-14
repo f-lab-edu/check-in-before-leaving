@@ -69,7 +69,7 @@ class CheckInWriteServiceTest {
             Place place = mock(Place.class);
             given(place.getPlaceName()).willReturn("placeName");
             given(placeRepository.findById(anyLong())).willReturn(Optional.of(place));
-            doNothing().when(alarmService).sendAlarmToUsersNearby(any(), anyDouble(), anyDouble());
+            // doNothing().when(alarmService).sendAlarmToUsersNearby(any(), anyDouble(), anyDouble());
 
             //when
             Long id = sut.registerCheckIn(dto);

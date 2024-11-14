@@ -2,8 +2,8 @@ package com.example.checkinrequestMS.HelpAPI.domain.dto.register;
 
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.EtcRegisterDTO;
 
-import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.EtcRegisterRequest;
-import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.EtcRegisterFormFixture;
+import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.HelpWriteController;
+import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.EtcRegisterRequestFixture;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,19 +13,19 @@ class EtcRegisterDTOTest {
     @Test
     void from() {
         //given
-        EtcRegisterRequest form = EtcRegisterFormFixture.create();
+        HelpWriteController.EtcRegisterRequest request = EtcRegisterRequestFixture.create();
 
         //when
-        EtcRegisterDTO sut = EtcRegisterDTO.from(form);
+        EtcRegisterDTO sut = EtcRegisterDTO.from(request);
 
         //then
-        assertEquals(form.getHelpRegisterId(), sut.getHelpRegisterId());
-        assertEquals(form.getPlaceId(), sut.getPlaceId());
-        assertEquals(form.getStart(), sut.getStart());
-        assertEquals(form.getStart().plusHours(form.getOption()), sut.getEnd());
-        assertEquals(form.getReward(), sut.getReward());
-        assertEquals(form.getTitle(), sut.getTitle());
-        assertEquals(form.getContents(), sut.getContents());
+        assertEquals(request.getHelpRegisterId(), sut.getHelpRegisterId());
+        assertEquals(request.getPlaceId(), sut.getPlaceId());
+        assertEquals(request.getStart(), sut.getStart());
+        assertEquals(request.getStart().plusHours(request.getOption()), sut.getEnd());
+        assertEquals(request.getReward(), sut.getReward());
+        assertEquals(request.getTitle(), sut.getTitle());
+        assertEquals(request.getContents(), sut.getContents());
 
     }
 
