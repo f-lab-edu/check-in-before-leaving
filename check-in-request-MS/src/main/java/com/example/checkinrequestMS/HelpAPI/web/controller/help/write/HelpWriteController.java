@@ -58,6 +58,7 @@ public class HelpWriteController {
     //Request
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static abstract class HelpRegisterRequest {
 
         public static final String NO_HELP_REGISTER_ID = "요청 등록자는 필수입니다.";
@@ -81,14 +82,6 @@ public class HelpWriteController {
 
         @NotNull(message = NO_REWARD)
         private Long reward;
-
-        protected HelpRegisterRequest(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward) {
-            this.helpRegisterId = helpRegisterId;
-            this.placeId = placeId;
-            this.start = start;
-            this.option = option;
-            this.reward = reward;
-        }
     }
 
     @Getter
