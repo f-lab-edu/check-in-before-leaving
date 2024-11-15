@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.register;
+package com.example.checkinrequestMS.HelpAPI.web.controller.help.dto.request.help;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteService;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteService;
