@@ -1,10 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.progress.business;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.progress.business.ProgressBusinessWriteService;
-import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.progress.business.ProgressApproveRequest;
-import com.example.checkinrequestMS.HelpAPI.web.controller.dto.response.progress.business.ProgressChangeResponse;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -21,7 +20,7 @@ public class ProgressBusinessWriteController {
 
     private final ProgressBusinessWriteService progressBusinessService;
 
-    private static String APPROVED = "요청자에 의해 인증이 승인 되었습니다.";
+    private static final String APPROVED = "요청자에 의해 인증이 승인 되었습니다.";
 
     @PostMapping("/approved")
     public ResponseEntity<ProgressChangeResponse> approveProgress(@Validated @RequestBody ProgressApproveRequest form) {
@@ -50,5 +49,33 @@ public class ProgressBusinessWriteController {
                 id, PHOTO_UPLOADED));
     }
 
+    //Request
+    @Getter
+    @Builder(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class ProgressApproveRequest {
+        public static final String PROGRESS_APPROVE_REQUEST_NO_HELP_ID = "요청 ID가 필요합니다.";
+        public static final String PROGRESS_APPROVE_REQUEST_NO_APPROVAL = "승인 여부가 필요합니다.";
 
+        @NotNull(message = PROGRESS_APPROVE_REQUEST_NO_HELP_ID)
+        private Long helpId;
+
+        @NotNull(message = PROGRESS_APPROVE_REQUEST_NO_APPROVAL)
+        private Boolean isApproved;
+    }
+
+    //Response
+    @Builder
+    @Getter
+    public static class ProgressChangeResponse {
+        private Long id;
+        private String message;
+
+        public static ProgressChangeResponse of(Long id, String message) {
+            return ProgressChangeResponse.builder()
+                    .id(id)
+                    .message(message)
+                    .build();
+        }
+    }
 }
