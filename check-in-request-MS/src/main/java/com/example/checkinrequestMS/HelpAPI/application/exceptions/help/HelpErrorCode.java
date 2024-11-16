@@ -17,7 +17,9 @@ public enum HelpErrorCode {
     NO_LINE_UP_INFO("라인업 정보가 존재하지 않습니다."),
 
     //Etc.
-    No_ETC_INFO("기타 정보가 존재하지 않습니다.");
+    No_ETC_INFO("기타 정보가 존재하지 않습니다."),
+
+    HELP_RESPONSE_CREATION_ERROR("도움 요청 응답 생성 중 장애가 발생하였습니다.");
 
     private final String detail;
 }
