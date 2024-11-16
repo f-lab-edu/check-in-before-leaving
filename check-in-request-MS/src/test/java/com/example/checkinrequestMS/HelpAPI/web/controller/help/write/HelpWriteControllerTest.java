@@ -40,16 +40,18 @@ class HelpWriteControllerTest {
         @DisplayName("체크인 요청 등록 성공")
         void Request_Success() throws Exception {
             //given
-            CheckInRegisterRequest form = CheckInRegisterRequestFixture.create();
+            CheckInRegisterRequest request = CheckInRegisterRequestFixture.create();
 
             //when
             ResultActions result = mockMvc.perform(post("/help/checkIn")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(form)));
+                    .content(objectMapper.writeValueAsString(request)));
 
             //then
             result.andExpect(status().isOk())
-                    .andExpect(jsonPath("$.message").value(CHECK_IN_SAVE_SUCCESS));
+                    .andExpect(jsonPath("$.message").value(CHECK_IN_SAVE_SUCCESS))
+                    .andExpect(jsonPath("$.data.id").isNotEmpty())
+                    .andExpect(jsonPath("$.data.id").isNumber());
         }
     }
 
@@ -69,7 +71,9 @@ class HelpWriteControllerTest {
 
             //then
             result.andExpect(status().isOk())
-                    .andExpect(jsonPath("$.message").value(LINE_UP_SAVE_SUCCESS));
+                    .andExpect(jsonPath("$.message").value(LINE_UP_SAVE_SUCCESS))
+                    .andExpect(jsonPath("$.data.id").isNotEmpty())
+                    .andExpect(jsonPath("$.data.id").isNumber());
         }
     }
 
@@ -89,7 +93,9 @@ class HelpWriteControllerTest {
 
             //then
             result.andExpect(status().isOk())
-                    .andExpect(jsonPath("$.message").value(ETC_SAVE_SUCCESS));
+                    .andExpect(jsonPath("$.message").value(ETC_SAVE_SUCCESS))
+                    .andExpect(jsonPath("$.data.id").isNotEmpty())
+                    .andExpect(jsonPath("$.data.id").isNumber());
         }
     }
 }

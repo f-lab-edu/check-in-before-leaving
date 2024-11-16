@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.web.controller.progress.dto.response;
+package com.example.checkinrequestMS.HelpAPI.web.controller.progress.dto.response.business;
 
 import com.example.checkinrequestMS.HelpAPI.web.controller.progress.business.ProgressBusinessWriteController;
 import org.junit.jupiter.api.Test;
@@ -13,11 +13,10 @@ public class PhotoChangeResponseTest {
 
         //when
         ProgressBusinessWriteController.ProgressChangeResponse sut =
-                ProgressBusinessWriteController.ProgressChangeResponse.of(1L, "message");
+                ProgressBusinessWriteController.ProgressChangeResponse.of(1L);
 
         // Then
         assertEquals(1L, sut.getId());
-        assertEquals("message", sut.getMessage());
 
     }
 }

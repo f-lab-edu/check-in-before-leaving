@@ -44,7 +44,7 @@ class ProgressApproveRequestTest {
         when(req.getHelpId()).thenReturn(null);
 
         ResultActions result = mockMvc.perform(post("/help/progress/approved")
-                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req))
         );
 
