@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.progress.wrtie;
 import com.example.checkinrequestMS.HelpAPI.application.service.progress.write.ProgressWriteService;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.DefaultHTTPResponse;
 import com.example.checkinrequestMS.HelpAPI.web.controller.progress.business.ProgressBusinessWriteController;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -18,12 +19,12 @@ public class ProgressWriteController {
 
     private final ProgressWriteService progressRegisterService;
 
-    private static String PICKED = "도와주실 분을 구했습니다.";
+    public static String PICKED = "도와주실 분을 구했습니다.";
 
     @PostMapping
-    public ResponseEntity<ProgressBusinessWriteController.ProgressChangeResponse> registerProgress(@Validated @RequestBody ProgressRegisterRequest form) {
+    public ResponseEntity<DefaultHTTPResponse<ProgressBusinessWriteController.ProgressChangeResponse>> registerProgress(@Validated @RequestBody ProgressRegisterRequest form) {
         Long helpId = progressRegisterService.registerHelper(form.getHelpId(), form.getHelperId());
-        return ResponseEntity.ok(ProgressBusinessWriteController.ProgressChangeResponse.of(helpId, PICKED));
+        return ResponseEntity.ok(new DefaultHTTPResponse<ProgressBusinessWriteController.ProgressChangeResponse>(PICKED, ProgressBusinessWriteController.ProgressChangeResponse.of(helpId)));
     }
 
     //Request
