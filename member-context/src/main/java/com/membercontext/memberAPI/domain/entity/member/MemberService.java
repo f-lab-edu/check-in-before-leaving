@@ -26,7 +26,7 @@ public class MemberService {
 
     public Member update(Member updatingMember) {
         Member member = memberRepository.findById(updatingMember.getId());
-        return member.update(updatingMember);
+        return memberRepository.update(updatingMember);
     }
 
     public void delete(String id) {
