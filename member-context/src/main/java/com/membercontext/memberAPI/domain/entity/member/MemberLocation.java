@@ -4,7 +4,8 @@ import com.membercontext.memberAPI.application.exception.member.MemberException;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 

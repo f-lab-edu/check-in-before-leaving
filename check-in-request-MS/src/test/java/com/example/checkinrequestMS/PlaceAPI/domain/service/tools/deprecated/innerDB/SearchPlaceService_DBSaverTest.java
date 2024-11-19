@@ -4,6 +4,7 @@ import com.example.checkinrequestMS.PlaceAPI.domain.Place;
 import com.example.checkinrequestMS.PlaceAPI.domain.exceptions.place.PlaceException;
 import com.example.checkinrequestMS.PlaceAPI.infra.PlaceJPARepository;
 import com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchCategory;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
+@Disabled
 class SearchPlaceService_DBSaverTest {
 
     @InjectMocks

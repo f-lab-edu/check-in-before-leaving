@@ -2,7 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.help.write;
 
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteService;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.LineUpRegisterForm;
+import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.LineUpRegisterRequest;
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.LineUpRegisterFormFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ public class LineUpWriteControllerTest {
         @DisplayName("줄서기 요청 등록 성공")
         void Form_Success() throws Exception {
             //given
-            LineUpRegisterForm form = LineUpRegisterFormFixture.create();
+            LineUpRegisterRequest form = LineUpRegisterFormFixture.create();
 
             //when
             ResultActions result = mockMvc.perform(post("/help/lineUp")

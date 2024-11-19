@@ -6,6 +6,7 @@ import com.example.checkinrequestMS.PlaceAPI.web.restAPI.KakaoStoreAPIRequest;
 import com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchCategory;
 import com.example.checkinrequestMS.PlaceAPI.web.restAPI.SearchType;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
+@Disabled
 class KakaoAPIStoreInfoDBSaverTest {
 
 

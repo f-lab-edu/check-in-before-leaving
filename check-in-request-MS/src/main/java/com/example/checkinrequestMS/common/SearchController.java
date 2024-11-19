@@ -2,17 +2,12 @@ package com.example.checkinrequestMS.common;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.read.HelpSelectService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressVO.Progress;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressValue;
 import com.example.checkinrequestMS.PlaceAPI.domain.PlaceRedis;
 import com.example.checkinrequestMS.PlaceAPI.domain.service.PlaceSearchService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 

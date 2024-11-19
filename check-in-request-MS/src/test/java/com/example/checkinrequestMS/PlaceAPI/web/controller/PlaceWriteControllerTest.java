@@ -30,7 +30,7 @@ class PlaceWriteControllerTest {
                 "    \"placeName\": \"테스트중 맛집\",\n" +
                 "    \"address\": \"맛집의 주소\",\n" +
                 "    \"roadAddressName\": \"맛집의 도로명\",\n" +
-                "    \"category\": \"RESTAURANT\",\n" +
+                "    \"category\": \"FD6\",\n" +
                 "    \"phone\": \"010-1111-1111\",\n" +
                 "    \"placeUrl\": \"test@test.com\",\n" +
                 "    \"x\": 0,\n" +
