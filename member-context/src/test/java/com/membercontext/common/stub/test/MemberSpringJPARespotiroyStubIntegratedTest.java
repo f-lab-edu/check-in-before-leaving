@@ -15,7 +15,6 @@ import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -167,12 +166,12 @@ public class MemberSpringJPARespotiroyStubIntegratedTest {
         void findNearByMember() {
             //given
             TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
-            dbMember.updateLocation(targetLocation);
-            stubMember.updateLocation(targetLocation);
+            dbMember.startLocationTracking(targetLocation);
+            stubMember.startLocationTracking(targetLocation);
 
             Member memberNearBy = MemberFixture.createMemberWithDifferentEmail("memberNearBy@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002);
-            memberNearBy.updateLocation(request);
+            memberNearBy.startLocationTracking(request);
 
             stub.save(memberNearBy);
             memberSpringJPARepository.save(memberNearBy);
@@ -203,13 +202,13 @@ public class MemberSpringJPARespotiroyStubIntegratedTest {
         @DisplayName("findNearByMember - 떨어져 있는 맴버.")
         void findNearByMember_OtherFar() {
             TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
-            dbMember.updateLocation(targetLocation);
-            stubMember.updateLocation(targetLocation);
+            dbMember.startLocationTracking(targetLocation);
+            stubMember.startLocationTracking(targetLocation);
 
             //given
             Member memberFar = MemberFixture.createMemberWithDifferentEmail("MemberFar@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(400, 400);
-            memberFar.updateLocation(request);
+            memberFar.startLocationTracking(request);
 
             stub.save(memberFar);
             memberSpringJPARepository.save(memberFar);

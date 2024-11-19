@@ -1,7 +1,7 @@
 package com.membercontext.memberAPI.web.controller;
 
 import com.membercontext.memberAPI.application.aop.authentication.NoAuthentication;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
+import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.dto.DefaultHTTPResponse;
 import jakarta.validation.constraints.Email;
@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/sign-in")
 public class SignUpController {
 
-    private final SignUpService signUpService;
+    private final MemberWriteService signUpService;
 
     public static final String MEMBER_SIGN_UP_SUCCESS_MESSAGE = "회원가입 성공";
     public static final String MEMBER_UPDATE_SUCCESS_MESSAGE = "회원 수정 성공";
@@ -28,6 +27,8 @@ public class SignUpController {
     @NoAuthentication
     public ResponseEntity<DefaultHTTPResponse<String>> signIn(@Validated @RequestBody SignUpRequest signUpRequest) {
         String id = signUpService.signUp(Member.from(signUpRequest));
+        //fixme: from은 도메인 로직인데 여기서 사용하는 것도 레이어의 경계에 맞지 않게 사용하는게 아닐까요?
+        //       이 변환을 도메인의 member.signUp 로직에 추가를 해야하는게 아닐까 생각이 들었습니다.
         return ResponseEntity.ok(new DefaultHTTPResponse<>(MEMBER_SIGN_UP_SUCCESS_MESSAGE, id));
     }
 

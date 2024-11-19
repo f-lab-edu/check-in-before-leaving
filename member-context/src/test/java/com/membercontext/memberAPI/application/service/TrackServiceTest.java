@@ -30,14 +30,14 @@ class TrackServiceTest {
 
     @Test
     @DisplayName("현재 위치 저장")
-    void saveCurrentLocation() {
+    void startLocationTracking() {
         // given
         Member member = MemberFixture.create();
         String id = memberRepository.save(member);
         TrackController.TrackRequest form = TrackRequestFixture.create();
 
         //when
-        sut.saveCurrentLocation(form, id);
+        sut.startLocationTracking(form, id);
 
         // then
         Member updatedMember = memberRepository.findById(id);
@@ -48,14 +48,14 @@ class TrackServiceTest {
 
     @Test
     @DisplayName("FCM 토큰 저장")
-    void saveToken() {
+    void enablePushAlarm() {
         // given
         String token = "token";
         Member member = MemberFixture.create();
         String id = memberRepository.save(member);
 
         //when
-        sut.saveToken(token, id);
+        sut.enablePushAlarm(token, id);
 
         // then
         Member updatedMember = memberRepository.findById(id);

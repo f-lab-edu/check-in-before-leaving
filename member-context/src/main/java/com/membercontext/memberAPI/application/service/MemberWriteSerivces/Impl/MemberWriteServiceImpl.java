@@ -1,8 +1,7 @@
-package com.membercontext.memberAPI.application.service.SignUpSerivces.Impl;
+package com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl;
 
-import com.membercontext.memberAPI.application.aop.log.Log;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
+import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import jakarta.transaction.Transactional;
@@ -11,17 +10,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SignUpServiceImpl implements SignUpService {
+public class MemberWriteServiceImpl implements MemberWriteService {
 
     private final MemberRepository memberRepository;
-    private final JavaCryptoUtil encryption;
+    private final JavaCryptoUtil javaCryptoUtil;
 
     @Override
     @Transactional
     public String signUp(Member member) {
-        String encryptedPassword = encryption.encrypt(member.getPassword()); // 초기화 백터(IV) 미적용
-        member.encryptPassword(encryptedPassword);
-        return memberRepository.save(member);
+        return memberRepository.save(member.signUp(javaCryptoUtil));
     }
 
     @Override
@@ -35,7 +32,6 @@ public class SignUpServiceImpl implements SignUpService {
     public void delete(String id) {
         memberRepository.delete(id);
     }
-
 }
 
 

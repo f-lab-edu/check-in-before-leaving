@@ -1,12 +1,13 @@
-package com.membercontext.memberAPI.application.service.SignUpSerivces;
+package com.membercontext.memberAPI.application.service.MemberWriteSerivces;
 
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
 
-public interface SignUpService {
+public interface MemberWriteService {
     String signUp(Member member);
 
     Member update(Member updatingMember);
 
     void delete(String id);
+
 }

@@ -6,7 +6,6 @@ import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.MemberSpringJPARepositoryStub;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -205,10 +204,10 @@ class MemberJPARepositoryTest {
             int radius = 500; // 500km
 
             Member memberAt0 = MemberFixture.create();
-            memberAt0.updateLocation(TrackRequestFixture.createRequestWithDifferentLocation(x, y));
+            memberAt0.startLocationTracking(TrackRequestFixture.createRequestWithDifferentLocation(x, y));
 
             Member memberNear = MemberFixture.createMemberWithDifferentEmail("nearMember@test.com");
-            memberNear.updateLocation(TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002));
+            memberNear.startLocationTracking(TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002));
 
             memberSpringJPARepository.save(memberAt0);
             memberNear = memberSpringJPARepository.save(memberNear);
@@ -247,10 +246,10 @@ class MemberJPARepositoryTest {
             int radius = 1;
 
             Member memberAt0 = MemberFixture.create();
-            memberAt0.updateLocation(TrackRequestFixture.createRequestWithDifferentLocation(x, y));
+            memberAt0.startLocationTracking(TrackRequestFixture.createRequestWithDifferentLocation(x, y));
 
             Member memberFar = MemberFixture.createMemberWithDifferentEmail("farMember@test.com");
-            memberFar.updateLocation(TrackRequestFixture.createRequestWithDifferentLocation(300, 300));
+            memberFar.startLocationTracking(TrackRequestFixture.createRequestWithDifferentLocation(300, 300));
 
             memberSpringJPARepository.save(memberAt0);
             memberFar = memberSpringJPARepository.save(memberFar);

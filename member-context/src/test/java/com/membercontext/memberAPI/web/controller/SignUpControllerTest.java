@@ -5,17 +5,14 @@ import com.membercontext.common.LogInTestHelper;
 import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
 import com.membercontext.common.fixture.web.crud.UpdateRequestFixture;
 import com.membercontext.memberAPI.application.aop.authentication.AuthenticationAspect;
-import com.membercontext.memberAPI.application.service.LogInService;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
+import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
-import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.test.mock.mockito.SpyBeans;
 import org.springframework.http.MediaType;
@@ -44,7 +41,7 @@ public class SignUpControllerTest {
     private ObjectMapper mapper;
 
     @MockBean
-    private SignUpService signUpService;
+    private MemberWriteService signUpService;
 
     @BeforeEach
     void setUp() throws Exception {

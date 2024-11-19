@@ -3,7 +3,7 @@ package com.membercontext.memberAPI.application.exception;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
+import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +36,7 @@ class ExceptionControllerTest {
     private ObjectMapper mapper;
 
     @MockBean
-    private SignUpService signUpService;
+    private MemberWriteService signUpService;
 
     @Test
     @DisplayName("MemberException 발생 예시")

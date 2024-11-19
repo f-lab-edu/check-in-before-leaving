@@ -232,13 +232,13 @@ class MemberJPARepositoryStubIntegratedTest {
             //given
             Member member = MemberFixture.create();
             TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
-            member.updateLocation(targetLocation);
+            member.startLocationTracking(targetLocation);
             db.save(member);
             stub.save(member);
 
             Member memberNearBy = MemberFixture.createMemberWithDifferentEmail("memberNearBy@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002);
-            memberNearBy.updateLocation(request);
+            memberNearBy.startLocationTracking(request);
 
             stub.save(memberNearBy);
             db.save(memberNearBy);
@@ -273,13 +273,13 @@ class MemberJPARepositoryStubIntegratedTest {
             //given
             Member member = MemberFixture.create();
             TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
-            member.updateLocation(targetLocation);
+            member.startLocationTracking(targetLocation);
             db.save(member);
             stub.save(member);
 
             Member memberFar = MemberFixture.createMemberWithDifferentEmail("memberFar@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(400, 400);
-            memberFar.updateLocation(request);
+            memberFar.startLocationTracking(request);
 
 
             stub.save(memberFar);

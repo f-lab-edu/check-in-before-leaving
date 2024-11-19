@@ -6,7 +6,7 @@ import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.common.fixture.web.crud.UpdateRequestFixture;
 import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.SignUpService;
+import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.SignUpController;
@@ -47,7 +47,7 @@ class AuthenticationAspectTest {
     private AuthenticationAspect authenticationAspect; //이게 빈으로 있어야 AOP 작동.
 
     @MockBean
-    private SignUpService signUpService;
+    private MemberWriteService signUpService;
 
     private final String requestURL = "/sign-in";
 

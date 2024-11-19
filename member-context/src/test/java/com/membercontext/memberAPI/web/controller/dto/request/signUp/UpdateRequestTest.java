@@ -1,7 +1,7 @@
 package com.membercontext.memberAPI.web.controller.dto.request.signUp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.Impl.SignUpServiceImpl;
+import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl.MemberWriteServiceImpl;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ class UpdateRequestTest {
     @Autowired
     private ObjectMapper mapper;
     @MockBean
-    private SignUpServiceImpl signUpService;
+    private MemberWriteServiceImpl signUpService;
 
     private final String requestURL = "/sign-in";
     private SignUpController.UpdateRequest req;

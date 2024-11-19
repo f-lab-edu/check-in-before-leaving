@@ -15,14 +15,14 @@ public class TrackService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void saveCurrentLocation(TrackController.TrackRequest form, String memberId) {
+    public void startLocationTracking(TrackController.TrackRequest request, String memberId) {
         Member member = memberRepository.findById(memberId);
-        member.updateLocation(form);
+        member.startLocationTracking(request);
     }
 
     @Transactional
-    public void saveToken(String token, String memberId) {
+    public void enablePushAlarm(String token, String memberId) {
         Member member = memberRepository.findById(memberId);
-        member.startLocationAlarm(token);
+        member.enablePushAlarm(token);
     }
 }

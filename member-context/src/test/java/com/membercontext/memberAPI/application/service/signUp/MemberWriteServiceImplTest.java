@@ -4,7 +4,7 @@ import com.membercontext.common.stub.JavaCryptoUtilMockStub;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.application.service.SignUpSerivces.Impl.SignUpServiceImpl;
+import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl.MemberWriteServiceImpl;
 
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.common.fixture.domain.MemberFixture;
@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class SignUpServiceImplTest {
+class MemberWriteServiceImplTest {
 
     @InjectMocks
-    private SignUpServiceImpl sut;
+    private MemberWriteServiceImpl sut;
 
     @Spy
     private MemberRepository memberRepository = new MemberJPARepositoryStub();
