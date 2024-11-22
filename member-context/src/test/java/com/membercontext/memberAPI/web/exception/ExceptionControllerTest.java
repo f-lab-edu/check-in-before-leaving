@@ -3,7 +3,6 @@ package com.membercontext.memberAPI.web.exception;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.read.ListAppender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.FirebaseException;
@@ -11,21 +10,16 @@ import com.membercontext.common.fixture.web.AlarmRequestFixture;
 import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
 import com.membercontext.memberAPI.application.service.AlarmService;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
-import com.membercontext.memberAPI.common.exception.types.TechinicalException;
+import com.membercontext.memberAPI.common.exception.types.TechnicalException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm.PushAlarmException;
 import com.membercontext.memberAPI.web.controller.AlarmController;
 import com.membercontext.memberAPI.web.controller.SignUpController;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
 import org.slf4j.LoggerFactory;
-import org.slf4j.event.LoggingEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -93,7 +87,7 @@ class ExceptionControllerTest {
     void signUp_Failed_TechnicalException() throws Exception {
 
         //Before
-        logger = (Logger) LoggerFactory.getLogger(TechinicalException.class);
+        logger = (Logger) LoggerFactory.getLogger(TechnicalException.class);
         listAppender = new ListAppender<>();
         listAppender.start();
         logger.addAppender(listAppender);
@@ -123,7 +117,7 @@ class ExceptionControllerTest {
 
         ILoggingEvent loggingEvent = listAppender.list.get(0);
         assertTrue(loggingEvent.getMessage().contains(FCM_MESSAGE_CREATION_FAILED.getDeatil()));
-        assertTrue(loggingEvent.getMessage().contains(TechinicalException.class.getSimpleName()));
+        assertTrue(loggingEvent.getMessage().contains(TechnicalException.class.getSimpleName()));
 
         // printStackTrace() 호출 확인
         String stackTrace = errContent.toString();

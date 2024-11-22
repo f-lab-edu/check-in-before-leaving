@@ -1,26 +1,16 @@
 package com.membercontext.memberAPI.application.service.signUp;
 
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.common.stub.JavaCryptoUtilMockStub;
-import com.membercontext.common.stub.MemberJPARepositoryStub;
-import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl.MemberWriteApplication;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
-import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

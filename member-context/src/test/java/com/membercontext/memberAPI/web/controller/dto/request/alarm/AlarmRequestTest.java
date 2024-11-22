@@ -2,7 +2,6 @@ package com.membercontext.memberAPI.web.controller.dto.request.alarm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.fixture.web.AlarmRequestFixture;
-import com.membercontext.memberAPI.application.exception.ExceptionController;
 import com.membercontext.memberAPI.application.service.AlarmService;
 import com.membercontext.memberAPI.web.controller.AlarmController;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 
-import static com.membercontext.memberAPI.application.exception.ExceptionController.MEMBER_INPUT_ERROR;
+import static com.membercontext.memberAPI.web.exceptionHandling.ExceptionController.MEMBER_INPUT_ERROR;
 import static com.membercontext.memberAPI.web.controller.AlarmController.AlarmRequest.*;
-import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_PASSWORD_VALIDATION_MESSAGE;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

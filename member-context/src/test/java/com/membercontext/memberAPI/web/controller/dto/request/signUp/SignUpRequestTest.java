@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.membercontext.memberAPI.application.exception.ExceptionController.MEMBER_INPUT_ERROR;
+import static com.membercontext.memberAPI.web.exceptionHandling.ExceptionController.MEMBER_INPUT_ERROR;
 import static com.membercontext.memberAPI.web.controller.SignUpController.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

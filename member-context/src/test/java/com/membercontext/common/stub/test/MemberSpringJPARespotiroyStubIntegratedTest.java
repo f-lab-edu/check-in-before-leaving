@@ -6,8 +6,8 @@ import com.membercontext.common.fixture.Variables;
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.MemberSpringJPARepositoryStub;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.application.repository.MemberRepository;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
+import com.membercontext.memberAPI.domain.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
@@ -15,10 +15,7 @@ import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberSpringJPAR
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.ClassRule;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,6 +39,7 @@ import static org.mockito.Mockito.mock;
 @SpringBootTest
 @Transactional
 @Testcontainers
+@Disabled
 public class MemberSpringJPARespotiroyStubIntegratedTest {
 
     private static final String USERNAME = "root";

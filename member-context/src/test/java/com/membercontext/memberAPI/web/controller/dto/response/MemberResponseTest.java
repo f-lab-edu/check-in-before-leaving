@@ -24,7 +24,6 @@ class MemberResponseTest {
         assertEquals(member.getPhone(), memberResponse.getPhone());
         assertEquals(member.getAddress(), memberResponse.getAddress());
         assertEquals(member.getPoint(), memberResponse.getPoint());
-
     }
 
 }
