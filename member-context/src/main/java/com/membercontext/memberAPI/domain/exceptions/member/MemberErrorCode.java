@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.application.exception.member;
+package com.membercontext.memberAPI.domain.exceptions.member;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
