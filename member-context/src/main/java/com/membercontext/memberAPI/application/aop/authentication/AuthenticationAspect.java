@@ -1,6 +1,6 @@
 package com.membercontext.memberAPI.application.aop.authentication;
 
-import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.web.controller.LogInController;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +10,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.*;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.*;
 
 @Aspect
 @Component
@@ -51,6 +51,5 @@ public class AuthenticationAspect {
         if (mySessionAttribute == null) {
             throw new MemberException(NO_SESSION_ID);
         }
-
     }
 }

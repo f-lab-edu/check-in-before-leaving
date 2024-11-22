@@ -1,7 +1,7 @@
 package com.membercontext.memberAPI.web.exceptionHandling;
 
 import com.membercontext.memberAPI.common.exception.types.DomainException;
-import com.membercontext.memberAPI.common.exception.types.TechinicalException;
+import com.membercontext.memberAPI.common.exception.types.TechnicalException;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.web.exceptionHandling.response.ExceptionResponse;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class ExceptionController {
 
     //todo: Exception Response 포멧 변경 고려. (error 필드가 필요 없는 경우 안 나올 수 도 있게 고민.)
     @ExceptionHandler({
-            TechinicalException.class
+            TechnicalException.class
     })
     public ResponseEntity<ExceptionResponse<Void>> technicalExceptions() {
         return ResponseEntity.internalServerError().body(new ExceptionResponse<>(SYSTEM_ERROR));

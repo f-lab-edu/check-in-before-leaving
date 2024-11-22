@@ -1,7 +1,7 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
-import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.application.repository.MemberRepository;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
+import com.membercontext.memberAPI.domain.repository.MemberRepository;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.TrackController;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.NOT_EXITING_USER;
 
 @Service
 @RequiredArgsConstructor

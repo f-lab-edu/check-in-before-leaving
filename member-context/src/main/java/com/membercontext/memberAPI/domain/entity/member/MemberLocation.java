@@ -1,17 +1,18 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
-import com.membercontext.memberAPI.application.exception.member.MemberException;
-import jakarta.persistence.Embeddable;
-import lombok.*;
-
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import jakarta.annotation.Nullable;
+import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NO_VALUE;
-
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.NO_VALUE;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
@@ -35,7 +36,7 @@ public final class MemberLocation {
     private MemberLocation(@Nullable Double latitude, @Nullable Double longitude, @Nullable LocalDateTime timestamp, @Nullable String fcmToken) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.timestamp = timestamp;
+        this.timestamp = timestamp; //== null ? null : LocalDateTime.of(timestamp.toLocalDate(), timestamp.toLocalTime());
         this.fcmToken = fcmToken;
     }
 
