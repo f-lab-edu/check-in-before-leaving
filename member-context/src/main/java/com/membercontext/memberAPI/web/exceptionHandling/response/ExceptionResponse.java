@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.application.exception;
+package com.membercontext.memberAPI.web.exceptionHandling.response;
 
 import lombok.Getter;
 import lombok.ToString;
