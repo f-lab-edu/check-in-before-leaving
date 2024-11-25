@@ -15,7 +15,7 @@ class PostDTOTest {
         PostDTO.MemberInfoDTO memberInfoDTO = new PostDTO.MemberInfoDTO(memberId, memberEmail);
 
         assertEquals(memberId, memberInfoDTO.getMemberId());
-        assertEquals(memberEmail, memberInfoDTO.getMemberName());
+        assertEquals(memberEmail, memberInfoDTO.getMemberEmail());
     }
 
     @Test
@@ -28,21 +28,6 @@ class PostDTOTest {
 
         assertEquals(content, create.getContent());
         assertEquals(memberId, create.getOwner().getMemberId());
-        assertEquals(memberName, create.getOwner().getMemberName());
-    }
-
-    @Test
-    void update() {
-        Long id = 1L;
-        String content = "testContent";
-        String memberId = "testUUID";
-        String memberName = "testName";
-
-        PostDTO.Update update = PostDTO.Update.of(id, content, memberId, memberName);
-
-        assertEquals(id, update.getId());
-        assertEquals(content, update.getContent());
-        assertEquals(memberId, update.getOwner().getMemberId());
-        assertEquals(memberName, update.getOwner().getMemberName());
+        assertEquals(memberName, create.getOwner().getMemberEmail());
     }
 }
