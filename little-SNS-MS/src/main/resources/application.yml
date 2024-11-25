@@ -1,0 +1,10 @@
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/sns
+    username: root
+    password: 1234
+  sql:
+    init:
+      mode: always
+server:
+  port: 8083
