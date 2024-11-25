@@ -10,11 +10,11 @@ import lombok.Setter;
 @Getter
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-public final class MemberInfo {
+public final class LikeMemberInfo {
     private final String memberId;
     private final String MemberEmail;
 
-    public MemberInfo(String memberId, String MemberEmail) {
+    public LikeMemberInfo(String memberId, String MemberEmail) {
         if (memberId == null) throw new PostException(PostException.NO_MEMBER_ID_VALUE);
         if (MemberEmail == null) throw new PostException(PostException.NO_MEMBER_EMAIL_VALUE);
 

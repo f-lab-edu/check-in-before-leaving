@@ -19,10 +19,11 @@ public class PostDTO {
     @RequiredArgsConstructor
     public static final class Create {
         private final String content;
-        private final MemberInfoDTO owner; //todo: 사실상 Like
+        private final String ownerId;
+        private final String ownerEmail;
 
-        public static Create of(String content, String memberId, String memberEmail) {
-            return new Create(content, new MemberInfoDTO(memberId, memberEmail));
+        public static Create of(String content, String ownerId, String ownerEmail) {
+            return new Create(content, ownerId, ownerEmail);
         }
     }
 
