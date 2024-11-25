@@ -7,9 +7,6 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Setter(AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 public final class Post {
 
@@ -20,18 +17,44 @@ public final class Post {
     private final MemberInfo owner;
 
     @Getter
-    private final List<MemberInfo> likes = List.of();
+    private List<MemberInfo> likes = List.of();
 
     private final Long postId;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
+    private Post(String contents, MemberInfo owner, List<MemberInfo> likes, boolean isCreating) {
+        if (isCreating) {
+            this.contents = contents;
+            this.owner = owner;
+            this.likes = likes;
+            this.createdAt = null;
+            this.updatedAt = null;
+            this.postId = null;
+        } else {
+            throw new PostException(PostException.NOT_POSTING_REQUEST);
+        }
+    }
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private Post(String contents, MemberInfo owner, Long postId, LocalDateTime createdAt, LocalDateTime updatedAt, List<MemberInfo> likes) {
+        if (contents == null) throw new PostException(PostException.NO_CONTENT_VALUE);
+        if (owner == null) throw new PostException(PostException.NO_OWNER_VALUE);
+        if (postId == null) throw new PostException(PostException.NO_POST_ID_VALUE);
+        if (createdAt == null) throw new PostException(PostException.NO_CREATED_AT_VALUE);
+        if (updatedAt == null) throw new PostException(PostException.NO_UPDATED_AT_VALUE);
+        if (likes == null) throw new PostException(PostException.NO_LIKES_VALUE);
+
+        this.contents = contents;
+        this.owner = owner;
+        this.postId = postId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.likes = likes;
+    }
 
     public static Post post(PostDTO.Create dto) {
-        return Post.builder()
-                .contents(dto.getContent())
-                .owner(new MemberInfo(dto.getOwner().getMemberId(), dto.getOwner().getMemberName()))
-                .build();
+        return new Post(dto.getContent(), new MemberInfo(dto.getOwner().getMemberId(), dto.getOwner().getMemberEmail()), List.of(), true);
     }
 
     public Long getPostId() {
