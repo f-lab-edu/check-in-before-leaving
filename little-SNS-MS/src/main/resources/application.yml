@@ -3,6 +3,12 @@ spring:
     url: r2dbc:mysql://localhost:3306/sns
     username: root
     password: 1234
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG
+    io.r2dbc.pool: DEBUG
+    io.asyncer.r2dbc.mysql: DEBUG
+    io.asyncer.r2dbc.mysql.QUERY: DEBUG
   sql:
     init:
       mode: always
