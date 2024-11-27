@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static com.membercontext.memberAPI.application.exception.ExceptionController.MEMBER_INPUT_ERROR;
 import static com.membercontext.memberAPI.web.controller.LogInController.COOKIE_NAME;
+import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_PASSWORD_VALIDATION_MESSAGE;
 import static com.membercontext.memberAPI.web.controller.TrackController.TrackRequest.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -62,9 +63,10 @@ class TrackRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
+        String fieldname = "latitude";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(TRACK_LATITUDE_NOT_FOUND));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(TRACK_LATITUDE_NOT_FOUND));
     }
 
     @Test
@@ -82,9 +84,10 @@ class TrackRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
+        String fieldname = "longitude";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(TRACK_LONGITUDE_NOT_FOUND));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(TRACK_LONGITUDE_NOT_FOUND));
     }
 
     @Test
@@ -102,9 +105,9 @@ class TrackRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
+        String fieldname = "timestamp";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(TRACK_TIMESTAMP_NOT_FOUND));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(TRACK_TIMESTAMP_NOT_FOUND));
     }
-
 }

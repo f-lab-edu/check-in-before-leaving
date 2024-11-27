@@ -12,7 +12,7 @@ import static com.membercontext.memberAPI.web.controller.SignUpController.*;
 public class SignUpRequestFixture extends SignUpController.SignUpRequest {
 
 
-    protected SignUpRequestFixture(@Email(message = EMAIL_FORMAT_VALIDATION_MESSAGE) @NotBlank(message = EMAIL_VALIDATION_MESSAGE) String email, @NotBlank(message = PASSWORD_VALIDATION_MESSAGE) String password, @NotBlank(message = NAME_VALIDATION_MESSAGE) String name, @NotBlank(message = PHONE_VALIDATION_MESSAGE) String phone, @NotBlank(message = LOCATION_VALIDATION_MESSAGE) String location, @NotNull(message = LOCATION_SERVICE_VALIDATION_MESSAGE) Boolean isLocationServiceEnabled, Long point) {
+    protected SignUpRequestFixture(@Email(message = EMAIL_FORMAT_VALIDATION_MESSAGE) @NotBlank(message = EMAIL_VALIDATION_MESSAGE) String email, @NotBlank(message = PASSWORD_VALIDATION_MESSAGE) String password, @NotBlank(message = NAME_VALIDATION_MESSAGE) String name, @NotBlank(message = PHONE_VALIDATION_MESSAGE) String phone, @NotBlank(message = ADDRESS_VALIDATION_MESSAGE) String location, @NotNull(message = LOCATION_SERVICE_VALIDATION_MESSAGE) Boolean isLocationServiceEnabled, Long point) {
         super(email, password, name, phone, location, isLocationServiceEnabled, point);
     }
 

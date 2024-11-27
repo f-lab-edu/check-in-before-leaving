@@ -16,6 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 
+import static com.membercontext.memberAPI.application.exception.ExceptionController.MEMBER_INPUT_ERROR;
+import static com.membercontext.memberAPI.web.controller.AlarmController.AlarmRequest.*;
+import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_PASSWORD_VALIDATION_MESSAGE;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -55,9 +58,10 @@ class AlarmRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
+        String fieldname = "x";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(ExceptionController.MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(AlarmController.AlarmRequest.ALARM_X_NOT_FOUND));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(ALARM_X_NOT_FOUND));
     }
 
     @Test
@@ -72,9 +76,10 @@ class AlarmRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
+        String fieldname = "y";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(ExceptionController.MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(AlarmController.AlarmRequest.ALARM_Y_NOT_FOUND));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(ALARM_Y_NOT_FOUND));
     }
 
     @Test
@@ -89,9 +94,10 @@ class AlarmRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
+        String fieldname = "title";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(ExceptionController.MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(AlarmController.AlarmRequest.ALARM_TITLE_NOT_FOUND));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(ALARM_TITLE_NOT_FOUND));
     }
 
     @Test
@@ -106,8 +112,9 @@ class AlarmRequestTest {
                 .content(mapper.writeValueAsString(req)));
 
         //then
+        String fieldname = "message";
         result.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(ExceptionController.MEMBER_INPUT_ERROR))
-                .andExpect(jsonPath("$.error.*").value(AlarmController.AlarmRequest.ALARM_MESSAGE_NOT_FOUND));
+                .andExpect(jsonPath("message").value(MEMBER_INPUT_ERROR))
+                .andExpect(jsonPath("error." + fieldname).value(ALARM_MESSAGE_NOT_FOUND));
     }
 }

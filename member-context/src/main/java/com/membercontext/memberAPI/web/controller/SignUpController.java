@@ -48,7 +48,7 @@ public class SignUpController {
     public static final String PASSWORD_VALIDATION_MESSAGE = "비밀번호를 입력해주세요";
     public static final String NAME_VALIDATION_MESSAGE = "이름을 입력해주세요";
     public static final String PHONE_VALIDATION_MESSAGE = "휴대폰 번호를 입력해주세요";
-    public static final String LOCATION_VALIDATION_MESSAGE = "동을 입력해주세요";
+    public static final String ADDRESS_VALIDATION_MESSAGE = "동을 입력해주세요";
     public static final String LOCATION_SERVICE_VALIDATION_MESSAGE = "위치 서비스 사용 여부를 입력해주세요";
 
     @Getter
@@ -69,7 +69,7 @@ public class SignUpController {
         @NotBlank(message = PHONE_VALIDATION_MESSAGE)
         private final String phone;
 
-        @NotBlank(message = LOCATION_VALIDATION_MESSAGE)
+        @NotBlank(message = ADDRESS_VALIDATION_MESSAGE)
         private final String address;
 
         @NotNull(message = LOCATION_SERVICE_VALIDATION_MESSAGE)
@@ -104,8 +104,8 @@ public class SignUpController {
         @NotBlank(message = PHONE_VALIDATION_MESSAGE)
         private final String phone;
 
-        @NotBlank(message = LOCATION_VALIDATION_MESSAGE)
-        private final String location;
+        @NotBlank(message = ADDRESS_VALIDATION_MESSAGE)
+        private final String address;
 
         @NotNull(message = LOCATION_SERVICE_VALIDATION_MESSAGE)
         private final Boolean isLocationServiceEnabled;
