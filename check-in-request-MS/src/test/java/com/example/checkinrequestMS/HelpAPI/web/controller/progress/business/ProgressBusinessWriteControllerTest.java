@@ -1,8 +1,10 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.progress.business;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.progress.business.ProgressBusinessWriteService;
+import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.progress.business.ProgressApproveRequestFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,11 +35,6 @@ class ProgressBusinessWriteControllerTest {
 
     @MockBean
     private ProgressBusinessWriteService progressBusinessWriteService;
-
-    @Test
-    void approveProgress() {
-
-    }
 
     @Test
     @DisplayName("사진 추가 - 파일 없이 Param만 있으면 400(Bad Request) - Multipart")
@@ -126,35 +123,43 @@ class ProgressBusinessWriteControllerTest {
                 .andExpect(jsonPath("$.message").value(PHOTO_UPLOADED));
     }
 
+    @Nested
+    @DisplayName("승인 요청")
+    class approve {
+        @Test
+        @DisplayName("승인 - 정상적인 승인 요청")
+        void approve_Success() throws Exception {
+            //given
+            ProgressApproveRequest request = ProgressApproveRequestFixture.create();
 
-    @Test
-    @DisplayName("승인 - 정상적인 승인 요청")
-    void approve_Success() throws Exception {
-        ResultActions result = mockMvc.perform(post("/help/progress/approved")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"helpId\":1, " +
-                        "\"isApproved\":true}"));
+            //when
+            ResultActions result = mockMvc.perform(post("/help/progress/approved")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(request)));
 
-        result.andExpect(status().isOk());
-    }
+            //then
+            result.andExpect(status().isOk());
+        }
 
-    @Test
-    @DisplayName("승인 - Blank시 400(Bad Request)")
-    void BadRequest_When_Content_Blank() throws Exception {
-        ResultActions result = mockMvc.perform(post("/help/progress/approved")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(""));
+        @Test
+        @DisplayName("승인 - Blank시 400(Bad Request)")
+        void BadRequest_When_Content_Blank() throws Exception {
 
-        result.andExpect(status().isBadRequest());
-    }
+            ResultActions result = mockMvc.perform(post("/help/progress/approved")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(""));
 
-    @Test
-    @DisplayName("승인 - 값 아예 없으면 400(Bad Request)")
-    void BadRequest_When_No_Content() throws Exception {
-        ResultActions result = mockMvc.perform(post("/help/progress/approved")
-                .contentType(MediaType.APPLICATION_JSON));
+            result.andExpect(status().isBadRequest());
+        }
 
-        result.andExpect(status().isBadRequest());
+        @Test
+        @DisplayName("승인 - 값 아예 없으면 400(Bad Request)")
+        void BadRequest_When_No_Content() throws Exception {
+            ResultActions result = mockMvc.perform(post("/help/progress/approved")
+                    .contentType(MediaType.APPLICATION_JSON));
+
+            result.andExpect(status().isBadRequest());
+        }
     }
 
 }
