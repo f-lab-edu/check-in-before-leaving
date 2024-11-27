@@ -7,12 +7,11 @@ import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
+import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.TrackController;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import org.mockito.Spy;
 
@@ -28,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 
 @SpringBootTest
@@ -226,22 +226,36 @@ class MemberJPARepositoryStubIntegratedTest {
     @Nested
     @DisplayName("findNearByMember 테스트")
     class findNearByMemberTest {
+
+        @Autowired
+        private MemberService memberService;
+
+        private MemberService memberService_stub;
+
+        @BeforeEach
+        void setUp() {
+            memberService_stub = new MemberService(stub, mock(JavaCryptoUtil.class));
+        }
+
         @Test
         @DisplayName("findNearByMember - 가까이 있는 맴버.")
         void findNearByMember() {
             //given
             Member member = MemberFixture.create();
             TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
-            member.startLocationTracking(targetLocation);
-            db.save(member);
-            stub.save(member);
+            String id_db = db.save(member);
+            String id_stub = stub.save(member);
+            memberService.startLocationTracking(id_db, targetLocation);
+            memberService_stub.startLocationTracking(id_stub, targetLocation);
+
 
             Member memberNearBy = MemberFixture.createMemberWithDifferentEmail("memberNearBy@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002);
-            memberNearBy.startLocationTracking(request);
 
-            stub.save(memberNearBy);
-            db.save(memberNearBy);
+            String nearById_db = db.save(memberNearBy);
+            String nearByid_stub = stub.save(memberNearBy);
+            memberService.startLocationTracking(nearById_db, request);
+            memberService_stub.startLocationTracking(nearByid_stub, targetLocation);
 
             //when
             List<Member> stubResult = stub.findNearByMember(0, 0, 500);
@@ -273,17 +287,19 @@ class MemberJPARepositoryStubIntegratedTest {
             //given
             Member member = MemberFixture.create();
             TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
-            member.startLocationTracking(targetLocation);
-            db.save(member);
-            stub.save(member);
+            String id_db = db.save(member);
+            String id_stub = stub.save(member);
+
+            memberService.startLocationTracking(id_db, targetLocation);
+            memberService_stub.startLocationTracking(id_stub, targetLocation);
 
             Member memberFar = MemberFixture.createMemberWithDifferentEmail("memberFar@test.com");
             TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(400, 400);
-            memberFar.startLocationTracking(request);
+            String farId_db = db.save(memberFar);
+            String farId_stub = stub.save(memberFar);
 
-
-            stub.save(memberFar);
-            db.save(memberFar);
+            memberService.startLocationTracking(farId_db, request);
+            memberService_stub.startLocationTracking(farId_stub, request);
 
             //when
             List<Member> stubResult = stub.findNearByMember(0, 0, 10);

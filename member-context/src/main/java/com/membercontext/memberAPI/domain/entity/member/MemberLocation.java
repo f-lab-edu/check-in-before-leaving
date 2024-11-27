@@ -39,7 +39,7 @@ public final class MemberLocation {
         this.fcmToken = fcmToken;
     }
 
-    public MemberLocation addLocation(Double latitude, Double longitude, LocalDateTime timestamp) {
+    public MemberLocation updateLocation(Double latitude, Double longitude, LocalDateTime timestamp) {
         if (latitude == null || longitude == null || timestamp == null) {
             throw new MemberException(NO_VALUE);
         }
@@ -75,7 +75,7 @@ public final class MemberLocation {
     }
     //todo: FCM token도 nullable 하도록 변경
 //
-//    public Optional<String> getFcmToken(Member member) {
+//    public Optional<String> getFcmToken(Member member) {.
 //        return Optional.ofNullable(this.fcmToken);
 //    }
 

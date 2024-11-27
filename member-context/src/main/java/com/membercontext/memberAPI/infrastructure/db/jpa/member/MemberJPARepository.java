@@ -3,6 +3,7 @@ package com.membercontext.memberAPI.infrastructure.db.jpa.member;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -46,7 +47,8 @@ public class MemberJPARepository implements MemberRepository {
     @Override
     public Member update(Member updatingMember) {
         Member member = this.findById(updatingMember.getId());
-        member.update(updatingMember);
+        MemberService memberService = new MemberService(this, null);
+        memberService.update(updatingMember);
         return member;
     }
 

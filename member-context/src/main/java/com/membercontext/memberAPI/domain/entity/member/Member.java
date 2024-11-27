@@ -11,7 +11,6 @@ import lombok.*;
 
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
 
 @Entity
 @Getter
@@ -47,16 +46,9 @@ public class Member {
 
     private Long point;
 
-
     //CRUD
     //SignUp
-    public Member signUp(JavaCryptoUtil encryption) {
-        this.encryptPassword(encryption);
-        return this;
-    }
-
-    private void encryptPassword(JavaCryptoUtil javaCryptoUtil) {
-        String encryptedPassword = javaCryptoUtil.encrypt(this.password);
+    protected void encryptPassword(String encryptedPassword) {
         this.password = encryptedPassword;
     }
 
@@ -73,7 +65,7 @@ public class Member {
     }
 
     // Update
-    public void update(Member updatingMember) {
+    protected Member update(Member updatingMember) { //public
         this.email = updatingMember.getEmail();
         this.password = updatingMember.getPassword();
         this.name = updatingMember.getName();
@@ -81,6 +73,7 @@ public class Member {
         this.address = updatingMember.getAddress();
         this.locationServiceEnabled = updatingMember.isLocationServiceEnabled();
         this.point = updatingMember.getPoint();
+        return this;
     }
 
     public static Member from(SignUpController.UpdateRequest req) {
@@ -98,7 +91,7 @@ public class Member {
 
     //BUSINESS LOGICS
     //LogIn
-    public Member logIn(JavaCryptoUtil encryption, String password) {
+    protected Member logIn(JavaCryptoUtil encryption, String password) {
         return this.checkPassword(encryption, password);
     }
 
@@ -111,15 +104,15 @@ public class Member {
     }
 
     // Location Tracking
-    public void startLocationTracking(TrackController.TrackRequest form) {
+    protected void startLocationTracking(TrackController.TrackRequest form) {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }
-        this.memberLocation = this.memberLocation.addLocation(form.getLatitude(), form.getLongitude(), form.getTimestamp());
+        this.memberLocation = this.memberLocation.updateLocation(form.getLatitude(), form.getLongitude(), form.getTimestamp());
     }
 
     // Push Alarm
-    public void enablePushAlarm(String token) {
+    protected void enablePushAlarm(String token) {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }

@@ -1,43 +1,47 @@
 package com.membercontext.memberAPI.application.service.signUp;
 
+import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.common.stub.JavaCryptoUtilMockStub;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
+import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
 import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl.MemberWriteServiceImpl;
-
+import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl.MemberWriteApplication;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.common.fixture.domain.MemberFixture;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-class MemberWriteServiceImplTest {
+class MemberWriteApplicationTest {
 
     @InjectMocks
-    private MemberWriteServiceImpl sut;
-
-    @Spy
-    private MemberRepository memberRepository = new MemberJPARepositoryStub();
+    private MemberWriteApplication sut;
 
     @Mock
-    private JavaCryptoUtil encryption = new JavaCryptoUtilMockStub();
+    private MemberService memberService;
 
     @Test
     @DisplayName("회원가입 성공.")
     void signUp() {
         //given
+        String uuid = "uuid";
         Member newMember = MemberFixture.create();
+        when(memberService.signUp(newMember)).thenReturn(uuid);
 
         //when
         String id = sut.signUp(newMember);
@@ -51,9 +55,9 @@ class MemberWriteServiceImplTest {
     void update() {
 
         //given
-        Member originalMember = MemberFixture.create();
-        String id = memberRepository.save(originalMember);
+        String id = "uuid";
         Member updatingMember = MemberFixture.createUpdatingMember(id, "updatedName", "updatedPassword", "updatedname", "010000000", "updatedLoc", false, 10L);
+        when(memberService.update(updatingMember)).thenReturn(updatingMember);
 
         //when
         Member returned = sut.update(updatingMember);
@@ -73,14 +77,14 @@ class MemberWriteServiceImplTest {
     @DisplayName("회원 삭제 성공.")
     void delete() {
         //given
-        Member registeredMember = MemberFixture.create();
-        String id = memberRepository.save(registeredMember);
+        String id = "uuid";
 
         //when
         sut.delete(id);
 
         //then
-        Exception exception = assertThrows(MemberException.class, () -> memberRepository.findById(id));
-        assertEquals(NOT_EXITING_USER.getDeatil(), exception.getMessage());
+        verify(memberService).delete(id);
     }
+
+
 }
