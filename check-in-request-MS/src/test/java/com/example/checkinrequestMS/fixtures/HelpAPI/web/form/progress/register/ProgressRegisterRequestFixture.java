@@ -1,16 +1,15 @@
 package com.example.checkinrequestMS.fixtures.HelpAPI.web.form.progress.register;
 
+import com.example.checkinrequestMS.HelpAPI.web.controller.progress.wrtie.ProgressWriteController;
 
-import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.progress.write.ProgressRegisterRequest;
-
-public final class ProgressRegisterRequestFixture extends ProgressRegisterRequest {
+public final class ProgressRegisterRequestFixture extends ProgressWriteController.ProgressRegisterRequest {
 
     private ProgressRegisterRequestFixture(Long helpId, Long helperId) {
         super(helpId, helperId);
     }
 
-    public static ProgressRegisterRequest create() {
-        return ProgressRegisterRequest.builder()
+    public static ProgressWriteController.ProgressRegisterRequest create() {
+        return ProgressWriteController.ProgressRegisterRequest.builder()
                 .helpId(1L)
                 .helperId(1L)
                 .build();
