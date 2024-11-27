@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.fixtures.HelpAPI.web.form.progress.business;
 
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.progress.business.ProgressApproveRequest;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.progress.business.ProgressApproveRequest;
 
 public class ProgressApproveRequestFixture extends ProgressApproveRequest {
 

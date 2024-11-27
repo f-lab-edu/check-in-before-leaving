@@ -1,7 +1,8 @@
 package com.example.checkinrequestMS.HelpAPI.domain.dto.register;
 
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.LineUpRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.LineUpRegisterRequest;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.LineUpRegisterRequest;
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.LineUpRegisterFormFixture;
 import org.junit.jupiter.api.Test;
 

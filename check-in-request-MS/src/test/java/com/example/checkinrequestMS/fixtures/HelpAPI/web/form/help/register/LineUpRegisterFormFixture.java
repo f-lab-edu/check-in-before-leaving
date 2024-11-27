@@ -1,9 +1,7 @@
 package com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register;
 
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.LineUpRegisterRequest;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.LineUpRegisterRequest;
 import com.example.checkinrequestMS.fixtures.Variables;
-
-import java.time.LocalDateTime;
 
 public final class LineUpRegisterFormFixture extends LineUpRegisterRequest {
 

@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.fixtures.HelpAPI.web.form.progress.register;
 
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.progress.write.ProgressRegisterRequest;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.progress.write.ProgressRegisterRequest;
 
 public final class ProgressRegisterRequestFixture extends ProgressRegisterRequest {
 

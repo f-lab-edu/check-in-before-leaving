@@ -2,7 +2,8 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.help.write;
 
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteService;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.LineUpRegisterRequest;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.LineUpRegisterRequest;
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.LineUpRegisterFormFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;

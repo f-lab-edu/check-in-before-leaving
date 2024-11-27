@@ -2,7 +2,8 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.help.write;
 
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteService;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.EtcRegisterForm;
+
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.EtcRegisterRequest;
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.EtcRegisterFormFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +39,7 @@ public class EtcWriteControllerTest {
         @DisplayName("줄서기 요청 등록 성공")
         void Form_Success() throws Exception {
             //given
-            EtcRegisterForm form = EtcRegisterFormFixture.create();
+            EtcRegisterRequest form = EtcRegisterFormFixture.create();
 
             //when
             ResultActions result = mockMvc.perform(post("/help/etc")

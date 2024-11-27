@@ -1,7 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.HelpRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.web.dto.form.help.write.register.child.EtcRegisterForm;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.help.write.register.child.EtcRegisterRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class EtcRegisterDTO extends HelpRegisterDTO {
         this.contents = contents;
     }
 
-    public static EtcRegisterDTO from(EtcRegisterForm form) {
+    public static EtcRegisterDTO from(EtcRegisterRequest form) {
         return EtcRegisterDTO.builder()
                 .helpRegisterId(form.getHelpRegisterId())
                 .start(form.getStart())
