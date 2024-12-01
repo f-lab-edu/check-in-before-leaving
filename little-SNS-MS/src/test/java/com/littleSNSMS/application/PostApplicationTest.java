@@ -1,7 +1,6 @@
 package com.littleSNSMS.application;
 
 import com.littleSNSMS.controller.PostController;
-import com.littleSNSMS.domain.dto.PostDTO;
 import com.littleSNSMS.domain.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.when;
 class PostApplicationTest {
 
     @Mock
-    private PostService postService;
+    private com.littleSNSMS.domain.service.PostService postService;
 
     @InjectMocks
     private PostApplication postApplication;
@@ -28,7 +27,7 @@ class PostApplicationTest {
     void post() {
         // Given
         PostController.PostRequest request = mock(PostController.PostRequest.class);
-        when(postService.post(any(PostDTO.Create.class))).thenReturn(Mono.just(1L));
+        when(postService.post(any(PostService.Create.class))).thenReturn(Mono.just(1L));
 
         // When
         Mono<Long> result = postApplication.post(request);

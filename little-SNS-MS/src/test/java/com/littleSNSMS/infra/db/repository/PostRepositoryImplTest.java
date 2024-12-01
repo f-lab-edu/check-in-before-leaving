@@ -2,7 +2,7 @@ package com.littleSNSMS.infra.db.repository;
 
 import com.littleSNSMS.domain.LikeMemberInfo;
 import com.littleSNSMS.domain.Post;
-import com.littleSNSMS.domain.dto.PostDTO;
+import com.littleSNSMS.domain.service.PostService;
 import com.littleSNSMS.infra.db.entities.LikeMemberInfoEntity;
 import com.littleSNSMS.infra.db.entities.PostEntity;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class PostRepositoryImplTest {
     @Test
     void save() {
         //given
-        PostDTO.Create create = PostDTO.Create.of("Hello world!", "ID", "name");
+        PostService.Create create = PostService.Create.of("Hello world!", "ID", "name");
         Post post = Post.post(create);
         when(postR2dbcRepository.save(any(PostEntity.class))).thenReturn(Mono.just(PostEntity.postedForTest()));
 

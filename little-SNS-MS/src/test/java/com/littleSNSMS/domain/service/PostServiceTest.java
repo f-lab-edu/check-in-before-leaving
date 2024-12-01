@@ -2,7 +2,6 @@ package com.littleSNSMS.domain.service;
 
 import com.littleSNSMS.domain.Post;
 import com.littleSNSMS.domain.PostRepository;
-import com.littleSNSMS.domain.dto.PostDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -26,7 +25,7 @@ class PostServiceTest {
     @Test
     void post() {
         //given
-        PostDTO.Create create = PostDTO.Create.of("testContent", "testUUID", "testName");
+        PostService.Create create = PostService.Create.of("testContent", "testUUID", "testName");
         when(postRepository.save(any(Post.class))).thenReturn(Mono.just(1L));
 
         //when
@@ -36,5 +35,18 @@ class PostServiceTest {
         assertNotNull(id);
         assertNotNull(id.block().longValue());
         verify(postRepository).save(any(Post.class));
+    }
+
+    @Test
+    void create() {
+        String content = "testContent";
+        String memberId = "testUUID";
+        String memberName = "testName";
+
+        PostService.Create create = PostService.Create.of(content, memberId, memberName);
+
+        assertEquals(content, create.getContent());
+        assertEquals(memberId, create.getOwnerId());
+        assertEquals(memberName, create.getOwnerEmail());
     }
 }
