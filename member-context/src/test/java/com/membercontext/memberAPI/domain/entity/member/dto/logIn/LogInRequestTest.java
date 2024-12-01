@@ -1,9 +1,10 @@
-package com.membercontext.memberAPI.web.controller.dto.request.logIn;
+package com.membercontext.memberAPI.domain.entity.member.dto.logIn;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.membercontext.common.fixture.web.LogInRequestFixture;
+import com.membercontext.common.fixture.domain.dto.LogInFixture;
 import com.membercontext.memberAPI.application.service.LogInService;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.LogInController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,8 +18,8 @@ import org.springframework.test.web.servlet.ResultActions;
 
 
 import static com.membercontext.memberAPI.web.exceptionHandling.ExceptionController.MEMBER_INPUT_ERROR;
-import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_EMAIL_VALIDATION_MESSAGE;
-import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_PASSWORD_VALIDATION_MESSAGE;
+import static com.membercontext.memberAPI.domain.entity.member.MemberService.LogIn.LOG_IN_EMAIL_VALIDATION_MESSAGE;
+import static com.membercontext.memberAPI.domain.entity.member.MemberService.LogIn.LOG_IN_PASSWORD_VALIDATION_MESSAGE;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -37,13 +38,13 @@ class LogInRequestTest {
     @MockBean
     private LogInService logInService;
 
-    private LogInController.LogInRequest req;
+    private MemberService.LogIn req;
 
     String requestedURL = "/log-in";
 
     @BeforeEach
     void setUp() {
-        req = spy(LogInRequestFixture.create());
+        req = spy(LogInFixture.create());
     }
 
     @Test

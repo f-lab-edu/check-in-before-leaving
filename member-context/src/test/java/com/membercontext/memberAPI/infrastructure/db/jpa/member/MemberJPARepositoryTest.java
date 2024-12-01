@@ -2,7 +2,7 @@ package com.membercontext.memberAPI.infrastructure.db.jpa.member;
 
 import com.membercontext.common.UUIDTester;
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.common.fixture.web.TrackRequestFixture;
+import com.membercontext.common.fixture.domain.dto.TrackFixture;
 import com.membercontext.common.stub.MemberSpringJPARepositoryStub;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.domain.repository.MemberRepository;
@@ -217,11 +217,11 @@ class MemberJPARepositoryTest {
 
             Member memberAt0 = MemberFixture.create();
             when(memberRepository.findById(memberAt0.getId())).thenReturn(memberAt0);
-            memberService.startLocationTracking(memberAt0.getId(), TrackRequestFixture.createRequestWithDifferentLocation(x, y));
+            memberService.startLocationTracking(memberAt0.getId(), TrackFixture.createRequestWithDifferentLocation(x, y));
 
             Member memberNear = MemberFixture.createMemberWithDifferentEmail("nearMember@test.com");
             when(memberRepository.findById(memberNear.getId())).thenReturn(memberNear);
-            memberService.startLocationTracking(memberNear.getId(), TrackRequestFixture.createRequestWithDifferentLocation(0.0001, 0.0001));
+            memberService.startLocationTracking(memberNear.getId(), TrackFixture.createRequestWithDifferentLocation(0.0001, 0.0001));
 
             memberSpringJPARepository.save(memberAt0);
             memberNear = memberSpringJPARepository.save(memberNear);
@@ -261,11 +261,11 @@ class MemberJPARepositoryTest {
 
             Member memberAt0 = MemberFixture.create();
             when(memberRepository.findById(memberAt0.getId())).thenReturn(memberAt0);
-            memberService.startLocationTracking(memberAt0.getId(), TrackRequestFixture.createRequestWithDifferentLocation(x, y));
+            memberService.startLocationTracking(memberAt0.getId(), TrackFixture.createRequestWithDifferentLocation(x, y));
 
             Member memberFar = MemberFixture.createMemberWithDifferentEmail("farMember@test.com");
             when(memberRepository.findById(memberFar.getId())).thenReturn(memberFar);
-            memberService.startLocationTracking(memberFar.getId(), TrackRequestFixture.createRequestWithDifferentLocation(300, 300));
+            memberService.startLocationTracking(memberFar.getId(), TrackFixture.createRequestWithDifferentLocation(300, 300));
 
             memberSpringJPARepository.save(memberAt0);
             memberFar = memberSpringJPARepository.save(memberFar);

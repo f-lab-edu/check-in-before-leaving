@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.web.controller.dto.response;
+package com.membercontext.memberAPI.web.controller.response;
 
 import com.membercontext.memberAPI.web.controller.dto.DefaultHTTPResponse;
 import org.junit.jupiter.api.DisplayName;

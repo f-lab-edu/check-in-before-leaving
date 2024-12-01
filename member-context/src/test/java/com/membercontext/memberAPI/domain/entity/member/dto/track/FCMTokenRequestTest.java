@@ -1,9 +1,10 @@
-package com.membercontext.memberAPI.web.controller.dto.request.track;
+package com.membercontext.memberAPI.domain.entity.member.dto.track;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.LogInTestHelper;
-import com.membercontext.common.fixture.web.FCMTokenRequestFixture;
+import com.membercontext.common.fixture.domain.dto.FCMTokenFixture;
 import com.membercontext.memberAPI.application.service.TrackService;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.TrackController;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static com.membercontext.memberAPI.web.exceptionHandling.ExceptionController.MEMBER_INPUT_ERROR;
 import static com.membercontext.memberAPI.web.controller.LogInController.COOKIE_NAME;
-import static com.membercontext.memberAPI.web.controller.TrackController.FCMTokenRequest.FCM_TOKEN_NOT_FOUND;
+import static com.membercontext.memberAPI.domain.entity.member.MemberService.FCMToken.FCM_TOKEN_NOT_FOUND;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -35,7 +36,7 @@ class FCMTokenRequestTest {
     @MockBean
     private TrackService trackService;
 
-    TrackController.FCMTokenRequest request = spy(FCMTokenRequestFixture.create());
+    MemberService.FCMToken request = spy(FCMTokenFixture.create());
 
     @Test
     void track_No_Token() throws Exception {

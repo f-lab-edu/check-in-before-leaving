@@ -1,9 +1,10 @@
-package com.membercontext.memberAPI.web.controller.dto.request.track;
+package com.membercontext.memberAPI.domain.entity.member.dto.track;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.LogInTestHelper;
-import com.membercontext.common.fixture.web.TrackRequestFixture;
+import com.membercontext.common.fixture.domain.dto.TrackFixture;
 import com.membercontext.memberAPI.application.service.TrackService;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.TrackController;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static com.membercontext.memberAPI.web.exceptionHandling.ExceptionController.MEMBER_INPUT_ERROR;
 import static com.membercontext.memberAPI.web.controller.LogInController.COOKIE_NAME;
-import static com.membercontext.memberAPI.web.controller.TrackController.TrackRequest.*;
+import static com.membercontext.memberAPI.domain.entity.member.MemberService.Track.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,13 +39,13 @@ class TrackRequestTest {
     @MockBean
     private TrackService trackService;
 
-    private TrackController.TrackRequest req;
+    private MemberService.Track req;
 
     String requestURL = "/track";
 
     @BeforeEach
     void setUp() {
-        req = spy(TrackRequestFixture.create()); //이렇게해야 혹시 값이 바뀌는 것 방지.
+        req = spy(TrackFixture.create()); //이렇게해야 혹시 값이 바뀌는 것 방지.
     }
 
     @Test

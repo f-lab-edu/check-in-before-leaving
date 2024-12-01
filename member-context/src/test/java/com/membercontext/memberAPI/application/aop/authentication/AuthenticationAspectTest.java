@@ -3,7 +3,8 @@ package com.membercontext.memberAPI.application.aop.authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.LogInTestHelper;
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.common.fixture.web.crud.UpdateRequestFixture;
+import com.membercontext.common.fixture.domain.dto.crud.UpdateFixture;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
@@ -55,7 +56,7 @@ class AuthenticationAspectTest {
     @DisplayName("인증 AOP 작동 중")
     void authenticateAOP() throws Exception {
         //given
-        SignUpController.UpdateRequest req = UpdateRequestFixture.create();
+        MemberService.Update req = UpdateFixture.create();
         when(signUpService.update(any(Member.class))).thenReturn(MemberFixture.createMemberWithId("UUID"));
 
         MvcResult result = LogInTestHelper.Login();
@@ -83,7 +84,7 @@ class AuthenticationAspectTest {
     @DisplayName("도메인의 로그인 쿠키 없음.")
     void authenticateAOP_Wrong_Cookie() throws Exception {
         //given
-        SignUpController.UpdateRequest req = UpdateRequestFixture.create();
+        MemberService.Update req = UpdateFixture.create();
         when(signUpService.update(any(Member.class))).thenReturn(MemberFixture.createMemberWithId("UUID"));
 
         //when
@@ -107,7 +108,7 @@ class AuthenticationAspectTest {
     @DisplayName("쿠키 없음")
     void authenticateAOP_No_Cookie() throws Exception {
         //given
-        SignUpController.UpdateRequest req = UpdateRequestFixture.create();
+        MemberService.Update req = UpdateFixture.create();
         when(signUpService.update(any(Member.class))).thenReturn(MemberFixture.createMemberWithId("UUID"));
 
         //when
@@ -130,7 +131,7 @@ class AuthenticationAspectTest {
     @DisplayName("세션 없음")
     void authenticateAOP_No_Session() throws Exception {
         //given
-        SignUpController.UpdateRequest req = UpdateRequestFixture.create();
+        MemberService.Update req = UpdateFixture.create();
         when(signUpService.update(any(Member.class))).thenReturn(MemberFixture.createMemberWithId("UUID"));
 
         MvcResult result = LogInTestHelper.Login();
@@ -155,7 +156,7 @@ class AuthenticationAspectTest {
     @DisplayName("세션 ID 없음")
     void authenticateAOP_No_Session_ID() throws Exception {
         //given
-        SignUpController.UpdateRequest req = UpdateRequestFixture.create();
+        MemberService.Update req = UpdateFixture.create();
         when(signUpService.update(any(Member.class))).thenReturn(MemberFixture.createMemberWithId("UUID"));
 
         MvcResult result = LogInTestHelper.Login();

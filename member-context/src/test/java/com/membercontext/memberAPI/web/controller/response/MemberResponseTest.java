@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.web.controller.dto.response;
+package com.membercontext.memberAPI.web.controller.response;
 
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.memberAPI.domain.entity.member.Member;

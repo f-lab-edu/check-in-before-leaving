@@ -2,13 +2,11 @@ package com.membercontext.memberAPI.domain.entity.member;
 
 import com.membercontext.common.fixture.Variables;
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.common.fixture.web.TrackRequestFixture;
-import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
-import com.membercontext.common.fixture.web.crud.UpdateRequestFixture;
+import com.membercontext.common.fixture.domain.dto.TrackFixture;
+import com.membercontext.common.fixture.domain.dto.crud.SignUpFixture;
+import com.membercontext.common.fixture.domain.dto.crud.UpdateFixture;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
-import com.membercontext.memberAPI.web.controller.SignUpController;
-import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,7 +68,7 @@ class MemberTest {
     void startLocationTracking() {
         //given
         Member member = MemberFixture.createMemberWithId("UUID");
-        TrackController.TrackRequest req = TrackRequestFixture.create();
+        MemberService.Track req = TrackFixture.create();
 
         //when
         member.startLocationTracking(req);
@@ -86,7 +84,7 @@ class MemberTest {
     void startLocation_Tracking_NOT_PERMITTED() {
         //given
         Member member = MemberFixture.createMemberWithIdANDLocationNotAgreed("UUID");
-        TrackController.TrackRequest req = TrackRequestFixture.create();
+        MemberService.Track req = TrackFixture.create();
 
         //todo: LocationService On & Off
         //when
@@ -121,7 +119,7 @@ class MemberTest {
     @DisplayName("회원가입 - 회원 객체 생성")
     void fromSignUpRequest() {
         //given
-        SignUpController.SignUpRequest signUpRequest = SignUpRequestFixture.create();
+        MemberService.SignUp signUpRequest = SignUpFixture.create();
 
         //when
         Member member = Member.from(signUpRequest);
@@ -140,7 +138,7 @@ class MemberTest {
     @DisplayName("회원 정보 수정 - 회원 객체 생성")
     void fromUpdateRequest() {
         //given
-        SignUpController.UpdateRequest updateRequest = UpdateRequestFixture.create();
+        MemberService.Update updateRequest = UpdateFixture.create();
 
         //when
         Member member = Member.from(updateRequest);

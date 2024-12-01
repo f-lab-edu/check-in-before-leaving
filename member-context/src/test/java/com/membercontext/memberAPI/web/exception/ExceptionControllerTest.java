@@ -6,12 +6,13 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.FirebaseException;
-import com.membercontext.common.fixture.web.AlarmRequestFixture;
-import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
+import com.membercontext.common.fixture.domain.dto.AlarmFixture;
+import com.membercontext.common.fixture.domain.dto.crud.SignUpFixture;
 import com.membercontext.memberAPI.application.service.AlarmService;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
 import com.membercontext.memberAPI.common.exception.types.TechnicalException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm.PushAlarmException;
 import com.membercontext.memberAPI.web.controller.AlarmController;
@@ -61,7 +62,7 @@ class ExceptionControllerTest {
 
         //given
         final String requestURL = "/sign-in";
-        SignUpController.SignUpRequest form = SignUpRequestFixture.create();
+        MemberService.SignUp form = SignUpFixture.create();
         when(signUpService.signUp(any(Member.class))).thenThrow(new MemberException(ALREADY_REGISTERED_USER));
 
         //when
@@ -98,8 +99,8 @@ class ExceptionControllerTest {
 
         //given
         final String requestURL = "/sendMessage";
-        AlarmController.AlarmRequest request = AlarmRequestFixture.create();
-        doThrow(new PushAlarmException(FCM_MESSAGE_CREATION_FAILED, new FirebaseException("firebaseNotWorking"))).when(alarmService).sendPushMessage(any(AlarmController.AlarmRequest.class));
+        MemberService.Alarm request = AlarmFixture.create();
+        doThrow(new PushAlarmException(FCM_MESSAGE_CREATION_FAILED, new FirebaseException("firebaseNotWorking"))).when(alarmService).sendPushMessage(any(MemberService.Alarm.class));
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
@@ -107,7 +108,7 @@ class ExceptionControllerTest {
                 .content(mapper.writeValueAsString(request)));
 
         //then
-        verify(alarmService, times(1)).sendPushMessage(any(AlarmController.AlarmRequest.class));
+        verify(alarmService, times(1)).sendPushMessage(any(MemberService.Alarm.class));
         resultActions.andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.message").value(SYSTEM_ERROR))
                 .andDo(print());
@@ -136,7 +137,7 @@ class ExceptionControllerTest {
 
         //given
         final String requestURL = "/sign-in";
-        SignUpController.SignUpRequest form = mock(SignUpController.SignUpRequest.class);
+        MemberService.SignUp form = mock(MemberService.SignUp.class);
 
         //when
         ResultActions resultActions = mockMvc.perform(post(requestURL)
