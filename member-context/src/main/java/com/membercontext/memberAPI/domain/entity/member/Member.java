@@ -3,8 +3,6 @@ package com.membercontext.memberAPI.domain.entity.member;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
-import com.membercontext.memberAPI.web.controller.SignUpController;
-import com.membercontext.memberAPI.web.controller.TrackController;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,7 +48,7 @@ public class Member {
         this.password = encryptedPassword;
     }
 
-    public static Member from(SignUpController.SignUpRequest req) {
+    public static Member from(MemberService.SignUp req) {
         return Member.builder()
                 .email(req.getEmail())
                 .password(req.getPassword())
@@ -74,7 +72,7 @@ public class Member {
         return this;
     }
 
-    public static Member from(SignUpController.UpdateRequest req) {
+    public static Member from(MemberService.Update req) {
         return Member.builder()
                 .id(req.getId())
                 .email(req.getEmail())
@@ -102,7 +100,7 @@ public class Member {
     }
 
     // Location Tracking
-    protected void startLocationTracking(TrackController.TrackRequest form) {
+    protected void startLocationTracking(MemberService.Track form) {
         if (!this.isLocationServiceEnabled()) {
             throw new MemberException(LOCATION_SERVICE_NOT_PERMITTED);
         }

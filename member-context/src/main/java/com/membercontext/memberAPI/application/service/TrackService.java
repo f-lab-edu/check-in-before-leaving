@@ -2,7 +2,6 @@ package com.membercontext.memberAPI.application.service;
 
 
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
-import com.membercontext.memberAPI.web.controller.TrackController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +13,7 @@ public class TrackService {
     private final MemberService memberService;
 
     @Transactional
-    public void startLocationTracking(TrackController.TrackRequest request, String memberId) {
+    public void startLocationTracking(MemberService.Track request, String memberId) {
         memberService.startLocationTracking(memberId, request);
     }
 
