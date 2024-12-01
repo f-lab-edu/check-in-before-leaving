@@ -5,7 +5,7 @@ import com.littleSNSMS.domain.dto.PostDTO;
 import com.littleSNSMS.infra.db.entities.LikeMemberInfoEntity;
 import com.littleSNSMS.infra.db.entities.PostEntity;
 import com.littleSNSMS.infra.db.repository.PostR2dbcRepository;
-import com.littleSNSMS.infra.db.repository.PostReactiveRepositoryImpl;
+import com.littleSNSMS.infra.db.repository.PostRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class runner implements CommandLineRunner {
     private final PostR2dbcRepository postRepository;
     //private final EntRepo entRepo;
 
-    private final PostReactiveRepositoryImpl reactiveRepo;
+    private final PostRepositoryImpl reactiveRepo;
 
     @Override
     //   @Transactional

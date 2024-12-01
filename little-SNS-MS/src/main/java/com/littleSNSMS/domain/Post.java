@@ -92,4 +92,5 @@ public final class Post {
         return updatedAt;
     }
 
+
 }
