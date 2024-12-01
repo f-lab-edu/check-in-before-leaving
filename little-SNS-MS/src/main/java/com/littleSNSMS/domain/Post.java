@@ -1,10 +1,13 @@
 package com.littleSNSMS.domain;
 
-import com.littleSNSMS.domain.dto.PostDTO;
 import com.littleSNSMS.domain.exception.PostException;
+import com.littleSNSMS.domain.service.PostService;
 import com.littleSNSMS.infra.db.entities.LikeMemberInfoEntity;
 import com.littleSNSMS.infra.db.entities.PostEntity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -61,7 +64,7 @@ public final class Post {
         this.likes = likes;
     }
 
-    public static Post post(PostDTO.Create dto) {
+    public static Post post(PostService.Create dto) {
         return new Post(dto.getContent(), dto.getOwnerId(), dto.getOwnerEmail(), List.of(), true);
     }
 
