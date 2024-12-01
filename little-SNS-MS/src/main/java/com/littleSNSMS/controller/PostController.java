@@ -1,6 +1,7 @@
 package com.littleSNSMS.controller;
 
 import com.littleSNSMS.application.PostApplication;
+import com.littleSNSMS.domain.service.PostService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,19 +19,10 @@ public class PostController {
     public static final String POST_SUCCESS = "포스트 되었습니다.";
 
     @PostMapping("/post")
-    public Mono<PostResponse> post(PostRequest req) {
+    public Mono<PostResponse> post(PostService.Create req) {
         return postApplication.post(req).map(id -> {
             return PostResponse.from(POST_SUCCESS, id);
         });
-    }
-
-    @Getter
-    @NoArgsConstructor(force = true)
-    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-    public static final class PostRequest {
-        private final String content;
-        private final String ownerId;
-        private final String ownerEmail;
     }
 
     @Getter

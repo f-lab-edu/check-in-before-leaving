@@ -26,7 +26,7 @@ class PostApplicationTest {
     @Test
     void post() {
         // Given
-        PostController.PostRequest request = mock(PostController.PostRequest.class);
+        PostService.Create request = mock(PostService.Create.class);
         when(postService.post(any(PostService.Create.class))).thenReturn(Mono.just(1L));
 
         // When
