@@ -1,30 +1,40 @@
 package com.littleSNSMS.domain.service;
 
 import com.littleSNSMS.domain.Post;
-import com.littleSNSMS.domain.PostRepository;
+import com.littleSNSMS.domain.PostReactiveRepository;
+import com.littleSNSMS.domain.dto.PostDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
-    
-    private PostRepository postRepository = spy(PostRepository.class);
+
+    @InjectMocks
+    private PostService sut;
+
+    @Mock
+    private PostReactiveRepository postRepository;
 
     @Test
     void post() {
         //given
-        Post post = mock(Post.class);
-
+        PostDTO.Create create = PostDTO.Create.of("testContent", "testUUID", "testName");
+        when(postRepository.save(any(Post.class))).thenReturn(Mono.just(1L));
+        
         //when
-        Long id = postRepository.save(post);
+        Mono<Long> id = sut.post(create);
 
         //then
         assertNotNull(id);
-        verify(postRepository).save(post);
+        assertNotNull(id.block().longValue());
+        verify(postRepository).save(any(Post.class));
     }
 }
