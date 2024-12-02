@@ -2,12 +2,13 @@ package com.membercontext.memberAPI.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.LogInTestHelper;
-import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
-import com.membercontext.common.fixture.web.crud.UpdateRequestFixture;
+import com.membercontext.common.fixture.domain.dto.crud.SignUpFixture;
+import com.membercontext.common.fixture.domain.dto.crud.UpdateFixture;
 import com.membercontext.memberAPI.application.aop.authentication.AuthenticationAspect;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class SignUpControllerTest {
 
         //given
         String idReturned = "UUID";
-        SignUpController.SignUpRequest form = SignUpRequestFixture.create();
+        MemberService.SignUp form = SignUpFixture.create();
         when(signUpService.signUp(any(Member.class))).thenReturn(idReturned);
 
         //when
@@ -75,7 +76,7 @@ public class SignUpControllerTest {
     @DisplayName("회원 수정 요청 성공.")
     void update_URL() throws Exception {
         //given
-        SignUpController.UpdateRequest form = UpdateRequestFixture.create();
+        MemberService.Update form = UpdateFixture.create();
         Member updatedMember = Member.from(form);
         when(signUpService.update(any(Member.class))).thenReturn(updatedMember);
 

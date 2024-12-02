@@ -1,8 +1,9 @@
-package com.membercontext.memberAPI.web.controller.dto.request.alarm;
+package com.membercontext.memberAPI.domain.entity.member.dto.alarm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.membercontext.common.fixture.web.AlarmRequestFixture;
+import com.membercontext.common.fixture.domain.dto.AlarmFixture;
 import com.membercontext.memberAPI.application.service.AlarmService;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.AlarmController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +17,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 
 import static com.membercontext.memberAPI.web.exceptionHandling.ExceptionController.MEMBER_INPUT_ERROR;
-import static com.membercontext.memberAPI.web.controller.AlarmController.AlarmRequest.*;
+import static com.membercontext.memberAPI.domain.entity.member.MemberService.Alarm.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,13 +36,13 @@ class AlarmRequestTest {
     @MockBean
     private AlarmService alarmService;
 
-    private AlarmController.AlarmRequest req;
+    private MemberService.Alarm req;
 
     private final String requestedURL = "/sendMessage";
 
     @BeforeEach
     void setUp() {
-        req = spy(AlarmRequestFixture.create());
+        req = spy(AlarmFixture.create());
     }
 
     @Test

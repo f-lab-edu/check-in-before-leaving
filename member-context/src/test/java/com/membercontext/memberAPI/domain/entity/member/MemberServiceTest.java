@@ -1,7 +1,7 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
-import com.membercontext.common.fixture.web.AlarmRequestFixture;
-import com.membercontext.common.fixture.web.TrackRequestFixture;
+import com.membercontext.common.fixture.domain.dto.AlarmFixture;
+import com.membercontext.common.fixture.domain.dto.TrackFixture;
 import com.membercontext.common.stub.JavaCryptoUtilMockStub;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
@@ -11,8 +11,6 @@ import com.membercontext.memberAPI.domain.repository.MemberRepository;
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.memberAPI.application.service.AlarmService;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
-import com.membercontext.memberAPI.web.controller.AlarmController;
-import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -186,7 +184,7 @@ class MemberServiceTest {
             // given
             Member member = MemberFixture.create();
             String id = memberRepository.save(member);
-            TrackController.TrackRequest request = TrackRequestFixture.create();
+            MemberService.Track request = TrackFixture.create();
 
             //when
             sut.startLocationTracking(id, request);
@@ -223,8 +221,8 @@ class MemberServiceTest {
         @DisplayName("주변 회원 FCM 토큰 가져오기")
         void getNearByMemberTokens() {
             // given
-            AlarmController.AlarmRequest alarmRequest = AlarmRequestFixture.create();
-            TrackController.TrackRequest req = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
+            MemberService.Alarm alarmRequest = AlarmFixture.create();
+            MemberService.Track req = TrackFixture.createRequestWithDifferentLocation(0, 0);
 
             Member member1 = MemberFixture.createMemberWithId("UUID");
             member1.startLocationTracking(req);
@@ -247,7 +245,7 @@ class MemberServiceTest {
         @DisplayName("매칭되는 토큰 없음.")
         void noMatchingTokens() {
             //given
-            AlarmController.AlarmRequest alarmRequest = AlarmRequestFixture.create();
+            MemberService.Alarm alarmRequest = AlarmFixture.create();
             when(memberRepository.findNearByMember(alarmRequest.getX(), alarmRequest.getY(), AlarmService.PUSH_ALARM_RADIUS)).thenReturn(List.of());
 
             //when
@@ -257,5 +255,6 @@ class MemberServiceTest {
             assertNull(tokens);
         }
     }
+
 
 }

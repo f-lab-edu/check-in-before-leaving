@@ -2,9 +2,10 @@ package com.membercontext.memberAPI.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.LogInTestHelper;
-import com.membercontext.common.fixture.web.AlarmRequestFixture;
+import com.membercontext.common.fixture.domain.dto.AlarmFixture;
 import com.membercontext.memberAPI.application.aop.authentication.AuthenticationAspect;
 import com.membercontext.memberAPI.application.service.AlarmService;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ class AlarmControllerTest {
     @Test
     void sendMessage() throws Exception {
         //given
-        AlarmController.AlarmRequest alarmForm = AlarmRequestFixture.create();
+        MemberService.Alarm alarmForm = AlarmFixture.create();
 
         //when
         ResultActions result = mockMvc.perform(post("/sendMessage")

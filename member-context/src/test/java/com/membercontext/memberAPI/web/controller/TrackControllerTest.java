@@ -2,10 +2,11 @@ package com.membercontext.memberAPI.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.LogInTestHelper;
-import com.membercontext.common.fixture.web.FCMTokenRequestFixture;
-import com.membercontext.common.fixture.web.TrackRequestFixture;
+import com.membercontext.common.fixture.domain.dto.FCMTokenFixture;
+import com.membercontext.common.fixture.domain.dto.TrackFixture;
 import com.membercontext.memberAPI.application.aop.authentication.AuthenticationAspect;
 import com.membercontext.memberAPI.application.service.TrackService;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.test.mock.mockito.SpyBeans;
 import org.springframework.http.MediaType;
@@ -50,7 +50,7 @@ class TrackControllerTest {
     @Nested
     class Track {
 
-        private final TrackRequest trackRequest = TrackRequestFixture.create();
+        private final MemberService.Track trackRequest = TrackFixture.create();
         private final String requestURL = "/track";
 
         @Test
@@ -86,7 +86,7 @@ class TrackControllerTest {
     @Nested
     class Token {
 
-        private final FCMTokenRequest fcmTokenRequest = FCMTokenRequestFixture.create();
+        private final MemberService.FCMToken fcmTokenRequest = FCMTokenFixture.create();
 
         String requestURL = "/token";
 

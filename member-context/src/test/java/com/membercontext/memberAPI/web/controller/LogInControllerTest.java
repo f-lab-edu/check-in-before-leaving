@@ -2,10 +2,11 @@ package com.membercontext.memberAPI.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.common.fixture.web.LogInRequestFixture;
+import com.membercontext.common.fixture.domain.dto.LogInFixture;
 import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ class LogInControllerTest {
         //when
         String UUID = "UUID_Test";
         String requestURL = "/log-in";
-        LogInController.LogInRequest request = LogInRequestFixture.create();
+        MemberService.LogIn request = LogInFixture.create();
 
 
         Member member = MemberFixture.createMemberWithId(UUID);

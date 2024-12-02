@@ -3,14 +3,13 @@ package com.membercontext.common.stub.test;
 
 import com.membercontext.common.UUIDTester;
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.common.fixture.web.TrackRequestFixture;
+import com.membercontext.common.fixture.domain.dto.TrackFixture;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
-import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.*;
 import org.mockito.Spy;
@@ -266,7 +265,7 @@ class MemberJPARepositoryStubIntegratedTest {
         void findNearByMember() {
             //given
             Member member = MemberFixture.create();
-            TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
+            MemberService.Track targetLocation = TrackFixture.createRequestWithDifferentLocation(0, 0);
             String id_db = db.save(member);
             String id_stub = stub.save(member);
             memberService.startLocationTracking(id_db, targetLocation);
@@ -274,7 +273,7 @@ class MemberJPARepositoryStubIntegratedTest {
 
 
             Member memberNearBy = MemberFixture.createMemberWithDifferentEmail("memberNearBy@test.com");
-            TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(0, 0.002);
+            MemberService.Track request = TrackFixture.createRequestWithDifferentLocation(0, 0.002);
 
             String nearById_db = db.save(memberNearBy);
             String nearByid_stub = stub.save(memberNearBy);
@@ -310,7 +309,7 @@ class MemberJPARepositoryStubIntegratedTest {
         void findNearByMember_OtherFar() {
             //given
             Member member = MemberFixture.create();
-            TrackController.TrackRequest targetLocation = TrackRequestFixture.createRequestWithDifferentLocation(0, 0);
+            MemberService.Track targetLocation = TrackFixture.createRequestWithDifferentLocation(0, 0);
             String id_db = db.save(member);
             String id_stub = stub.save(member);
 
@@ -318,7 +317,7 @@ class MemberJPARepositoryStubIntegratedTest {
             memberService_stub.startLocationTracking(id_stub, targetLocation);
 
             Member memberFar = MemberFixture.createMemberWithDifferentEmail("memberFar@test.com");
-            TrackController.TrackRequest request = TrackRequestFixture.createRequestWithDifferentLocation(400, 400);
+            MemberService.Track request = TrackFixture.createRequestWithDifferentLocation(400, 400);
             String farId_db = db.save(memberFar);
             String farId_stub = stub.save(memberFar);
 

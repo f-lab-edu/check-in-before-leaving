@@ -2,9 +2,8 @@ package com.membercontext.memberAPI.web.controller;
 
 import com.membercontext.memberAPI.application.aop.authentication.NoAuthentication;
 import com.membercontext.memberAPI.application.service.AlarmService;
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.dto.DefaultHTTPResponse;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,42 +21,9 @@ public class AlarmController {
 
     @PostMapping("/sendMessage")
     @NoAuthentication //todo: 내부 통신간 로그인 체크 방법.
-    public ResponseEntity<DefaultHTTPResponse<Void>> sendMessage(@Validated @RequestBody AlarmRequest alarmForm) {
+    public ResponseEntity<DefaultHTTPResponse<Void>> sendMessage(@Validated @RequestBody MemberService.Alarm alarmForm) {
         alarmService.sendPushMessage(alarmForm);
         return ResponseEntity.ok((new DefaultHTTPResponse<>(PUSH_ALARM_SEND_SUCCESS)));
-    }
-
-    @Getter
-    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-    @Builder(access = AccessLevel.PROTECTED)
-    public static class AlarmRequest {
-
-        public static final String ALARM_X_NOT_FOUND = "X 좌표(Longitude, 경도)가 없습니다.";
-        public static final String ALARM_Y_NOT_FOUND = "Y 좌표(Latitude, 위도)가 없습니다.";
-        public static final String ALARM_TITLE_NOT_FOUND = "알람 제목이 없습니다.";
-        public static final String ALARM_MESSAGE_NOT_FOUND = "알람 내용이 없습니다.";
-
-        @NotNull(message = ALARM_X_NOT_FOUND)
-        private final Double x;
-
-        @NotNull(message = ALARM_Y_NOT_FOUND)
-        private final Double y;
-
-        @NotBlank(message = ALARM_TITLE_NOT_FOUND)
-        private final String title;
-
-        @NotBlank(message = ALARM_MESSAGE_NOT_FOUND)
-        private final String message;
-
-        //test
-        public static AlarmRequest createForTest() {
-            return AlarmRequest.builder()
-                    .x(1.0)
-                    .y(1.0)
-                    .title("title")
-                    .message("message")
-                    .build();
-        }
     }
 
 

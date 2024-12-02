@@ -1,8 +1,7 @@
 package com.membercontext.memberAPI.application.service;
 
-import com.membercontext.common.fixture.web.AlarmRequestFixture;
+import com.membercontext.common.fixture.domain.dto.AlarmFixture;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
-import com.membercontext.memberAPI.web.controller.AlarmController;
 import com.membercontext.memberAPI.infrastructure.pushAlarm.FireBaseCloudMessageClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -40,7 +39,7 @@ class AlarmServiceTest {
         @DisplayName("푸시 메시지 보내기 - 성공.")
         void sendPushMessage() {
             // given
-            AlarmController.AlarmRequest req = AlarmRequestFixture.create();
+            MemberService.Alarm req = AlarmFixture.create();
             List<String> tokens = List.of("token1", "token2");
 
             when(memberService.getNearByMemberTokens(anyDouble(), anyDouble(), anyInt())).thenReturn(tokens);
@@ -61,7 +60,7 @@ class AlarmServiceTest {
         @DisplayName("푸시 메시지 보내기 - 빈 리스트.")
         void sendPushMessage_EmptyList() {
             // given
-            AlarmController.AlarmRequest alarmForm = AlarmRequestFixture.create();
+            MemberService.Alarm alarmForm = AlarmFixture.create();
 
             //when
             sut.sendPushMessage(alarmForm);

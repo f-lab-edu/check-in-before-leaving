@@ -1,11 +1,10 @@
 package com.membercontext.memberAPI.application.service;
 
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.common.fixture.web.TrackRequestFixture;
+import com.membercontext.common.fixture.domain.dto.TrackFixture;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
-import com.membercontext.memberAPI.web.controller.TrackController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +33,7 @@ class TrackServiceTest {
         // given
         String id = "uuid";
         Member member = MemberFixture.createMemberWithId(id);
-        TrackController.TrackRequest request = TrackRequestFixture.create();
+        MemberService.Track request = TrackFixture.create();
 
         //when
         sut.startLocationTracking(request, id);

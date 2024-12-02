@@ -1,7 +1,6 @@
 package com.membercontext.memberAPI.application.service;
 
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
-import com.membercontext.memberAPI.web.controller.AlarmController;
 import com.membercontext.memberAPI.infrastructure.pushAlarm.FireBaseCloudMessageClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ public class AlarmService {
 
     public static final int PUSH_ALARM_RADIUS = 40;
 
-    public void sendPushMessage(AlarmController.AlarmRequest alarmRequest) {
+    public void sendPushMessage(MemberService.Alarm alarmRequest) {
 
         List<String> tokens = memberService.getNearByMemberTokens(alarmRequest.getX(), alarmRequest.getY(), PUSH_ALARM_RADIUS);
         if (tokens.isEmpty()) {

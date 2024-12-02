@@ -4,17 +4,16 @@ import com.membercontext.memberAPI.application.aop.authentication.NoAuthenticati
 import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 
+import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.dto.DefaultHTTPResponse;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +36,7 @@ public class LogInController {
 
     @PostMapping
     @NoAuthentication
-    public ResponseEntity<DefaultHTTPResponse<Void>> logIn(HttpServletRequest request, HttpServletResponse response, @Validated @RequestBody LogInRequest logInForm) {
+    public ResponseEntity<DefaultHTTPResponse<Void>> logIn(HttpServletRequest request, HttpServletResponse response, @Validated @RequestBody MemberService.LogIn logInForm) {
         Member member = logInService.logIn(logInForm.getEmail(), logInForm.getPassword());
         String UUID = setSession(request, member.getId());
         setCookie(response, UUID);
@@ -58,21 +57,6 @@ public class LogInController {
         logInCookie.setHttpOnly(true);
         logInCookie.setPath(COOKIE_PATH);
         response.addCookie(logInCookie);
-    }
-
-    @Getter
-    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-    @Builder(access = AccessLevel.PROTECTED)
-    public static class LogInRequest {
-
-        public static final String LOG_IN_EMAIL_VALIDATION_MESSAGE = "이메일이 없습니다.";
-        public static final String LOG_IN_PASSWORD_VALIDATION_MESSAGE = "비밀번호가 없습니다.";
-
-        @NotBlank(message = LOG_IN_EMAIL_VALIDATION_MESSAGE)
-        private final String email;
-
-        @NotBlank(message = LOG_IN_PASSWORD_VALIDATION_MESSAGE)
-        private final String password;
     }
 
 
