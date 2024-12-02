@@ -1,54 +1,55 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.CheckInRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressVO;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInJPAEntity;
-import com.example.checkinrequestMS.PlaceAPI.domain.Place;
+import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import lombok.NonNull;
 
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CheckIn extends Help {
+public final class CheckIn {
 
     public static final String CHECK_IN_TITLE = "체크인 요청";
 
-    @Builder(access = AccessLevel.PROTECTED)
-    protected CheckIn(Long id, Long helpRegisterId, String title, String placeId, Long reward, Progress progress, LocalDateTime start, LocalDateTime end) {
-        super(id, helpRegisterId, title, start, end, placeId, reward, progress);
+    private final Long id;
+    private final HelpDetail helpDetail;
+    private final Progress progress;
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private CheckIn(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
+        this.id = id;
+        this.helpDetail = helpDetail;
+        this.progress = progress;
     }
 
-    public static CheckIn of(CheckInRegisterDTO dto, Place place, Progress progress) {
+    private CheckIn(@NonNull HelpDetail helpDetail, @NonNull Progress progress, @NonNull Boolean isRegister) {
+        this.id = null;
+        this.helpDetail = helpDetail;
+        this.progress = progress;
+    }
+
+    public static CheckIn register(CheckInService.Registration dto) {
+        return new CheckIn(HelpDetail.registerCheckIn(dto), Progress.DEFAULT, true);
+    }
+
+    public static CheckIn toDomain(CheckInEntity entity) {
         return CheckIn.builder()
-                .helpRegisterId(dto.getHelpRegisterId())
-                .title(place.getPlaceName() + CHECK_IN_TITLE)
-                .start(dto.getStart())
-                .end(dto.getEnd())
-                .placeId(dto.getPlaceId())
-                .progress(progress)
-                .reward(dto.getReward())
+                .id(entity.getId())
+                .helpDetail(HelpDetail.toDomain(entity.getHelpEntity()))
+                .progress(Progress.toDomain(entity.getProgressEntity()))
                 .build();
     }
 
-    public static CheckIn from(CheckInJPAEntity jpaEntity) {
+    //for Test
+    public static CheckIn createForTest() {
         return CheckIn.builder()
-                .id(jpaEntity.getId())
-                .helpRegisterId(jpaEntity.getHelpRegisterId())
-                .title(jpaEntity.getTitle())
-                .start(jpaEntity.getStart())
-                .end(jpaEntity.getEnd())
-                .placeId(jpaEntity.getPlaceId())
-                .progress(Progress.from(jpaEntity.getProgressVO()))
-                .reward(jpaEntity.getReward())
+                .id(1L)
+                .helpDetail(HelpDetail.createForTest())
+                .progress(Progress.createForTest())
                 .build();
     }
-
 
 }

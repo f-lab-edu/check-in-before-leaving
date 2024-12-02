@@ -28,18 +28,11 @@ public class ExceptionController {
     }
 
     @ExceptionHandler({
-            InfraException.class
+            InfraException.class,
+            NullPointerException.class
     })
     public ResponseEntity<ExceptionResponse> infraException(final InfraException e) {
-        log.error("InfraException: {}", e.getStackTrace());
-        return ResponseEntity.internalServerError().body(new ExceptionResponse(e.getMessage()));
-    }
-
-    @ExceptionHandler({
-            WebException.class
-    })
-    public ResponseEntity<ExceptionResponse> webException(final WebException e) {
-        log.error("WebException: {}", e.getStackTrace());
+        log.error("InfraException: {}", (Object) e.getStackTrace());
         return ResponseEntity.internalServerError().body(new ExceptionResponse(e.getMessage()));
     }
 
