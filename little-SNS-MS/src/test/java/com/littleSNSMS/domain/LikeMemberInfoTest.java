@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MemberInfoTest {
+class LikeMemberInfoTest {
 
     @Test
     void memberInfo() {
         String memberId = "testUUID";
         String memberName = "testName";
 
-        MemberInfo memberInfo = new MemberInfo(memberId, memberName);
+        LikeMemberInfo memberInfo = new LikeMemberInfo(memberId, memberName);
 
         assertEquals(memberId, memberInfo.getMemberId());
         assertEquals(memberName, memberInfo.getMemberEmail());

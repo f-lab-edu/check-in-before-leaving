@@ -27,7 +27,7 @@ class PostDTOTest {
         PostDTO.Create create = PostDTO.Create.of(content, memberId, memberName);
 
         assertEquals(content, create.getContent());
-        assertEquals(memberId, create.getOwner().getMemberId());
-        assertEquals(memberName, create.getOwner().getMemberEmail());
+        assertEquals(memberId, create.getOwnerId());
+        assertEquals(memberName, create.getOwnerEmail());
     }
 }

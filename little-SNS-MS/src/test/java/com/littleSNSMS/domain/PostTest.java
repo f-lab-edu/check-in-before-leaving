@@ -32,8 +32,8 @@ class PostTest {
 
             //then
             assertEquals(contents, post.getContents());
-            assertEquals(memberId, post.getOwner().getMemberId());
-            assertEquals(memberName, post.getOwner().getMemberEmail());
+            assertEquals(memberId, post.getOwnerId());
+            assertEquals(memberName, post.getOwnerEmail());
         }
 
         @Test
@@ -42,13 +42,13 @@ class PostTest {
             try {
                 //given
                 Class<Post> clazz = Post.class;
-                Constructor<Post> constructorForPosting = clazz.getDeclaredConstructor(String.class, MemberInfo.class, List.class, boolean.class);
+                Constructor<Post> constructorForPosting = clazz.getDeclaredConstructor(String.class, LikeMemberInfo.class, List.class, boolean.class);
                 constructorForPosting.setAccessible(true);
 
                 //when
-                Post post = constructorForPosting.newInstance("testContent", new MemberInfo("testUUID", "testName"), List.of(), true);
+                Post post = constructorForPosting.newInstance("testContent", new LikeMemberInfo("testUUID", "testName"), List.of(), true);
                 Exception ex = assertThrows(InvocationTargetException.class, () -> {
-                    constructorForPosting.newInstance("testContent", new MemberInfo("testUUID", "testName"), List.of(), false);
+                    constructorForPosting.newInstance("testContent", new LikeMemberInfo("testUUID", "testName"), List.of(), false);
                 });
 
                 //then;

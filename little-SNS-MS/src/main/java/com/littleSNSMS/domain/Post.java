@@ -14,19 +14,23 @@ public final class Post {
     private final String contents;
 
     @Getter
-    private final MemberInfo owner;
+    private final String ownerId;
 
     @Getter
-    private List<MemberInfo> likes = List.of();
+    private final String ownerEmail;
+
+    @Getter
+    private List<LikeMemberInfo> likes = List.of();
 
     private final Long postId;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    private Post(String contents, MemberInfo owner, List<MemberInfo> likes, boolean isCreating) {
+    private Post(String contents, String ownerId, String ownerEmail, List<LikeMemberInfo> likes, boolean isCreating) {
         if (isCreating) {
             this.contents = contents;
-            this.owner = owner;
+            this.ownerId = ownerId;
+            this.ownerEmail = ownerEmail;
             this.likes = likes;
             this.createdAt = null;
             this.updatedAt = null;
@@ -37,16 +41,18 @@ public final class Post {
     }
 
     @Builder(access = AccessLevel.PRIVATE)
-    private Post(String contents, MemberInfo owner, Long postId, LocalDateTime createdAt, LocalDateTime updatedAt, List<MemberInfo> likes) {
+    private Post(String contents, String ownerId, String ownerEmail, Long postId, LocalDateTime createdAt, LocalDateTime updatedAt, List<LikeMemberInfo> likes) {
         if (contents == null) throw new PostException(PostException.NO_CONTENT_VALUE);
-        if (owner == null) throw new PostException(PostException.NO_OWNER_VALUE);
+        if (ownerId == null) throw new PostException(PostException.NO_OWNER_ID_VALUE);
+        if (ownerEmail == null) throw new PostException(PostException.NO_OWNER_EMAIL_VALUE);
         if (postId == null) throw new PostException(PostException.NO_POST_ID_VALUE);
         if (createdAt == null) throw new PostException(PostException.NO_CREATED_AT_VALUE);
         if (updatedAt == null) throw new PostException(PostException.NO_UPDATED_AT_VALUE);
         if (likes == null) throw new PostException(PostException.NO_LIKES_VALUE);
 
         this.contents = contents;
-        this.owner = owner;
+        this.ownerId = ownerId;
+        this.ownerEmail = ownerEmail;
         this.postId = postId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -54,7 +60,7 @@ public final class Post {
     }
 
     public static Post post(PostDTO.Create dto) {
-        return new Post(dto.getContent(), new MemberInfo(dto.getOwner().getMemberId(), dto.getOwner().getMemberEmail()), List.of(), true);
+        return new Post(dto.getContent(), dto.getOwnerId(), dto.getOwnerEmail(), List.of(), true);
     }
 
     public Long getPostId() {
