@@ -1,7 +1,6 @@
-package com.example.checkinrequestMS.HelpAPI.web.controller.progress;
+package com.example.checkinrequestMS.HelpAPI.web.controller.progress.write;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.progress.write.ProgressWriteService;
-import com.example.checkinrequestMS.HelpAPI.web.controller.dto.request.progress.write.ProgressRegisterRequest;
 import com.example.checkinrequestMS.HelpAPI.web.controller.progress.wrtie.ProgressWriteController;
 
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.progress.register.ProgressRegisterRequestFixture;
@@ -14,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.example.checkinrequestMS.HelpAPI.web.controller.progress.wrtie.ProgressWriteController.PICKED;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -35,7 +35,7 @@ class ProgressWriteControllerTest {
     void registerProgress() throws Exception {
 
         //given
-        ProgressRegisterRequest request = ProgressRegisterRequestFixture.create();
+        ProgressWriteController.ProgressRegisterRequest request = ProgressRegisterRequestFixture.create();
         given(progressRegisterService.registerHelper(request.getHelpId(), request.getHelperId())).willReturn(request.getHelpId());
 
         //when
@@ -45,7 +45,7 @@ class ProgressWriteControllerTest {
 
         //then
         result.andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("도와주실 분을 구했습니다."))
-                .andExpect(jsonPath("$.id").value(1));
+                .andExpect(jsonPath("$.message").value(PICKED))
+                .andExpect(jsonPath("$.data.id").value(request.getHelpId()));
     }
 }

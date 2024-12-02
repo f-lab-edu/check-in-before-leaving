@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.progress.business;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.progress.business.ProgressBusinessWriteService;
 
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.DefaultHTTPResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,11 @@ public class ProgressBusinessWriteController {
 
     private final ProgressBusinessWriteService progressBusinessService;
 
-    private static final String APPROVED = "요청자에 의해 인증이 승인 되었습니다.";
+    public static final String APPROVED = "요청자에 의해 인증이 승인 되었습니다.";
 
     @PostMapping("/approved")
-    public ResponseEntity<ProgressChangeResponse> approveProgress(@Validated @RequestBody ProgressApproveRequest form) {
-        return ResponseEntity.ok(ProgressChangeResponse.of(
-                progressBusinessService.approveProgress(form.getHelpId()), APPROVED)
-        );
+    public ResponseEntity<DefaultHTTPResponse<ProgressChangeResponse>> approveProgress(@Validated @RequestBody ProgressApproveRequest request) {
+        return ResponseEntity.ok(new DefaultHTTPResponse<ProgressChangeResponse>(APPROVED, ProgressChangeResponse.of(request.getHelpId())));
     }
 
     public static String PHOTO_UPLOADED = "사진이 업로드 되었습니다.";
@@ -34,19 +33,19 @@ public class ProgressBusinessWriteController {
     public static String NO_HELP_ID = "요청 정보가 필요합니다.";
 
     @PostMapping("/photo")
-    public ResponseEntity<ProgressChangeResponse> addPhoto(@RequestPart("file") List<MultipartFile> file,
-                                                           @RequestParam(value = "helpId", defaultValue = "0") long helpId) {
+    public ResponseEntity<DefaultHTTPResponse<ProgressChangeResponse>> addPhoto(@RequestPart("file") List<MultipartFile> file,
+                                                                                @RequestParam(value = "helpId", defaultValue = "0") long helpId) {
         if (file.size() > 1) {
-            return ResponseEntity.badRequest().body(ProgressChangeResponse.of(-1L, NOT_ONE_PHOTO));
+            return ResponseEntity.badRequest().body(new DefaultHTTPResponse<ProgressChangeResponse>(NOT_ONE_PHOTO));
         }
         if (helpId == 0) {
-            return ResponseEntity.badRequest().body(ProgressChangeResponse.of(-1L, NO_HELP_ID));
+            return ResponseEntity.badRequest().body(new DefaultHTTPResponse<ProgressChangeResponse>(NO_HELP_ID));
+
         }
 
-        Long id = progressBusinessService.addPhoto(helpId, file.get(0));
+        Long id = progressBusinessService.addPhoto(helpId, file.get(0)); //todo: 여러개 저장하도록 변경.
 
-        return ResponseEntity.ok(ProgressChangeResponse.of(
-                id, PHOTO_UPLOADED));
+        return ResponseEntity.ok(new DefaultHTTPResponse<ProgressChangeResponse>(PHOTO_UPLOADED, ProgressChangeResponse.of(id)));
     }
 
     //Request
@@ -65,16 +64,14 @@ public class ProgressBusinessWriteController {
     }
 
     //Response
-    @Builder
     @Getter
+    @Builder(access = AccessLevel.PRIVATE)
     public static class ProgressChangeResponse {
         private Long id;
-        private String message;
 
-        public static ProgressChangeResponse of(Long id, String message) {
+        public static ProgressChangeResponse of(Long id) {
             return ProgressChangeResponse.builder()
                     .id(id)
-                    .message(message)
                     .build();
         }
     }

@@ -6,6 +6,7 @@ import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineU
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.CheckInRegisterDTO;
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.EtcRegisterDTO;
 import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.LineUpRegisterDTO;
+import com.example.checkinrequestMS.HelpAPI.web.controller.dto.DefaultHTTPResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
@@ -35,24 +36,24 @@ public class HelpWriteController {
     public static final String ETC_SAVE_SUCCESS = "기타 요청 등록 성공";
 
     @PostMapping("/checkIn")
-    public ResponseEntity<HelpSaveResponse> registerCheckIn(@Validated @RequestBody CheckInRegisterRequest form) {
+    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody CheckInRegisterRequest form) {
         CheckInRegisterDTO dto = CheckInRegisterDTO.from(form);
         Long id = checkInWriteService.registerCheckIn(dto);
-        return ResponseEntity.ok(HelpSaveResponse.from(CHECK_IN_SAVE_SUCCESS, id));
+        return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(CHECK_IN_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
     @PostMapping("/lineUp")
-    public ResponseEntity<HelpSaveResponse> registerCheckIn(@Validated @RequestBody LineUpRegisterRequest form) {
+    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody LineUpRegisterRequest form) {
         LineUpRegisterDTO dto = LineUpRegisterDTO.from(form);
         Long id = lineUpWriteService.registerLineUp(dto);
-        return ResponseEntity.ok(HelpSaveResponse.from(LINE_UP_SAVE_SUCCESS, id));
+        return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(LINE_UP_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
     @PostMapping("/etc")
-    public ResponseEntity<HelpSaveResponse> registerEtc(@Validated @RequestBody EtcRegisterRequest form) {
+    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerEtc(@Validated @RequestBody EtcRegisterRequest form) {
         EtcRegisterDTO etc = EtcRegisterDTO.from(form);
         Long id = etcWriteService.registerEtc(etc);
-        return ResponseEntity.ok(HelpSaveResponse.from(ETC_SAVE_SUCCESS, id));
+        return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(ETC_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
     //Request
@@ -66,8 +67,6 @@ public class HelpWriteController {
         public static final String NO_START = "시작 시간은 필수입니다.";
         public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
         public static final String NO_REWARD = "보상은 필수입니다.";
-        // ETC 관련 상수는 ETCRegisterForm에 추가.
-
         @NotNull(message = NO_HELP_REGISTER_ID)
         private Long helpRegisterId;
 
@@ -129,12 +128,11 @@ public class HelpWriteController {
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
     public static class HelpSaveResponse {
-        private String message;
+
         private Long id;
 
-        public static HelpSaveResponse from(String message, Long id) {
+        public static HelpSaveResponse from(Long id) {
             return HelpSaveResponse.builder()
-                    .message(message)
                     .id(id)
                     .build();
 
