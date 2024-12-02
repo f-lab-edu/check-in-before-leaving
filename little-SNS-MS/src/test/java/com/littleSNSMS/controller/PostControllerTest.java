@@ -1,6 +1,7 @@
 package com.littleSNSMS.controller;
 
 import com.littleSNSMS.application.PostApplication;
+import com.littleSNSMS.domain.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ class PostControllerTest {
     void post() {
         // Given
         String request = "{\"content\":\"content\",\"ownerId\":\"ownerId\",\"ownerEmail\":\"ownerEmail\"}";
-        Mockito.when(postApplication.post(any(PostController.PostRequest.class))).thenReturn(Mono.just(1L));
+        Mockito.when(postApplication.post(any(PostService.Create.class))).thenReturn(Mono.just(1L));
 
         // When & Then
         webTestClient.post()
