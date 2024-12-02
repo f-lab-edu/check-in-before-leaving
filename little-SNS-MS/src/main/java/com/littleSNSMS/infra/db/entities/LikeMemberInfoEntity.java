@@ -26,8 +26,9 @@ public class LikeMemberInfoEntity {
         this.memberEmail = memberEmail;
     }
 
-    public static LikeMemberInfoEntity of(LikeMemberInfo memberInfo) {
+    public static LikeMemberInfoEntity of(Long postId, LikeMemberInfo memberInfo) {
         return LikeMemberInfoEntity.builder()
+                .postId(postId)
                 .memberId(memberInfo.getMemberId())
                 .memberEmail(memberInfo.getMemberEmail())
                 .build();

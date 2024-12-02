@@ -10,10 +10,11 @@ class MemberInfoEntityTest {
     @Test
     void of() {
         // Given
+        Long postId = 1L;
         LikeMemberInfo memberInfo = new LikeMemberInfo("testId", "testEmail");
 
         // When
-        LikeMemberInfoEntity sut = LikeMemberInfoEntity.of(memberInfo);
+        LikeMemberInfoEntity sut = LikeMemberInfoEntity.of(postId, memberInfo);
 
         // Then
         assertEquals(memberInfo.getMemberId(), sut.getMemberId());

@@ -1,7 +1,7 @@
 package com.littleSNSMS.domain.service;
 
 import com.littleSNSMS.domain.Post;
-import com.littleSNSMS.domain.PostReactiveRepository;
+import com.littleSNSMS.domain.PostRepository;
 import com.littleSNSMS.domain.dto.PostDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,14 +21,14 @@ class PostServiceTest {
     private PostService sut;
 
     @Mock
-    private PostReactiveRepository postRepository;
+    private PostRepository postRepository;
 
     @Test
     void post() {
         //given
         PostDTO.Create create = PostDTO.Create.of("testContent", "testUUID", "testName");
         when(postRepository.save(any(Post.class))).thenReturn(Mono.just(1L));
-        
+
         //when
         Mono<Long> id = sut.post(create);
 

@@ -4,7 +4,7 @@ import com.littleSNSMS.domain.Post;
 import com.littleSNSMS.domain.dto.PostDTO;
 import com.littleSNSMS.infra.db.entities.PostEntity;
 import com.littleSNSMS.infra.db.repository.PostR2dbcRepository;
-import com.littleSNSMS.infra.db.repository.PostReactiveRepositoryImpl;
+import com.littleSNSMS.infra.db.repository.PostRepositoryImpl;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ class PostReactiveRepositoryImplIntegratedTest {
     }
 
     @Autowired
-    private PostReactiveRepositoryImpl sut;
+    private PostRepositoryImpl sut;
 
     @Autowired
     private PostR2dbcRepository postR2dbcRepository;
