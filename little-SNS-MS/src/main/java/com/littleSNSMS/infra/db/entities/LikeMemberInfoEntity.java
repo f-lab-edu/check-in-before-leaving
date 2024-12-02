@@ -21,8 +21,6 @@ public class LikeMemberInfoEntity {
             throw new PostEntityException(PostEntityException.NO_LIKE_MEMBER_INFO_ENTITY_MEMBER_ID_VALUE);
         if (memberEmail == null)
             throw new PostEntityException(PostEntityException.NO_LIKE_MEMBER_INFO_ENTITY_MEMBER_EMAIL_VALUE);
-
-
         this.postId = postId;
         this.memberId = memberId;
         this.memberEmail = memberEmail;

@@ -74,6 +74,10 @@ public class PostEntity {
         return new PostEntity(post.getContents(), post.getOwnerId(), post.getOwnerEmail(), true);
     }
 
+    public Post toPost(List<LikeMemberInfoEntity> likeMemberInfoEntities) {
+        return Post.of(this, likeMemberInfoEntities);
+    }
+
     //test
     public static PostEntity postedForTest() {
         return PostEntity.builder()

@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS sns.post (
     updated_at TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS sns.member_info(
-    member_id BIGINT,
-    member_name VARCHAR(255)
+CREATE TABLE IF NOT EXISTS sns.like_member_info(
+    post_id BIGINT,
+    member_id VARCHAR(255),
+    member_email VARCHAR(255)
 );

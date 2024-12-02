@@ -1,6 +1,7 @@
 package com.littleSNSMS.domain;
 
 import com.littleSNSMS.domain.exception.PostException;
+import com.littleSNSMS.infra.db.entities.LikeMemberInfoEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,10 @@ public final class LikeMemberInfo {
 
         this.memberId = memberId;
         this.MemberEmail = MemberEmail;
+    }
+
+    public static LikeMemberInfo from(LikeMemberInfoEntity likeMemberInfoEntity) {
+        return new LikeMemberInfo(likeMemberInfoEntity.getMemberId(), likeMemberInfoEntity.getMemberEmail());
+
     }
 }
