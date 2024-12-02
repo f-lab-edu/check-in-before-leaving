@@ -7,6 +7,8 @@ plugins {
     id 'java-library'
     id 'java-test-fixtures'
     id 'maven-publish'
+
+    id 'jacoco'
 }
 
 group = 'com.check-in'
@@ -25,6 +27,44 @@ jar {
 repositories {
     mavenCentral()
 }
+//jacoco
+jacoco {
+    toolVersion = "0.8.12"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+test {
+    finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+    dependsOn test
+}
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5
+            }
+        }
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
+
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 0.3
+            }
+        }
+    }
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
@@ -42,6 +82,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-admin:6.8.1'
 //    implementation group: 'com.google.firebase', name: 'firebase-admin', version: '8.1.0'
 
+    //kafka
+    implementation 'org.springframework.kafka:spring-kafka'
 
     //db
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -55,6 +97,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor('org.projectlombok:lombok')
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
 }
 
 tasks.named('test') {
