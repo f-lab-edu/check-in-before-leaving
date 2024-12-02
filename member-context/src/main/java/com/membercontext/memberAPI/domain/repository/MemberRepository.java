@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.application.repository;
+package com.membercontext.memberAPI.domain.repository;
 
 import com.membercontext.memberAPI.domain.entity.member.Member;
 

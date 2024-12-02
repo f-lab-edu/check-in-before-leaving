@@ -3,7 +3,7 @@ package com.membercontext.memberAPI.application.service;
 import com.membercontext.common.fixture.web.AlarmRequestFixture;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.AlarmController;
-import com.membercontext.memberAPI.web.pushMessage.FireBaseCloudMessageClient;
+import com.membercontext.memberAPI.infrastructure.pushAlarm.FireBaseCloudMessageClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

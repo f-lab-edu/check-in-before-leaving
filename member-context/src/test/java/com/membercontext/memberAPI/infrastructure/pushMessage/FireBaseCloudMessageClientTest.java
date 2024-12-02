@@ -1,10 +1,11 @@
-package com.membercontext.memberAPI.web.pushMessage;
+package com.membercontext.memberAPI.infrastructure.pushMessage;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
-import com.membercontext.memberAPI.application.exception.alarm.AlarmErrorCode;
-import com.membercontext.memberAPI.application.exception.alarm.AlarmException;
+import com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm.PushAlarmErrorCode;
+import com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm.PushAlarmException;
+import com.membercontext.memberAPI.infrastructure.pushAlarm.FireBaseCloudMessageClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -12,13 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.core.io.ClassPathResource;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.membercontext.memberAPI.application.exception.alarm.AlarmErrorCode.FCM_RESOURCE_INPUT_STREAM_FAILED;
-import static com.membercontext.memberAPI.application.exception.alarm.AlarmErrorCode.OKHTTP_SENT_FAILED;
+import static com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm.PushAlarmErrorCode.FCM_RESOURCE_INPUT_STREAM_FAILED;
+import static com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm.PushAlarmErrorCode.OKHTTP_SENT_FAILED;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -98,8 +98,8 @@ class FireBaseCloudMessageClientTest {
         @DisplayName("OKHTTP Exception - 메시지 전송 실패")
         void sendPushMessageTo_OKHTTP_Exception() {
             //OKHTTP 메서드 내부 존재해서 테스트 불가해 알림용으로 제작.
-            assertThrows(AlarmException.class, () -> {
-                throw new AlarmException(OKHTTP_SENT_FAILED, new Exception());
+            assertThrows(PushAlarmException.class, () -> {
+                throw new PushAlarmException(OKHTTP_SENT_FAILED, new Exception());
             });
         }
 
@@ -108,8 +108,8 @@ class FireBaseCloudMessageClientTest {
         void sendPushMessageTo_ClassPathResource_Input_Exception() {
             //fixme: 이 부분도 ClassPathResource를 Autowired 시킬 방법을 찾아서 테스트 가능하게 변경하는게 좋을까요?
             //ClassPathResource 내부 생성으로 테스트 힘들어 알림용으로 제작.
-            assertThrows(AlarmException.class, () -> {
-                throw new AlarmException(FCM_RESOURCE_INPUT_STREAM_FAILED, new Exception());
+            assertThrows(PushAlarmException.class, () -> {
+                throw new PushAlarmException(FCM_RESOURCE_INPUT_STREAM_FAILED, new Exception());
             });
         }
 
@@ -124,16 +124,16 @@ class FireBaseCloudMessageClientTest {
 
             try {
                 //FirebaseMessagingException 가져올 수 없어 AlarmException으로 대체
-                lenient().doThrow(new AlarmException(AlarmErrorCode.FCM_MESSAGE_CREATION_FAILED, new Exception())).when(mockFirebaseMessaging).send(any(Message.class));
+                lenient().doThrow(new PushAlarmException(PushAlarmErrorCode.FCM_MESSAGE_CREATION_FAILED, new Exception())).when(mockFirebaseMessaging).send(any(Message.class));
             } catch (FirebaseMessagingException e) {
-                throw new AlarmException(AlarmErrorCode.FCM_MESSAGE_CREATION_FAILED, e);
+                throw new PushAlarmException(PushAlarmErrorCode.FCM_MESSAGE_CREATION_FAILED, e);
             }
 
             //when
-            Exception exception = assertThrows(AlarmException.class, () -> sut.sendPushMessageTo(token, title, body));
+            Exception exception = assertThrows(PushAlarmException.class, () -> sut.sendPushMessageTo(token, title, body));
 
             //then
-            assertEquals(AlarmErrorCode.FCM_MESSAGE_CREATION_FAILED.getDeatil(), exception.getMessage());
+            assertEquals(PushAlarmErrorCode.FCM_MESSAGE_CREATION_FAILED.getDeatil(), exception.getMessage());
         }
 
     }

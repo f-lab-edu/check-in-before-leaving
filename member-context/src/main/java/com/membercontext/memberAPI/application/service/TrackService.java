@@ -1,8 +1,6 @@
 package com.membercontext.memberAPI.application.service;
 
 
-import com.membercontext.memberAPI.application.repository.MemberRepository;
-import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.TrackController;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class TrackService {
-    
+
     private final MemberService memberService;
 
     @Transactional

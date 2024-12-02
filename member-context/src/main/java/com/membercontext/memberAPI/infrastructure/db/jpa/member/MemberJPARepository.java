@@ -1,15 +1,14 @@
 package com.membercontext.memberAPI.infrastructure.db.jpa.member;
 
-import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.application.repository.MemberRepository;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
+import com.membercontext.memberAPI.domain.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.*;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.*;
 
 @Repository
 @RequiredArgsConstructor

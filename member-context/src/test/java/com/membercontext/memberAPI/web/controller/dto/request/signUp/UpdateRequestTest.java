@@ -2,7 +2,6 @@ package com.membercontext.memberAPI.web.controller.dto.request.signUp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl.MemberWriteApplication;
-import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,13 +13,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.membercontext.memberAPI.application.exception.ExceptionController.MEMBER_INPUT_ERROR;
-import static com.membercontext.memberAPI.web.controller.LogInController.LogInRequest.LOG_IN_PASSWORD_VALIDATION_MESSAGE;
 import static com.membercontext.memberAPI.web.controller.SignUpController.*;
 import static com.membercontext.memberAPI.web.controller.SignUpController.UpdateRequest.MEMBER_ID_VALIDATION_MESSAGE;
 import static com.membercontext.memberAPI.web.controller.SignUpController.UpdateRequest.POINT_UPDATE_VALIDATION_MESSAGE;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static com.membercontext.memberAPI.web.exceptionHandling.ExceptionController.MEMBER_INPUT_ERROR;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

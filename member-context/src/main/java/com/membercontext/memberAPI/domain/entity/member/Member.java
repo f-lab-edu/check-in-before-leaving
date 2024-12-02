@@ -1,16 +1,14 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
-import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import com.membercontext.memberAPI.web.controller.TrackController;
-
 import jakarta.persistence.*;
 import lombok.*;
 
-
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
 
 @Entity
 @Getter

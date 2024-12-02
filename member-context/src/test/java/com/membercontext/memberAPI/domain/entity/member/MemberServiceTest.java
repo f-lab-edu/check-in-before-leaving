@@ -4,9 +4,9 @@ import com.membercontext.common.fixture.web.AlarmRequestFixture;
 import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.JavaCryptoUtilMockStub;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
-import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.application.repository.MemberRepository;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
+import com.membercontext.memberAPI.domain.repository.MemberRepository;
 
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.memberAPI.application.service.AlarmService;
@@ -24,8 +24,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.INVALID_PASSWORD;
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.INVALID_PASSWORD;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.NOT_EXITING_USER;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;

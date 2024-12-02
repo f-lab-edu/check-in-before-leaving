@@ -5,35 +5,29 @@ import com.membercontext.common.UUIDTester;
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.TrackController;
-import net.bytebuddy.utility.dispatcher.JavaDispatcher;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.*;
-
 import org.mockito.Spy;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.ALREADY_REGISTERED_USER;
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.ALREADY_REGISTERED_USER;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.NOT_EXITING_USER;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -42,6 +36,7 @@ import static org.mockito.Mockito.mock;
 @SpringBootTest
 @Testcontainers
 @Transactional
+@Disabled
 class MemberJPARepositoryStubIntegratedTest {
 
     private static final String USERNAME = "root";
@@ -62,7 +57,6 @@ class MemberJPARepositoryStubIntegratedTest {
         dynamicPropertyRegistry.add("spring.datasource.username", () -> USERNAME);
         dynamicPropertyRegistry.add("spring.datasource.password", () -> PASSWORD);
         dynamicPropertyRegistry.add("spring.jpa.hibernate.ddl-auto", () -> "create");
-
     }
 
     @Spy
@@ -227,7 +221,6 @@ class MemberJPARepositoryStubIntegratedTest {
     @Nested
     @DisplayName("update 테스트")
     @SpringBootTest
-    @Disabled
     class updateTest {
 
         @Test

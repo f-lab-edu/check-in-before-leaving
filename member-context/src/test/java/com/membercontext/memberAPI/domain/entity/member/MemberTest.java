@@ -5,7 +5,7 @@ import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.common.fixture.web.TrackRequestFixture;
 import com.membercontext.common.fixture.web.crud.SignUpRequestFixture;
 import com.membercontext.common.fixture.web.crud.UpdateRequestFixture;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import com.membercontext.memberAPI.web.controller.TrackController;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.*;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 

@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.application.exception.alarm;
+package com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum AlarmErrorCode {
+public enum PushAlarmErrorCode {
 
 
     PUSH_ALARM_FAILED(HttpStatus.BAD_REQUEST, "푸쉬 알람 전송 실패"),

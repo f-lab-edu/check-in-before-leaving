@@ -2,8 +2,8 @@ package com.membercontext.common.stub;
 
 import com.membercontext.common.exception.NoStubException;
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberSpringJPARepository;
 import org.springframework.data.domain.Example;

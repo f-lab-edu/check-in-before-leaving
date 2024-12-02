@@ -1,7 +1,7 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NO_VALUE;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.NO_VALUE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemberLocationTest {

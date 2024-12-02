@@ -1,15 +1,14 @@
 package com.membercontext.common.stub;
 
 import com.membercontext.common.fixture.domain.MemberFixture;
-import com.membercontext.memberAPI.application.exception.member.MemberException;
-import com.membercontext.memberAPI.application.repository.MemberRepository;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
+import com.membercontext.memberAPI.domain.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.domain.entity.member.MemberService;
 
 import java.util.*;
 
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.ALREADY_REGISTERED_USER;
-import static com.membercontext.memberAPI.application.exception.member.MemberErrorCode.NOT_EXITING_USER;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.ALREADY_REGISTERED_USER;
+import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.NOT_EXITING_USER;
 
 public class MemberJPARepositoryStub implements MemberRepository {
 
@@ -57,9 +56,11 @@ public class MemberJPARepositoryStub implements MemberRepository {
     @Override
     public Member update(Member updatingMember) {
         Member member = findById(updatingMember.getId());
-        MemberService memberService = new MemberService(this, null);
-        memberService.update(updatingMember);
-        return member;
+        members.remove(member);
+
+        members.add(updatingMember);
+        Member memberupdated = findById(updatingMember.getId());
+        return memberupdated;
     }
 
     @Override
