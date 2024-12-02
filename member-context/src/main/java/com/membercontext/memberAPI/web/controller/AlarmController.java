@@ -48,6 +48,16 @@ public class AlarmController {
 
         @NotBlank(message = ALARM_MESSAGE_NOT_FOUND)
         private final String message;
+
+        //test
+        public static AlarmRequest createForTest() {
+            return AlarmRequest.builder()
+                    .x(1.0)
+                    .y(1.0)
+                    .title("title")
+                    .message("message")
+                    .build();
+        }
     }
 
 
