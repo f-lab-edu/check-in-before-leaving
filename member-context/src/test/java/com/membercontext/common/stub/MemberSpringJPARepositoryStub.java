@@ -1,7 +1,6 @@
 package com.membercontext.common.stub;
 
 import com.membercontext.common.exception.NoStubException;
-import com.membercontext.common.exception.TestException;
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.memberAPI.application.exception.member.MemberErrorCode;
 import com.membercontext.memberAPI.application.exception.member.MemberException;
@@ -16,8 +15,6 @@ import org.springframework.data.repository.query.FluentQuery;
 import java.util.*;
 import java.util.function.Function;
 
-import static com.membercontext.common.exception.TestException.NOT_ALLOWED;
-
 public class MemberSpringJPARepositoryStub implements MemberSpringJPARepository {
 
     Set<Member> members = new HashSet<>();
@@ -26,11 +23,14 @@ public class MemberSpringJPARepositoryStub implements MemberSpringJPARepository 
     public <S extends Member> S save(S entity) {
         if (members.stream().anyMatch(member -> member.getEmail().equals(entity.getEmail()))) {
             throw new MemberException(MemberErrorCode.ALREADY_REGISTERED_USER);
+        } else if (members.stream().anyMatch(member -> member.getId().equals(entity.getId()))) {
+            throw new MemberException(MemberErrorCode.ALREADY_REGISTERED_USER);
         }
         UUID uuid = UUID.randomUUID();
         Member member = MemberFixture.createMemberToSave(uuid.toString(), entity);
         members.add(member);
-        return (S) member;
+
+        return (S) members.stream().filter(member1 -> member1.getId().equals(member.getId())).findFirst().get();
     }
 
     @Override

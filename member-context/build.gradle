@@ -99,6 +99,11 @@ dependencies {
     testAnnotationProcessor('org.projectlombok:lombok')
     testImplementation 'org.springframework.kafka:spring-kafka-test'
 
+    //testcontainers
+    testImplementation 'org.testcontainers:testcontainers:1.19.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.3'
+    testImplementation 'org.testcontainers:mysql'
+
 }
 
 tasks.named('test') {

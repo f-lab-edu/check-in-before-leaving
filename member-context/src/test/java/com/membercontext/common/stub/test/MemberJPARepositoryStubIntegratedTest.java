@@ -11,13 +11,22 @@ import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.TrackController;
+import net.bytebuddy.utility.dispatcher.JavaDispatcher;
+import org.junit.ClassRule;
 import org.junit.jupiter.api.*;
 
 import org.mockito.Spy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 
@@ -31,9 +40,30 @@ import static org.mockito.Mockito.mock;
 
 
 @SpringBootTest
+@Testcontainers
 @Transactional
-@Disabled
 class MemberJPARepositoryStubIntegratedTest {
+
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "password";
+    private static final String DATABASE_NAME = "mysql_testcontainer";
+
+    @ClassRule
+    @Container
+    public static MySQLContainer<?> mySQLContainer = new MySQLContainer<>("mysql:8.0")
+            .withUsername(USERNAME)
+            .withPassword(PASSWORD)
+            .withDatabaseName(DATABASE_NAME);
+
+    @DynamicPropertySource
+    public static void overrideProps(DynamicPropertyRegistry dynamicPropertyRegistry) {
+
+        dynamicPropertyRegistry.add("spring.datasource.url", () -> mySQLContainer.getJdbcUrl());
+        dynamicPropertyRegistry.add("spring.datasource.username", () -> USERNAME);
+        dynamicPropertyRegistry.add("spring.datasource.password", () -> PASSWORD);
+        dynamicPropertyRegistry.add("spring.jpa.hibernate.ddl-auto", () -> "create");
+
+    }
 
     @Spy
     private MemberJPARepositoryStub stub;
@@ -197,6 +227,7 @@ class MemberJPARepositoryStubIntegratedTest {
     @Nested
     @DisplayName("update 테스트")
     @SpringBootTest
+    @Disabled
     class updateTest {
 
         @Test
