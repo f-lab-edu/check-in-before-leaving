@@ -1,7 +1,7 @@
 package com.littleSNSMS;
 
 import com.littleSNSMS.domain.Post;
-import com.littleSNSMS.domain.dto.PostDTO;
+import com.littleSNSMS.domain.service.PostService;
 import com.littleSNSMS.infra.db.entities.LikeMemberInfoEntity;
 import com.littleSNSMS.infra.db.entities.PostEntity;
 import com.littleSNSMS.infra.db.repository.PostR2dbcRepository;
@@ -25,7 +25,7 @@ public class runner implements CommandLineRunner {
     @Override
     //   @Transactional
     public void run(String... args) throws Exception {
-        PostDTO.Create create = PostDTO.Create.of("Hello world!", "ID", "name");
+        PostService.Create create = PostService.Create.of("Hello world!", "ID", "name");
         Post post = Post.post(create);
         PostEntity postEntity = PostEntity.post(post);
         Long id = postRepository.save(postEntity).block().getPostId();

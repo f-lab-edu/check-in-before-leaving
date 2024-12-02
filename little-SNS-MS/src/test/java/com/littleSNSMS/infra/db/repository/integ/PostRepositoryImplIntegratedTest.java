@@ -1,7 +1,7 @@
 package com.littleSNSMS.infra.db.repository.integ;
 
 import com.littleSNSMS.domain.Post;
-import com.littleSNSMS.domain.dto.PostDTO;
+import com.littleSNSMS.domain.service.PostService;
 import com.littleSNSMS.infra.db.entities.PostEntity;
 import com.littleSNSMS.infra.db.repository.PostR2dbcRepository;
 import com.littleSNSMS.infra.db.repository.PostRepositoryImpl;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Testcontainers
-class PostReactiveRepositoryImplIntegratedTest {
+class PostRepositoryImplIntegratedTest {
 
     private static final String USERNAME = "root";
     private static final String PASSWORD = "password";
@@ -52,7 +52,7 @@ class PostReactiveRepositoryImplIntegratedTest {
     @Test
     void save() {
         //given
-        PostDTO.Create create = PostDTO.Create.of("Hello world!", "ID", "name");
+        PostService.Create create = PostService.Create.of("Hello world!", "ID", "name");
         Post post = Post.post(create);
 
         //when

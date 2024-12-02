@@ -1,7 +1,7 @@
 package com.littleSNSMS.domain;
 
-import com.littleSNSMS.domain.dto.PostDTO;
 import com.littleSNSMS.domain.exception.PostException;
+import com.littleSNSMS.domain.service.PostService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class PostTest {
             String memberId = "testUUID";
             String memberName = "testName";
 
-            PostDTO.Create create = PostDTO.Create.of(contents, memberId, memberName);
+            PostService.Create create = PostService.Create.of(contents, memberId, memberName);
 
             //when
             Post post = Post.post(create);
@@ -70,7 +70,7 @@ class PostTest {
         @DisplayName("Post ID 반환 실패")
         void getPostId() {
             //given
-            Post post = Post.post(PostDTO.Create.of("testContent", "testUUID", "testName"));
+            Post post = Post.post(PostService.Create.of("testContent", "testUUID", "testName"));
 
             //when
             Exception ex = assertThrows(PostException.class, post::getPostId);
@@ -83,7 +83,7 @@ class PostTest {
         @DisplayName("생성일 반환 실패")
         void getCreatedAt() {
             //given
-            Post post = Post.post(PostDTO.Create.of("testContent", "testUUID", "testName"));
+            Post post = Post.post(PostService.Create.of("testContent", "testUUID", "testName"));
 
             //when
             Exception ex = assertThrows(PostException.class, post::getCreatedAt);
@@ -96,7 +96,7 @@ class PostTest {
         @DisplayName("수정일 반환 실패")
         void getUpdatedAt() {
             //given
-            Post post = Post.post(PostDTO.Create.of("testContent", "testUUID", "testName"));
+            Post post = Post.post(PostService.Create.of("testContent", "testUUID", "testName"));
 
             //when
             Exception ex = assertThrows(PostException.class, post::getUpdatedAt);
@@ -109,7 +109,7 @@ class PostTest {
         @DisplayName("좋아요 0개")
         void getLikes() {
             //given
-            Post post = Post.post(PostDTO.Create.of("testContent", "testUUID", "testName"));
+            Post post = Post.post(PostService.Create.of("testContent", "testUUID", "testName"));
 
             //then
             assertEquals(0, post.getLikes().size());
