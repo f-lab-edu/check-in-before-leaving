@@ -25,8 +25,6 @@ public class SignUpController {
     @NoAuthentication
     public ResponseEntity<DefaultHTTPResponse<String>> signIn(@Validated @RequestBody MemberService.SignUp signUpRequest) {
         String id = signUpService.signUp(Member.from(signUpRequest));
-        //fixme: from은 도메인 로직인데 여기서 사용하는 것도 레이어의 경계에 맞지 않게 사용하는게 아닐까요?
-        //       이 변환을 도메인의 member.signUp 로직에 추가를 해야하는게 아닐까 생각이 들었습니다.
         return ResponseEntity.ok(new DefaultHTTPResponse<>(MEMBER_SIGN_UP_SUCCESS_MESSAGE, id));
     }
 

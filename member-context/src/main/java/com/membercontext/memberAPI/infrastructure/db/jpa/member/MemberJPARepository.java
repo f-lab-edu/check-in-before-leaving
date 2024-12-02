@@ -45,10 +45,7 @@ public class MemberJPARepository implements MemberRepository {
 
     @Override
     public Member update(Member updatingMember) {
-        memberSpringJPARepository.save(updatingMember);
-
-        return memberSpringJPARepository.findById(updatingMember.getId())
-                .orElseThrow(() -> new MemberException(NOT_EXITING_USER));
+        return memberSpringJPARepository.save(updatingMember);
     }
 
     @Override
