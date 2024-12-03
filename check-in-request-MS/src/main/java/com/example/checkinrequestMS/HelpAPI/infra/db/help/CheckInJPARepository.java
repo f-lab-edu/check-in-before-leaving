@@ -23,6 +23,5 @@ public class CheckInJPARepository implements CheckInRepository {
     public CheckIn findById(Long id) {
         return CheckIn.toDomain(checkInSpringJPARepository.findById(id)
                 .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO)));
-
     }
 }
