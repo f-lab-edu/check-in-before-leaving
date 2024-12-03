@@ -1,52 +1,64 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
-import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.LineUpRegisterDTO;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.LineUpJPAEntity;
-import com.example.checkinrequestMS.PlaceAPI.domain.Place;
+import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.LineUpEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LineUp extends Help {
+public final class LineUp {
 
-    //check: Common Phrase랑 분단위가 아니라 분단위가 아닌 시간단위로 끝나는 시간을 설정하는것만 체크인과 다릅니다. -> DTO에서 처리 (?)
-    //todo: 시간 설정 Help 엔티티의 책임으로 옮기기
-    public static final String LINE_UP_TITLE = " 줄서기 요청";
+    public static final String CHECK_IN_TITLE = "체크인 요청";
 
-    @Builder(access = AccessLevel.PROTECTED)
-    protected LineUp(Long id, Long helpRegisterId, String title, String placeId, Long reward, LocalDateTime start, LocalDateTime end, Progress progress) {
-        super(id, helpRegisterId, title, start, end, placeId, reward, progress);
+    private final Long id;
+    private final HelpDetail helpDetail;
+    private final Progress progress;
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private LineUp(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
+        this.id = id;
+        this.helpDetail = helpDetail;
+        this.progress = progress;
     }
 
-    public static LineUp of(LineUpRegisterDTO dto, Place place, Progress progress) {
+    private LineUp(@NonNull HelpDetail helpDetail, @NonNull Progress progress, @NonNull Boolean isRegister) {
+        this.id = null;
+        this.helpDetail = helpDetail;
+        this.progress = progress;
+    }
+
+    public LineUp start(Long helperId) {
         return LineUp.builder()
-                .helpRegisterId(dto.getHelpRegisterId())
-                .title(place.getPlaceName() + LINE_UP_TITLE)
-                .start(dto.getStart())
-                .end(dto.getEnd())
-                .placeId(dto.getPlaceId())
-                .progress(progress)
-                .reward(dto.getReward())
+                .id(this.id)
+                .helpDetail(this.helpDetail)
+                .progress(this.progress.registerHelper(helperId))
                 .build();
     }
 
-    public static LineUp from(LineUpJPAEntity jpaEntity) {
+    public static LineUp register(LineUpService.Registration dto) {
+        return new LineUp(HelpDetail.registerLineUp(dto), Progress.DEFAULT, true);
+    }
+
+    public static LineUp toDomain(LineUpEntity entity) {
         return LineUp.builder()
-                .id(jpaEntity.getId())
-                .helpRegisterId(jpaEntity.getHelpRegisterId())
-                .title(jpaEntity.getTitle())
-                .start(jpaEntity.getStart())
-                .end(jpaEntity.getEnd())
-                .placeId(jpaEntity.getPlaceId())
-                .progress(Progress.from(jpaEntity.getProgressVO()))
-                .reward(jpaEntity.getReward())
+                .id(entity.getId())
+                .helpDetail(HelpDetail.toDomain(entity.getHelpEntity()))
+                .progress(Progress.toDomain(entity.getProgressEntity()))
                 .build();
     }
+
+
+    //for Test
+    public static LineUp createForTest() {
+        return LineUp.builder()
+                .id(1L)
+                .helpDetail(HelpDetail.createForTest())
+                .progress(Progress.createForTest())
+                .build();
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.application.exceptions.help;
+package com.example.checkinrequestMS.HelpAPI.domain.exceptions.help;
 
 import com.example.checkinrequestMS.common.exception.types.DomainException;
 
