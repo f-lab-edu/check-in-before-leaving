@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/help")
+@RequestMapping("/helps")
 @RequiredArgsConstructor
 public class HelpWriteController {
 
@@ -35,19 +35,19 @@ public class HelpWriteController {
 
     public static final String ETC_SAVE_SUCCESS = "기타 요청 등록 성공";
 
-    @PostMapping("/checkIn")
+    @PostMapping("/check-ins")
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody CheckInService.Registration request) {
         Long id = checkInWriteApplication.registerCheckIn(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(CHECK_IN_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
-    @PostMapping("/lineUp")
+    @PostMapping("/line-ups")
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody LineUpService.Registration request) {
         Long id = lineUpWriteService.registerLineUp(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(LINE_UP_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
-    @PostMapping("/etc")
+    @PostMapping("/etcs")
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerEtc(@Validated @RequestBody EtcService.Registration request) {
         Long id = etcWriteService.registerEtc(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(ETC_SAVE_SUCCESS, HelpSaveResponse.from(id)));

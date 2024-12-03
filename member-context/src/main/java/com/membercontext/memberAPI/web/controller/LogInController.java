@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/log-in")
+@RequestMapping("/members/individual/authentication")
 @RequiredArgsConstructor
 public class LogInController {
 
