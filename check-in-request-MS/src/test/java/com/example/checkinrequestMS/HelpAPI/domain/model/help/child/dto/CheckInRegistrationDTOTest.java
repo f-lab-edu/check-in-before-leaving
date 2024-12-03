@@ -1,11 +1,10 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child.dto;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteApplication;
-import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteService;
-import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteService;
+import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteApplication;
+import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.HelpWriteController;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,6 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -30,7 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({HelpWriteController.class})
-public class RegistrationDTOTest {
+@MockBeans({@MockBean(LineUpWriteApplication.class), @MockBean(EtcWriteApplication.class), @MockBean(CheckInWriteApplication.class)})
+public class CheckInRegistrationDTOTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -38,21 +39,12 @@ public class RegistrationDTOTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
-    private CheckInWriteApplication checkInWriteService;
-
-    @MockBean
-    private LineUpWriteService lineUpWriteService;
-
-    @MockBean
-    private EtcWriteService etcWriteService;
-
     @Nested
     @DisplayName("요청 등록")
     class helpValidation {
         static Stream<Arguments> requests() {
             return Stream.of(
-                    Arguments.of(CheckInService.Registration.createForTest(), "CheckInRegisterRequest", "checkIn")
+                    Arguments.of(CheckInService.Registration.createForTest(), "CheckInRequest", "checkIn")
             );
         }
 
