@@ -1,19 +1,20 @@
 package com.membercontext.memberAPI.infrastructure.pushMessage;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm.PushAlarmErrorCode;
 import com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm.PushAlarmException;
 import com.membercontext.memberAPI.infrastructure.pushAlarm.FireBaseCloudMessageClient;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import com.membercontext.memberAPI.infrastructure.pushAlarm.FirebaseConfig;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,6 +71,16 @@ class FireBaseCloudMessageClientTest {
     @Nested
     @DisplayName("sendPushMessageTo 테스트")
     class sendPushMessageToTest {
+
+        @BeforeAll
+        static void before() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+            FirebaseConfig firebaseConfig = new FirebaseConfig();
+            Method postConstruct = FirebaseConfig.class.getDeclaredMethod("initializeFirebaseApp");
+            postConstruct.setAccessible(true);
+            postConstruct.invoke(firebaseConfig);
+            assert !FirebaseApp.getApps().isEmpty();
+        }
+
         @BeforeEach
         void setUp() {
             token = "token";
@@ -115,13 +126,9 @@ class FireBaseCloudMessageClientTest {
 
         @Test
         @DisplayName("Firebase Exception - FCM 메시지 생성 실패")
-        void sendPushMessageTo_FCM_Exception() throws FirebaseMessagingException {
-            //fixme: 이 exception은 메서드의 private 메서드에서 발생하는 테스트인데 private 메서드의 exception은 어떻게 테스트하나요?
+        void sendPushMessageTo_FCM_Exception() {
             //given
-            String token = "token";
-            String title = "title";
-            String body = "body";
-
+            assert !FirebaseApp.getApps().isEmpty();
             try {
                 //FirebaseMessagingException 가져올 수 없어 AlarmException으로 대체
                 lenient().doThrow(new PushAlarmException(PushAlarmErrorCode.FCM_MESSAGE_CREATION_FAILED, new Exception())).when(mockFirebaseMessaging).send(any(Message.class));
@@ -130,7 +137,7 @@ class FireBaseCloudMessageClientTest {
             }
 
             //when
-            Exception exception = assertThrows(PushAlarmException.class, () -> sut.sendPushMessageTo(token, title, body));
+            Exception exception = assertThrows(PushAlarmException.class, () -> sut.sendPushMessageTo(token, title, message));
 
             //then
             assertEquals(PushAlarmErrorCode.FCM_MESSAGE_CREATION_FAILED.getDeatil(), exception.getMessage());
