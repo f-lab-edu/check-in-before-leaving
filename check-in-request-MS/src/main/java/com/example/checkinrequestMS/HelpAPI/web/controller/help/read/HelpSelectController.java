@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
-@RequestMapping("/help/")
+@RequestMapping("/helps/")
 @RequiredArgsConstructor
 @RestController
 public class HelpSelectController {
 
     private final HelpSelectApplication checkInSelectApplication;
 
-    @GetMapping("/checkIn/{id}")
+    @GetMapping("/check-ins/{id}")
     public ResponseEntity<CheckInService.CheckInSelected> selectHelp(@PathVariable Long id) {
         return ResponseEntity.ok(checkInSelectApplication.selectCheckIn(id));
     }
