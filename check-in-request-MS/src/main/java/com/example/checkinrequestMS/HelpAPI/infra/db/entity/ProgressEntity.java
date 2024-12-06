@@ -1,7 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.ProgressBefore;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,22 +20,12 @@ public class ProgressEntity {
 
     @Getter
     @Enumerated(EnumType.STRING)
-    private ProgressBefore.ProgressStatus status;
-
+    private Progress.ProgressStatus status;
 
     @Getter
     private boolean completed;
 
     public static ProgressEntity from(Progress progress) {
-        return ProgressEntity.builder()
-                .status(progress.getStatus())
-                .helperId(progress.getHelperId().orElse(null))
-                .photoPath(progress.getPhotoPath().orElse(null))
-                .completed(progress.isCompleted())
-                .build();
-    }
-
-    public static ProgressEntity from(ProgressBefore progress) {
         return ProgressEntity.builder()
                 .status(progress.getStatus())
                 .helperId(progress.getHelperId().orElse(null))
@@ -54,7 +43,7 @@ public class ProgressEntity {
     }
 
     @Builder(access = AccessLevel.PROTECTED)
-    public ProgressEntity(ProgressBefore.ProgressStatus status, Long helperId, String photoPath, boolean completed) {
+    public ProgressEntity(Progress.ProgressStatus status, Long helperId, String photoPath, boolean completed) {
         this.status = status;
         this.helperId = helperId;
         this.photoPath = photoPath;

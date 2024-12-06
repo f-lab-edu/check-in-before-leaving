@@ -1,52 +1,65 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.EtcRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.Help;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.EtcJPAEntity;
+import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.EtcEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import lombok.NonNull;
 
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Etc extends Help {
+public final class Etc {
 
-    private String contents;
+    private final Long id;
+    private final String contents;
+    private final HelpDetail helpDetail;
+    private final Progress progress;
 
-    @Builder(access = AccessLevel.PROTECTED)
-    protected Etc(Long id, Long helpRegisterId, String title, String placeId, Long reward, LocalDateTime start, LocalDateTime end, String contents, Progress progress) {
-        super(id, helpRegisterId, title, start, end, placeId, reward, progress);
+    @Builder(access = AccessLevel.PRIVATE)
+    private Etc(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress, @NonNull String contents) {
+        this.id = id;
+        this.helpDetail = helpDetail;
+        this.progress = progress;
         this.contents = contents;
     }
 
-    public static Etc of(EtcRegisterDTO dto, Progress progress) {
+    private Etc(@NonNull HelpDetail helpDetail, @NonNull Progress progress, @NonNull String contents, @NonNull Boolean isRegister) {
+        this.id = null;
+        this.helpDetail = helpDetail;
+        this.progress = progress;
+        this.contents = contents;
+    }
+
+    public Etc start(Long helperId) {
         return Etc.builder()
-                .helpRegisterId(dto.getHelpRegisterId())
-                .title(dto.getTitle())
-                .start(dto.getStart())
-                .end(dto.getEnd())
-                .placeId(dto.getPlaceId())
-                .progress(progress)
-                .reward(dto.getReward())
-                .contents(dto.getContents())
+                .id(this.id)
+                .helpDetail(this.helpDetail)
+                .progress(this.progress.registerHelper(helperId))
                 .build();
     }
 
-    public static Etc from(EtcJPAEntity japEntity) {
+    public static Etc register(EtcService.Registration dto) {
+        return new Etc(HelpDetail.registerEtc(dto), Progress.DEFAULT, dto.getContents(), true);
+    }
+
+    public static Etc toDomain(EtcEntity entity) {
         return Etc.builder()
-                .helpRegisterId(japEntity.getHelpRegisterId())
-                .title(japEntity.getTitle())
-                .start(japEntity.getStart())
-                .end(japEntity.getEnd())
-                .placeId(japEntity.getPlaceId())
-                .progress(Progress.from(japEntity.getProgressVO()))
-                .reward(japEntity.getReward())
-                .contents(japEntity.getContents())
+                .id(entity.getId())
+                .contents(entity.getContents())
+                .helpDetail(HelpDetail.toDomain(entity.getHelpEntity()))
+                .progress(Progress.toDomain(entity.getProgressEntity()))
+                .build();
+    }
+
+    //for Test
+    public static Etc createForTest() {
+        return Etc.builder()
+                .id(1L)
+                .contents("contents")
+                .helpDetail(HelpDetail.createForTest())
+                .progress(Progress.createForTest())
                 .build();
     }
 

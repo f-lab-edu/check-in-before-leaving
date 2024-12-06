@@ -1,14 +1,16 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.help.write;
 
-import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteService;
-import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteService;
-import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteService;
-import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.CheckInRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.EtcRegisterDTO;
-import com.example.checkinrequestMS.HelpAPI.domain.dto.write.register.child.LineUpRegisterDTO;
+import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteApplication;
+import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteApplication;
+import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteApplication;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
 import com.example.checkinrequestMS.HelpAPI.web.controller.dto.DefaultHTTPResponse;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,18 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-
 @RestController
 @RequestMapping("/help")
 @RequiredArgsConstructor
 public class HelpWriteController {
 
-    private final CheckInWriteService checkInWriteService;
+    private final CheckInWriteApplication checkInWriteApplication;
 
-    private final LineUpWriteService lineUpWriteService;
+    private final LineUpWriteApplication lineUpWriteService;
 
-    private final EtcWriteService etcWriteService;
+    private final EtcWriteApplication etcWriteService;
 
     public static final String CHECK_IN_SAVE_SUCCESS = "체크인 요청 등록 성공";
 
@@ -36,92 +36,21 @@ public class HelpWriteController {
     public static final String ETC_SAVE_SUCCESS = "기타 요청 등록 성공";
 
     @PostMapping("/checkIn")
-    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody CheckInRegisterRequest form) {
-        CheckInRegisterDTO dto = CheckInRegisterDTO.from(form);
-        Long id = checkInWriteService.registerCheckIn(dto);
+    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody CheckInService.Registration request) {
+        Long id = checkInWriteApplication.registerCheckIn(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(CHECK_IN_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
     @PostMapping("/lineUp")
-    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody LineUpRegisterRequest form) {
-        LineUpRegisterDTO dto = LineUpRegisterDTO.from(form);
-        Long id = lineUpWriteService.registerLineUp(dto);
+    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody LineUpService.Registration request) {
+        Long id = lineUpWriteService.registerLineUp(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(LINE_UP_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
     @PostMapping("/etc")
-    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerEtc(@Validated @RequestBody EtcRegisterRequest form) {
-        EtcRegisterDTO etc = EtcRegisterDTO.from(form);
-        Long id = etcWriteService.registerEtc(etc);
+    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerEtc(@Validated @RequestBody EtcService.Registration request) {
+        Long id = etcWriteService.registerEtc(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(ETC_SAVE_SUCCESS, HelpSaveResponse.from(id)));
-    }
-
-    //Request
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
-    public static abstract class HelpRegisterRequest {
-
-        public static final String NO_HELP_REGISTER_ID = "요청 등록자는 필수입니다.";
-        public static final String NO_PLACE_ID = "가게 정보는 필수입니다.";
-        public static final String NO_START = "시작 시간은 필수입니다.";
-        public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
-        public static final String NO_REWARD = "보상은 필수입니다.";
-        @NotNull(message = NO_HELP_REGISTER_ID)
-        private Long helpRegisterId;
-
-        @NotNull(message = NO_PLACE_ID)
-        private String placeId;
-
-        @NotNull(message = NO_START)
-        private LocalDateTime start;
-
-        @NotNull(message = NO_TIME_OPTION)
-        private Integer option;
-
-        @NotNull(message = NO_REWARD)
-        private Long reward;
-    }
-
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class CheckInRegisterRequest extends HelpRegisterRequest {
-
-        @Builder(access = AccessLevel.PROTECTED)
-        private CheckInRegisterRequest(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward) {
-            super(helpRegisterId, placeId, start, option, reward);
-        }
-    }
-
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class LineUpRegisterRequest extends HelpRegisterRequest {
-
-        @Builder(access = AccessLevel.PROTECTED)
-        public LineUpRegisterRequest(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward) {
-            super(helpRegisterId, placeId, start, option, reward);
-        }
-    }
-
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class EtcRegisterRequest extends HelpRegisterRequest {
-
-        public static final String NO_CONTENTS = "내용은 필수입니다.";
-        public static final String NO_TITLE = "제목은 필수입니다.";
-
-        @NotNull(message = NO_CONTENTS)
-        private String contents; //todo: Longtext(?)
-
-        @NotNull(message = NO_TITLE)
-        private String title;
-
-        @Builder(access = AccessLevel.PROTECTED)
-        public EtcRegisterRequest(Long helpRegisterId, String placeId, LocalDateTime start, int option, Long reward, String contents, String title) {
-            super(helpRegisterId, placeId, start, option, reward);
-            this.contents = contents;
-            this.title = title;
-        }
     }
 
     //Response
@@ -135,7 +64,6 @@ public class HelpWriteController {
             return HelpSaveResponse.builder()
                     .id(id)
                     .build();
-
         }
     }
 
