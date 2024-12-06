@@ -1,9 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.help.write;
 
-import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteService;
+import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteService;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteService;
-import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.CheckInRegisterRequestFixture;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.EtcRegisterRequestFixture;
 import com.example.checkinrequestMS.fixtures.HelpAPI.web.form.help.register.LineUpRegisterRequestFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({HelpWriteController.class})
-@MockBeans({@MockBean(CheckInWriteService.class), @MockBean(LineUpWriteService.class), @MockBean(EtcWriteService.class)})
+@MockBeans({@MockBean(CheckInWriteApplication.class), @MockBean(LineUpWriteService.class), @MockBean(EtcWriteService.class)})
 class HelpWriteControllerTest {
 
     @Autowired
@@ -40,7 +40,7 @@ class HelpWriteControllerTest {
         @DisplayName("체크인 요청 등록 성공")
         void Request_Success() throws Exception {
             //given
-            CheckInRegisterRequest request = CheckInRegisterRequestFixture.create();
+            CheckInService.Registration request = CheckInService.Registration.createForTest();
 
             //when
             ResultActions result = mockMvc.perform(post("/help/checkIn")

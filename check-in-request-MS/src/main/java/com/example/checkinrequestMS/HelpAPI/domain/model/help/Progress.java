@@ -1,15 +1,15 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
-import com.example.checkinrequestMS.HelpAPI.domain.exceptions.ProgressException;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressVO;
-import jakarta.persistence.Embeddable;
-import lombok.*;
+import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
+import lombok.Getter;
+import lombok.NonNull;
 
 import java.util.Optional;
 
 @Getter
 public class Progress {
-    private final ProgressStatus status;
+    private final ProgressBefore.ProgressStatus status;
+    //todo: 이전 코드와 통합중이라 이전에 쓰던 Progress는 ProgressBefore로 두고 변경 중입니다.
     private final Optional<Long> helperId;
     private final Optional<String> photoPath;
     private final boolean completed;
@@ -24,45 +24,22 @@ public class Progress {
         }
     }
 
-    public static Progress DEFAULT = new Progress(ProgressStatus.CREATED, Optional.empty(), Optional.empty(), false);
+    public static Progress DEFAULT = new Progress(ProgressBefore.ProgressStatus.CREATED, Optional.empty(), Optional.empty(), false);
 
-    private Progress(ProgressStatus status, Optional<Long> helperId, Optional<String> photoPath, boolean completed) {
+    private Progress(@NonNull ProgressBefore.ProgressStatus status, Optional<Long> helperId, Optional<String> photoPath, @NonNull Boolean completed) {
         this.status = status;
         this.helperId = helperId;
         this.photoPath = photoPath;
         this.completed = completed;
     }
 
-    public Progress registerHelper(Long helperId) {
-        return new Progress(ProgressStatus.ONGOING, Optional.of(helperId), this.photoPath, this.completed);
+    public static Progress toDomain(ProgressEntity progress) {
+        return new Progress(progress.getStatus(), progress.getHelperId(), progress.getPhotoPath(), progress.isCompleted());
     }
 
-    public Progress addPhoto(String photoPath) {
-        notStarted();
-        return new Progress(ProgressStatus.AUTHENTICATED, this.helperId, Optional.of(photoPath), this.completed);
+    //For Test
+    public static Progress createForTest() {
+        return Progress.DEFAULT;
     }
-
-    public Progress approve() {
-        notStarted();
-        notAuthenticated();
-        return new Progress(ProgressStatus.COMPLETED, this.helperId, this.photoPath, true);
-    }
-
-    public static Progress from(ProgressVO progress) {
-        return new Progress(progress.getStatus(), Optional.ofNullable(progress.getHelperId()), Optional.ofNullable(progress.getPhotoPath()), progress.isCompleted());
-    }
-
-    private void notStarted() {
-        if (this.status.order < 1) {
-            throw new ProgressException(ProgressException.NOT_ONGOING);
-        }
-    }
-
-    private void notAuthenticated() {
-        if (this.status.order < 2) {
-            throw new ProgressException(ProgressException.NOT_AUTHENTICATED);
-        }
-    }
-
 
 }
