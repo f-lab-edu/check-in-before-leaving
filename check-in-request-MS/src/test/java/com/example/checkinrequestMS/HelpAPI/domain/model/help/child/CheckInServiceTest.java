@@ -34,4 +34,26 @@ class CheckInServiceTest {
         assertEquals(1L, id);
     }
 
+    @Test
+    @DisplayName("체크인 조회 성공")
+    void selectCheckIn() {
+        //given
+        CheckIn checkIn = CheckIn.createForTest();
+        when(checkInRepository.findById(1L)).thenReturn(checkIn);
+
+        //when
+        CheckInService.CheckInSelected result = checkInService.findCheckIn(1L);
+
+        //then
+        assertEquals(checkIn.getId(), result.getCheckInId());
+        assertEquals(checkIn.getHelpDetail().getHelpRegisterId(), result.getHelpDetail().getHelpRegisterId());
+        assertEquals(checkIn.getHelpDetail().getTitle(), result.getHelpDetail().getTitle());
+        assertEquals(checkIn.getHelpDetail().getStart(), result.getHelpDetail().getStart());
+        assertEquals(checkIn.getHelpDetail().getEnd(), result.getHelpDetail().getEnd());
+        assertEquals(checkIn.getHelpDetail().getPlaceId(), result.getHelpDetail().getPlaceId());
+        assertEquals(checkIn.getHelpDetail().getReward(), result.getHelpDetail().getReward());
+        assertEquals(checkIn.getProgress().getHelperId().orElse(null), result.getProgress().getHelperId());
+        assertEquals(checkIn.getProgress().getPhotoPath().orElse(null), result.getProgress().getPhotoPath());
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,17 @@ public class CheckInService {
         return checkInRepository.save(checkIn);
     }
 
+    public CheckInSelected findCheckIn(Long id) {
+        return CheckInSelected.createResponse(checkInRepository.findById(id));
+    }
 
+//    public Long startCheckIn(@NonNull CheckInStarted dto) {
+//        CheckIn checkIn = checkInRepository.findById(dto.getCheckInId());
+//        checkIn.start(dto.getHelperId());
+//        return checkInRepository.save(checkIn);
+//    }
+
+    // DTO - Request
     @Getter
     @Validated
     public static final class Registration {
@@ -71,9 +83,6 @@ public class CheckInService {
             this.reward = reward;
             this.title = createTitle(placeName);
             this.end = calcuateEnd(start, option);
-            //fixme: 이렇게 DTO에서 계산을 해줘도 될까요? CheckIn이나 HelpDetail에서 처리할까도 생각해 보았는데
-            //       같은 도메인 영역이라 어디든 괜찮을 것 같은데 여기서 계산을 하는게 DTO만으로 서로 전달해가며
-            //       가장 편하게 이 값들을 사용할 수 있을것 같아서 여기에서 계산에서 가져가는게 어떨까 생각했습니다.
         }
 
         private String createTitle(String placeName) {
@@ -83,7 +92,6 @@ public class CheckInService {
         private LocalDateTime calcuateEnd(LocalDateTime start, Integer option) {
             if (start == null || option == null) return null;
             return start.plusMinutes(option);
-            //fixme: 여기서 null값을 리턴하는게 마음에 걸리지만, 파라미터 중 하나라도 없으면 결국 Validation이 객체 생성후 Exception을 던져 줍니다.
         }
 
         //For Test
@@ -95,6 +103,50 @@ public class CheckInService {
                     .start(LocalDateTime.now())
                     .option(10)
                     .reward(100L)
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder(access = AccessLevel.PROTECTED)
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class CheckInStarted {
+
+        public static final String PROGRESS_REGISTER_REQUEST_NO_HELP_ID = "요청 ID가 필요합니다.";
+        public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
+
+        @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELP_ID)
+        private final Long checkInId;
+
+        @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID)
+        private final Long helperId;
+
+    }
+
+    // DTO - Response
+    @Getter
+    @Builder(access = AccessLevel.PRIVATE)
+    public static final class CheckInSelected {
+
+        private final Long checkInId;
+
+        private final HelpDetail.HelpDetailSelected helpDetail;
+
+        private final Progress.ProgressSelected progress;
+
+        public CheckInSelected(@NonNull Long checkInId,
+                               @NonNull HelpDetail.HelpDetailSelected helpDetail,
+                               @NonNull Progress.ProgressSelected progress) {
+            this.checkInId = checkInId;
+            this.helpDetail = helpDetail;
+            this.progress = progress;
+        }
+
+        public static CheckInSelected createResponse(CheckIn checkIn) {
+            return CheckInSelected.builder()
+                    .checkInId(checkIn.getId())
+                    .helpDetail(HelpDetail.HelpDetailSelected.createResponse(checkIn.getHelpDetail()))
+                    .progress(Progress.ProgressSelected.createResponse(checkIn.getProgress()))
                     .build();
         }
     }
