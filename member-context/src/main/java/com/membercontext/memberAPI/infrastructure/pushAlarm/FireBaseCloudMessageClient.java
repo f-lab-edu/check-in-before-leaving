@@ -33,7 +33,6 @@ public class FireBaseCloudMessageClient {
 
     public void sendPushMessageTo(String targetToken, String title, String body) {
         try {
-            initializeFirebaseApp();
             String message = makeMessage(targetToken, title, body);
 
             OkHttpClient client = new OkHttpClient();
@@ -60,19 +59,6 @@ public class FireBaseCloudMessageClient {
                             .build());
         } catch (FirebaseMessagingException e) {
             throw new PushAlarmException(FCM_MESSAGE_CREATION_FAILED, e);
-        }
-    }
-
-    private void initializeFirebaseApp() {
-        try {
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource("firebase.json").getInputStream()))
-                    .build();
-            if (FirebaseApp.getApps().isEmpty()) {
-                FirebaseApp.initializeApp(options);
-            }
-        } catch (IOException e) {
-            throw new PushAlarmException(FCM_RESOURCE_INPUT_STREAM_FAILED, e);
         }
     }
 
