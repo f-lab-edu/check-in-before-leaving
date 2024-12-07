@@ -23,7 +23,7 @@ public class ProgressStartController {
 
     @PostMapping
     public ResponseEntity<DefaultHTTPResponse<ProgressChangeResponse>> checkInStart(@Validated @RequestBody CheckInService.CheckInStarted dto) {
-        //   Long helpId = progressStartApplication.startCheckIn(dto);
+        Long helpId = progressStartApplication.startCheckIn(dto);
         return ResponseEntity.ok(new DefaultHTTPResponse<ProgressChangeResponse>(PICKED, ProgressChangeResponse.of(dto.getCheckInId())));
     }
 

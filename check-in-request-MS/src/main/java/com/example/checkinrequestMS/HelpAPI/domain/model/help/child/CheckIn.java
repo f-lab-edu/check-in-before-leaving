@@ -31,13 +31,13 @@ public final class CheckIn {
         this.progress = progress;
     }
 
-//    public CheckIn start(Long helperId) {
-//        return CheckIn.builder()
-//                .id(this.id)
-//                .helpDetail(this.helpDetail)
-//                .progress(this.progress.registerHelper(helperId))
-//                .build();
-//    }
+    public CheckIn start(Long helperId) {
+        return CheckIn.builder()
+                .id(this.id)
+                .helpDetail(this.helpDetail)
+                .progress(this.progress.registerHelper(helperId))
+                .build();
+    }
 
     public static CheckIn register(CheckInService.Registration dto) {
         return new CheckIn(HelpDetail.registerCheckIn(dto), Progress.DEFAULT, true);
