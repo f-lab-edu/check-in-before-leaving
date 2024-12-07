@@ -48,5 +48,18 @@ class CheckInTest {
         assertEquals(entity.getProgressEntity().getPhotoPath(), sut.getProgress().getPhotoPath());
     }
 
+    @Test
+    void start() {
+        //given
+        CheckIn sut = CheckIn.createForTest();
+        Long helperId = 1L;
+
+        //when
+        CheckIn result = sut.start(helperId);
+
+        //then
+        assertEquals(helperId, result.getProgress().getHelperId().get());
+    }
+
 
 }

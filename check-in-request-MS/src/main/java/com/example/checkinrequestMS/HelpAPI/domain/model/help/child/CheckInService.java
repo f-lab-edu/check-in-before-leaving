@@ -31,11 +31,11 @@ public class CheckInService {
         return CheckInSelected.createResponse(checkInRepository.findById(id));
     }
 
-//    public Long startCheckIn(@NonNull CheckInStarted dto) {
-//        CheckIn checkIn = checkInRepository.findById(dto.getCheckInId());
-//        checkIn.start(dto.getHelperId());
-//        return checkInRepository.save(checkIn);
-//    }
+    public Long startCheckIn(@NonNull CheckInStarted dto) {
+        CheckIn checkIn = checkInRepository.findById(dto.getCheckInId());
+        checkIn.start(dto.getHelperId());
+        return checkInRepository.save(checkIn);
+    }
 
     // DTO - Request
     @Getter
@@ -121,6 +121,13 @@ public class CheckInService {
         @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID)
         private final Long helperId;
 
+        //For Test
+        public static CheckInStarted createForTest() {
+            return CheckInStarted.builder()
+                    .checkInId(1L)
+                    .helperId(1L)
+                    .build();
+        }
     }
 
     // DTO - Response

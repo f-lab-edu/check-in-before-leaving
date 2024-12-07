@@ -1,5 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
+import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
+import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -59,6 +61,14 @@ public final class Progress {
 
         public ProgressSelected(Long helperId, String photoPath,
                                 @NonNull ProgressStatus status, @NonNull Boolean completed) {
+            if (status == Progress.ProgressStatus.ONGOING && helperId == null) {
+                throw new HelpException(HelpErrorCode.NO_HELPER_ID);
+            } else if (status == Progress.ProgressStatus.COMPLETED && (photoPath == null || helperId == null)) {
+                throw new HelpException(HelpErrorCode.NO_PHOTO);
+            } else if (status == Progress.ProgressStatus.COMPLETED && (photoPath == null || helperId == null || completed == false)) {
+                throw new HelpException(HelpErrorCode.NOT_COMPLETED);
+            }
+
             this.helperId = helperId;
             this.photoPath = photoPath;
             this.status = status;

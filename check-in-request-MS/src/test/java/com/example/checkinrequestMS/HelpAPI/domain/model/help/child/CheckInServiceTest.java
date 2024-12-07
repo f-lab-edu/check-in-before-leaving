@@ -56,4 +56,19 @@ class CheckInServiceTest {
         assertEquals(checkIn.getProgress().getPhotoPath().orElse(null), result.getProgress().getPhotoPath());
     }
 
+    @Test
+    @DisplayName("체크인 시작 성공")
+    void startCheckIn() {
+        //given
+        CheckIn checkIn = CheckIn.createForTest();
+        when(checkInRepository.findById(1L)).thenReturn(checkIn);
+        when(checkInRepository.save(checkIn)).thenReturn(checkIn.getId());
+
+        //when
+        Long id = checkInService.startCheckIn(CheckInService.CheckInStarted.createForTest());
+
+        //then
+        assertEquals(1L, id);
+    }
+
 }
