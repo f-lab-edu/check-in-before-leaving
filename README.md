@@ -9,10 +9,11 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 ### 주요 관심사
 
 - [기능별 Use Case](https://github.com/f-lab-edu/check-in-before-leaving/wiki/%08Use-Case)
+
 <br><br>
 ### 서버 설계도
 
-![서버 (1)](https://github.com/user-attachments/assets/1e7e68ae-361f-4d32-a674-34ffa49e5d4a)
+![서버 (1)](https://github.com/user-attachments/assets/150ceecb-6f60-450a-a11a-76db23a6af4c)
 
 <br><br>
 ### ERD
