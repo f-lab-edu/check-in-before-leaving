@@ -9,7 +9,7 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 ### 주요 관심사
 
 
-- [기능별 Use Case](https://github.com/f-lab-edu/check-in-before-leaving.wiki.git)
+- [기능별 Use Case](https://github.com/f-lab-edu/check-in-before-leaving/wiki/%08Use-Case)
 
  
 ### 서비스의 플로우 차트
