@@ -25,7 +25,7 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 
 ### ERD
 <p align="center">
-<img src="https://github.com/user-attachments/assets/0f282ee8-e734-4f56-992f-e5d52aadf2cd" width="550" height="580"/>
+<img src="https://github.com/user-attachments/assets/dd58736e-24a7-4c3c-b4f6-f28b48c2c8b2" width="550" height="580"/>
 </p>
 
 
