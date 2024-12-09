@@ -1,6 +1,17 @@
 # check-in-before-leaving
-사람들이 많이 모이는 핫플에 갈지말지 결정을 위해 현재 혼잡도나 Check 가게 대기 인원 수를 "체크인" 요청으로 공유 받고 줄서기 또는 다른 요청을 근처 유저에게 요청하고 보상을 제공합니다.
+요즘 핫한 장소들이 어디에 있는지 알아보고 그 곳에서 다양한 요청을 할 수 있는 서비스입니다. 
+  - "체크인"요청을 통해 근처에 계시는 사용자에게 현재 혼잡도나 줄에 대한 사진 요청을 할 수 있습니다.
+  - 줄서기 요청을 통해 대리 줄서기를 요청할 수 있습니다. 
+  - 기타 요청을 통해 당근 알바의 단기 알바처럼 "픽업"이나 "배달"등 건당으로 커스텀한 요청을 할 수 있습니다. 
+### 사용 기술 및 환경
+Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux(학습용)
 
+### 주요 관심사
+
+
+- [기능별 Use Case](https://github.com/f-lab-edu/check-in-before-leaving.wiki.git)
+
+ 
 ### 서비스의 플로우 차트
 
 <p align="center">
