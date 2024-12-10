@@ -12,8 +12,10 @@ public class LogInService {
 
     private final MemberService memberService;
 
+
     public Member logIn(String email, String password) {
         return memberService.logIn(email, password);
     }
+
 
 }

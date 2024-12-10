@@ -1,8 +1,10 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.domain.repository.MemberRepository;
+import com.membercontext.memberAPI.domain.repository.PasswordEncoder;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -24,10 +26,10 @@ public class MemberService {
 
     // Member와 같은 패키지에 있어야 함.
     private final MemberRepository memberRepository;
-    private final JavaCryptoUtil javaCryptoUtil;
+    private final PasswordEncoder passwordEncoder;
 
     public String signUp(Member member) {
-        String encryptedPassword = javaCryptoUtil.encrypt(member.getPassword());
+        String encryptedPassword = passwordEncoder.encrypt(member.getPassword());
         member.encryptPassword(encryptedPassword);
         return memberRepository.save(member);
     }
@@ -44,7 +46,6 @@ public class MemberService {
     //Read
     public Member findOneMember(String id) {
         Member member = memberRepository.findById(id);
-
         if (member == null) {
             throw new MemberException(NOT_EXITING_USER);
         }
@@ -54,7 +55,11 @@ public class MemberService {
     //LogIn
     public Member logIn(String email, String password) {
         Member member = memberRepository.findByEmail(email);
-        return member.logIn(javaCryptoUtil, password);
+        if (passwordEncoder.checkPassword(password, member.getPassword())) {
+            return member;
+        } else {
+            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+        }
     }
 
     //Track
