@@ -51,7 +51,7 @@ class TrackControllerTest {
     class Track {
 
         private final MemberService.Track trackRequest = TrackFixture.create();
-        private final String requestURL = "/track";
+        private final String requestURL = URIInfo.INDIVIDUAL + LOCATION_URI;
 
         @Test
         @DisplayName("로그인 - 위치 추적 시작.")
@@ -88,7 +88,7 @@ class TrackControllerTest {
 
         private final MemberService.FCMToken fcmTokenRequest = FCMTokenFixture.create();
 
-        String requestURL = "/token";
+        String requestURL = URIInfo.INDIVIDUAL + ALARM_TOKEN_URI;
 
         @Test
         @DisplayName("로그인 - 토큰 저장")

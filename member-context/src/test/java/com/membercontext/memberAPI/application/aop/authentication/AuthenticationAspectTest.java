@@ -11,6 +11,7 @@ import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Membe
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.SignUpController;
+import com.membercontext.memberAPI.web.controller.URIInfo;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.*;
 
@@ -50,7 +51,7 @@ class AuthenticationAspectTest {
     @MockBean
     private MemberWriteService signUpService;
 
-    private final String requestURL = "/sign-in";
+    private final String requestURL = URIInfo.MEMBERS;
 
     @Test
     @DisplayName("인증 AOP 작동 중")

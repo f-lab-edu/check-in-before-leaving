@@ -49,7 +49,7 @@ public class SignUpControllerTest {
         LogInTestHelper.Login();
     }
 
-    private final String requestURL = "/sign-in";
+    private final String requestURL = URIInfo.MEMBERS;
 
     @Test
     @DisplayName("회원가입 요청 성공.")

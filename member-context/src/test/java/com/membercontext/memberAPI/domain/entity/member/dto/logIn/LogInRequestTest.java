@@ -6,6 +6,7 @@ import com.membercontext.common.fixture.domain.dto.LogInFixture;
 import com.membercontext.memberAPI.application.service.LogInService;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.LogInController;
+import com.membercontext.memberAPI.web.controller.URIInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ class LogInRequestTest {
 
     private MemberService.LogIn req;
 
-    String requestedURL = "/log-in";
+    String requestedURL = URIInfo.INDIVIDUAL + LogInController.LOGIN_URI;
 
     @BeforeEach
     void setUp() {

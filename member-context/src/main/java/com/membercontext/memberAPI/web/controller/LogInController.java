@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/members/individual/authentication")
+@RequestMapping(URIInfo.INDIVIDUAL)
 @RequiredArgsConstructor
 public class LogInController {
 
     private final LogInService logInService;
+
+    public static final String LOGIN_URI = "/authentication";
 
     public static final String MEMBER_LOG_IN_SUCCESS_MESSAGE = "로그인 성공";
     public static final String COOKIE_NAME = "CKIB4LV";
@@ -35,6 +37,7 @@ public class LogInController {
     private static final String COOKIE_PATH = "/";
 
     @PostMapping
+    @RequestMapping(LOGIN_URI)
     @NoAuthentication
     public ResponseEntity<DefaultHTTPResponse<Void>> logIn(HttpServletRequest request, HttpServletResponse response, @Validated @RequestBody MemberService.LogIn logInForm) {
         Member member = logInService.logIn(logInForm.getEmail(), logInForm.getPassword());

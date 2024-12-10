@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/members")
+@RequestMapping(URIInfo.MEMBERS)
 public class SignUpController {
 
     public static final String MEMBER_SIGN_UP_SUCCESS_MESSAGE = "회원가입 성공";

@@ -5,6 +5,7 @@ import com.membercontext.common.fixture.domain.dto.AlarmFixture;
 import com.membercontext.memberAPI.application.service.AlarmService;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.AlarmController;
+import com.membercontext.memberAPI.web.controller.URIInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class AlarmRequestTest {
 
     private MemberService.Alarm req;
 
-    private final String requestedURL = "/sendMessage";
+    private final String requestedURL = URIInfo.INDIVIDUAL + AlarmController.HELP_PUSH_ALARM_URI;
 
     @BeforeEach
     void setUp() {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl.MemberWriteApplication;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.SignUpController;
+import com.membercontext.memberAPI.web.controller.URIInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class UpdateRequestTest {
     @MockBean
     private MemberWriteApplication signUpService;
 
-    private final String requestURL = "/sign-in";
+    private final String requestURL = URIInfo.MEMBERS;
     private MemberService.Update req;
 
     @BeforeEach

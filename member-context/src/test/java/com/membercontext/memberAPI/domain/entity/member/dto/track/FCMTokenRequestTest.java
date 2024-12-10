@@ -6,6 +6,7 @@ import com.membercontext.common.fixture.domain.dto.FCMTokenFixture;
 import com.membercontext.memberAPI.application.service.TrackService;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.TrackController;
+import com.membercontext.memberAPI.web.controller.URIInfo;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ class FCMTokenRequestTest {
     @MockBean
     private TrackService trackService;
 
+    private final String requestURL = URIInfo.INDIVIDUAL + TrackController.ALARM_TOKEN_URI;
+
     MemberService.FCMToken request = spy(FCMTokenFixture.create());
 
     @Test
@@ -44,7 +47,6 @@ class FCMTokenRequestTest {
         //given
         MvcResult logIn = LogInTestHelper.Login();
         Cookie cookie = logIn.getResponse().getCookie(COOKIE_NAME);
-        String requestURL = "/token";
         when(request.getToken()).thenReturn(null);
 
         //when

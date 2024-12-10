@@ -17,6 +17,7 @@ import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.infrastructure.exceptions.pushAlarm.PushAlarmException;
 import com.membercontext.memberAPI.web.controller.AlarmController;
 import com.membercontext.memberAPI.web.controller.SignUpController;
+import com.membercontext.memberAPI.web.controller.URIInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -61,7 +62,7 @@ class ExceptionControllerTest {
     void signUp_Failed() throws Exception {
 
         //given
-        final String requestURL = "/sign-in";
+        final String requestURL = URIInfo.MEMBERS;
         MemberService.SignUp form = SignUpFixture.create();
         when(signUpService.signUp(any(Member.class))).thenThrow(new MemberException(ALREADY_REGISTERED_USER));
 
@@ -98,7 +99,7 @@ class ExceptionControllerTest {
         System.setErr(new PrintStream(errContent));
 
         //given
-        final String requestURL = "/sendMessage";
+        final String requestURL = URIInfo.INDIVIDUAL + AlarmController.HELP_PUSH_ALARM_URI;
         MemberService.Alarm request = AlarmFixture.create();
         doThrow(new PushAlarmException(FCM_MESSAGE_CREATION_FAILED, new FirebaseException("firebaseNotWorking"))).when(alarmService).sendPushMessage(any(MemberService.Alarm.class));
 
@@ -136,7 +137,7 @@ class ExceptionControllerTest {
     void Validation_Failed() throws Exception {
 
         //given
-        final String requestURL = "/sign-in";
+        final String requestURL = URIInfo.MEMBERS;
         MemberService.SignUp form = mock(MemberService.SignUp.class);
 
         //when
