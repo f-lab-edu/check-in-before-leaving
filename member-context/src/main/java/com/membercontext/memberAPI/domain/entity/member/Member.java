@@ -86,19 +86,6 @@ public class Member {
     }
 
     //BUSINESS LOGICS
-    //LogIn
-    protected Member logIn(JavaCryptoUtil encryption, String password) {
-        return this.checkPassword(encryption, password);
-    }
-
-    private Member checkPassword(JavaCryptoUtil encryption, String password) {
-        if (this.password.equals(encryption.encrypt(password))) {
-            return this;
-        } else {
-            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
-        }
-    }
-
     // Location Tracking
     protected void startLocationTracking(MemberService.Track form) {
         if (!this.isLocationServiceEnabled()) {

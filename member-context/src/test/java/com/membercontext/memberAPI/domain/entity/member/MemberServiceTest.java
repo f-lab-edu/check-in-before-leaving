@@ -2,7 +2,6 @@ package com.membercontext.memberAPI.domain.entity.member;
 
 import com.membercontext.common.fixture.domain.dto.AlarmFixture;
 import com.membercontext.common.fixture.domain.dto.TrackFixture;
-import com.membercontext.common.stub.JavaCryptoUtilMockStub;
 import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
@@ -10,7 +9,7 @@ import com.membercontext.memberAPI.domain.repository.MemberRepository;
 
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.memberAPI.application.service.AlarmService;
-import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
+import com.membercontext.memberAPI.domain.repository.PasswordEncoder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -39,7 +38,7 @@ class MemberServiceTest {
     private MemberRepository memberRepository = new MemberJPARepositoryStub();
 
     @Mock
-    private JavaCryptoUtil javaCryptoUtil = new JavaCryptoUtilMockStub();
+    private PasswordEncoder passwordEncoder;
 
     @Nested
     @DisplayName("쓰기 메서드")
@@ -144,8 +143,7 @@ class MemberServiceTest {
             //given
             Member member = MemberFixture.create();
             String id = memberRepository.save(member);
-            when(javaCryptoUtil.encrypt(member.getPassword())).thenReturn(member.getPassword());
-
+            when(passwordEncoder.checkPassword("password", member.getPassword())).thenReturn(true);
             //when
             Member logInMember = sut.logIn(member.getEmail(), member.getPassword());
 
@@ -164,8 +162,8 @@ class MemberServiceTest {
             //given
             Member member = MemberFixture.create();
             memberRepository.save(member);
-            when(javaCryptoUtil.encrypt(member.getPassword())).thenReturn(null);
-
+            when(passwordEncoder.checkPassword("password", member.getPassword())).thenReturn(false);
+            
             //when
             Exception exception = assertThrows(MemberException.class, () -> sut.logIn(member.getEmail(), member.getPassword()));
 
