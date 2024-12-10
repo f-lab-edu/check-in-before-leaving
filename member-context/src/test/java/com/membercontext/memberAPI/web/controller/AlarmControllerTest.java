@@ -48,7 +48,7 @@ class AlarmControllerTest {
         MemberService.Alarm alarmForm = AlarmFixture.create();
 
         //when
-        ResultActions result = mockMvc.perform(post("/sendMessage")
+        ResultActions result = mockMvc.perform(post(URIInfo.INDIVIDUAL + AlarmController.HELP_PUSH_ALARM_URI)
                 .cookie(TEST_COOKIE)
                 .session(TEST_SESSION)
                 .contentType(MediaType.APPLICATION_JSON)

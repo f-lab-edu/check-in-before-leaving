@@ -36,7 +36,7 @@ class MemberInfoControllerTest {
     @MockBean
     private MemberInfoService memberInfoService;
 
-    private static final String requestUrl = "/info/member";
+    private static final String requestUrl = URIInfo.INDIVIDUAL;
 
     @BeforeEach
     void setUp() throws Exception {

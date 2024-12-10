@@ -7,6 +7,7 @@ import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.LogInController;
 
+import com.membercontext.memberAPI.web.controller.URIInfo;
 import jakarta.servlet.http.Cookie;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
@@ -35,7 +36,7 @@ public class LogInTestHelper {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new LogInController(logInService)).build();
 
         //given
-        String requestURL = "/log-in";
+        String requestURL = URIInfo.INDIVIDUAL + LogInController.LOGIN_URI;
         MemberService.LogIn form = LogInFixture.create();
 
         Member member = mock(Member.class);

@@ -6,6 +6,7 @@ import com.membercontext.common.fixture.domain.dto.TrackFixture;
 import com.membercontext.memberAPI.application.service.TrackService;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
 import com.membercontext.memberAPI.web.controller.TrackController;
+import com.membercontext.memberAPI.web.controller.URIInfo;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +42,7 @@ class TrackRequestTest {
 
     private MemberService.Track req;
 
-    String requestURL = "/track";
+    private String requestURL = URIInfo.INDIVIDUAL + TrackController.LOCATION_URI;
 
     @BeforeEach
     void setUp() {

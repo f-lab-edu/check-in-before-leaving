@@ -42,7 +42,7 @@ class LogInControllerTest {
     void logIn() throws Exception {
         //when
         String UUID = "UUID_Test";
-        String requestURL = "/log-in";
+        String requestURL = URIInfo.INDIVIDUAL + LogInController.LOGIN_URI;
         MemberService.LogIn request = LogInFixture.create();
 
 
