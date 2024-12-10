@@ -15,15 +15,17 @@ import static com.membercontext.memberAPI.web.controller.LogInController.COOKIE_
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/members/individual")
+@RequestMapping(URIInfo.INDIVIDUAL)
 public class TrackController {
 
     private final TrackService trackService;
 
+    public static final String LOCATION_URI = "/location";
+    public static final String ALARM_TOKEN_URI = "/alarm_token";
     public static final String LOCATION_TRACK_ONGOING = "추적 중.";
     public static final String FCM_TOKEN_REGISTERED = "토큰 등록 성공";
 
-    @PostMapping("/location")
+    @PostMapping(LOCATION_URI)
     public ResponseEntity<DefaultHTTPResponse<Void>> track(@CookieValue(value = COOKIE_NAME) String cookieValue, HttpServletRequest request, @Validated @RequestBody MemberService.Track trackRequest) {
         String email = (String) request.getSession().getAttribute(cookieValue);
         trackService.startLocationTracking(trackRequest, email);
@@ -31,7 +33,7 @@ public class TrackController {
         return ResponseEntity.ok().body(new DefaultHTTPResponse<>(LOCATION_TRACK_ONGOING));
     }
 
-    @PostMapping(value = "/alarm_token", consumes = "application/json")
+    @PostMapping(value = ALARM_TOKEN_URI, consumes = "application/json")
     public ResponseEntity<DefaultHTTPResponse<Void>> token(@CookieValue(value = COOKIE_NAME) String cookieValue, HttpServletRequest request, @Validated @RequestBody MemberService.FCMToken fcmTokenRequest) {
         String id = (String) request.getSession().getAttribute(cookieValue);
         trackService.enablePushAlarm(fcmTokenRequest.getToken(), id);
