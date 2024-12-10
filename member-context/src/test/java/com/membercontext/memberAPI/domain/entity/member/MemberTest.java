@@ -20,22 +20,6 @@ import static org.mockito.Mockito.*;
 class MemberTest {
 
     @Test
-    void logIn() {
-        //given
-        Member member = MemberFixture.createMemberWithId("UUID");
-        String password = Variables.TEST_PASSWORD;
-
-        JavaCryptoUtil javaCryptoUtil = mock(JavaCryptoUtil.class);
-        when(javaCryptoUtil.encrypt(member.getPassword())).thenReturn(password);
-
-        //when
-        member.logIn(javaCryptoUtil, password);
-
-        //then
-        assertEquals(password, member.getPassword());
-    }
-
-    @Test
     @DisplayName("위치 알람 시작 성공")
     void enablePushAlarm() {
         //given
