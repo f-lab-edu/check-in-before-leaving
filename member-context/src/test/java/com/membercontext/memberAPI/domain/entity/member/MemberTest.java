@@ -1,12 +1,10 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
-import com.membercontext.common.fixture.Variables;
 import com.membercontext.common.fixture.domain.MemberFixture;
 import com.membercontext.common.fixture.domain.dto.TrackFixture;
 import com.membercontext.common.fixture.domain.dto.crud.SignUpFixture;
 import com.membercontext.common.fixture.domain.dto.crud.UpdateFixture;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
-import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MemberTest {

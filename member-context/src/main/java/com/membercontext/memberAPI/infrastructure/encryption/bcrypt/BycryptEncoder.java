@@ -2,9 +2,11 @@ package com.membercontext.memberAPI.infrastructure.encryption.bcrypt;
 
 import com.membercontext.memberAPI.domain.repository.PasswordEncoder;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
+@Primary
 public class BycryptEncoder implements PasswordEncoder {
     @Override
     public String encrypt(String password) {

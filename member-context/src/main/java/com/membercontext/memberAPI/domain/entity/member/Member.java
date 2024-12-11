@@ -1,8 +1,6 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
-import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
-import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import jakarta.persistence.*;
 import lombok.*;
 

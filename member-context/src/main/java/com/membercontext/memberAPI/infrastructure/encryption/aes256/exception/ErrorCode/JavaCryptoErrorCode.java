@@ -1,12 +1,11 @@
-package com.membercontext.memberAPI.infrastructure.encryption.exception.ErrorCode;
+package com.membercontext.memberAPI.infrastructure.encryption.aes256.exception.ErrorCode;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum JavaCryptoCode {
-
+public enum JavaCryptoErrorCode {
 
     JAVA_ENCRIPTION_ERROR("자바 암호화 에러"),
     JAVA_DECRIPTION_ERROR("자바 복호화 에러"),
@@ -22,10 +21,6 @@ public enum JavaCryptoCode {
     INVALID_KEY("키값이 올바르지 않습니다."),
     ILLEGAL_BLOCK_SIZE("블록 사이즈가 올바르지 않습니다."),
     IV_NOT_FOUND("IV값이 존재하지 않습니다. 비밀번호가 암호화 되어 있지 않을 수 있습니다.");
-
-
-
-
 
 
     private final String deatil;

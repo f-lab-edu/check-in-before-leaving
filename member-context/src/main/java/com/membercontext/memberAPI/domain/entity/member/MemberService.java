@@ -5,7 +5,6 @@ import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.domain.repository.MemberRepository;
 import com.membercontext.memberAPI.domain.repository.PasswordEncoder;
-import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

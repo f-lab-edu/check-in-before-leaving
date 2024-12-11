@@ -8,8 +8,8 @@ import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
+import com.membercontext.memberAPI.domain.repository.PasswordEncoder;
 import com.membercontext.memberAPI.infrastructure.db.jpa.member.MemberJPARepository;
-import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.*;
 import org.mockito.Spy;
@@ -257,7 +257,7 @@ class MemberJPARepositoryStubIntegratedTest {
 
         @BeforeEach
         void setUp() {
-            memberService_stub = new MemberService(stub, mock(JavaCryptoUtil.class));
+            memberService_stub = new MemberService(stub, mock(PasswordEncoder.class));
         }
 
         @Test
