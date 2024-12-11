@@ -9,7 +9,7 @@ import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
-import com.membercontext.memberAPI.infrastructure.encryption.JavaCryptoUtil;
+import com.membercontext.memberAPI.infrastructure.encryption.aes256.JavaCryptoUtil;
 import com.membercontext.memberAPI.web.controller.SignUpController;
 import com.membercontext.memberAPI.web.controller.URIInfo;
 import jakarta.servlet.http.Cookie;
