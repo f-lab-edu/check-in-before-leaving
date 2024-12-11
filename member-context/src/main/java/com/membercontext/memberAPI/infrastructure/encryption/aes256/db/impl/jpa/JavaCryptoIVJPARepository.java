@@ -1,15 +1,12 @@
-package com.membercontext.memberAPI.infrastructure.encryption.db.impl.jpa;
+package com.membercontext.memberAPI.infrastructure.encryption.aes256.db.impl.jpa;
 
 
-
-import com.membercontext.memberAPI.infrastructure.encryption.db.JavaCryptoIVRepository;
-import com.membercontext.memberAPI.infrastructure.encryption.db.vo.JavaCryptoIV;
-import com.membercontext.memberAPI.infrastructure.encryption.exception.JavaCryptoException;
+import com.membercontext.memberAPI.infrastructure.encryption.aes256.db.JavaCryptoIVRepository;
+import com.membercontext.memberAPI.infrastructure.encryption.aes256.db.entity.JavaCryptoIVEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
 
 
 @Repository
@@ -19,12 +16,12 @@ public class JavaCryptoIVJPARepository implements JavaCryptoIVRepository {
     private final JavaCryptoIVSpringJPARepository javaCryptoIVSpringJPARepository;
 
     @Override
-    public void save(JavaCryptoIV javaCryptoIV) {
+    public void save(JavaCryptoIVEntity javaCryptoIV) {
         javaCryptoIVSpringJPARepository.save(javaCryptoIV);
     }
 
     @Override
-    public Optional<JavaCryptoIV> get(Long id) {
+    public Optional<JavaCryptoIVEntity> get(Long id) {
         return javaCryptoIVSpringJPARepository.findById(id);
 
     }
