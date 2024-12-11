@@ -1,50 +1,72 @@
 package com.membercontext.memberAPI.infrastructure.encryption;
 
 
+import com.membercontext.memberAPI.infrastructure.encryption.aes256.JavaCryptoUtil;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.security.SecureRandom;
+import java.util.Base64;
 
-@SpringBootTest
-@Disabled
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(MockitoExtension.class)
 class JavaCrpytoUtilTest {
 
-
-    @Autowired
+    @Spy
     private JavaCryptoUtil javaCryptoUtil;
 
-    //check: 단위 테스트 작성.
+    private String createKey(int length) {
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(random.nextInt(10));
+        }
+        return sb.toString();
+    }
+
+    @BeforeEach
+    void setUp() {
+        ReflectionTestUtils.setField(javaCryptoUtil, "key", createKey(16));
+    }
+
     @Test
-    void encrypt_With_IV() {
+    void encrypt() {
         //given
-        // ReflectionTestUtils.setField(javaCryptoUtil, "encryptionSpec", "AES/CBC/PKCS5Padding");
+
         String password = "password";
         Long id = 1L;
 
         //when
-        String encryptedText = javaCryptoUtil.encrypt(password, id);
-        String decryptedText = javaCryptoUtil.decrypt(encryptedText, id);
+        String encryptedText = javaCryptoUtil.encrypt(password);
 
-        System.out.println("cipherText: " + encryptedText);
-        assertEquals(password, decryptedText);
+        //then
+        assertNotNull(encryptedText);
+        assertNotEquals(password, encryptedText);
     }
 
     @Test
-    void encrypt_WithOut_IV() {
+    void checkPassword() {
         //given
-        //ReflectionTestUtils.setField(javaCryptoUtil, "encryptionSpec", "AES/ECB/PKCS5Padding");
         String password = "password";
+        Long id = 1L;
+        String encryptedText = javaCryptoUtil.encrypt(password);
 
         //when
-        String encryptedText = javaCryptoUtil.encrypt(password);
-        String decryptedText = javaCryptoUtil.decrypt(encryptedText);
+        boolean isMatch = javaCryptoUtil.checkPassword(password, encryptedText);
 
-        //result
-        System.out.println("cipherText: " + encryptedText);
-        assertEquals(password, decryptedText);
+        //then
+        assertTrue(isMatch);
     }
 }
+
+
