@@ -1,5 +1,6 @@
 package com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl;
 
+import com.membercontext.memberAPI.application.aop.testTime.TestTime;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.MemberWriteService;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
@@ -15,6 +16,7 @@ public class MemberWriteApplication implements MemberWriteService {
 
     @Override
     @Transactional
+    @TestTime
     public String signUp(Member member) {
         return memberService.signUp(member);
     }

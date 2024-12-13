@@ -1,18 +1,14 @@
-package com.membercontext.memberAPI.application.aop.log;
+package com.membercontext.memberAPI.application.aop.testTime;
 
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 
 
 @Aspect
-public class LogAspect {
+public class TestTimeAspect {
 
-    @Around("@annotation(com.membercontext.memberAPI.application.aop.log.Log)")
+    @Around("@annotation(com.membercontext.memberAPI.application.aop.testTime.TestTime)")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
 
         final String ANSI_RESET = "\u001B[0m";
