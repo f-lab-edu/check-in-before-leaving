@@ -1,4 +1,4 @@
-package com.membercontext.memberAPI.application.aop.log;
+package com.membercontext.memberAPI.application.aop.testTime;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Log {
+public @interface TestTime {
 
 
 }
