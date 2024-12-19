@@ -18,7 +18,7 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 3. 도메인 주도 개발(DDD)의 원칙을 적용해 비즈니스 로직 변경에 유연한 도메인 설계. <br>
 4. 상속을 사용시 생길수 있는 문제들.
 5. 테스트 - 런던파 vs. 고전파 문제.<br>
-[Stub 사용기 (런던파 vs. 고전파)](https://computingsteps.tistory.com/52)/ [Fixture 사용기]()
+[Stub 사용기 (런던파 vs. 고전파)](https://computingsteps.tistory.com/52)/ [나에게 맞는 Fixture 생성법을 찾는 여정](https://computingsteps.tistory.com/51)
 6. AOP를 이용한 로그인 확인.
 7. K6를 이용한 성능 테스트.
 8. 성능 향상을 위한 캐싱 도입기.
