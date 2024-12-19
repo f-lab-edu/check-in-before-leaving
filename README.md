@@ -16,9 +16,9 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 2. 레이어드 아키텍처를 이용해 관심사 분리를 통한 시스템 유연성 및 유지보수성 향상.<br>
    [JPA는 레이어드 아키텍처에서 어디에 속할까?](https://computingsteps.tistory.com/50) / [레이어드 아키텍처 (Layered Architecture) feat. DDD](https://computingsteps.tistory.com/47)
 3. 도메인 주도 개발(DDD)의 원칙을 적용해 비즈니스 로직 변경에 유연한 도메인 설계. <br>
-[Stub 사용기](https://computingsteps.tistory.com/52)/ [Fixture 사용기]()
 4. 상속을 사용시 생길수 있는 문제들.
-5. 테스트 - 런던파 vs. 고전파 문제.
+5. 테스트 - 런던파 vs. 고전파 문제.<br>
+[Stub 사용기 (런던파 vs. 고전파)](https://computingsteps.tistory.com/52)/ [Fixture 사용기]()
 6. AOP를 이용한 로그인 확인.
 7. K6를 이용한 성능 테스트.
 8. 성능 향상을 위한 캐싱 도입기.
