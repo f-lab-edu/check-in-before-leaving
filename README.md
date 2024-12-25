@@ -20,7 +20,8 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 [결국 상속 구조를 포기 하기까지. (상속 구조 사용시 주의점)](https://computingsteps.tistory.com/53)
 5. 테스트 - 런던파 vs. 고전파 문제.<br>
 [Stub 사용기 (런던파 vs. 고전파)](https://computingsteps.tistory.com/52)/ [나에게 맞는 Fixture 생성법을 찾는 여정](https://computingsteps.tistory.com/51)
-7. AOP를 이용한 로그인 확인.
+7. AOP를 이용한 로그인 확인.   
+[AOP를 이용한 인증 구축]()
 8. K6를 이용한 성능 테스트.
 9. 성능 향상을 위한 캐싱 도입기.
 10. 분산 아키텍처에 적합한 트랜잭션.
