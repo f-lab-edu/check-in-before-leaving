@@ -24,6 +24,7 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 [AOP를 이용한 인증 구축]()
 8. K6를 이용한 성능 테스트.
 9. 성능 향상을 위한 캐싱 도입기.
+[캐싱은 언제 도입할까?](https://computingsteps.tistory.com/44)
 10. 분산 아키텍처에 적합한 트랜잭션.
 <br><br>
 ### 서버 설계도
