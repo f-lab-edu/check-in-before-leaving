@@ -16,7 +16,7 @@ public class CheckInJPARepository implements CheckInRepository {
 
     @Override
     public Long save(CheckIn checkIn) {
-        return checkInSpringJPARepository.save(CheckInEntity.toDB(checkIn)).getId();
+        return checkInSpringJPARepository.save(CheckInEntity.register(checkIn)).getId();
     }
 
     @Override

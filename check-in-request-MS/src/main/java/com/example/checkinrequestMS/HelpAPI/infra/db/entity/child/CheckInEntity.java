@@ -30,6 +30,15 @@ public class CheckInEntity {
         this.progressEntity = ProgressEntity.from(checkIn.getProgress());
     }
 
+    protected CheckInEntity(CheckIn checkIn, Boolean isRegister) {
+        this.helpEntity = HelpDetailEntity.toDB(checkIn.getHelpDetail());
+        this.progressEntity = ProgressEntity.from(checkIn.getProgress());
+    }
+
+    public static CheckInEntity register(CheckIn checkIn) {
+        return new CheckInEntity(checkIn, true);
+    }
+
     public static CheckInEntity toDB(CheckIn checkIn) {
         return CheckInEntity.builder()
                 .id(checkIn.getId())
