@@ -33,6 +33,16 @@ public class EtcEntity {
         this.progressEntity = ProgressEntity.from(etc.getProgress());
     }
 
+    protected EtcEntity(Etc etc, boolean isRegister) {
+        this.contents = etc.getContents();
+        this.helpEntity = HelpDetailEntity.toDB(etc.getHelpDetail());
+        this.progressEntity = ProgressEntity.from(etc.getProgress());
+    }
+
+    public static EtcEntity register(Etc etc) {
+        return new EtcEntity(etc, true);
+    }
+
     public static EtcEntity toDB(Etc etc) {
         return EtcEntity.builder()
                 .id(etc.getId())
@@ -48,5 +58,10 @@ public class EtcEntity {
                 .build();
     }
 
+    public static EtcEntity createForTestWithoutId() {
+        return EtcEntity.builder()
+                .etc(Etc.createForTest())
+                .build();
+    }
 
 }

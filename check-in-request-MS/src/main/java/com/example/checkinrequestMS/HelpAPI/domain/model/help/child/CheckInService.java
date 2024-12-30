@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -132,7 +133,7 @@ public class CheckInService {
 
     // DTO - Response
     @Getter
-    @Builder(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(force = true)
     public static final class CheckInSelected {
 
         private final Long checkInId;
@@ -141,6 +142,7 @@ public class CheckInService {
 
         private final Progress.ProgressSelected progress;
 
+        @Builder(access = AccessLevel.PRIVATE)
         public CheckInSelected(@NonNull Long checkInId,
                                @NonNull HelpDetail.HelpDetailSelected helpDetail,
                                @NonNull Progress.ProgressSelected progress) {

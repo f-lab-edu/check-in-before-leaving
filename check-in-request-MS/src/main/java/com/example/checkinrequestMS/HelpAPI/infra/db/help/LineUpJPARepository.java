@@ -16,7 +16,7 @@ public class LineUpJPARepository implements LineUpRepository {
 
     @Override
     public Long save(LineUp lineUp) {
-        return lineUpSpringJPARepository.save(LineUpEntity.toDB(lineUp)).getId();
+        return lineUpSpringJPARepository.save(LineUpEntity.register(lineUp)).getId();
     }
 
     @Override

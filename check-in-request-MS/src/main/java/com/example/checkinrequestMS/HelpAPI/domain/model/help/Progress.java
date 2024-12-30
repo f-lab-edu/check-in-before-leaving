@@ -3,10 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 
 import java.util.Optional;
 
@@ -51,7 +48,7 @@ public final class Progress {
     }
 
     @Getter
-    @Builder(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(force = true)
     public static final class ProgressSelected {
 
         private final Long helperId;
@@ -59,6 +56,7 @@ public final class Progress {
         private final Progress.ProgressStatus status;
         private final Boolean completed;
 
+        @Builder(access = AccessLevel.PRIVATE)
         public ProgressSelected(Long helperId, String photoPath,
                                 @NonNull ProgressStatus status, @NonNull Boolean completed) {
             if (status == Progress.ProgressStatus.ONGOING && helperId == null) {

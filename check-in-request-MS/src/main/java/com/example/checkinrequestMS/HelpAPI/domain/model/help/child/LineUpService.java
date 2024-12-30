@@ -1,6 +1,8 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -12,27 +14,27 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class LineUpService {
 
-    private final LineUpRepository checkInRepository;
+    private final LineUpRepository lineUpRepository;
     private final AlarmService alarmService;
 
     public Long registerLineUp(@NonNull Registration dto) {
 
-        LineUp checkIn = LineUp.register(dto);
+        LineUp lineUp = LineUp.register(dto);
 
         //alarmService.sendAlarmToUsersNearby(place.getId(), place.getX(), place.getY();
         //alarmService.sendAlarmToUsersNearby(dto.getHelpRegisterId(), place);
 
-        return checkInRepository.save(checkIn);
+        return lineUpRepository.save(lineUp);
     }
 
-    public LineUp findLineUp(Long id) {
-        return checkInRepository.findById(id);
+    public LineUpSelected findLineUp(Long id) {
+        return LineUpSelected.createResponse(lineUpRepository.findById(id));
     }
 
     public Long startLineUp(@NonNull LineUpStarted dto) {
-        LineUp checkIn = checkInRepository.findById(dto.getLineUpId());
-        checkIn.start(dto.getHelperId());
-        return checkInRepository.save(checkIn);
+        LineUp lineUp = lineUpRepository.findById(dto.getLineUpId());
+        lineUp.start(dto.getHelperId());
+        return lineUpRepository.save(lineUp);
     }
 
     @Getter
@@ -119,6 +121,34 @@ public class LineUpService {
         @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID)
         private final Long helperId;
 
+    }
+
+    @Getter
+    @NoArgsConstructor(force = true)
+    public static final class LineUpSelected {
+
+        private final Long lineUpId;
+
+        private final HelpDetail.HelpDetailSelected helpDetail;
+
+        private final Progress.ProgressSelected progress;
+
+        @Builder(access = AccessLevel.PRIVATE)
+        public LineUpSelected(@NonNull Long lineUpId,
+                              @NonNull HelpDetail.HelpDetailSelected helpDetail,
+                              @NonNull Progress.ProgressSelected progress) {
+            this.lineUpId = lineUpId;
+            this.helpDetail = helpDetail;
+            this.progress = progress;
+        }
+
+        public static LineUpService.LineUpSelected createResponse(LineUp lineUp) {
+            return LineUpService.LineUpSelected.builder()
+                    .lineUpId(lineUp.getId())
+                    .helpDetail(HelpDetail.HelpDetailSelected.createResponse(lineUp.getHelpDetail()))
+                    .progress(Progress.ProgressSelected.createResponse(lineUp.getProgress()))
+                    .build();
+        }
     }
 
 }

@@ -63,4 +63,12 @@ public final class Etc {
                 .build();
     }
 
+    public static Etc createForTestWithoutId() {
+        return Etc.builder()
+                .contents("contents")
+                .helpDetail(HelpDetail.createForTest())
+                .progress(Progress.createForTest())
+                .build();
+    }
+
 }

@@ -4,10 +4,8 @@ import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInServi
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.HelpDetailEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -88,7 +86,7 @@ public final class HelpDetail {
     }
 
     @Getter
-    @Builder(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(force = true)
     public static final class HelpDetailSelected {
 
         private final Long helpRegisterId;
@@ -98,6 +96,7 @@ public final class HelpDetail {
         private final String placeId;
         private final Long reward;
 
+        @Builder(access = AccessLevel.PRIVATE)
         public HelpDetailSelected(@NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
                                   @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward) {
             this.helpRegisterId = helpRegisterId;
