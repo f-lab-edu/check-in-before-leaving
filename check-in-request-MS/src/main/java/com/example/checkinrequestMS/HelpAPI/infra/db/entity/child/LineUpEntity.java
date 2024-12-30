@@ -30,11 +30,20 @@ public class LineUpEntity {
         this.progressEntity = ProgressEntity.from(lineUp.getProgress());
     }
 
+    protected LineUpEntity(LineUp lineUp, Boolean isRegister) {
+        this.helpEntity = HelpDetailEntity.toDB(lineUp.getHelpDetail());
+        this.progressEntity = ProgressEntity.from(lineUp.getProgress());
+    }
+
     public static LineUpEntity toDB(LineUp lineUp) {
         return LineUpEntity.builder()
                 .id(lineUp.getId())
                 .lineUp(lineUp)
                 .build();
+    }
+
+    public static LineUpEntity register(LineUp lineUp) {
+        return new LineUpEntity(lineUp, true);
     }
 
     //for test
