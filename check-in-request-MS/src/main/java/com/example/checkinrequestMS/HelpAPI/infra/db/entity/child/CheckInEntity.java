@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.HelpDetailEntity;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
 import jakarta.persistence.*;
@@ -55,4 +56,9 @@ public class CheckInEntity {
     }
 
 
+    public CheckIn update(CheckInService.Update dto) {
+        this.id = dto.getHelpId();
+        this.helpEntity = this.helpEntity.update(dto);
+        return CheckIn.toDomain(this);
+    }
 }

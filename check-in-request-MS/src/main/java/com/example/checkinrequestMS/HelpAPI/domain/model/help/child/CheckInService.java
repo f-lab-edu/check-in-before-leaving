@@ -3,13 +3,13 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +30,10 @@ public class CheckInService {
 
     public CheckInSelected findCheckIn(Long id) {
         return CheckInSelected.createResponse(checkInRepository.findById(id));
+    }
+
+    public CheckInSelected update(Update dto) {
+        return CheckInSelected.createResponse(checkInRepository.update(dto));
     }
 
     public Long startCheckIn(@NonNull CheckInStarted dto) {
@@ -107,6 +111,74 @@ public class CheckInService {
                     .build();
         }
     }
+
+    @Getter
+    @Validated
+    public static final class Update {
+
+        public static final String NO_ID = "체크인 ID는 필수입니다.";
+        public static final String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";
+        public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
+        public static final String NO_PLACE_NAME = "가게 이름은 필수입니다.";
+        public static final String NO_START = "시작 시간은 필수입니다.";
+        public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
+        public static final String NO_REWARD = "보상은 필수입니다.";
+        public static final String NO_TITLE = "제목은 필수입니다.";
+        public static final String NO_END = "종료 시간은 필수입니다.";
+
+        public static final String CHECK_IN_TITLE = "체크인 요청";
+
+        @NotNull(message = NO_ID)
+        private final Long helpId;
+
+        @NotNull(message = NO_CHECK_IN_REGISTER_ID)
+        private final Long helpRegisterId;
+
+        @NotNull(message = NO_PLACE_ID)
+        private final String placeId;
+
+        @NotNull(message = NO_PLACE_NAME)
+        private final String placeName;
+
+        @NotNull(message = NO_START)
+        private final LocalDateTime start;
+
+        @NotNull(message = NO_REWARD)
+        private final Long reward;
+
+        @NotNull(message = NO_TITLE)
+        private final String title;
+
+        @NotNull(message = NO_END)
+        private final LocalDateTime end;
+
+        @Builder(access = AccessLevel.PRIVATE)
+        public Update(Long helpId, Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward, String title, LocalDateTime end) {
+            this.helpId = helpId;
+            this.helpRegisterId = helpRegisterId;
+            this.placeId = placeId;
+            this.placeName = placeName;
+            this.start = start;
+            this.reward = reward;
+            this.title = title;
+            this.end = end;
+        }
+
+        //For Test
+        public static Update createForTest() {
+            return Update.builder()
+                    .helpRegisterId(1L)
+                    .placeId("placeId")
+                    .title("title")
+                    .end(LocalDateTime.now().plusMinutes(10))
+                    .placeName("placeName")
+                    .start(LocalDateTime.now())
+                    .option(10)
+                    .reward(100L)
+                    .build();
+        }
+    }
+
 
     @Getter
     @Builder(access = AccessLevel.PROTECTED)
