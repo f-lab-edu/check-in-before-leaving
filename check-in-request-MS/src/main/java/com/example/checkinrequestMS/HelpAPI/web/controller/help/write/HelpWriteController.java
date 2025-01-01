@@ -13,10 +13,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/helps")
@@ -30,6 +27,7 @@ public class HelpWriteController {
     private final EtcWriteApplication etcWriteService;
 
     public static final String CHECK_IN_SAVE_SUCCESS = "체크인 요청 등록 성공";
+    public static final String CHECK_IN_UPDATE_SUCCESS = "체크인 요청 수정 성공";
 
     public static final String LINE_UP_SAVE_SUCCESS = "줄서기 요청 등록 성공";
 
@@ -41,11 +39,17 @@ public class HelpWriteController {
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(CHECK_IN_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
+    @PutMapping("/check-ins/{id}")
+    public ResponseEntity<DefaultHTTPResponse<CheckInService.CheckInSelected>> updateCheckIn(@PathVariable Long id, @Validated @RequestBody CheckInService.Update request) {
+        return ResponseEntity.ok(new DefaultHTTPResponse<CheckInService.CheckInSelected>(CHECK_IN_UPDATE_SUCCESS, checkInWriteApplication.updateCheckIn(request)));
+    }
+
     @PostMapping("/line-ups")
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody LineUpService.Registration request) {
         Long id = lineUpWriteService.registerLineUp(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(LINE_UP_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
+
 
     @PostMapping("/etcs")
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerEtc(@Validated @RequestBody EtcService.Registration request) {

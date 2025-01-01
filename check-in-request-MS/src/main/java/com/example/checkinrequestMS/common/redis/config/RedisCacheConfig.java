@@ -53,24 +53,18 @@ public class RedisCacheConfig {
 
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
+        // Jackson 라이브러리 직렬화, 역직렬화 설정
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-
         objectMapper.activateDefaultTyping(
                 objectMapper.getPolymorphicTypeValidator(),
                 ObjectMapper.DefaultTyping.EVERYTHING,
                 JsonTypeInfo.As.PROPERTY
         );
-        objectMapper.registerSubtypes(
-                new NamedType(EtcService.EtcSelected.class, "EtcSelected"),
-                new NamedType(LineUpService.LineUpSelected.class, "LineUpSelected"),
-                new NamedType(CheckInService.CheckInSelected.class, "CheckInSelected"),
-                new NamedType(HelpDetail.HelpDetailSelected.class, "HelpDetailSelected"),
-                new NamedType(Progress.ProgressSelected.class, "ProgressSelected")
-        );
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
+        // 캐싱 직렬화, 역직렬화 설정
         GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer =
                 new GenericJackson2JsonRedisSerializer(objectMapper);
 
@@ -78,8 +72,9 @@ public class RedisCacheConfig {
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(genericJackson2JsonRedisSerializer));
 
+        //캐싱 종류별 TTL 설정
         Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
-        redisCacheConfigurationMap.put("help_searched", redisCacheConfiguration.entryTtl(Duration.ofMinutes(1)));
+        redisCacheConfigurationMap.put("help_searched", redisCacheConfiguration.entryTtl(Duration.ofMinutes(3)));
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(connectionFactory)
