@@ -33,7 +33,9 @@ public class CheckInService {
     }
 
     public CheckInSelected update(Update dto) {
-        return CheckInSelected.createResponse(checkInRepository.update(dto));
+        CheckIn checkIn = checkInRepository.findById(dto.getHelpId());
+        checkIn.update(dto);
+        return CheckInSelected.createResponse(checkInRepository.update(checkIn));
     }
 
     public Long startCheckIn(@NonNull CheckInStarted dto) {
@@ -45,7 +47,7 @@ public class CheckInService {
     // DTO - Request
     @Getter
     @Validated
-    public static final class Registration {
+    public static final class Registration implements HelpDetail.Registration {
 
         public static final String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -53,6 +55,7 @@ public class CheckInService {
         public static final String NO_START = "시작 시간은 필수입니다.";
         public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
         public static final String NO_REWARD = "보상은 필수입니다.";
+        public static final String NO_DETAIL = "디테일은 필수입니다.";
 
         public static final String CHECK_IN_TITLE = "체크인 요청";
 
@@ -78,7 +81,7 @@ public class CheckInService {
 
         private final LocalDateTime end;
 
-        @Builder(access = AccessLevel.PRIVATE)
+        @Builder(access = AccessLevel.PUBLIC)
         public Registration(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward) {
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
@@ -114,7 +117,7 @@ public class CheckInService {
 
     @Getter
     @Validated
-    public static final class Update {
+    public static final class Update implements HelpDetail.Update {
 
         public static final String NO_ID = "체크인 ID는 필수입니다.";
         public static final String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";

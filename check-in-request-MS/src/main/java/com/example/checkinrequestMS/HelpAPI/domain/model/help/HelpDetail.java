@@ -1,10 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.HelpDetailEntity;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -29,7 +25,7 @@ public final class HelpDetail {
         this.reward = reward;
     }
 
-    public static HelpDetail registerCheckIn(CheckInService.Registration dto) {
+    public static HelpDetail register(Registration dto) {
         return HelpDetail.builder()
                 .helpRegisterId(dto.getHelpRegisterId())
                 .title(dto.getTitle())
@@ -40,23 +36,12 @@ public final class HelpDetail {
                 .build();
     }
 
-    public static HelpDetail registerLineUp(LineUpService.Registration dto) {
+    public static HelpDetail update(Update dto) {
         return HelpDetail.builder()
                 .helpRegisterId(dto.getHelpRegisterId())
                 .title(dto.getTitle())
                 .start(dto.getStart())
-                .end(dto.getStart().plusMinutes(dto.getOption()))
-                .placeId(dto.getPlaceId())
-                .reward(dto.getReward())
-                .build();
-    }
-
-    public static HelpDetail registerEtc(EtcService.Registration dto) {
-        return HelpDetail.builder()
-                .helpRegisterId(dto.getHelpRegisterId())
-                .title(dto.getTitle())
-                .start(dto.getStart())
-                .end(dto.getStart().plusMinutes(dto.getOption()))
+                .end(dto.getEnd())
                 .placeId(dto.getPlaceId())
                 .reward(dto.getReward())
                 .build();
@@ -83,6 +68,34 @@ public final class HelpDetail {
                 .placeId("placeId")
                 .reward(100L)
                 .build();
+    }
+
+    public interface Registration {
+        Long getHelpRegisterId();
+
+        String getTitle();
+
+        LocalDateTime getStart();
+
+        String getPlaceId();
+
+        Integer getOption();
+
+        Long getReward();
+    }
+
+    public interface Update {
+        Long getHelpRegisterId();
+
+        String getTitle();
+
+        LocalDateTime getStart();
+
+        LocalDateTime getEnd();
+
+        String getPlaceId();
+
+        Long getReward();
     }
 
     @Getter

@@ -31,7 +31,7 @@ public class HelpDetailEntity {
         this.reward = reward;
     }
 
-    public static HelpDetailEntity toDB(HelpDetail helpDetail) {
+    public static HelpDetailEntity transferFrom(HelpDetail helpDetail) {
         return HelpDetailEntity.builder()
                 .helpRegisterId(helpDetail.getHelpRegisterId())
                 .title(helpDetail.getTitle())
@@ -41,5 +41,4 @@ public class HelpDetailEntity {
                 .reward(helpDetail.getReward())
                 .build();
     }
-
 }

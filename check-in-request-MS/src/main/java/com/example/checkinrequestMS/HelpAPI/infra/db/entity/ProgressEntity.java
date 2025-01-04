@@ -1,9 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +23,7 @@ public class ProgressEntity {
     @Getter
     private boolean completed;
 
-    public static ProgressEntity from(Progress progress) {
+    public static ProgressEntity transferFrom(Progress progress) {
         return ProgressEntity.builder()
                 .status(progress.getStatus())
                 .helperId(progress.getHelperId().orElse(null))

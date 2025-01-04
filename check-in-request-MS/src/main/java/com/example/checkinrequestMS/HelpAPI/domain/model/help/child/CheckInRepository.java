@@ -6,5 +6,5 @@ public interface CheckInRepository {
 
     public CheckIn findById(Long id);
 
-    public CheckIn update(CheckInService.Update dto);
+    public CheckIn update(CheckIn checkIn);
 }

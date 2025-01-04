@@ -21,7 +21,14 @@ public class LineUpJPARepository implements LineUpRepository {
 
     @Override
     public LineUp findById(Long id) {
-        return LineUp.toDomain(lineUpSpringJPARepository.findById(id)
+        return LineUp.transferFrom(lineUpSpringJPARepository.findById(id)
                 .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO)));
+    }
+
+    @Override
+    public LineUp update(LineUp lineUp) {
+        LineUpEntity lineUpEntity = lineUpSpringJPARepository.findById(lineUp.getId())
+                .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO));
+        return lineUpEntity.update(lineUp);
     }
 }
