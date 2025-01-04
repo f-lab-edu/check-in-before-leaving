@@ -30,6 +30,19 @@ public final class CheckIn {
         this.progress = progress;
     }
 
+    //Business
+    public static CheckIn register(CheckInService.Registration dto) {
+        return new CheckIn(HelpDetail.register(dto), Progress.DEFAULT, true);
+    }
+
+    public CheckIn update(CheckInService.Update dto) {
+        return CheckIn.builder()
+                .id(this.id)
+                .helpDetail(HelpDetail.update(dto))
+                .progress(this.progress)
+                .build();
+    }
+
     public CheckIn start(Long helperId) {
         return CheckIn.builder()
                 .id(this.id)
@@ -38,11 +51,7 @@ public final class CheckIn {
                 .build();
     }
 
-    public static CheckIn register(CheckInService.Registration dto) {
-        return new CheckIn(HelpDetail.registerCheckIn(dto), Progress.DEFAULT, true);
-    }
-
-    public static CheckIn toDomain(CheckInEntity entity) {
+    public static CheckIn transferFrom(CheckInEntity entity) {
         return CheckIn.builder()
                 .id(entity.getId())
                 .helpDetail(HelpDetail.toDomain(entity.getHelpEntity()))

@@ -27,6 +27,12 @@ public class LineUpService {
         return lineUpRepository.save(lineUp);
     }
 
+    public LineUpSelected update(LineUpService.Update dto) {
+        LineUp lineUp = lineUpRepository.findById(dto.getHelpId());
+        lineUp.update(dto);
+        return LineUpService.LineUpSelected.createResponse(lineUpRepository.update(lineUp));
+    }
+
     public LineUpSelected findLineUp(Long id) {
         return LineUpSelected.createResponse(lineUpRepository.findById(id));
     }
@@ -39,7 +45,7 @@ public class LineUpService {
 
     @Getter
     @Validated
-    public static final class Registration {
+    public static final class Registration implements HelpDetail.Registration {
 
         public static final String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -121,6 +127,73 @@ public class LineUpService {
         @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID)
         private final Long helperId;
 
+    }
+
+    @Getter
+    @Validated
+    public static final class Update implements HelpDetail.Update {
+
+        public static final String NO_ID = "줄서기 ID는 필수입니다.";
+        public static final String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
+        public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
+        public static final String NO_PLACE_NAME = "가게 이름은 필수입니다.";
+        public static final String NO_START = "시작 시간은 필수입니다.";
+        public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
+        public static final String NO_REWARD = "보상은 필수입니다.";
+        public static final String NO_TITLE = "제목은 필수입니다.";
+        public static final String NO_END = "종료 시간은 필수입니다.";
+
+        public static final String LINE_UP_TITLE = "줄서기 요청";
+
+        @NotNull(message = NO_ID)
+        private final Long helpId;
+
+        @NotNull(message = NO_LINE_UP_REGISTER_ID)
+        private final Long helpRegisterId;
+
+        @NotNull(message = NO_PLACE_ID)
+        private final String placeId;
+
+        @NotNull(message = NO_PLACE_NAME)
+        private final String placeName;
+
+        @NotNull(message = NO_START)
+        private final LocalDateTime start;
+
+        @NotNull(message = NO_REWARD)
+        private final Long reward;
+
+        @NotNull(message = NO_TITLE)
+        private final String title;
+
+        @NotNull(message = NO_END)
+        private final LocalDateTime end;
+
+        @Builder(access = AccessLevel.PRIVATE)
+        public Update(Long helpId, Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward, String title, LocalDateTime end) {
+            this.helpId = helpId;
+            this.helpRegisterId = helpRegisterId;
+            this.placeId = placeId;
+            this.placeName = placeName;
+            this.start = start;
+            this.reward = reward;
+            this.title = title;
+            this.end = end;
+        }
+
+        //For Test
+        public static LineUpService.Update createForTest() {
+            return LineUpService.Update.builder()
+                    .helpRegisterId(1L)
+                    .placeId("placeId")
+                    .title("title")
+                    .end(LocalDateTime.now().plusMinutes(10))
+                    .placeName("placeName")
+                    .start(LocalDateTime.now())
+                    .option(10)
+                    .reward(100L)
+                    .build();
+        }
     }
 
     @Getter

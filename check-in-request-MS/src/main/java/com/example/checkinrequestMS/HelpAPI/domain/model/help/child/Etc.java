@@ -32,6 +32,20 @@ public final class Etc {
         this.contents = contents;
     }
 
+    //Business
+    public static Etc register(EtcService.Registration dto) {
+        return new Etc(HelpDetail.register(dto), Progress.DEFAULT, dto.getContents(), true);
+    }
+
+    public Etc update(EtcService.Update dto) {
+        return Etc.builder()
+                .id(this.id)
+                .helpDetail(HelpDetail.update(dto))
+                .progress(this.progress)
+                .contents(dto.getContents())
+                .build();
+    }
+
     public Etc start(Long helperId) {
         return Etc.builder()
                 .id(this.id)
@@ -40,11 +54,7 @@ public final class Etc {
                 .build();
     }
 
-    public static Etc register(EtcService.Registration dto) {
-        return new Etc(HelpDetail.registerEtc(dto), Progress.DEFAULT, dto.getContents(), true);
-    }
-
-    public static Etc toDomain(EtcEntity entity) {
+    public static Etc transferFrom(EtcEntity entity) {
         return Etc.builder()
                 .id(entity.getId())
                 .contents(entity.getContents())

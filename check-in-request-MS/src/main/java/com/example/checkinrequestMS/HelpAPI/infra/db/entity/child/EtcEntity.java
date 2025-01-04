@@ -29,21 +29,28 @@ public class EtcEntity {
     protected EtcEntity(@NonNull Long id, @NonNull Etc etc) {
         this.id = id;
         this.contents = etc.getContents();
-        this.helpEntity = HelpDetailEntity.toDB(etc.getHelpDetail());
-        this.progressEntity = ProgressEntity.from(etc.getProgress());
+        this.helpEntity = HelpDetailEntity.transferFrom(etc.getHelpDetail());
+        this.progressEntity = ProgressEntity.transferFrom(etc.getProgress());
     }
 
     protected EtcEntity(Etc etc, boolean isRegister) {
         this.contents = etc.getContents();
-        this.helpEntity = HelpDetailEntity.toDB(etc.getHelpDetail());
-        this.progressEntity = ProgressEntity.from(etc.getProgress());
+        this.helpEntity = HelpDetailEntity.transferFrom(etc.getHelpDetail());
+        this.progressEntity = ProgressEntity.transferFrom(etc.getProgress());
     }
 
+    //Business
     public static EtcEntity register(Etc etc) {
         return new EtcEntity(etc, true);
     }
 
-    public static EtcEntity toDB(Etc etc) {
+    public Etc update(Etc etc) {
+        this.contents = etc.getContents();
+        this.helpEntity = HelpDetailEntity.transferFrom(etc.getHelpDetail());
+        return Etc.transferFrom(this);
+    }
+
+    public static EtcEntity transferFrom(Etc etc) {
         return EtcEntity.builder()
                 .id(etc.getId())
                 .etc(etc)

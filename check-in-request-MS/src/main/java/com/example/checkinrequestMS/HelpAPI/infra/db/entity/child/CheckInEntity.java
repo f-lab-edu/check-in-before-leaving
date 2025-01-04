@@ -1,7 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.HelpDetailEntity;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
 import jakarta.persistence.*;
@@ -27,20 +26,25 @@ public class CheckInEntity {
     @Builder(access = AccessLevel.PROTECTED)
     protected CheckInEntity(@NonNull Long id, @NonNull CheckIn checkIn) {
         this.id = id;
-        this.helpEntity = HelpDetailEntity.toDB(checkIn.getHelpDetail());
-        this.progressEntity = ProgressEntity.from(checkIn.getProgress());
+        this.helpEntity = HelpDetailEntity.transferFrom(checkIn.getHelpDetail());
+        this.progressEntity = ProgressEntity.transferFrom(checkIn.getProgress());
     }
 
     protected CheckInEntity(CheckIn checkIn, Boolean isRegister) {
-        this.helpEntity = HelpDetailEntity.toDB(checkIn.getHelpDetail());
-        this.progressEntity = ProgressEntity.from(checkIn.getProgress());
+        this.helpEntity = HelpDetailEntity.transferFrom(checkIn.getHelpDetail());
+        this.progressEntity = ProgressEntity.transferFrom(checkIn.getProgress());
     }
 
     public static CheckInEntity register(CheckIn checkIn) {
         return new CheckInEntity(checkIn, true);
     }
 
-    public static CheckInEntity toDB(CheckIn checkIn) {
+    public CheckIn update(CheckIn checkIn) {
+        this.helpEntity = HelpDetailEntity.transferFrom(checkIn.getHelpDetail());
+        return CheckIn.transferFrom(this);
+    }
+
+    public static CheckInEntity transferFrom(CheckIn checkIn) {
         return CheckInEntity.builder()
                 .id(checkIn.getId())
                 .checkIn(checkIn)
@@ -55,10 +59,4 @@ public class CheckInEntity {
                 .build();
     }
 
-
-    public CheckIn update(CheckInService.Update dto) {
-        this.id = dto.getHelpId();
-        this.helpEntity = this.helpEntity.update(dto);
-        return CheckIn.toDomain(this);
-    }
 }

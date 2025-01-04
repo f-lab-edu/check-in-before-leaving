@@ -4,7 +4,6 @@ import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInRepos
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -22,14 +21,14 @@ public class CheckInJPARepository implements CheckInRepository {
 
     @Override
     public CheckIn findById(Long id) {
-        return CheckIn.toDomain(checkInSpringJPARepository.findById(id)
+        return CheckIn.transferFrom(checkInSpringJPARepository.findById(id)
                 .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO)));
     }
 
     @Override
-    public CheckIn update(CheckInService.Update dto) {
-        CheckInEntity checkInEntity = checkInSpringJPARepository.findById(dto.getHelpId())
+    public CheckIn update(CheckIn checkIn) {
+        CheckInEntity checkInEntity = checkInSpringJPARepository.findById(checkIn.getId())
                 .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO));
-        return checkInEntity.update(dto);
+        return checkInEntity.update(checkIn);
     }
 }

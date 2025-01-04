@@ -26,25 +26,32 @@ public class LineUpEntity {
     @Builder(access = AccessLevel.PROTECTED)
     protected LineUpEntity(@NonNull Long id, @NonNull LineUp lineUp) {
         this.id = id;
-        this.helpEntity = HelpDetailEntity.toDB(lineUp.getHelpDetail());
-        this.progressEntity = ProgressEntity.from(lineUp.getProgress());
+        this.helpEntity = HelpDetailEntity.transferFrom(lineUp.getHelpDetail());
+        this.progressEntity = ProgressEntity.transferFrom(lineUp.getProgress());
     }
 
     protected LineUpEntity(LineUp lineUp, Boolean isRegister) {
-        this.helpEntity = HelpDetailEntity.toDB(lineUp.getHelpDetail());
-        this.progressEntity = ProgressEntity.from(lineUp.getProgress());
+        this.helpEntity = HelpDetailEntity.transferFrom(lineUp.getHelpDetail());
+        this.progressEntity = ProgressEntity.transferFrom(lineUp.getProgress());
     }
 
-    public static LineUpEntity toDB(LineUp lineUp) {
+    //Business
+    public static LineUpEntity register(LineUp lineUp) {
+        return new LineUpEntity(lineUp, true);
+    }
+
+    public LineUp update(LineUp lineUp) {
+        this.helpEntity = HelpDetailEntity.transferFrom(lineUp.getHelpDetail());
+        return LineUp.transferFrom(this);
+    }
+
+    public static LineUpEntity transferFrom(LineUp lineUp) {
         return LineUpEntity.builder()
                 .id(lineUp.getId())
                 .lineUp(lineUp)
                 .build();
     }
 
-    public static LineUpEntity register(LineUp lineUp) {
-        return new LineUpEntity(lineUp, true);
-    }
 
     //for test
     public static LineUpEntity createForTest() {

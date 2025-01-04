@@ -31,6 +31,19 @@ public final class LineUp {
         this.progress = progress;
     }
 
+    //Business
+    public static LineUp register(LineUpService.Registration dto) {
+        return new LineUp(HelpDetail.register(dto), Progress.DEFAULT, true);
+    }
+
+    public LineUp update(LineUpService.Update dto) {
+        return LineUp.builder()
+                .id(this.id)
+                .helpDetail(HelpDetail.update(dto))
+                .progress(this.progress)
+                .build();
+    }
+
     public LineUp start(Long helperId) {
         return LineUp.builder()
                 .id(this.id)
@@ -38,12 +51,8 @@ public final class LineUp {
                 .progress(this.progress.registerHelper(helperId))
                 .build();
     }
-
-    public static LineUp register(LineUpService.Registration dto) {
-        return new LineUp(HelpDetail.registerLineUp(dto), Progress.DEFAULT, true);
-    }
-
-    public static LineUp toDomain(LineUpEntity entity) {
+    
+    public static LineUp transferFrom(LineUpEntity entity) {
         return LineUp.builder()
                 .id(entity.getId())
                 .helpDetail(HelpDetail.toDomain(entity.getHelpEntity()))

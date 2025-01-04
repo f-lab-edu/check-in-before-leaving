@@ -8,4 +8,6 @@ public interface EtcRepository {
     public Long save(Etc etc);
 
     public Etc findById(Long id);
+
+    public Etc update(Etc etc);
 }
