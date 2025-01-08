@@ -26,7 +26,7 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 5. 테스트 - 런던파 vs. 고전파 문제.
 - [Stub 사용기 (런던파 vs. 고전파)](https://computingsteps.tistory.com/52)
 - [나에게 맞는 Fixture 생성법을 찾는 여정](https://computingsteps.tistory.com/51)
-7. AOP를 이용한 로그인 확인.   
+7. AOP를 이용한 로그인 인증.   
 - [AOP를 이용한 인증 구축](https://computingsteps.tistory.com/54)
 8. K6를 이용한 성능 테스트.
 - [서버 성능을 테스트하기 위한 부하테스트](https://computingsteps.tistory.com/58)
