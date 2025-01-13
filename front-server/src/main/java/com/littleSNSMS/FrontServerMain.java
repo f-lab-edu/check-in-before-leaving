@@ -1,4 +1,4 @@
-package com.library;
+package com.littleSNSMS;
 
 
 import org.springframework.boot.SpringApplication;

@@ -6,6 +6,7 @@ import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWr
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.HelpWriteController;
+import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.URIRULE;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -45,7 +46,7 @@ public class EtcRegistrationDTOTest {
     class helpValidation {
         static Stream<Arguments> requests() {
             return Stream.of(
-                    Arguments.of(EtcService.Registration.createForTest(), "EtcRequest", "etc")
+                    Arguments.of(EtcService.Registration.createForTest(), "EtcRequest", URIRULE.HELPS + URIRULE.ETCS)
             );
         }
 
@@ -59,7 +60,7 @@ public class EtcRegistrationDTOTest {
             given(request.getHelpRegisterId()).willReturn(null);
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/" + uri)
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -80,7 +81,7 @@ public class EtcRegistrationDTOTest {
             given(request.getReward()).willReturn(null);
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/" + uri)
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -100,7 +101,7 @@ public class EtcRegistrationDTOTest {
             given(request.getOption()).willReturn(null);
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/" + uri)
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -120,7 +121,7 @@ public class EtcRegistrationDTOTest {
             given(request.getStart()).willReturn(null);
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/" + uri)
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -140,7 +141,7 @@ public class EtcRegistrationDTOTest {
             given(request.getPlaceId()).willReturn(null);
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/" + uri)
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -160,7 +161,7 @@ public class EtcRegistrationDTOTest {
             given(request.getPlaceName()).willReturn(null);
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/" + uri)
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -180,7 +181,7 @@ public class EtcRegistrationDTOTest {
             given(request.getHelpRegisterId()).willReturn(null);
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/" + uri)
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -199,7 +200,7 @@ public class EtcRegistrationDTOTest {
             given(request.getTitle()).willReturn(null);
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/" + uri)
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -218,7 +219,7 @@ public class EtcRegistrationDTOTest {
             given(request.getContents()).willReturn(null);
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/" + uri)
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 

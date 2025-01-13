@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.help.read;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.read.HelpSelectApplication;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
+import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.URIRULE;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,13 @@ public class CheckInSelectControllerTest {
     void selectHelp_Success() throws Exception {
         // Given
         Long id = 1L;
+        String uri = URIRULE.HELPS + URIRULE.CHECK_INS + id;
         CheckIn checkIn = CheckIn.createForTest();
         CheckInService.CheckInSelected response = CheckInService.CheckInSelected.createResponse(checkIn);
         when(helpSelectApplication.selectCheckIn(id)).thenReturn(response);
 
         // When
-        ResultActions result = mockMvc.perform(get("/help/checkIn/" + id)
+        ResultActions result = mockMvc.perform(get(uri)
                 .contentType(MediaType.APPLICATION_JSON));
 
         // Then

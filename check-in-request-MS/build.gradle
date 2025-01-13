@@ -88,6 +88,13 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor('org.projectlombok:lombok')
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter:1.0.0")
+
+    //testcontainers
+    testImplementation 'org.testcontainers:testcontainers:1.19.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.3'
+    testImplementation 'org.testcontainers:mysql'
+
 
 }
 

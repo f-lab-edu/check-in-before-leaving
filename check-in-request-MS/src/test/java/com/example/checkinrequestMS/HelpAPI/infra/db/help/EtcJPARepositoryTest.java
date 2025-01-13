@@ -29,7 +29,7 @@ class EtcJPARepositoryTest {
     void save() {
         // Given
         Etc etc = Etc.createForTest();
-        EtcEntity etcEntity = EtcEntity.toDB(etc);
+        EtcEntity etcEntity = EtcEntity.transferFrom(etc);
         when(etcSpringJPARepository.save(any(EtcEntity.class))).thenReturn(etcEntity);
 
         // When

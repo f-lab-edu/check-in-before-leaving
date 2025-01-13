@@ -1,5 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
+import com.example.checkinrequestMS.HelpAPI.application.service.alarm.TestClass;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -7,9 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +42,5 @@ class CheckInWriteApplicationTest {
             //then
             assertEquals(1L, id);
         }
-
     }
 }

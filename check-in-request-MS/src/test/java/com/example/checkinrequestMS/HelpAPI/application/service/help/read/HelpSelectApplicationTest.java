@@ -1,7 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.read;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,6 +14,12 @@ import static org.mockito.Mockito.when;
 class HelpSelectApplicationTest {
     @Mock
     private CheckInService checkInService;
+
+    @Mock
+    private LineUpService lineUpService;
+
+    @Mock
+    private EtcService etcService;
 
     @InjectMocks
     private HelpSelectApplication helpSelectApplication;
@@ -44,4 +49,58 @@ class HelpSelectApplicationTest {
         assertEquals(response.getProgress().getPhotoPath(), result.getProgress().getPhotoPath());
         assertEquals(response.getProgress().getCompleted(), result.getProgress().getCompleted());
     }
+
+    @Test
+    void selectLineUp_Success() {
+        // Given
+        Long id = 1L;
+        LineUp lineUp = LineUp.createForTest();
+        LineUpService.LineUpSelected response = LineUpService.LineUpSelected.createResponse(lineUp);
+        when(lineUpService.findLineUp(id)).thenReturn(response);
+
+        // When
+        LineUpService.LineUpSelected result = helpSelectApplication.selectLineUp(id);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(response.getLineUpId(), result.getLineUpId());
+        assertEquals(response.getHelpDetail().getHelpRegisterId(), result.getHelpDetail().getHelpRegisterId());
+        assertEquals(response.getHelpDetail().getTitle(), result.getHelpDetail().getTitle());
+        assertEquals(response.getHelpDetail().getPlaceId(), result.getHelpDetail().getPlaceId());
+        assertEquals(response.getHelpDetail().getStart(), result.getHelpDetail().getStart());
+        assertEquals(response.getHelpDetail().getEnd(), result.getHelpDetail().getEnd());
+        assertEquals(response.getHelpDetail().getReward(), result.getHelpDetail().getReward());
+        assertEquals(response.getProgress().getStatus(), result.getProgress().getStatus());
+        assertEquals(response.getProgress().getHelperId(), result.getProgress().getHelperId());
+        assertEquals(response.getProgress().getPhotoPath(), result.getProgress().getPhotoPath());
+        assertEquals(response.getProgress().getCompleted(), result.getProgress().getCompleted());
+    }
+
+    @Test
+    void selectEtc_Success() {
+        // Given
+        Long id = 1L;
+        Etc etc = Etc.createForTest();
+        EtcService.EtcSelected response = EtcService.EtcSelected.createResponse(etc);
+        when(etcService.findEtc(id)).thenReturn(response);
+
+        // When
+        EtcService.EtcSelected result = helpSelectApplication.selectEtc(id);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(response.getEtcId(), result.getEtcId());
+        assertEquals(response.getContents(), result.getContents());
+        assertEquals(response.getHelpDetail().getHelpRegisterId(), result.getHelpDetail().getHelpRegisterId());
+        assertEquals(response.getHelpDetail().getTitle(), result.getHelpDetail().getTitle());
+        assertEquals(response.getHelpDetail().getPlaceId(), result.getHelpDetail().getPlaceId());
+        assertEquals(response.getHelpDetail().getStart(), result.getHelpDetail().getStart());
+        assertEquals(response.getHelpDetail().getEnd(), result.getHelpDetail().getEnd());
+        assertEquals(response.getHelpDetail().getReward(), result.getHelpDetail().getReward());
+        assertEquals(response.getProgress().getStatus(), result.getProgress().getStatus());
+        assertEquals(response.getProgress().getHelperId(), result.getProgress().getHelperId());
+        assertEquals(response.getProgress().getPhotoPath(), result.getProgress().getPhotoPath());
+        assertEquals(response.getProgress().getCompleted(), result.getProgress().getCompleted());
+    }
+
 }

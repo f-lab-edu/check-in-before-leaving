@@ -70,5 +70,4 @@ class CheckInServiceTest {
         //then
         assertEquals(1L, id);
     }
-
 }

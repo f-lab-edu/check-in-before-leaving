@@ -40,10 +40,11 @@ class HelpWriteControllerTest {
         @DisplayName("체크인 요청 등록 성공")
         void Request_Success() throws Exception {
             //given
+            String uri = URIRULE.HELPS + URIRULE.CHECK_INS;
             CheckInService.Registration request = CheckInService.Registration.createForTest();
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/checkIn")
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -62,10 +63,11 @@ class HelpWriteControllerTest {
         @DisplayName("줄서기 요청 등록 성공")
         void Request_Success() throws Exception {
             //given
+            String uri = URIRULE.HELPS + URIRULE.LINE_UPS;
             LineUpService.Registration request = LineUpService.Registration.createForTest();
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/lineUp")
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 
@@ -84,10 +86,11 @@ class HelpWriteControllerTest {
         @DisplayName("기타 요청 등록 성공")
         void Request_Success() throws Exception {
             //given
+            String uri = URIRULE.HELPS + URIRULE.ETCS;
             EtcService.Registration request = EtcService.Registration.createForTest();
 
             //when
-            ResultActions result = mockMvc.perform(post("/help/etc")
+            ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)));
 

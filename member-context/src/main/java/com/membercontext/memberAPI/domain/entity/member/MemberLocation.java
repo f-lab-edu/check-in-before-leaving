@@ -1,5 +1,7 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
+import com.membercontext.memberAPI.application.aop.authentication.NoAuthentication;
+import com.membercontext.memberAPI.application.aop.testTime.TestTime;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Embeddable;
@@ -47,6 +49,7 @@ public final class MemberLocation {
         return new MemberLocation(latitude, longitude, timestamp, this.fcmToken);
     }
 
+    @TestTime
     public MemberLocation addFCMToken(String token) {
         if (token == null) {
             throw new MemberException(NO_VALUE);

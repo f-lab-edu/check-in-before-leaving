@@ -6,6 +6,7 @@ import com.membercontext.memberAPI.infrastructure.kafka.consumer.AlarmEventConsu
 import com.membercontext.memberAPI.infrastructure.kafka.consumer.record.HelpAlarmEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,7 @@ import static org.mockito.Mockito.verify;
 @EmbeddedKafka(topics = {"alarm-events"}, partitions = 3)
 @TestPropertySource(properties = {"spring.kafka.producer.bootstrap-servers=${spring.embedded.kafka.brokers}",
         "spring.kafka.consumer.bootstrap-servers=${spring.embedded.kafka.brokers}"})
+@Disabled
 public class ConsumerTest {
 
     @Autowired

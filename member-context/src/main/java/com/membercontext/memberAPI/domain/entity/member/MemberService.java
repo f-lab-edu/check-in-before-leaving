@@ -1,6 +1,7 @@
 package com.membercontext.memberAPI.domain.entity.member;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.membercontext.memberAPI.application.aop.testTime.TestTime;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode;
 import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import com.membercontext.memberAPI.domain.repository.MemberRepository;

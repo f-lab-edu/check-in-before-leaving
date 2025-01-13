@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class CheckInEntityTest {
 
     @Test
-    void toDB() {
+    void transferFrom() {
 
         CheckIn checkIn = CheckIn.createForTest();
 
         //when
-        CheckInEntity sut = CheckInEntity.toDB(checkIn);
+        CheckInEntity sut = CheckInEntity.transferFrom(checkIn);
 
         //then
         assertEquals(checkIn.getId(), sut.getId());

@@ -10,8 +10,8 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.util.backoff.FixedBackOff;
 
-@Configuration
-@EnableKafka
+//@Configuration
+//@EnableKafka
 @Slf4j
 public class AlarmEventConsumerConfig {
 
@@ -22,7 +22,7 @@ public class AlarmEventConsumerConfig {
         return new DefaultErrorHandler(fixedBackOff);
     }
 
-    @Bean
+    //       @Bean
     ConcurrentKafkaListenerContainerFactory<?, ?> kafkaListenerContainerFactory(
             ConcurrentKafkaListenerContainerFactoryConfigurer configurer,
             ConsumerFactory<Object, Object> kafkaConsumerFactory) {
