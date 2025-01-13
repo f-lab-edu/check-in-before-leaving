@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.format.DateTimeFormatter;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -48,7 +50,7 @@ public class CheckInSelectControllerTest {
                 .andExpect(jsonPath("$.helpDetail.title").value(response.getHelpDetail().getTitle()))
                 .andExpect(jsonPath("$.helpDetail.placeId").value(response.getHelpDetail().getPlaceId()))
                 .andExpect(jsonPath("$.helpDetail.start").value(response.getHelpDetail().getStart().toString()))
-                .andExpect(jsonPath("$.helpDetail.end").value(response.getHelpDetail().getEnd().toString()))
+                .andExpect(jsonPath("$.helpDetail.end").value(DateTimeFormatter.ISO_DATE_TIME.format(response.getHelpDetail().getEnd())))
                 .andExpect(jsonPath("$.helpDetail.reward").value(response.getHelpDetail().getReward()))
                 .andExpect(jsonPath("$.progress.status").value(response.getProgress().getStatus().toString()))
                 .andExpect(jsonPath("$.progress.helperId").value(response.getProgress().getHelperId()))
