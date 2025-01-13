@@ -29,12 +29,12 @@ class EtcTest {
     }
 
     @Test
-    void toDomain_Entity() {
+    void transferFrom_Entity() {
         //given
         EtcEntity entity = EtcEntity.createForTest();
 
         //when
-        Etc sut = Etc.toDomain(entity);
+        Etc sut = Etc.transferFrom(entity);
 
         //then
         assertEquals(entity.getId(), sut.getId());

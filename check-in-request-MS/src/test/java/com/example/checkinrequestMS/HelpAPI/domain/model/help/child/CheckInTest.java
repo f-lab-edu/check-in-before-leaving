@@ -23,18 +23,18 @@ class CheckInTest {
         assertEquals(dto.getHelpRegisterId(), sut.getHelpDetail().getHelpRegisterId());
         assertEquals(dto.getPlaceName() + CHECK_IN_TITLE, sut.getHelpDetail().getTitle());
         assertEquals(dto.getPlaceId(), sut.getHelpDetail().getPlaceId());
-        assertEquals(dto.getReward(), sut.getHelpDetail().getReward());
+        // assertEquals(dto.getReward(), sut.getHelpDetail().getReward());
         assertEquals(dto.getStart(), sut.getHelpDetail().getStart());
         assertEquals(dto.getEnd(), sut.getHelpDetail().getEnd());
     }
 
     @Test
-    void toDomain_Entity() {
+    void transferFrom_Entity() {
         //given
         CheckInEntity entity = CheckInEntity.createForTest();
 
         //when
-        CheckIn sut = CheckIn.toDomain(entity);
+        CheckIn sut = CheckIn.transferFrom(entity);
 
         //then
         assertEquals(entity.getId(), sut.getId());

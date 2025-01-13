@@ -17,6 +17,7 @@ public class MemberJPARepositoryStub implements MemberRepository {
     @Override
     public Member findByEmail(String email) {
         Optional<Member> memberFound = members.stream().filter(member -> member.getEmail().equals(email)).findFirst();
+        System.out.println("hello");
         if (memberFound.isPresent()) {
             return memberFound.get();
         } else {

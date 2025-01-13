@@ -16,7 +16,9 @@ class HelpDetailTest {
         CheckInService.Registration dto = CheckInService.Registration.createForTest();
         System.out.println(dto.getTitle());
         //when
-        HelpDetail sut = HelpDetail.registerCheckIn(dto);
+//        HelpDetail sut = HelpDetail.registerCheckIn(dto);
+        HelpDetail sut = HelpDetail.register(dto);
+
 
         //then
         assertEquals(dto.getHelpRegisterId(), sut.getHelpRegisterId());

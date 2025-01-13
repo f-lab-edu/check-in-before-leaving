@@ -1,15 +1,22 @@
 package com.membercontext.memberAPI.application.service.signUp;
 
 import com.membercontext.common.fixture.domain.MemberFixture;
+import com.membercontext.common.stub.MemberJPARepositoryStub;
 import com.membercontext.memberAPI.application.service.MemberWriteSerivces.Impl.MemberWriteApplication;
 import com.membercontext.memberAPI.domain.entity.member.Member;
 import com.membercontext.memberAPI.domain.entity.member.MemberService;
+import com.membercontext.memberAPI.domain.repository.MemberRepository;
+import com.membercontext.memberAPI.domain.repository.PasswordEncoder;
+import com.membercontext.memberAPI.infrastructure.encryption.bcrypt.BycryptEncoder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;

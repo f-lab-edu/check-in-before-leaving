@@ -29,7 +29,7 @@ class LineUpJPARepositoryTest {
     void save() {
         // Given
         LineUp lineUp = LineUp.createForTest();
-        LineUpEntity lineUpEntity = LineUpEntity.toDB(lineUp);
+        LineUpEntity lineUpEntity = LineUpEntity.transferFrom(lineUp);
         when(lineUpSpringJPARepository.save(any(LineUpEntity.class))).thenReturn(lineUpEntity);
 
         // When

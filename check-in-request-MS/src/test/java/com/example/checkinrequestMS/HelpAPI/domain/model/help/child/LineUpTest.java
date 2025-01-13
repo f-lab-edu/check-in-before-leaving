@@ -29,12 +29,12 @@ class LineUpTest {
     }
 
     @Test
-    void toDomain_Entity() {
+    void transferFrom_Entity() {
         //given
         LineUpEntity entity = LineUpEntity.createForTest();
 
         //when
-        LineUp sut = LineUp.toDomain(entity);
+        LineUp sut = LineUp.transferFrom(entity);
 
         //then
         assertEquals(entity.getId(), sut.getId());

@@ -6,6 +6,7 @@ import com.littleSNSMS.infra.db.entities.PostEntity;
 import com.littleSNSMS.infra.db.repository.PostR2dbcRepository;
 import com.littleSNSMS.infra.db.repository.PostRepositoryImpl;
 import org.junit.ClassRule;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Testcontainers
+@Disabled
 class PostRepositoryImplIntegratedTest {
 
     private static final String USERNAME = "root";

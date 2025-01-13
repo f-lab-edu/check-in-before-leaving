@@ -21,21 +21,21 @@ spring:
     redis:
       host: localhost
       port: 6379
-  kafka:
-    topic: alarm-event
-    template:
-      default-topic: alarm-events
-    producer:
-      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
-      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      properties:
-        acks: all
-        retries: 10
-        retry.backoff.ms: 1000
-    admin:
-      properties:
-        bootstrap.servers: localhost:9092,localhost:9093,localhost:9094
+#  kafka:
+#    topic: alarm-event
+#    template:
+#      default-topic: alarm-events
+#    producer:
+#      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+#      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      properties:
+#        acks: all
+#        retries: 10
+#        retry.backoff.ms: 1000
+#    admin:
+#      properties:
+#        bootstrap.servers: localhost:9092,localhost:9093,localhost:9094
 
 server:
   port: 8081

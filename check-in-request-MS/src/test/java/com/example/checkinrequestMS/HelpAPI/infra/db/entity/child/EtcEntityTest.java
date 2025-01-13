@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class EtcEntityTest {
 
     @Test
-    void toDB() {
+    void transferFrom() {
 
         Etc etc = Etc.createForTest();
 
         //when
-        EtcEntity sut = EtcEntity.toDB(etc);
+        EtcEntity sut = EtcEntity.transferFrom(etc);
 
         //then
         assertEquals(etc.getId(), sut.getId());

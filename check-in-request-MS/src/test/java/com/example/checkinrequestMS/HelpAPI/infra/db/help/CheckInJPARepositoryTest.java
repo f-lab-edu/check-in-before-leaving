@@ -29,7 +29,7 @@ class CheckInJPARepositoryTest {
     void save() {
         // Given
         CheckIn checkIn = CheckIn.createForTest();
-        CheckInEntity checkInEntity = CheckInEntity.toDB(checkIn);
+        CheckInEntity checkInEntity = CheckInEntity.transferFrom(checkIn);
         when(checkInSpringJPARepository.save(any(CheckInEntity.class))).thenReturn(checkInEntity);
 
         // When

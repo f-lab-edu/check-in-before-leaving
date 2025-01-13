@@ -26,8 +26,8 @@ public class CheckInEntity {
     @Builder(access = AccessLevel.PROTECTED)
     protected CheckInEntity(@NonNull Long id, @NonNull CheckIn checkIn) {
         this.id = id;
-        this.helpEntity = HelpDetailEntity.transferFrom(checkIn.getHelpDetail());
-        this.progressEntity = ProgressEntity.transferFrom(checkIn.getProgress());
+        this.helpEntity = HelpDetailEntity.transferFrom(checkIn.getHelpEntityToPersist());
+        this.progressEntity = ProgressEntity.transferFrom(checkIn.getProgressEntityToPersist());
     }
 
     protected CheckInEntity(CheckIn checkIn, Boolean isRegister) {

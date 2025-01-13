@@ -4,6 +4,10 @@ import com.membercontext.memberAPI.domain.exceptions.member.MemberException;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import static com.membercontext.memberAPI.domain.exceptions.member.MemberErrorCode.LOCATION_SERVICE_NOT_PERMITTED;
 
 @Entity
@@ -56,6 +60,7 @@ public class Member {
                 .locationServiceEnabled(req.getIsLocationServiceEnabled())
                 .point(req.getPoint())
                 .build();
+
     }
 
     // Update

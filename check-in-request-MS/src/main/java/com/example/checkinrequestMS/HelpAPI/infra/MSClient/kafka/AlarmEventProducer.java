@@ -1,7 +1,6 @@
-package com.example.checkinrequestMS.HelpAPI.infra.MSClient;
+package com.example.checkinrequestMS.HelpAPI.infra.MSClient.kafka;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.alarm.HelpAlarmEvent;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +26,10 @@ public class AlarmEventProducer {
     @Value("${spring.kafka.topic}")
     public String topic;
 
-    public CompletableFuture<SendResult<Long, String>> sendLibraryEvent(HelpAlarmEvent libraryEvent) {
+    public CompletableFuture<SendResult<Long, String>> sendAlarmEvent(HelpAlarmEvent helpAlarmEvent) {
         try {
-            Long key = libraryEvent.helpRegisterId();
-            String value = objectMapper.writeValueAsString(libraryEvent);
+            Long key = helpAlarmEvent.helpRegisterId();
+            String value = objectMapper.writeValueAsString(helpAlarmEvent);
 
             ProducerRecord<Long, String> producerRecord = buildProducerRecord(key, value, topic);
             var completableFuture = kafkaTemplate.send(producerRecord);

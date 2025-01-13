@@ -24,7 +24,8 @@ import static com.example.checkinrequestMS.PlaceAPI.infra.redis.RedisGeo.GEO_KEY
 @Slf4j
 public class PlaceSearchService {
 
-    // 3차 계획으로 구현.(KakaoStoreInfoClient에 상세 내역 위치)
+    //todo: redis가 아닌 인조식별자 이용한 DB로 구현
+    //todo: 캐싱의 적절한 사용과 NoSQL vs. RDB 비교 블로그.
     private final PlaceRedisRepository placeRedisRepository;
     private final PlaceJPARepository placeJPARepository;
     private final KakaoStoreInfoClient kakaoStoreInfoClient;

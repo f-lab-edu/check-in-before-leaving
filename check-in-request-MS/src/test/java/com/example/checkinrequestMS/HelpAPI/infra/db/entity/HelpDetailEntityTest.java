@@ -8,13 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class HelpDetailEntityTest {
 
     @Test
-    void toDB() {
+    void transferFrom() {
 
         //given
         HelpDetail helpDetail = HelpDetail.createForTest();
 
         //when
-        HelpDetailEntity sut = HelpDetailEntity.toDB(helpDetail);
+        HelpDetailEntity sut = HelpDetailEntity.transferFrom(helpDetail);
 
         //then
         assertEquals(helpDetail.getHelpRegisterId(), sut.getHelpRegisterId());

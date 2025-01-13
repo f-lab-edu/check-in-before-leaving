@@ -37,5 +37,5 @@ public interface Variables {
 
     public static double PLACE_DB_X = 1.0;
     public static double PLACE_DB_Y = 1.0;
-
+    
 }

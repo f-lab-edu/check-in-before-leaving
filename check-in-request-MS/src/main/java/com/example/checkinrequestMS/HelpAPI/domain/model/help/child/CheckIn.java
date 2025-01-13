@@ -59,6 +59,13 @@ public final class CheckIn {
                 .build();
     }
 
+    public HelpDetail getHelpEntityToPersist() {
+        return this.helpDetail;
+    }
+
+    public Progress getProgressEntityToPersist() {
+        return this.progress;
+    }
 
     //for Test
     public static CheckIn createForTest() {
