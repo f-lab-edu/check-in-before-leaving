@@ -40,8 +40,7 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
   
 <br><br>
 ### 서버 설계도
-
-![서버 (1)](https://github.com/user-attachments/assets/150ceecb-6f60-450a-a11a-76db23a6af4c)
+![서버](https://github.com/user-attachments/assets/516080f4-0b06-4a3d-a87a-ce307b7f5044)
 
 <br><br>
 ### ERD
