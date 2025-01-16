@@ -1,7 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,12 +25,12 @@ public class ProgressEntity {
     @Getter
     private boolean completed;
 
-    public static ProgressEntity transferFrom(Progress progress) {
+    public static ProgressEntity from(Progress.DTO dto) {
         return ProgressEntity.builder()
-                .status(progress.getStatus())
-                .helperId(progress.getHelperId().orElse(null))
-                .photoPath(progress.getPhotoPath().orElse(null))
-                .completed(progress.isCompleted())
+                .status(dto.getStatus())
+                .helperId(dto.getHelperId().orElse(null))
+                .photoPath(dto.getPhotoPath().orElse(null))
+                .completed(dto.isCompleted())
                 .build();
     }
 

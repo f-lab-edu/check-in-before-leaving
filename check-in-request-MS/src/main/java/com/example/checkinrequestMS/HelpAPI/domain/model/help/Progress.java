@@ -2,7 +2,6 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
 import lombok.*;
 
 import java.util.Optional;
@@ -37,14 +36,23 @@ public final class Progress {
         return new Progress(Progress.ProgressStatus.ONGOING, Optional.of(helperId), this.photoPath, this.completed);
     }
 
-
-    public static Progress toDomain(ProgressEntity progress) {
+    public static Progress from(DTO progress) {
         return new Progress(progress.getStatus(), progress.getHelperId(), progress.getPhotoPath(), progress.isCompleted());
     }
 
     //For Test
     public static Progress createForTest() {
         return Progress.DEFAULT;
+    }
+
+    public interface DTO {
+        ProgressStatus getStatus();
+
+        Optional<Long> getHelperId();
+
+        Optional<String> getPhotoPath();
+
+        boolean isCompleted();
     }
 
     @Getter
