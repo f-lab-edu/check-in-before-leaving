@@ -1,6 +1,5 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.HelpDetailEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -47,7 +46,7 @@ public final class HelpDetail {
                 .build();
     }
 
-    public static HelpDetail toDomain(HelpDetailEntity entity) {
+    public static HelpDetail from(DTO entity) {
         return HelpDetail.builder()
                 .helpRegisterId(entity.getHelpRegisterId())
                 .title(entity.getTitle())
@@ -68,6 +67,20 @@ public final class HelpDetail {
                 .placeId("placeId")
                 .reward(100L)
                 .build();
+    }
+
+    public interface DTO {
+        Long getHelpRegisterId();
+
+        String getTitle();
+
+        LocalDateTime getStart();
+
+        LocalDateTime getEnd();
+
+        String getPlaceId();
+
+        Long getReward();
     }
 
     public interface Registration {

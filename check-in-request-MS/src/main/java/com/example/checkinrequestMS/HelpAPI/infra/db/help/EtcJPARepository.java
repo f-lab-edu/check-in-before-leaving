@@ -21,8 +21,9 @@ public class EtcJPARepository implements EtcRepository {
 
     @Override
     public Etc findById(Long id) {
-        return Etc.transferFrom(etcSpringJPARepository.findById(id)
-                .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO)));
+        EtcEntity entity = etcSpringJPARepository.findById(id)
+                .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO));
+        return entity.returnDomainEntity();
     }
 
     @Override

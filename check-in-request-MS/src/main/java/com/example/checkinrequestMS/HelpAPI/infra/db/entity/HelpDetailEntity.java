@@ -1,7 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,14 +31,18 @@ public class HelpDetailEntity {
         this.reward = reward;
     }
 
-    public static HelpDetailEntity transferFrom(HelpDetail helpDetail) {
+    public static HelpDetailEntity from(HelpDetail.DTO dto) {
         return HelpDetailEntity.builder()
-                .helpRegisterId(helpDetail.getHelpRegisterId())
-                .title(helpDetail.getTitle())
-                .start(helpDetail.getStart())
-                .end(helpDetail.getEnd())
-                .placeId(helpDetail.getPlaceId())
-                .reward(helpDetail.getReward())
+                .helpRegisterId(dto.getHelpRegisterId())
+                .title(dto.getTitle())
+                .start(dto.getStart())
+                .end(dto.getEnd())
+                .placeId(dto.getPlaceId())
+                .reward(dto.getReward())
                 .build();
     }
+    // 1. 인터페이스로 해결하면 DTO가 인프라에 의존하게 된다
+    // 2. 내부 클래스로 해결
+    // 3. 각 메서드 만들기.
+
 }

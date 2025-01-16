@@ -2,7 +2,6 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -28,14 +27,14 @@ public class CheckInService {
         return checkInRepository.save(checkIn);
     }
 
-    public CheckInSelected findCheckIn(Long id) {
-        return CheckInSelected.createResponse(checkInRepository.findById(id));
+    public CheckIn.DTO findCheckIn(Long id) {
+        return CheckIn.DTO.getDTO(checkInRepository.findById(id));
     }
 
-    public CheckInSelected update(Update dto) {
+    public CheckIn.DTO update(Update dto) {
         CheckIn checkIn = checkInRepository.findById(dto.getHelpId());
         checkIn.update(dto);
-        return CheckInSelected.createResponse(checkInRepository.update(checkIn));
+        return CheckIn.DTO.getDTO(checkInRepository.update(checkIn));
     }
 
     public Long startCheckIn(@NonNull CheckInStarted dto) {
@@ -202,35 +201,6 @@ public class CheckInService {
             return CheckInStarted.builder()
                     .checkInId(1L)
                     .helperId(1L)
-                    .build();
-        }
-    }
-
-    // DTO - Response
-    @Getter
-    @NoArgsConstructor(force = true)
-    public static final class CheckInSelected {
-
-        private final Long checkInId;
-
-        private final HelpDetail.HelpDetailSelected helpDetail;
-
-        private final Progress.ProgressSelected progress;
-
-        @Builder(access = AccessLevel.PRIVATE)
-        public CheckInSelected(@NonNull Long checkInId,
-                               @NonNull HelpDetail.HelpDetailSelected helpDetail,
-                               @NonNull Progress.ProgressSelected progress) {
-            this.checkInId = checkInId;
-            this.helpDetail = helpDetail;
-            this.progress = progress;
-        }
-
-        public static CheckInSelected createResponse(CheckIn checkIn) {
-            return CheckInSelected.builder()
-                    .checkInId(checkIn.getId())
-                    .helpDetail(HelpDetail.HelpDetailSelected.createResponse(checkIn.getHelpDetail()))
-                    .progress(Progress.ProgressSelected.createResponse(checkIn.getProgress()))
                     .build();
         }
     }

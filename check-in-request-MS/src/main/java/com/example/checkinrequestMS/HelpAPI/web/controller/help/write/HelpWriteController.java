@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.help.write;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteApplication;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
@@ -40,8 +41,8 @@ public class HelpWriteController {
     }
 
     @PutMapping(URIRULE.CHECK_INS + "/{id}")
-    public ResponseEntity<DefaultHTTPResponse<CheckInService.CheckInSelected>> updateCheckIn(@PathVariable Long id, @Validated @RequestBody CheckInService.Update request) {
-        return ResponseEntity.ok(new DefaultHTTPResponse<CheckInService.CheckInSelected>(CHECK_IN_UPDATE_SUCCESS, checkInWriteApplication.updateCheckIn(request)));
+    public ResponseEntity<DefaultHTTPResponse<CheckIn.DTO>> updateCheckIn(@PathVariable Long id, @Validated @RequestBody CheckInService.Update request) {
+        return ResponseEntity.ok(new DefaultHTTPResponse<CheckIn.DTO>(CHECK_IN_UPDATE_SUCCESS, checkInWriteApplication.updateCheckIn(request)));
     }
 
     @PostMapping(URIRULE.LINE_UPS)

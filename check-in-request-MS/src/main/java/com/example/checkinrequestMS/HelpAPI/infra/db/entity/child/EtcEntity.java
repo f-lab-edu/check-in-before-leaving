@@ -27,16 +27,18 @@ public class EtcEntity {
 
     @Builder(access = AccessLevel.PROTECTED)
     protected EtcEntity(@NonNull Long id, @NonNull Etc etc) {
+        Etc.DTO dto = Etc.DTO.getDTO(etc);
         this.id = id;
         this.contents = etc.getContents();
-        this.helpEntity = HelpDetailEntity.transferFrom(etc.getHelpDetail());
-        this.progressEntity = ProgressEntity.transferFrom(etc.getProgress());
+        this.helpEntity = HelpDetailEntity.from(dto);
+        this.progressEntity = ProgressEntity.from(dto);
     }
 
     protected EtcEntity(Etc etc, boolean isRegister) {
+        Etc.DTO dto = Etc.DTO.getDTO(etc);
         this.contents = etc.getContents();
-        this.helpEntity = HelpDetailEntity.transferFrom(etc.getHelpDetail());
-        this.progressEntity = ProgressEntity.transferFrom(etc.getProgress());
+        this.helpEntity = HelpDetailEntity.from(dto);
+        this.progressEntity = ProgressEntity.from(dto);
     }
 
     //Business
@@ -46,11 +48,27 @@ public class EtcEntity {
 
     public Etc update(Etc etc) {
         this.contents = etc.getContents();
-        this.helpEntity = HelpDetailEntity.transferFrom(etc.getHelpDetail());
-        return Etc.transferFrom(this);
+        this.helpEntity = HelpDetailEntity.from(Etc.DTO.getDTO(etc));
+        return returnDomainEntity();
     }
 
-    public static EtcEntity transferFrom(Etc etc) {
+    public Etc returnDomainEntity() {
+        Etc.DTO dto = Etc.DTO.builder()
+                .id(this.getId())
+                .helpRegisterId(this.getHelpEntity().getHelpRegisterId())
+                .title(this.getHelpEntity().getTitle())
+                .start(this.getHelpEntity().getStart())
+                .end(this.getHelpEntity().getEnd())
+                .placeId(this.getHelpEntity().getPlaceId())
+                .reward(this.getHelpEntity().getReward())
+                .helperId(this.getProgressEntity().getHelperId())
+                .photoPath(this.getProgressEntity().getPhotoPath())
+                .contents(this.getContents())
+                .build();
+        return Etc.from(dto);
+    }
+
+    public static EtcEntity from(Etc etc) {
         return EtcEntity.builder()
                 .id(etc.getId())
                 .etc(etc)

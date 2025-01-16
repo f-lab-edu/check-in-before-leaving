@@ -1,5 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.common.aop.testTime.TestTime;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class CheckInWriteApplication {
 
     @Transactional
     @CachePut(cacheNames = "help_searched", key = "'checkIn_' + #result")
-    public CheckInService.CheckInSelected updateCheckIn(CheckInService.Update dto) {
+    public CheckIn.DTO updateCheckIn(CheckInService.Update dto) {
         return checkInService.update(dto);
     }
 

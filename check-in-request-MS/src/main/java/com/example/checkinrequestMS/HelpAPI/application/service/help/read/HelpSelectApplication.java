@@ -1,8 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.read;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -15,18 +13,18 @@ public class HelpSelectApplication {
     private final LineUpService lineUpService;
     private final EtcService etcService;
 
-    @Cacheable(cacheNames = "help_searched", key = "'checkIn_' + #id")
-    public CheckInService.CheckInSelected selectCheckIn(Long id) {
+    //@Cacheable(cacheNames = "help_searched", key = "'checkIn_' + #id")
+    public CheckIn.DTO selectCheckIn(Long id) {
         return checkInService.findCheckIn(id);
     }
 
     @Cacheable(cacheNames = "help_searched", key = "'lineUp_' + #id")
-    public LineUpService.LineUpSelected selectLineUp(Long id) {
+    public LineUp.DTO selectLineUp(Long id) {
         return lineUpService.findLineUp(id);
     }
 
     @Cacheable(cacheNames = "help_searched", key = "'etc_' + #id")
-    public EtcService.EtcSelected selectEtc(Long id) {
+    public Etc.DTO selectEtc(Long id) {
         return etcService.findEtc(id);
     }
 }

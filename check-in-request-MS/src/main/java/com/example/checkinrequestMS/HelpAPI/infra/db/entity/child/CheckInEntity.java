@@ -25,14 +25,16 @@ public class CheckInEntity {
 
     @Builder(access = AccessLevel.PROTECTED)
     protected CheckInEntity(@NonNull Long id, @NonNull CheckIn checkIn) {
+        CheckIn.DTO dto = CheckIn.DTO.getDTO(checkIn);
         this.id = id;
-        this.helpEntity = HelpDetailEntity.transferFrom(checkIn.getHelpEntityToPersist());
-        this.progressEntity = ProgressEntity.transferFrom(checkIn.getProgressEntityToPersist());
+        this.helpEntity = HelpDetailEntity.from(dto);
+        this.progressEntity = ProgressEntity.from(dto);
     }
 
     protected CheckInEntity(CheckIn checkIn, Boolean isRegister) {
-        this.helpEntity = HelpDetailEntity.transferFrom(checkIn.getHelpDetail());
-        this.progressEntity = ProgressEntity.transferFrom(checkIn.getProgress());
+        CheckIn.DTO dto = CheckIn.DTO.getDTO(checkIn);
+        this.helpEntity = HelpDetailEntity.from(dto);
+        this.progressEntity = ProgressEntity.from(dto);
     }
 
     public static CheckInEntity register(CheckIn checkIn) {
@@ -40,11 +42,27 @@ public class CheckInEntity {
     }
 
     public CheckIn update(CheckIn checkIn) {
-        this.helpEntity = HelpDetailEntity.transferFrom(checkIn.getHelpDetail());
-        return CheckIn.transferFrom(this);
+        this.helpEntity = HelpDetailEntity.from(CheckIn.DTO.getDTO(checkIn));
+        return returnDomainEntity();
     }
 
-    public static CheckInEntity transferFrom(CheckIn checkIn) {
+    public CheckIn returnDomainEntity() {
+        CheckIn.DTO dto = CheckIn.DTO.builder()
+                .id(this.getId())
+                .helpRegisterId(this.getHelpEntity().getHelpRegisterId())
+                .title(this.getHelpEntity().getTitle())
+                .start(this.getHelpEntity().getStart())
+                .end(this.getHelpEntity().getEnd())
+                .placeId(this.getHelpEntity().getPlaceId())
+                .reward(this.getHelpEntity().getReward())
+                .helperId(this.getProgressEntity().getHelperId())
+                .photoPath(this.getProgressEntity().getPhotoPath())
+                .completed(this.getProgressEntity().isCompleted())
+                .build();
+        return CheckIn.from(dto);
+    }
+
+    public static CheckInEntity from(CheckIn checkIn) {
         return CheckInEntity.builder()
                 .id(checkIn.getId())
                 .checkIn(checkIn)

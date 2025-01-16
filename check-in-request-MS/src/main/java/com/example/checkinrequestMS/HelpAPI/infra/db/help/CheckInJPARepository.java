@@ -1,9 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.help;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInRepository;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInRepository;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,8 +21,9 @@ public class CheckInJPARepository implements CheckInRepository {
 
     @Override
     public CheckIn findById(Long id) {
-        return CheckIn.transferFrom(checkInSpringJPARepository.findById(id)
-                .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO)));
+        CheckInEntity checkInEntity = checkInSpringJPARepository.findById(id)
+                .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO));
+        return checkInEntity.returnDomainEntity();
     }
 
     @Override
