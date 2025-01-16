@@ -2,7 +2,6 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -27,14 +26,14 @@ public class EtcService {
         return etcRepository.save(etc);
     }
 
-    public EtcSelected findEtc(Long id) {
-        return EtcSelected.createResponse(etcRepository.findById(id));
+    public Etc.DTO findEtc(Long id) {
+        return Etc.DTO.getDTO(etcRepository.findById(id));
     }
 
-    public EtcSelected updateEtc(Update dto) {
+    public Etc.DTO updateEtc(Update dto) {
         Etc etc = etcRepository.findById(dto.getHelpId());
-        etc.update(dto);
-        return EtcSelected.createResponse(etcRepository.update(etc));
+        etc.update(dto); //fixme: ??
+        return Etc.DTO.getDTO(etcRepository.update(etc));
     }
 
     public Long startEtc(@NonNull EtcStarted dto) {
@@ -201,38 +200,6 @@ public class EtcService {
                     .start(LocalDateTime.now())
                     .option(10)
                     .reward(100L)
-                    .build();
-        }
-    }
-
-    @Getter
-    @NoArgsConstructor(force = true)
-    public static final class EtcSelected {
-
-        private final Long etcId;
-
-        private final String contents;
-
-        private final HelpDetail.HelpDetailSelected helpDetail;
-
-        private final Progress.ProgressSelected progress;
-
-        @Builder(access = AccessLevel.PRIVATE)
-        public EtcSelected(@NonNull Long etcId, @NonNull String contents,
-                           @NonNull HelpDetail.HelpDetailSelected helpDetail,
-                           @NonNull Progress.ProgressSelected progress) {
-            this.etcId = etcId;
-            this.contents = contents;
-            this.helpDetail = helpDetail;
-            this.progress = progress;
-        }
-
-        public static EtcService.EtcSelected createResponse(Etc etc) {
-            return EtcSelected.builder()
-                    .etcId(etc.getId())
-                    .contents(etc.getContents())
-                    .helpDetail(HelpDetail.HelpDetailSelected.createResponse(etc.getHelpDetail()))
-                    .progress(Progress.ProgressSelected.createResponse(etc.getProgress()))
                     .build();
         }
     }
