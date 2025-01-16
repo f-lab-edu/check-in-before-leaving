@@ -1,9 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.web.controller.help.read;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.read.HelpSelectApplication;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.*;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.URIRULE;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +18,17 @@ public class HelpSelectController {
     private final HelpSelectApplication helpSelectApplication;
 
     @GetMapping(URIRULE.CHECK_INS + "{id}")
-    public ResponseEntity<CheckInService.CheckInSelected> selectCheckIn(@PathVariable Long id) {
+    public ResponseEntity<CheckIn.DTO> selectCheckIn(@PathVariable Long id) {
         return ResponseEntity.ok(helpSelectApplication.selectCheckIn(id));
     }
 
     @GetMapping(URIRULE.LINE_UPS + "{id}")
-    public ResponseEntity<LineUpService.LineUpSelected> selectLineUp(@PathVariable Long id) {
+    public ResponseEntity<LineUp.DTO> selectLineUp(@PathVariable Long id) {
         return ResponseEntity.ok(helpSelectApplication.selectLineUp(id));
     }
 
     @GetMapping(URIRULE.ETCS + "{id}")
-    public ResponseEntity<EtcService.EtcSelected> selectEtc(@PathVariable Long id) {
+    public ResponseEntity<Etc.DTO> selectEtc(@PathVariable Long id) {
         return ResponseEntity.ok(helpSelectApplication.selectEtc(id));
     }
 }
