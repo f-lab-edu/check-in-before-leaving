@@ -25,14 +25,16 @@ public class LineUpEntity {
 
     @Builder(access = AccessLevel.PROTECTED)
     protected LineUpEntity(@NonNull Long id, @NonNull LineUp lineUp) {
+        LineUp.DTO dto = LineUp.DTO.getDTO(lineUp);
         this.id = id;
-        this.helpEntity = HelpDetailEntity.transferFrom(lineUp.getHelpDetail());
-        this.progressEntity = ProgressEntity.transferFrom(lineUp.getProgress());
+        this.helpEntity = HelpDetailEntity.from(dto);
+        this.progressEntity = ProgressEntity.from(dto);
     }
 
     protected LineUpEntity(LineUp lineUp, Boolean isRegister) {
-        this.helpEntity = HelpDetailEntity.transferFrom(lineUp.getHelpDetail());
-        this.progressEntity = ProgressEntity.transferFrom(lineUp.getProgress());
+        LineUp.DTO dto = LineUp.DTO.getDTO(lineUp);
+        this.helpEntity = HelpDetailEntity.from(dto);
+        this.progressEntity = ProgressEntity.from(dto);
     }
 
     //Business
@@ -41,11 +43,27 @@ public class LineUpEntity {
     }
 
     public LineUp update(LineUp lineUp) {
-        this.helpEntity = HelpDetailEntity.transferFrom(lineUp.getHelpDetail());
-        return LineUp.transferFrom(this);
+        this.helpEntity = HelpDetailEntity.from(LineUp.DTO.getDTO(lineUp));
+        return returnDomainEntity();
     }
 
-    public static LineUpEntity transferFrom(LineUp lineUp) {
+    public LineUp returnDomainEntity() {
+        LineUp.DTO dto = LineUp.DTO.builder()
+                .id(this.getId())
+                .helpRegisterId(this.getHelpEntity().getHelpRegisterId())
+                .title(this.getHelpEntity().getTitle())
+                .start(this.getHelpEntity().getStart())
+                .end(this.getHelpEntity().getEnd())
+                .placeId(this.getHelpEntity().getPlaceId())
+                .reward(this.getHelpEntity().getReward())
+                .helperId(this.getProgressEntity().getHelperId())
+                .photoPath(this.getProgressEntity().getPhotoPath())
+                .completed(this.getProgressEntity().isCompleted())
+                .build();
+        return LineUp.from(dto);
+    }
+
+    public static LineUpEntity from(LineUp lineUp) {
         return LineUpEntity.builder()
                 .id(lineUp.getId())
                 .lineUp(lineUp)
