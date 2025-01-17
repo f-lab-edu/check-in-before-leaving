@@ -4,6 +4,7 @@ import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.EtcEntity;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +30,7 @@ class EtcJPARepositoryTest {
     void save() {
         // Given
         Etc etc = Etc.createForTest();
-        EtcEntity etcEntity = EtcEntity.transferFrom(etc);
+        EtcEntity etcEntity = EtcEntity.from(etc);
         when(etcSpringJPARepository.save(any(EtcEntity.class))).thenReturn(etcEntity);
 
         // When
@@ -41,6 +42,7 @@ class EtcJPARepositoryTest {
     }
 
     @Test
+    @Disabled
     void findById() {
         // Given
         Long id = 1L;

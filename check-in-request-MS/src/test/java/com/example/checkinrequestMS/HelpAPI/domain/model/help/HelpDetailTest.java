@@ -10,15 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class HelpDetailTest {
 
     @Test
-    void test() {
+    void register() {
 
         //given
         CheckInService.Registration dto = CheckInService.Registration.createForTest();
-        System.out.println(dto.getTitle());
-        //when
-//        HelpDetail sut = HelpDetail.registerCheckIn(dto);
-        HelpDetail sut = HelpDetail.register(dto);
 
+        //when
+        HelpDetail sut = HelpDetail.register(dto);
 
         //then
         assertEquals(dto.getHelpRegisterId(), sut.getHelpRegisterId());

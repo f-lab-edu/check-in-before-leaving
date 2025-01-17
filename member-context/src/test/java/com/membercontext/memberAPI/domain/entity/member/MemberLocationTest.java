@@ -83,7 +83,6 @@ class MemberLocationTest {
 
     @Nested
     @DisplayName("FCM 토큰 추가")
-    @SpringBootTest
     class addFcmToken {
         @Test
         @DisplayName("FCM 토큰 추가 - 성공")
