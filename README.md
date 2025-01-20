@@ -4,7 +4,7 @@
   - 줄서기 요청을 통해 대리 줄서기를 요청할 수 있습니다. 
   - 기타 요청을 통해 당근 알바의 단기 알바처럼 "픽업"이나 "배달"등 건당으로 커스텀한 요청을 할 수 있습니다. 
 ### 사용 기술 및 환경
-Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux(학습용)
+Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 
 ### 주요 관심사
 
@@ -40,7 +40,7 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
   
 <br><br>
 ### 서버 설계도
-![서버](https://github.com/user-attachments/assets/516080f4-0b06-4a3d-a87a-ce307b7f5044)
+![서버](https://github.com/user-attachments/assets/837eef39-a7f8-4e51-a091-7ee49c91bf2b)
 
 <br><br>
 ### ERD
