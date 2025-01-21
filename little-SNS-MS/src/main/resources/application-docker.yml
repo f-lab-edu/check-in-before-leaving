@@ -1,0 +1,11 @@
+spring:
+  config:
+    activate:
+      on-profile: docker
+  r2dbc:
+    url: r2dbc:mysql://db:3306/sns
+    username: root
+    password: 1234
+  sql:
+    init:
+      mode: always

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 @Slf4j
 public class AlarmEventProducer {
@@ -23,7 +23,7 @@ public class AlarmEventProducer {
     private final KafkaTemplate<Long, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${spring.kafka.topic}")
+    // @Value("${spring.kafka.topic}")
     public String topic;
 
     public CompletableFuture<SendResult<Long, String>> sendAlarmEvent(HelpAlarmEvent helpAlarmEvent) {
