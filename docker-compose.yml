@@ -12,13 +12,20 @@ services:
       - ./init:/docker-entrypoint-initdb.d
     networks:
       - monitoring
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - monitoring
   member-context:
     container_name: member-context
     build:
       context: ./member-context
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8085:8085"
     restart: on-failure
     depends_on:
       db:
@@ -48,6 +55,29 @@ services:
     restart: on-failure
     depends_on:
       - db
+      - redis
+    networks:
+      - monitoring
+  little-sns-ms:
+    container_name: little-sns-ms
+    build:
+      context: ./little-SNS-ms
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    restart: on-failure
+    depends_on:
+      - db
+    networks:
+      - monitoring
+  front-server:
+    container_name: front-server
+    build:
+      context: ./front-server
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"
+    restart: on-failure
     networks:
       - monitoring
   prometheus:
@@ -78,29 +108,17 @@ services:
       - "9100:9100"
     networks:
       - monitoring
-  mysql_exporter:
-    image: prom/mysqld-exporter:latest
-    container_name: mysql_exporter
-    restart: on-failure
-    environment:
-      - DATA_SOURCE_NAME=root:1234@tcp(db:3306)/
-    command:
-      - '--config.my-cnf=/cfg/.my.cnf'
-      - '--mysqld.address=db:3306'  # mysql은 MySQL 서비스의 이름입니다
-    volumes:
-      - "./.my.cnf:/cfg/.my.cnf"
-    ports:
-      - "9104:9104"
-    networks:
-      - monitoring
-    depends_on:
-      - db
 #  mysql_exporter:
 #    image: prom/mysqld-exporter:latest
 #    container_name: mysql_exporter
 #    restart: on-failure
 #    environment:
 #      - DATA_SOURCE_NAME=root:1234@tcp(db:3306)/
+#    command:
+#      - '--config.my-cnf=/cfg/.my.cnf'
+#      - '--mysqld.address=db:3306'  # mysql은 MySQL 서비스의 이름입니다
+#    volumes:
+#      - "./.my.cnf:/cfg/.my.cnf"
 #    ports:
 #      - "9104:9104"
 #    networks:

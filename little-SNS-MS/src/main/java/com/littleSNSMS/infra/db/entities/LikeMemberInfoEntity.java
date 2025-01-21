@@ -4,6 +4,7 @@ package com.littleSNSMS.infra.db.entities;
 import com.littleSNSMS.domain.LikeMemberInfo;
 import com.littleSNSMS.infra.db.exceptions.PostEntityException;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("like_member_info")
@@ -11,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class LikeMemberInfoEntity {
+    @Id
     private Long postId;
     private String memberId;
     private String memberEmail;

@@ -18,11 +18,11 @@ import static io.r2dbc.spi.ConnectionFactoryOptions.*;
 
 @EnableR2dbcAuditing
 @Configuration
-@Profile("!docker")
-public class R2dbcConfig {
+@Profile("docker")
+public class R2dbcConfigDocker {
 
     private static final String DB_DRIVER = "mysql";
-    private static final String DB_HOST = "localhost";
+    private static final String DB_HOST = "db";
     private static final int DB_PORT = 3306;
     private static final String INITIAL_DB_SCHEMA = "db/schema.sql";
     private static final String DROP_DB_SCHEMA = "db/schema-drop.sql";
