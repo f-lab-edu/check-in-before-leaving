@@ -63,17 +63,17 @@ class HelpSelectApplicationTest {
 
         // Then
 //        assertNotNull(result);
-//        assertEquals(response.getLineUpId(), result.getLineUpId());
-//        assertEquals(response.getHelpRegisterId(), result.getHelpRegisterId());
-//        assertEquals(response.getTitle(), result.getTitle());
-//        assertEquals(response.getPlaceId(), result.getPlaceId());
-//        assertEquals(response.getStart(), result.getStart());
-//        assertEquals(response.getEnd(), result.getEnd());
-//        assertEquals(response.getReward(), result.getReward());
-//        assertEquals(response.getStatus(), result.getStatus());
-//        assertEquals(response.getHelperId(), result.getHelperId());
-//        assertEquals(response.getPhotoPath(), result.getPhotoPath());
-//        assertEquals(response.getCompleted(), result.getCompleted());
+        assertEquals(response.getId(), result.getId());
+        assertEquals(response.getHelpRegisterId(), result.getHelpRegisterId());
+        assertEquals(response.getTitle(), result.getTitle());
+        assertEquals(response.getPlaceId(), result.getPlaceId());
+        assertEquals(response.getStart(), result.getStart());
+        assertEquals(response.getEnd(), result.getEnd());
+        assertEquals(response.getReward(), result.getReward());
+        assertEquals(response.getStatus(), result.getStatus());
+        assertEquals(response.getHelperId(), result.getHelperId());
+        assertEquals(response.getPhotoPath(), result.getPhotoPath());
+        assertEquals(response.isCompleted(), result.isCompleted());
     }
 
     @Test

@@ -46,7 +46,7 @@ public final class Progress {
     }
 
     public interface DTO {
-        ProgressStatus getStatus();
+        Progress.ProgressStatus getStatus();
 
         Optional<Long> getHelperId();
 

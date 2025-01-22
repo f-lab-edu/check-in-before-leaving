@@ -16,14 +16,7 @@ class EtcEntityTest {
         EtcEntity sut = EtcEntity.from(etc);
 
         //then
-//        assertEquals(etc.getId(), sut.getId());
-//        assertEquals(etc.getHelpDetail().getHelpRegisterId(), sut.getHelpEntity().getHelpRegisterId());
-//        assertEquals(etc.getHelpDetail().getTitle(), sut.getHelpEntity().getTitle());
-//        assertEquals(etc.getHelpDetail().getStart(), sut.getHelpEntity().getStart());
-//        assertEquals(etc.getHelpDetail().getEnd(), sut.getHelpEntity().getEnd());
-//        assertEquals(etc.getHelpDetail().getPlaceId(), sut.getHelpEntity().getPlaceId());
-//        assertEquals(etc.getHelpDetail().getReward(), sut.getHelpEntity().getReward());
-//        assertEquals(etc.getProgress().getHelperId(), sut.getProgressEntity().getHelperId());
-//        assertEquals(etc.getProgress().getPhotoPath(), sut.getProgressEntity().getPhotoPath());
+        assertEquals(etc.getId(), sut.getId());
+        assertEquals(etc.getContents(), sut.getContents());
     }
 }

@@ -45,15 +45,7 @@ class CheckInServiceTest {
         CheckIn.DTO result = checkInService.findCheckIn(1L);
 
         //then
-//        assertEquals(checkIn.getId(), result.getCheckInId());
-//        assertEquals(checkIn.getHelpDetail().getHelpRegisterId(), result.getHelpDetail().getHelpRegisterId());
-//        assertEquals(checkIn.getHelpDetail().getTitle(), result.getHelpDetail().getTitle());
-//        assertEquals(checkIn.getHelpDetail().getStart(), result.getHelpDetail().getStart());
-//        assertEquals(checkIn.getHelpDetail().getEnd(), result.getHelpDetail().getEnd());
-//        assertEquals(checkIn.getHelpDetail().getPlaceId(), result.getHelpDetail().getPlaceId());
-//        assertEquals(checkIn.getHelpDetail().getReward(), result.getHelpDetail().getReward());
-//        assertEquals(checkIn.getProgress().getHelperId().orElse(null), result.getProgress().getHelperId());
-//        assertEquals(checkIn.getProgress().getPhotoPath().orElse(null), result.getProgress().getPhotoPath());
+        assertEquals(checkIn.getId(), result.getId());
     }
 
     @Test
@@ -69,5 +61,6 @@ class CheckInServiceTest {
 
         //then
         assertEquals(1L, id);
+        //fixme: 변경의 책임은 각 VO에 있게 됨.
     }
 }

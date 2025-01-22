@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,17 +12,18 @@ class HelpDetailEntityTest {
     void from() {
 
         //given
-//        HelpDetail helpDetail = HelpDetail.createForTest();
-//
-//        //when
-//        HelpDetailEntity sut = HelpDetailEntity.from(helpDetail);
-//
-//        //then
-//        assertEquals(helpDetail.getHelpRegisterId(), sut.getHelpRegisterId());
-//        assertEquals(helpDetail.getTitle(), sut.getTitle());
-//        assertEquals(helpDetail.getStart(), sut.getStart());
-//        assertEquals(helpDetail.getEnd(), sut.getEnd());
-//        assertEquals(helpDetail.getPlaceId(), sut.getPlaceId());
-//        assertEquals(helpDetail.getReward(), sut.getReward());
+        CheckIn checkIn = CheckIn.createForTest();
+        CheckIn.DTO dto = CheckIn.DTO.getDTO(checkIn);
+
+        //when
+        HelpDetailEntity sut = HelpDetailEntity.from(dto);
+
+        //then
+        assertEquals(dto.getHelpRegisterId(), sut.getHelpRegisterId());
+        assertEquals(dto.getTitle(), sut.getTitle());
+        assertEquals(dto.getStart(), sut.getStart());
+        assertEquals(dto.getEnd(), sut.getEnd());
+        assertEquals(dto.getPlaceId(), sut.getPlaceId());
+        assertEquals(dto.getReward(), sut.getReward());
     }
 }
