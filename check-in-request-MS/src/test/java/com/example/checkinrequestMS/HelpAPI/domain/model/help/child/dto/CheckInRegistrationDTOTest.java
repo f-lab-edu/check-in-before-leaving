@@ -88,8 +88,7 @@ public class CheckInRegistrationDTOTest {
             //then
             String fieldname = "reward";
             result.andExpect(status().isBadRequest())
-                    .andDo(print());
-            // .andExpect(jsonPath("message." + fieldname).value(NO_REWARD));
+                    .andExpect(jsonPath("message." + fieldname).value(NO_REWARD));
         }
 
         @ParameterizedTest(name = "{index} - {1}")
@@ -97,39 +96,18 @@ public class CheckInRegistrationDTOTest {
         @DisplayName("수행시간 옵션 필요")
         void Form_OptionRequired(CheckInService.Registration request, String testName, String uri) throws Exception {
             //given
-            //   request = spy(request);
-            //given(request.getOption()).willReturn(null);
-//            request = CheckInService.Registration.builder()
-//                    .helpRegisterId(request.getHelpRegisterId())
-//                    .placeId(request.getPlaceId())
-//                    .placeName(request.getPlaceName())
-//                    .start(request.getStart())
-//                    .option(null)  // null로 설정
-//                    .reward(request.getReward())
-//                    .helpDetail(request.getDetails())
-//                    .build();
-            String jsonContent = """
-                    {
-                        "helpRegisterId": 1,
-                        "placeId": "place1",
-                        "placeName": "name",
-                        "start": "2024-01-03T10:00:00",
-                        "option": 10,
-                        "reward": 1000,
-                                        
-                    }
-                    """;
+            request = spy(request);
+            given(request.getOption()).willReturn(null);
+
             //when
             ResultActions result = mockMvc.perform(post(uri)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonContent));
-            //.content(objectMapper.writeValueAsString(request)));
+                    .content(objectMapper.writeValueAsString(request)));
 
             //then
             String fieldname = "option";
             result.andExpect(status().isBadRequest())
-                    .andDo(print());
-            //   .andExpect(jsonPath("message." + fieldname).value(NO_TIME_OPTION));
+                    .andExpect(jsonPath("message." + fieldname).value(NO_TIME_OPTION));
         }
 
         @ParameterizedTest(name = "{index} - {1}")

@@ -1,5 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.progress;
 
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,13 +25,15 @@ class ProgressStartApplicationTest {
     void startCheckIn() {
         //given
         CheckInService.CheckInStarted dto = CheckInService.CheckInStarted.createForTest();
-        when(checkInService.startCheckIn(any(CheckInService.CheckInStarted.class))).thenReturn(dto.getCheckInId());
+        CheckIn checkIn = CheckIn.createForTest();
+        checkIn = checkIn.start(dto);
+        when(checkInService.start(any(CheckInService.CheckInStarted.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
 
         //when
-        Long id = progressStartApplication.startCheckIn(dto);
+        Long idReturned = progressStartApplication.startCheckIn(dto);
 
         //then
-        assertEquals(1L, id);
+        assertEquals(dto.getCheckInId(), idReturned);
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.infra.db.help;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInEntity;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -34,11 +35,25 @@ class CheckInJPARepositoryTest {
         when(checkInSpringJPARepository.save(any(CheckInEntity.class))).thenReturn(checkInEntity);
 
         // When
-        Long result = checkInJPARepository.save(checkIn);
+        CheckIn returned = checkInJPARepository.save(checkIn);
 
         // Then
-        assertNotNull(result);
-        assertEquals(checkInEntity.getId(), result);
+        assertEquals(checkInEntity.getId(), returned.getId());
+
+        //fixme: 기차충돌 문제 해결 -> DTO
+        CheckIn.DTO result = CheckIn.DTO.getDTO(returned);
+        assertEquals(result.getId(), checkInEntity.getId());
+        assertEquals(result.getHelpRegisterId(), checkInEntity.getHelpEntity().getHelpRegisterId());
+        assertEquals(result.getPlaceId(), checkInEntity.getHelpEntity().getPlaceId());
+        assertEquals(result.getTitle(), checkInEntity.getHelpEntity().getTitle());
+        assertEquals(result.getStart(), checkInEntity.getHelpEntity().getStart());
+        assertEquals(result.getEnd(), checkInEntity.getHelpEntity().getEnd());
+        assertEquals(result.getReward(), checkInEntity.getHelpEntity().getReward());
+        assertEquals(result.getStatus(), checkInEntity.getProgressEntity().getStatus());
+        assertEquals(result.getPhotoPath(), checkInEntity.getProgressEntity().getPhotoPath());
+        assertEquals(result.getHelperId(), checkInEntity.getProgressEntity().getHelperId());
+        assertEquals(result.isCompleted(), checkInEntity.getProgressEntity().isCompleted());
+
     }
 
     @Test
@@ -49,12 +64,25 @@ class CheckInJPARepositoryTest {
         when(checkInSpringJPARepository.findById(id)).thenReturn(Optional.of(checkInEntity));
 
         // When
-        CheckIn result = checkInJPARepository.findById(id);
-        //fixme: DTO로 결과값 받기?
-        //fixme: DTO를 용도 별로 나누기.
+        CheckIn returned = checkInJPARepository.findById(id);
+
         // Then
-        assertNotNull(result);
-        assertEquals(checkInEntity.getId(), result.getId());
+        assertNotNull(returned);
+        assertEquals(checkInEntity.getId(), returned.getId());
+
+        CheckIn.DTO result = CheckIn.DTO.getDTO(returned);
+        assertEquals(result.getId(), checkInEntity.getId());
+        assertEquals(result.getHelpRegisterId(), checkInEntity.getHelpEntity().getHelpRegisterId());
+        assertEquals(result.getPlaceId(), checkInEntity.getHelpEntity().getPlaceId());
+        assertEquals(result.getTitle(), checkInEntity.getHelpEntity().getTitle());
+        assertEquals(result.getStart(), checkInEntity.getHelpEntity().getStart());
+        assertEquals(result.getEnd(), checkInEntity.getHelpEntity().getEnd());
+        assertEquals(result.getReward(), checkInEntity.getHelpEntity().getReward());
+        assertEquals(result.getStatus(), checkInEntity.getProgressEntity().getStatus());
+        assertEquals(result.getPhotoPath(), checkInEntity.getProgressEntity().getPhotoPath());
+        assertEquals(result.getHelperId(), checkInEntity.getProgressEntity().getHelperId());
+        assertEquals(result.isCompleted(), checkInEntity.getProgressEntity().isCompleted());
+
     }
 
     @Test
@@ -66,6 +94,35 @@ class CheckInJPARepositoryTest {
         // When & Then
         HelpException exception = assertThrows(HelpException.class, () -> checkInJPARepository.findById(id));
         assertEquals(HelpErrorCode.NO_HELP_INFO.getDetail(), exception.getMessage());
+    }
+
+    @Test
+    void update() {
+
+        // Given
+        CheckIn checkIn = CheckIn.createForTest();
+        CheckInEntity checkInEntity = CheckInEntity.from(checkIn);
+        when(checkInSpringJPARepository.findById(checkIn.getId())).thenReturn(Optional.of(checkInEntity));
+
+        CheckInService.Update dto = CheckInService.Update.createForTest();
+        CheckIn updated = checkIn.update(dto);
+
+
+        // When
+        CheckIn returned = checkInJPARepository.update(updated);
+
+        // Then
+        assertEquals(checkInEntity.getId(), returned.getId());
+
+        //fixme: 기차충돌 문제 해결 -> DTO
+        CheckIn.DTO result = CheckIn.DTO.getDTO(returned);
+        assertEquals(dto.getCheckInId(), result.getId());
+        assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
+        assertEquals(dto.getStart(), result.getStart());
+        assertEquals(dto.getEnd(), result.getEnd());
+        assertEquals(dto.getTitle(), result.getTitle());
+        assertEquals(dto.getPlaceId(), result.getPlaceId());
+        assertEquals(dto.getReward(), result.getReward());
     }
 
 }
