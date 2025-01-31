@@ -2,12 +2,14 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,13 +40,14 @@ public class LineUpService {
 
     public Long startLineUp(@NonNull LineUpStarted dto) {
         LineUp lineUp = lineUpRepository.findById(dto.getLineUpId());
-        lineUp.start(dto.getHelperId());
+        lineUp.start(dto);
         return lineUpRepository.save(lineUp);
     }
 
+    //DTO
     @Getter
     @Validated
-    public static final class Registration implements HelpDetail.Registration {
+    public static final class Registration implements HelpDetail.DTO {
 
         public static final String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -115,7 +118,7 @@ public class LineUpService {
     @Getter
     @Builder(access = AccessLevel.PROTECTED)
     @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class LineUpStarted {
+    public static class LineUpStarted implements Progress.DTO {
 
         public static final String PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID = "줄서기 ID가 필요합니다.";
         public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
@@ -123,14 +126,17 @@ public class LineUpService {
         @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID)
         private final Long lineUpId;
 
-        @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID)
-        private final Long helperId;
+        private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
+
+        private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
+        private final Optional<String> photoPath = Optional.empty();
+        private final boolean completed = false;
 
     }
 
     @Getter
     @Validated
-    public static final class Update implements HelpDetail.Update {
+    public static final class Update implements HelpDetail.DTO {
 
         public static final String NO_ID = "줄서기 ID는 필수입니다.";
         public static final String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";

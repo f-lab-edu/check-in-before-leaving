@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
 
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,6 +25,7 @@ class CheckInWriteApplicationTest {
     private CheckInService checkInService;
 
     @Nested
+    @DisplayName("체크인 등록")
     class registerCheckIn {
 
         @Test
@@ -30,15 +33,47 @@ class CheckInWriteApplicationTest {
         void registerCheckIn() {
 
             //given
-            Long returnedId = 1L;
+
             CheckInService.Registration dto = CheckInService.Registration.createForTest();
-            when(checkInService.registerCheckIn(dto)).thenReturn(returnedId);
+            CheckIn checkIn = CheckIn.createForTest();
+            checkIn.register(dto);
+            when(checkInService.register(any(CheckInService.Registration.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
 
             //when
             Long id = sut.registerCheckIn(dto);
 
             //then
+            assertEquals(checkIn.getId(), id);
             assertEquals(1L, id);
+            
+        }
+    }
+
+    @Nested
+    @DisplayName("체크인 업데이트")
+    class update {
+
+        @Test
+        @DisplayName("체크인 업데이트 성공")
+        void registerCheckIn() {
+
+            //given
+            CheckInService.Update dto = CheckInService.Update.createForTest();
+            CheckIn checkIn = CheckIn.createForTest();
+            checkIn = checkIn.update(dto);
+            when(checkInService.update(any(CheckInService.Update.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
+
+            //when
+            CheckIn.DTO returned = sut.updateCheckIn(dto);
+
+            //then
+            assertEquals(dto.getCheckInId(), returned.getId());
+            assertEquals(dto.getHelpRegisterId(), returned.getHelpRegisterId());
+            assertEquals(dto.getStart(), returned.getStart());
+            assertEquals(dto.getEnd(), returned.getEnd());
+            assertEquals(dto.getTitle(), returned.getTitle());
+            assertEquals(dto.getPlaceId(), returned.getPlaceId());
+            assertEquals(dto.getReward(), returned.getReward());
         }
     }
 }

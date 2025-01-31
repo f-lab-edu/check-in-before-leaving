@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -33,16 +32,21 @@ class ProgressStartControllerTest {
     @Test
     void checkInStart() throws Exception {
         //given
-        CheckInService.CheckInStarted dto = CheckInService.CheckInStarted.createForTest();
+        String dto = "{\n" +
+                "  \"checkInId\": 1,\n" +
+                "  \"helperId\": 1\n" +
+                "}";
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/helps/progress")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)));
+                .content(dto));
+
 
         //then
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value(ProgressStartController.PICKED))
-                .andExpect(jsonPath("$.data.id").value(dto.getCheckInId()));
+                .andExpect(jsonPath("$.data.id").value(1L))
+                .andDo(print());
     }
 }

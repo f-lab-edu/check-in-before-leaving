@@ -37,22 +37,22 @@ public final class LineUp {
 
     //Business
     public static LineUp register(LineUpService.Registration dto) {
-        return new LineUp(HelpDetail.register(dto), Progress.DEFAULT, true);
+        return new LineUp(HelpDetail.from(dto), Progress.DEFAULT, true);
     }
 
     public LineUp update(LineUpService.Update dto) {
         return LineUp.builder()
                 .id(this.id)
-                .helpDetail(HelpDetail.update(dto))
+                .helpDetail(HelpDetail.from(dto))
                 .progress(this.progress)
                 .build();
     }
 
-    public LineUp start(Long helperId) {
+    public LineUp start(LineUpService.LineUpStarted dto) {
         return LineUp.builder()
                 .id(this.id)
                 .helpDetail(this.helpDetail)
-                .progress(this.progress.registerHelper(helperId))
+                .progress(this.progress.from(dto))
                 .build();
     }
 

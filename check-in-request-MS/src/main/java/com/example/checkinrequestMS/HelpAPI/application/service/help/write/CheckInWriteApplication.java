@@ -17,7 +17,7 @@ public class CheckInWriteApplication {
     @Transactional
     @TestTime
     public Long registerCheckIn(CheckInService.Registration dto) {
-        return checkInService.registerCheckIn(dto);
+        return checkInService.register(dto).getId();
     }
 
     @Transactional

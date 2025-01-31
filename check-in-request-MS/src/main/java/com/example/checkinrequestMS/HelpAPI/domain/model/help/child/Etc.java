@@ -38,23 +38,23 @@ public final class Etc {
 
     //Business
     public static Etc register(EtcService.Registration dto) {
-        return new Etc(HelpDetail.register(dto), Progress.DEFAULT, dto.getContents(), true);
+        return new Etc(HelpDetail.from(dto), Progress.DEFAULT, dto.getContents(), true);
     }
 
     public Etc update(EtcService.Update dto) {
         return Etc.builder()
                 .id(this.id)
-                .helpDetail(HelpDetail.update(dto))
+                .helpDetail(HelpDetail.from(dto))
                 .progress(this.progress)
                 .contents(dto.getContents())
                 .build();
     }
 
-    public Etc start(Long helperId) {
+    public Etc start(EtcService.EtcStarted dto) {
         return Etc.builder()
                 .id(this.id)
                 .helpDetail(this.helpDetail)
-                .progress(this.progress.registerHelper(helperId))
+                .progress(this.progress.from(dto))
                 .build();
     }
 

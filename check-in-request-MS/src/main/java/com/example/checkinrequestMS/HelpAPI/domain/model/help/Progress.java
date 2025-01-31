@@ -32,12 +32,8 @@ public final class Progress {
         this.completed = completed;
     }
 
-    public Progress registerHelper(Long helperId) {
-        return new Progress(Progress.ProgressStatus.ONGOING, Optional.of(helperId), this.photoPath, this.completed);
-    }
-
-    public static Progress from(DTO progress) {
-        return new Progress(progress.getStatus(), progress.getHelperId(), progress.getPhotoPath(), progress.isCompleted());
+    public static Progress from(DTO dto) {
+        return new Progress(dto.getStatus(), dto.getHelperId(), dto.getPhotoPath(), dto.isCompleted());
     }
 
     //For Test
