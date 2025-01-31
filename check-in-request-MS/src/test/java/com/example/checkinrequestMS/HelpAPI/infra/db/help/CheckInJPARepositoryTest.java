@@ -42,7 +42,6 @@ class CheckInJPARepositoryTest {
     }
 
     @Test
-    @Disabled
     void findById() {
         // Given
         Long id = 1L;
@@ -51,7 +50,8 @@ class CheckInJPARepositoryTest {
 
         // When
         CheckIn result = checkInJPARepository.findById(id);
-
+        //fixme: DTO로 결과값 받기?
+        //fixme: DTO를 용도 별로 나누기.
         // Then
         assertNotNull(result);
         assertEquals(checkInEntity.getId(), result.getId());

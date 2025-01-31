@@ -47,6 +47,7 @@ public class CheckInEntity {
     }
 
     public CheckIn returnDomainEntity() {
+        //fixme: dto 빠지는 경우.
         CheckIn.DTO dto = CheckIn.DTO.builder()
                 .id(this.getId())
                 .helpRegisterId(this.getHelpEntity().getHelpRegisterId())
@@ -56,6 +57,7 @@ public class CheckInEntity {
                 .placeId(this.getHelpEntity().getPlaceId())
                 .reward(this.getHelpEntity().getReward())
                 .helperId(this.getProgressEntity().getHelperId())
+                .status(this.getProgressEntity().getStatus())
                 .photoPath(this.getProgressEntity().getPhotoPath())
                 .completed(this.getProgressEntity().isCompleted())
                 .build();

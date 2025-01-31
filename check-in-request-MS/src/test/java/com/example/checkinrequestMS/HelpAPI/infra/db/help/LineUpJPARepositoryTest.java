@@ -42,7 +42,6 @@ class LineUpJPARepositoryTest {
     }
 
     @Test
-    @Disabled
     void findById() {
         // Given
         Long id = 1L;

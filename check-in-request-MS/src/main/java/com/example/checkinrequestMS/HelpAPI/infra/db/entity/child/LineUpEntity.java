@@ -56,6 +56,7 @@ public class LineUpEntity {
                 .end(this.getHelpEntity().getEnd())
                 .placeId(this.getHelpEntity().getPlaceId())
                 .reward(this.getHelpEntity().getReward())
+                .status(this.getProgressEntity().getStatus())
                 .helperId(this.getProgressEntity().getHelperId())
                 .photoPath(this.getProgressEntity().getPhotoPath())
                 .completed(this.getProgressEntity().isCompleted())

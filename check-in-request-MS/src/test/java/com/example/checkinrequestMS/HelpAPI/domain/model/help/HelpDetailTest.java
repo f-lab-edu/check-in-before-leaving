@@ -25,4 +25,5 @@ class HelpDetailTest {
         assertEquals(dto.getReward(), sut.getReward());
         assertEquals(dto.getStart(), sut.getStart());
     }
+
 }
