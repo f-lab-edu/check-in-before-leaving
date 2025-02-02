@@ -11,6 +11,6 @@ public class LineUpWriteApplication {
     private final LineUpService lineUpService;
 
     public Long registerLineUp(LineUpService.Registration dto) {
-        return lineUpService.registerLineUp(dto);
+        return lineUpService.register(dto).getId();
     }
 }

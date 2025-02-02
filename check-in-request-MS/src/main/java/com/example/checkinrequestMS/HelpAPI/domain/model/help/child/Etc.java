@@ -29,7 +29,7 @@ public final class Etc {
         this.contents = contents;
     }
 
-    private Etc(@NonNull HelpDetail helpDetail, @NonNull Progress progress, @NonNull String contents, @NonNull Boolean isRegister) {
+    private Etc(@NonNull Boolean isRegister, @NonNull HelpDetail helpDetail, @NonNull Progress progress, @NonNull String contents) {
         this.id = null;
         this.helpDetail = helpDetail;
         this.progress = progress;
@@ -38,7 +38,29 @@ public final class Etc {
 
     //Business
     public static Etc register(EtcService.Registration dto) {
-        return new Etc(HelpDetail.from(dto), Progress.DEFAULT, dto.getContents(), true);
+        Etc.DTO etcDTO = customizeEtcRegistration(dto);
+        return new Etc(true, HelpDetail.from(etcDTO), Progress.from(etcDTO), dto.getContents());
+    }
+
+    private static Etc.DTO customizeEtcRegistration(EtcService.Registration dto) {
+        return Etc.DTO.builder()
+                .id(null)
+                .helpRegisterId(dto.getHelpRegisterId())
+                .title(dto.getTitle())
+                .start(dto.getStart())
+                .end(calculateEnd(dto.getStart(), dto.getOption()))
+                .placeId(dto.getPlaceId())
+                .reward(dto.getReward())
+                .status(Progress.DEFAULT.getStatus())
+                .helperId(Progress.DEFAULT.getHelperId())
+                .photoPath(Progress.DEFAULT.getPhotoPath())
+                .completed(Progress.DEFAULT.isCompleted())
+                .build();
+    }
+
+    private static LocalDateTime calculateEnd(LocalDateTime start, Integer option) {
+        if (start == null || option == null) return null;
+        return start.plusMinutes(option);
     }
 
     public Etc update(EtcService.Update dto) {
@@ -54,7 +76,7 @@ public final class Etc {
         return Etc.builder()
                 .id(this.id)
                 .helpDetail(this.helpDetail)
-                .progress(this.progress.from(dto))
+                .progress(Progress.from(dto))
                 .build();
     }
 

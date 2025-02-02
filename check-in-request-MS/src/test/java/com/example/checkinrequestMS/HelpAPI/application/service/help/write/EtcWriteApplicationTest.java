@@ -1,5 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,14 +30,16 @@ class EtcWriteApplicationTest {
         void registerEtc() {
 
             //given
-            Long returnedId = 1L;
             EtcService.Registration dto = EtcService.Registration.createForTest();
-            when(etcService.registerEtc(dto)).thenReturn(returnedId);
+            Etc etc = Etc.createForTest();
+            etc.register(dto);
+            when(etcService.register(dto)).thenReturn(Etc.DTO.getDTO(etc));
 
             //when
             Long id = sut.registerEtc(dto);
 
             //then
+            assertEquals(etc.getId(), id);
             assertEquals(1L, id);
         }
 

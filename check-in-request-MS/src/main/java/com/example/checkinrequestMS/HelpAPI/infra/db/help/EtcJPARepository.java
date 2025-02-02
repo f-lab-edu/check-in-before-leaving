@@ -15,8 +15,8 @@ public class EtcJPARepository implements EtcRepository {
     private final EtcSpringJPARepository etcSpringJPARepository;
 
     @Override
-    public Long save(Etc etc) {
-        return etcSpringJPARepository.save(EtcEntity.register(etc)).getId();
+    public Etc save(Etc etc) {
+        return etcSpringJPARepository.save(EtcEntity.register(etc)).returnDomainEntity();
     }
 
     @Override
