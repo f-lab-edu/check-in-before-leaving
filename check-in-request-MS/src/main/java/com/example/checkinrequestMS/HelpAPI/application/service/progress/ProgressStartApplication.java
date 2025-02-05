@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.progress;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ public class ProgressStartApplication {
 
     private final CheckInService checkInService;
 
-    public Long startCheckIn(CheckInService.CheckInStarted dto) {
+    public Long startCheckIn(@NonNull CheckInService.CheckInStarted dto) {
         return checkInService.start(dto).getId();
     }
 }

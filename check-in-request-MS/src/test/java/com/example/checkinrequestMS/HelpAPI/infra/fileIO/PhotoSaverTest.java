@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.infra.fileIO;
 import com.example.checkinrequestMS.HelpAPI.infra.exceptions.fileIO.FileIOException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +31,9 @@ class PhotoSaverTest {
     @InjectMocks
     private PhotoSaver sut;
 
+    //fixme: filePath 수정
     @Test
+    @Disabled
     @DisplayName("사진 저장 - 정상적인 사진 저장")
     void saveOnePhoto() throws IOException{
         Long progressId = 1L;

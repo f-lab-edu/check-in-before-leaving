@@ -5,6 +5,7 @@ import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -23,7 +24,10 @@ public final class CheckIn {
     @Getter(AccessLevel.PRIVATE)
     private final Progress progress;
 
-    @Builder(access = AccessLevel.PRIVATE)
+    //fixme: 커스텀 하게 어노테이션을 만들까 했지만 NonNull을 유지하기로 함.
+    //fixme: 널포인터인 경우 사용자에게는 내부 에러라고 하고 개발자에게 로그를 남기는게 더 맞는거 같음.
+    //fixme: 어차피 필요한 값은 Request를 통해서 받고 거기에 값이 없다면 클라이언트에게 알려야 하지만 그렇지 않다면 알릴 필요 없다.
+    @Builder
     private CheckIn(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
         this.id = id;
         this.helpDetail = helpDetail;
@@ -37,12 +41,12 @@ public final class CheckIn {
     }
 
     //Business
-    public static CheckIn register(CheckInService.Registration dto) {
+    public static CheckIn register(@NonNull CheckInService.Registration dto) {
         CheckIn.DTO checkInDTO = customizeCheckInRegistration(dto);
         return new CheckIn(true, HelpDetail.from(checkInDTO), Progress.from(checkInDTO));
     }
 
-    private static CheckIn.DTO customizeCheckInRegistration(CheckInService.Registration dto) {
+    private static CheckIn.DTO customizeCheckInRegistration(@NonNull CheckInService.Registration dto) {
         return CheckIn.DTO.builder()
                 .id(null)
                 .helpRegisterId(dto.getHelpRegisterId())
@@ -58,32 +62,31 @@ public final class CheckIn {
                 .build();
     }
 
-    private static String createNewTitle(String placeName) {
+    private static String createNewTitle(@NonNull String placeName) {
         return placeName + CHECK_IN_TITLE;
     }
 
-    private static LocalDateTime calculateEnd(LocalDateTime start, Integer option) {
-        if (start == null || option == null) return null;
+    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
         return start.plusMinutes(option);
     }
 
-    public CheckIn update(CheckInService.Update dto) {
+    public CheckIn update(@NonNull CheckInService.Update dto) {
         return CheckIn.builder()
-                .id(this.id)
+                .id(Objects.requireNonNull(this.id))
                 .helpDetail(HelpDetail.from(dto))
-                .progress(this.progress)
+                .progress(Objects.requireNonNull(this.progress))
                 .build();
     }
 
-    public CheckIn start(CheckInService.CheckInStarted dto) {
+    public CheckIn start(@NonNull CheckInService.CheckInStarted dto) {
         return CheckIn.builder()
-                .id(this.id)
-                .helpDetail(this.helpDetail)
+                .id(Objects.requireNonNull(this.id))
+                .helpDetail(Objects.requireNonNull(this.helpDetail))
                 .progress(Progress.from(dto))
                 .build();
     }
 
-    public static CheckIn from(DTO entity) {
+    public static CheckIn from(@NonNull DTO entity) {
         return CheckIn.builder()
                 .id(entity.getId())
                 .helpDetail(HelpDetail.from(entity))
@@ -110,8 +113,9 @@ public final class CheckIn {
         private final boolean completed;
 
         @Builder(access = AccessLevel.PUBLIC)
-        public DTO(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, Long reward, Progress.ProgressStatus status, Optional<Long> helperId, Optional<String> photoPath, boolean completed) {
-            // fixme: null 처리
+        public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
+                   @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status,
+                   @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
             this.id = id;
             this.helpRegisterId = helpRegisterId;
             this.title = title;
@@ -125,7 +129,7 @@ public final class CheckIn {
             this.completed = completed;
         }
 
-        public static CheckIn.DTO getDTO(CheckIn checkIn) {
+        public static CheckIn.DTO getDTO(@NonNull CheckIn checkIn) {
             return CheckIn.DTO.builder()
                     .id(checkIn.getId())
                     .helpRegisterId(checkIn.getHelpDetail().getHelpRegisterId())

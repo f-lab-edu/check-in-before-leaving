@@ -34,7 +34,7 @@ class EtcWriteApplicationTest {
             when(etcService.registerEtc(dto)).thenReturn(returnedId);
 
             //when
-            Long id = sut.registerEtc(dto);
+            Long id = sut.register(dto);
 
             //then
             assertEquals(1L, id);

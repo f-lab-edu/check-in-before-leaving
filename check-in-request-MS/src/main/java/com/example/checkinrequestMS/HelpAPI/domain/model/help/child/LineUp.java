@@ -8,13 +8,14 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 
 @Getter
 public final class LineUp {
 
-    public static final String CHECK_IN_TITLE = "체크인 요청";
+    public static final String LINE_UP_TITLE = "줄서기 요청";
 
     private final Long id;
     @Getter(AccessLevel.PRIVATE)
@@ -29,34 +30,59 @@ public final class LineUp {
         this.progress = progress;
     }
 
-    private LineUp(@NonNull HelpDetail helpDetail, @NonNull Progress progress, @NonNull Boolean isRegister) {
+    private LineUp(@NonNull Boolean isRegister, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
         this.id = null;
         this.helpDetail = helpDetail;
         this.progress = progress;
     }
 
     //Business
-    public static LineUp register(LineUpService.Registration dto) {
-        return new LineUp(HelpDetail.from(dto), Progress.DEFAULT, true);
+    public static LineUp register(@NonNull LineUpService.Registration dto) {
+        LineUp.DTO lineUpDTO = customizeLineUpRegistration(dto);
+        return new LineUp(true, HelpDetail.from(lineUpDTO), Progress.from(lineUpDTO));
+
     }
 
-    public LineUp update(LineUpService.Update dto) {
+    private static LineUp.DTO customizeLineUpRegistration(@NonNull LineUpService.Registration dto) {
+        return LineUp.DTO.builder()
+                .id(null)
+                .helpRegisterId(dto.getHelpRegisterId())
+                .title(createNewTitle(dto.getPlaceName()))
+                .start(dto.getStart())
+                .end(calculateEnd(dto.getStart(), dto.getOption()))
+                .placeId(dto.getPlaceId())
+                .reward(dto.getReward())
+                .status(Progress.DEFAULT.getStatus())
+                .helperId(Progress.DEFAULT.getHelperId())
+                .photoPath(Progress.DEFAULT.getPhotoPath())
+                .completed(Progress.DEFAULT.isCompleted())
+                .build();
+    }
+    private static String createNewTitle(@NonNull String placeName) {
+        return placeName + LINE_UP_TITLE;
+    }
+
+    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
+        return start.plusMinutes(option);
+    }
+
+    public LineUp update(@NonNull LineUpService.Update dto) {
         return LineUp.builder()
-                .id(this.id)
+                .id(Objects.requireNonNull(this.id))
                 .helpDetail(HelpDetail.from(dto))
                 .progress(this.progress)
                 .build();
     }
 
-    public LineUp start(LineUpService.LineUpStarted dto) {
+    public LineUp start(@NonNull LineUpService.LineUpStarted dto) {
         return LineUp.builder()
-                .id(this.id)
+                .id(Objects.requireNonNull(this.id))
                 .helpDetail(this.helpDetail)
-                .progress(this.progress.from(dto))
+                .progress(Progress.from(dto))
                 .build();
     }
 
-    public static LineUp from(DTO dto) {
+    public static LineUp from(@NonNull DTO dto) {
         return LineUp.builder()
                 .id(dto.getId())
                 .helpDetail(HelpDetail.from(dto))
@@ -79,8 +105,7 @@ public final class LineUp {
         private final boolean completed;
 
         @Builder
-        public DTO(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, Long reward, Progress.ProgressStatus status, Optional<Long> helperId, Optional<String> photoPath, boolean completed) {
-            // fixme: null 처리
+        public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status, @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
             this.id = id;
             this.helpRegisterId = helpRegisterId;
             this.title = title;
@@ -94,7 +119,7 @@ public final class LineUp {
             this.completed = completed;
         }
 
-        public static LineUp.DTO getDTO(LineUp lineUp) {
+        public static LineUp.DTO getDTO(@NonNull LineUp lineUp) {
             return LineUp.DTO.builder()
                     .id(lineUp.getId())
                     .helpRegisterId(lineUp.getHelpDetail().getHelpRegisterId())

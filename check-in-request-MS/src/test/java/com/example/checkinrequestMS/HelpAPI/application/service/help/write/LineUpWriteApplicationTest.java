@@ -31,10 +31,10 @@ class LineUpWriteApplicationTest {
             //given
             Long returnedId = 1L;
             LineUpService.Registration dto = LineUpService.Registration.createForTest();
-            when(lineUpService.registerLineUp(dto)).thenReturn(returnedId);
+            when(lineUpService.register(dto)).thenReturn(returnedId);
 
             //when
-            Long id = sut.registerLineUp(dto);
+            Long id = sut.register(dto);
 
             //then
             assertEquals(1L, id);

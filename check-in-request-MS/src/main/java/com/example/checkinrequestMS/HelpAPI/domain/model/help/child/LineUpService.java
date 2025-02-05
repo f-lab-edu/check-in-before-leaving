@@ -18,7 +18,7 @@ public class LineUpService {
     private final LineUpRepository lineUpRepository;
     private final AlarmService alarmService;
 
-    public Long registerLineUp(@NonNull Registration dto) {
+    public Long register(@NonNull Registration dto) {
 
         LineUp lineUp = LineUp.register(dto);
 
@@ -28,17 +28,17 @@ public class LineUpService {
         return lineUpRepository.save(lineUp);
     }
 
-    public LineUp.DTO update(LineUpService.Update dto) {
+    public LineUp.DTO update(@NonNull LineUpService.Update dto) {
         LineUp lineUp = lineUpRepository.findById(dto.getHelpId());
         lineUp.update(dto);
         return LineUp.DTO.getDTO(lineUp);
     }
 
-    public LineUp.DTO findLineUp(Long id) {
+    public LineUp.DTO findOne(@NonNull Long id) {
         return LineUp.DTO.getDTO(lineUpRepository.findById(id));
     }
 
-    public Long startLineUp(@NonNull LineUpStarted dto) {
+    public Long start(@NonNull LineUpStarted dto) {
         LineUp lineUp = lineUpRepository.findById(dto.getLineUpId());
         lineUp.start(dto);
         return lineUpRepository.save(lineUp);
@@ -47,7 +47,7 @@ public class LineUpService {
     //DTO
     @Getter
     @Validated
-    public static final class Registration implements HelpDetail.DTO {
+    public static final class Registration {
 
         public static final String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -55,8 +55,6 @@ public class LineUpService {
         public static final String NO_START = "시작 시간은 필수입니다.";
         public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
         public static final String NO_REWARD = "보상은 필수입니다.";
-
-        public static final String CHECK_IN_TITLE = "체크인 요청";
 
         @NotNull(message = NO_LINE_UP_REGISTER_ID)
         private final Long helpRegisterId;
@@ -76,10 +74,6 @@ public class LineUpService {
         @NotNull(message = NO_REWARD)
         private final Long reward;
 
-        private final String title;
-
-        private final LocalDateTime end;
-
         @Builder(access = AccessLevel.PRIVATE)
         public Registration(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward) {
             this.helpRegisterId = helpRegisterId;
@@ -88,17 +82,6 @@ public class LineUpService {
             this.start = start;
             this.option = option;
             this.reward = reward;
-            this.title = createTitle(placeName);
-            this.end = calcuateEnd(start, option);
-        }
-
-        private String createTitle(String placeName) {
-            return placeName + CHECK_IN_TITLE;
-        }
-
-        private LocalDateTime calcuateEnd(LocalDateTime start, Integer option) {
-            if (start == null || option == null) return null;
-            return start.plusMinutes(option);
         }
 
         //For Test
@@ -114,26 +97,6 @@ public class LineUpService {
         }
     }
 
-    //Request
-    @Getter
-    @Builder(access = AccessLevel.PROTECTED)
-    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class LineUpStarted implements Progress.DTO {
-
-        public static final String PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID = "줄서기 ID가 필요합니다.";
-        public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
-
-        @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID)
-        private final Long lineUpId;
-
-        private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
-
-        private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
-        private final Optional<String> photoPath = Optional.empty();
-        private final boolean completed = false;
-
-    }
-
     @Getter
     @Validated
     public static final class Update implements HelpDetail.DTO {
@@ -147,8 +110,6 @@ public class LineUpService {
         public static final String NO_REWARD = "보상은 필수입니다.";
         public static final String NO_TITLE = "제목은 필수입니다.";
         public static final String NO_END = "종료 시간은 필수입니다.";
-
-        public static final String LINE_UP_TITLE = "줄서기 요청";
 
         @NotNull(message = NO_ID)
         private final Long helpId;
@@ -199,6 +160,27 @@ public class LineUpService {
                     .reward(100L)
                     .build();
         }
+    }
+
+    //Request
+    @Getter
+    @Builder(access = AccessLevel.PROTECTED)
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+    @Validated
+    public static class LineUpStarted implements Progress.DTO {
+
+        public static final String PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID = "줄서기 ID가 필요합니다.";
+        public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
+
+        @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID)
+        private final Long lineUpId;
+
+        private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
+
+        private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
+        private final Optional<String> photoPath = Optional.empty();
+        private final boolean completed = false;
+
     }
 
 }
