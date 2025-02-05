@@ -56,7 +56,7 @@ class HelpSelectApplicationTest {
         Long id = 1L;
         LineUp lineUp = LineUp.createForTest();
         LineUp.DTO response = LineUp.DTO.getDTO(lineUp);
-        when(lineUpService.findLineUp(id)).thenReturn(response);
+        when(lineUpService.findOne(id)).thenReturn(response);
 
         // When
         LineUp.DTO result = helpSelectApplication.selectLineUp(id);

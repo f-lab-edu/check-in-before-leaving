@@ -25,7 +25,7 @@ public final class HelpDetail {
         this.reward = reward;
     }
 
-    public static HelpDetail from(DTO dto) {
+    public static HelpDetail from(@NonNull DTO dto) {
         return HelpDetail.builder()
                 .helpRegisterId(dto.getHelpRegisterId())
                 .title(dto.getTitle())

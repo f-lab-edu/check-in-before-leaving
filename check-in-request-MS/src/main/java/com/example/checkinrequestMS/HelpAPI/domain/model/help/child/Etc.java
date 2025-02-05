@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -37,10 +38,9 @@ public final class Etc {
     }
 
     //Business
-    public static Etc register(EtcService.Registration dto) {
-        Etc.DTO etcDTO = customizeEtcRegistration(dto);
-        return new Etc(true, HelpDetail.from(etcDTO), Progress.from(etcDTO), dto.getContents());
-    }
+    public static Etc register(@NonNull EtcService.Registration dto) {
+        Etc.DTO etcDTO = customizeCheckInRegistration(dto);
+        return new Etc(true, HelpDetail.from(etcDTO), Progress.DEFAULT, dto.getContents());
 
     private static Etc.DTO customizeEtcRegistration(EtcService.Registration dto) {
         return Etc.DTO.builder()
@@ -61,26 +61,47 @@ public final class Etc {
     private static LocalDateTime calculateEnd(LocalDateTime start, Integer option) {
         if (start == null || option == null) return null;
         return start.plusMinutes(option);
+
     }
 
-    public Etc update(EtcService.Update dto) {
+    private static Etc.DTO customizeCheckInRegistration(@NonNull EtcService.Registration dto) {
+        return Etc.DTO.builder()
+                .id(null)
+                .helpRegisterId(dto.getHelpRegisterId())
+                .title(dto.getTitle())
+                .start(dto.getStart())
+                .end(calculateEnd(dto.getStart(), dto.getOption()))
+                .placeId(dto.getPlaceId())
+                .reward(dto.getReward())
+                .status(Progress.DEFAULT.getStatus())
+                .helperId(Progress.DEFAULT.getHelperId())
+                .photoPath(Progress.DEFAULT.getPhotoPath())
+                .completed(Progress.DEFAULT.isCompleted())
+                .build();
+    }
+
+    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
+        return start.plusMinutes(option);
+    }
+
+    public Etc update(@NonNull EtcService.Update dto) {
         return Etc.builder()
-                .id(this.id)
+                .id(Objects.requireNonNull(this.id))
                 .helpDetail(HelpDetail.from(dto))
                 .progress(this.progress)
                 .contents(dto.getContents())
                 .build();
     }
 
-    public Etc start(EtcService.EtcStarted dto) {
+    public Etc start(@NonNull EtcService.EtcStarted dto) {
         return Etc.builder()
-                .id(this.id)
+                .id(Objects.requireNonNull(this.id))
                 .helpDetail(this.helpDetail)
                 .progress(Progress.from(dto))
                 .build();
     }
 
-    public static Etc from(DTO dto) {
+    public static Etc from(@NonNull DTO dto) {
         return Etc.builder()
                 .id(dto.getId())
                 .contents(dto.getContents())
@@ -105,8 +126,9 @@ public final class Etc {
         private final boolean completed;
 
         @Builder
-        public DTO(Long id, String contents, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, Long reward, Progress.ProgressStatus status, Optional<Long> helperId, Optional<String> photoPath, boolean completed) {
-            // fixme: null 처리
+        public DTO(@NonNull Long id, @NonNull String contents, @NonNull Long helpRegisterId, @NonNull String title,
+                   @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward,
+                   @NonNull Progress.ProgressStatus status, @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
             this.id = id;
             this.contents = contents;
             this.helpRegisterId = helpRegisterId;
@@ -121,7 +143,7 @@ public final class Etc {
             this.completed = completed;
         }
 
-        public static Etc.DTO getDTO(Etc etc) {
+        public static Etc.DTO getDTO(@NonNull Etc etc) {
             return DTO.builder()
                     .id(etc.getId())
                     .contents(etc.getContents())
@@ -138,7 +160,6 @@ public final class Etc {
                     .build();
         }
     }
-
 
     //for Test
     public static Etc createForTest() {

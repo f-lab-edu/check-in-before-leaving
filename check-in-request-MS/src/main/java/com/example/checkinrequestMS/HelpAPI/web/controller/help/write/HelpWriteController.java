@@ -36,25 +36,25 @@ public class HelpWriteController {
 
     @PostMapping(URIRULE.CHECK_INS)
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody CheckInService.Registration request) {
-        Long id = checkInWriteApplication.registerCheckIn(request);
+        Long id = checkInWriteApplication.register(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(CHECK_IN_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
     @PutMapping(URIRULE.CHECK_INS + "/{id}")
     public ResponseEntity<DefaultHTTPResponse<CheckIn.DTO>> updateCheckIn(@PathVariable Long id, @Validated @RequestBody CheckInService.Update request) {
-        return ResponseEntity.ok(new DefaultHTTPResponse<CheckIn.DTO>(CHECK_IN_UPDATE_SUCCESS, checkInWriteApplication.updateCheckIn(request)));
+        return ResponseEntity.ok(new DefaultHTTPResponse<CheckIn.DTO>(CHECK_IN_UPDATE_SUCCESS, checkInWriteApplication.update(request)));
     }
 
     @PostMapping(URIRULE.LINE_UPS)
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody LineUpService.Registration request) {
-        Long id = lineUpWriteService.registerLineUp(request);
+        Long id = lineUpWriteService.register(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(LINE_UP_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
 
     @PostMapping(URIRULE.ETCS)
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerEtc(@Validated @RequestBody EtcService.Registration request) {
-        Long id = etcWriteService.registerEtc(request);
+        Long id = etcWriteService.register(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(ETC_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 

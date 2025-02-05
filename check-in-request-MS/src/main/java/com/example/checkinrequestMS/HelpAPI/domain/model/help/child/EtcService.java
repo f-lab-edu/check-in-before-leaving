@@ -28,13 +28,13 @@ public class EtcService {
         return Etc.DTO.getDTO(etcRepository.save(etc));
     }
 
-    public Etc.DTO findOne(Long id) {
+    public Etc.DTO findOne(@NonNull Long id) {
         return Etc.DTO.getDTO(etcRepository.findById(id));
     }
 
     public Etc.DTO update(Update dto) {
         Etc etc = etcRepository.findById(dto.getHelpId());
-        etc.update(dto); //fixme: ??
+        etc.update(dto);
         return Etc.DTO.getDTO(etcRepository.update(etc));
     }
 
@@ -125,8 +125,6 @@ public class EtcService {
         public static final String NO_CONTENTS = "내용은 필수입니다.";
         public static final String NO_END = "종료 시간은 필수입니다.";
 
-        public static final String LINE_UP_TITLE = "기타 요청 요청";
-
         @NotNull(message = NO_ID)
         private final Long helpId;
 
@@ -205,6 +203,7 @@ public class EtcService {
             this.etcId = etcId;
             this.helperId = helperId;
         }
+
     }
 
 }

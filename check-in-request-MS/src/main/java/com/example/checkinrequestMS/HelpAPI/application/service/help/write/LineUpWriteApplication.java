@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,8 @@ public class LineUpWriteApplication {
 
     private final LineUpService lineUpService;
 
-    public Long registerLineUp(LineUpService.Registration dto) {
+    public Long register(@NonNull LineUpService.Registration dto) {
         return lineUpService.register(dto).getId();
+
     }
 }

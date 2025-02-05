@@ -36,7 +36,7 @@ class LineUpWriteApplicationTest {
             when(lineUpService.register(dto)).thenReturn(LineUp.DTO.getDTO(lineUp));
 
             //when
-            Long id = sut.registerLineUp(dto);
+            Long id = sut.register(dto);
 
             //then
             assertEquals(lineUp.getId(), id);

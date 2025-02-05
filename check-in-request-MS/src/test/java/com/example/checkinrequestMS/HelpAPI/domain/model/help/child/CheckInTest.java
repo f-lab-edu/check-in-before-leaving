@@ -1,5 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInEntity;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 class CheckInTest {
+
+    @Test
+    void createForTest() {
+        CheckIn sut = CheckIn.builder()
+                .id(null)
+                .helpDetail(HelpDetail.createForTest())
+                .progress(Progress.createForTest())
+                .build();
+    }
 
     @Test
     void register() {

@@ -56,7 +56,7 @@ class TestTimeAspectTest {
         CheckInService.Registration dto = CheckInService.Registration.createForTest();
 
         //when
-        sut.registerCheckIn(dto);
+        sut.register(dto);
 
         verify(testTimeAspect).log(any());
     }

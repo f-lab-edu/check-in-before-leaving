@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -36,12 +37,12 @@ public final class LineUp {
     }
 
     //Business
-    public static LineUp register(LineUpService.Registration dto) {
+    public static LineUp register(@NonNull LineUpService.Registration dto) {
         LineUp.DTO lineUpDTO = customizeLineUpRegistration(dto);
         return new LineUp(true, HelpDetail.from(lineUpDTO), Progress.from(lineUpDTO));
     }
 
-    public static LineUp.DTO customizeLineUpRegistration(LineUpService.Registration dto) {
+    public static LineUp.DTO customizeLineUpRegistration(@NonNull LineUpService.Registration dto) {
         return LineUp.DTO.builder()
                 .id(null)
                 .helpRegisterId(dto.getHelpRegisterId())
@@ -56,33 +57,32 @@ public final class LineUp {
                 .completed(Progress.DEFAULT.isCompleted())
                 .build();
     }
-
-    private static String createTitle(String placeName) {
+      
+    private static String createTitle(@NonNull String placeName) {
         return placeName + LINE_UP_TITLE;
     }
 
-    private static LocalDateTime calcuateEnd(LocalDateTime start, Integer option) {
-        if (start == null || option == null) return null;
+    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
         return start.plusMinutes(option);
     }
 
-    public LineUp update(LineUpService.Update dto) {
+    public LineUp update(@NonNull LineUpService.Update dto) {
         return LineUp.builder()
-                .id(this.id)
+                .id(Objects.requireNonNull(this.id))
                 .helpDetail(HelpDetail.from(dto))
                 .progress(this.progress)
                 .build();
     }
 
-    public LineUp start(LineUpService.LineUpStarted dto) {
+    public LineUp start(@NonNull LineUpService.LineUpStarted dto) {
         return LineUp.builder()
-                .id(this.id)
+                .id(Objects.requireNonNull(this.id))
                 .helpDetail(this.helpDetail)
-                .progress(this.progress.from(dto))
+                .progress(Progress.from(dto))
                 .build();
     }
 
-    public static LineUp from(DTO dto) {
+    public static LineUp from(@NonNull DTO dto) {
         return LineUp.builder()
                 .id(dto.getId())
                 .helpDetail(HelpDetail.from(dto))
@@ -105,8 +105,7 @@ public final class LineUp {
         private final boolean completed;
 
         @Builder
-        public DTO(Long id, Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, Long reward, Progress.ProgressStatus status, Optional<Long> helperId, Optional<String> photoPath, boolean completed) {
-            // fixme: null 처리
+        public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status, @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
             this.id = id;
             this.helpRegisterId = helpRegisterId;
             this.title = title;
@@ -120,7 +119,7 @@ public final class LineUp {
             this.completed = completed;
         }
 
-        public static LineUp.DTO getDTO(LineUp lineUp) {
+        public static LineUp.DTO getDTO(@NonNull LineUp lineUp) {
             return LineUp.DTO.builder()
                     .id(lineUp.getId())
                     .helpRegisterId(lineUp.getHelpDetail().getHelpRegisterId())

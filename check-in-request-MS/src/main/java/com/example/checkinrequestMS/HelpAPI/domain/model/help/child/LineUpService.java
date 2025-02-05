@@ -19,7 +19,6 @@ public class LineUpService {
     private final AlarmService alarmService;
 
     public LineUp.DTO register(@NonNull Registration dto) {
-
         LineUp lineUp = LineUp.register(dto);
 
         //alarmService.sendAlarmToUsersNearby(place.getId(), place.getX(), place.getY();
@@ -28,13 +27,13 @@ public class LineUpService {
         return LineUp.DTO.getDTO(lineUpRepository.save(lineUp));
     }
 
-    public LineUp.DTO update(LineUpService.Update dto) {
+    public LineUp.DTO update(@NonNull LineUpService.Update dto) {
         LineUp lineUp = lineUpRepository.findById(dto.getHelpId());
         lineUp.update(dto);
         return LineUp.DTO.getDTO(lineUp);
     }
 
-    public LineUp.DTO findLineUp(Long id) {
+    public LineUp.DTO findOne(@NonNull Long id) {
         return LineUp.DTO.getDTO(lineUpRepository.findById(id));
     }
 
@@ -55,8 +54,6 @@ public class LineUpService {
         public static final String NO_START = "시작 시간은 필수입니다.";
         public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
         public static final String NO_REWARD = "보상은 필수입니다.";
-
-        public static final String CHECK_IN_TITLE = "체크인 요청";
 
         @NotNull(message = NO_LINE_UP_REGISTER_ID)
         private final Long helpRegisterId;
@@ -112,8 +109,6 @@ public class LineUpService {
         public static final String NO_REWARD = "보상은 필수입니다.";
         public static final String NO_TITLE = "제목은 필수입니다.";
         public static final String NO_END = "종료 시간은 필수입니다.";
-
-        public static final String LINE_UP_TITLE = "줄서기 요청";
 
         @NotNull(message = NO_ID)
         private final Long helpId;

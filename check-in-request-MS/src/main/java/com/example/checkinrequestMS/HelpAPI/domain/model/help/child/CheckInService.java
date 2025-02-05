@@ -19,8 +19,6 @@ public class CheckInService {
     private final CheckInRepository checkInRepository;
     private final AlarmService alarmService;
 
-    public static final String CHECK_IN_TITLE = "체크인 요청";
-
     public CheckIn.DTO register(@NonNull Registration dto) {
         CheckIn checkIn = CheckIn.register(dto);
 
@@ -30,11 +28,11 @@ public class CheckInService {
         return CheckIn.DTO.getDTO(checkInRepository.save(checkIn));
     }
 
-    public CheckIn.DTO findOne(Long id) {
+    public CheckIn.DTO findOne(@NonNull Long id) {
         return CheckIn.DTO.getDTO(checkInRepository.findById(id));
     }
 
-    public CheckIn.DTO update(Update dto) {
+    public CheckIn.DTO update(@NonNull Update dto) {
         CheckIn checkIn = checkInRepository.findById(dto.getCheckInId());
         checkIn = checkIn.update(dto);
         return CheckIn.DTO.getDTO(checkInRepository.update(checkIn));

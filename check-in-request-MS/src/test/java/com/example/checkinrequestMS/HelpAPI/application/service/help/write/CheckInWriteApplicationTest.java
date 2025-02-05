@@ -40,7 +40,7 @@ class CheckInWriteApplicationTest {
             when(checkInService.register(any(CheckInService.Registration.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
 
             //when
-            Long id = sut.registerCheckIn(dto);
+            Long id = sut.register(dto);
 
             //then
             assertEquals(checkIn.getId(), id);
@@ -64,7 +64,7 @@ class CheckInWriteApplicationTest {
             when(checkInService.update(any(CheckInService.Update.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
 
             //when
-            CheckIn.DTO returned = sut.updateCheckIn(dto);
+            CheckIn.DTO returned = sut.update(dto);
 
             //then
             assertEquals(dto.getCheckInId(), returned.getId());
