@@ -1,8 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
-import jakarta.validation.Validation;
-import jakarta.validation.ValidatorFactory;
+
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,29 +39,29 @@ class LineUpServiceTest {
     }
 
 
-
     @Test
     @DisplayName("체크인 등록 성공")
     void register() {
         //given
         LineUpService.Registration dto = LineUpService.Registration.createForTest();
-        when(lineUpRepository.save(any(LineUp.class))).thenReturn(1L);
+        LineUp lineUp = LineUp.createForTest();
+        when(lineUpRepository.save(any(LineUp.class))).thenReturn(lineUp);
 
         //when
-        Long id = lineUpService.register(dto);
+        LineUp.DTO result = lineUpService.register(dto);
 
         //then
-        assertEquals(1L, id);
-    }
-
-    @Nested
-    @SpringBootTest
-    class hi {
-        @Test
-        void hi(){
-            lineUpService.register(null);
-        }
-
+        assertEquals(lineUp.getId(), result.getId());
+        assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
+        assertEquals(dto.getPlaceName() + LineUp.LINE_UP_TITLE, result.getTitle());
+        assertEquals(dto.getPlaceId(), result.getPlaceId());
+        assertEquals(dto.getReward(), result.getReward());
+        assertEquals(dto.getStart(), result.getStart());
+        assertEquals(Progress.DEFAULT.getStatus(), result.getStatus());
+        assertEquals(Progress.DEFAULT.getHelperId(), result.getHelperId());
+        assertEquals(Progress.DEFAULT.getPhotoPath(), result.getPhotoPath());
+        assertEquals(Progress.DEFAULT.isCompleted(), result.isCompleted());
+        
     }
 
 }

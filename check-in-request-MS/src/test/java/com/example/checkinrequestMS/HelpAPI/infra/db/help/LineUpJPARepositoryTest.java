@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.infra.db.help;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.LineUpEntity;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -34,11 +35,25 @@ class LineUpJPARepositoryTest {
         when(lineUpSpringJPARepository.save(any(LineUpEntity.class))).thenReturn(lineUpEntity);
 
         // When
-        Long result = lineUpJPARepository.save(lineUp);
+        LineUp returned = lineUpJPARepository.save(lineUp);
 
         // Then
-        assertNotNull(result);
-        assertEquals(lineUpEntity.getId(), result);
+        assertNotNull(returned);
+        assertEquals(returned.getId(), lineUpEntity.getId());
+
+        LineUp.DTO result = LineUp.DTO.getDTO(returned);
+        assertEquals(result.getId(), lineUpEntity.getId());
+        assertEquals(result.getHelpRegisterId(), lineUpEntity.getHelpEntity().getHelpRegisterId());
+        assertEquals(result.getPlaceId(), lineUpEntity.getHelpEntity().getPlaceId());
+        assertEquals(result.getTitle(), lineUpEntity.getHelpEntity().getTitle());
+        assertEquals(result.getStart(), lineUpEntity.getHelpEntity().getStart());
+        assertEquals(result.getEnd(), lineUpEntity.getHelpEntity().getEnd());
+        assertEquals(result.getReward(), lineUpEntity.getHelpEntity().getReward());
+        assertEquals(result.getStatus(), lineUpEntity.getProgressEntity().getStatus());
+        assertEquals(result.getPhotoPath(), lineUpEntity.getProgressEntity().getPhotoPath());
+        assertEquals(result.getHelperId(), lineUpEntity.getProgressEntity().getHelperId());
+        assertEquals(result.isCompleted(), lineUpEntity.getProgressEntity().isCompleted());
+
     }
 
     @Test
@@ -49,11 +64,23 @@ class LineUpJPARepositoryTest {
         when(lineUpSpringJPARepository.findById(id)).thenReturn(Optional.of(lineUpEntity));
 
         // When
-        LineUp result = lineUpJPARepository.findById(id);
+        LineUp returned = lineUpJPARepository.findById(id);
 
         // Then
-        assertNotNull(result);
-        assertEquals(lineUpEntity.getId(), result.getId());
+        assertNotNull(returned);
+        assertEquals(lineUpEntity.getId(), returned.getId());
+
+        LineUp.DTO result = LineUp.DTO.getDTO(returned);
+        assertEquals(result.getId(), lineUpEntity.getId());
+        assertEquals(result.getHelpRegisterId(), lineUpEntity.getHelpEntity().getHelpRegisterId());
+        assertEquals(result.getPlaceId(), lineUpEntity.getHelpEntity().getPlaceId());
+        assertEquals(result.getTitle(), lineUpEntity.getHelpEntity().getTitle());
+        assertEquals(result.getStart(), lineUpEntity.getHelpEntity().getStart());
+        assertEquals(result.getEnd(), lineUpEntity.getHelpEntity().getEnd());
+        assertEquals(result.getReward(), lineUpEntity.getHelpEntity().getReward());
+        assertEquals(result.getStatus(), lineUpEntity.getProgressEntity().getStatus());
+        assertEquals(result.getPhotoPath(), lineUpEntity.getProgressEntity().getPhotoPath());
+        assertEquals(result.getHelperId(), lineUpEntity.getProgressEntity().getHelperId());
     }
 
     @Test
@@ -65,6 +92,35 @@ class LineUpJPARepositoryTest {
         // When & Then
         HelpException exception = assertThrows(HelpException.class, () -> lineUpJPARepository.findById(id));
         assertEquals(HelpErrorCode.NO_HELP_INFO.getDetail(), exception.getMessage());
+    }
+
+    @Test
+    void update() {
+
+        // Given
+        LineUp lineUp = LineUp.createForTest();
+        LineUpEntity lineUpEntity = LineUpEntity.from(lineUp);
+        when(lineUpSpringJPARepository.save(any(LineUpEntity.class))).thenReturn(lineUpEntity);
+
+        LineUpService.Update dto = LineUpService.Update.createForTest();
+        LineUp updated = lineUp.update(dto);
+
+        //When
+        LineUp returned = lineUpJPARepository.update(updated);
+
+        //Then
+        assertNotNull(returned);
+        assertEquals(returned.getId(), lineUpEntity.getId());
+
+        LineUp.DTO result = LineUp.DTO.getDTO(returned);
+        assertEquals(result.getId(), lineUpEntity.getId());
+        assertEquals(result.getHelpRegisterId(), lineUpEntity.getHelpEntity().getHelpRegisterId());
+        assertEquals(result.getPlaceId(), lineUpEntity.getHelpEntity().getPlaceId());
+        assertEquals(result.getTitle(), lineUpEntity.getHelpEntity().getTitle());
+        assertEquals(result.getStart(), lineUpEntity.getHelpEntity().getStart());
+        assertEquals(result.getEnd(), lineUpEntity.getHelpEntity().getEnd());
+        assertEquals(result.getReward(), lineUpEntity.getHelpEntity().getReward());
+
     }
 
 }

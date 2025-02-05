@@ -18,14 +18,13 @@ public class LineUpService {
     private final LineUpRepository lineUpRepository;
     private final AlarmService alarmService;
 
-    public Long register(@NonNull Registration dto) {
-
+    public LineUp.DTO register(@NonNull Registration dto) {
         LineUp lineUp = LineUp.register(dto);
 
         //alarmService.sendAlarmToUsersNearby(place.getId(), place.getX(), place.getY();
         //alarmService.sendAlarmToUsersNearby(dto.getHelpRegisterId(), place);
 
-        return lineUpRepository.save(lineUp);
+        return LineUp.DTO.getDTO(lineUpRepository.save(lineUp));
     }
 
     public LineUp.DTO update(@NonNull LineUpService.Update dto) {
@@ -38,10 +37,10 @@ public class LineUpService {
         return LineUp.DTO.getDTO(lineUpRepository.findById(id));
     }
 
-    public Long start(@NonNull LineUpStarted dto) {
+    public LineUp.DTO startLineUp(@NonNull LineUpStarted dto) {
         LineUp lineUp = lineUpRepository.findById(dto.getLineUpId());
         lineUp.start(dto);
-        return lineUpRepository.save(lineUp);
+        return LineUp.DTO.getDTO(lineUpRepository.save(lineUp));
     }
 
     //DTO
@@ -162,10 +161,7 @@ public class LineUpService {
         }
     }
 
-    //Request
     @Getter
-    @Builder(access = AccessLevel.PROTECTED)
-    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
     @Validated
     public static class LineUpStarted implements Progress.DTO {
 
@@ -178,9 +174,16 @@ public class LineUpService {
         private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
 
         private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
+
         private final Optional<String> photoPath = Optional.empty();
+
         private final boolean completed = false;
 
+        @Builder(access = AccessLevel.PRIVATE)
+        public LineUpStarted(Long lineUpId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
+            this.lineUpId = lineUpId;
+            this.helperId = helperId;
+        }
     }
 
 }

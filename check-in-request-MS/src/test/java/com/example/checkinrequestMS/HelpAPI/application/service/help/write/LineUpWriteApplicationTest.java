@@ -1,5 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,15 +30,18 @@ class LineUpWriteApplicationTest {
         void registerLineUp() {
 
             //given
-            Long returnedId = 1L;
             LineUpService.Registration dto = LineUpService.Registration.createForTest();
-            when(lineUpService.register(dto)).thenReturn(returnedId);
+            LineUp lineUp = LineUp.createForTest();
+            lineUp.register(dto);
+            when(lineUpService.register(dto)).thenReturn(LineUp.DTO.getDTO(lineUp));
 
             //when
             Long id = sut.register(dto);
 
             //then
+            assertEquals(lineUp.getId(), id);
             assertEquals(1L, id);
+
         }
 
     }

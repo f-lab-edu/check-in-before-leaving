@@ -30,7 +30,7 @@ class HelpSelectApplicationTest {
         Long id = 1L;
         CheckIn checkIn = CheckIn.createForTest();
         CheckIn.DTO response = CheckIn.DTO.getDTO(checkIn);
-        when(checkInService.findCheckIn(id)).thenReturn(response);
+        when(checkInService.findOne(id)).thenReturn(response);
 
         // When
         CheckIn.DTO result = helpSelectApplication.selectCheckIn(id);
@@ -82,7 +82,7 @@ class HelpSelectApplicationTest {
         Long id = 1L;
         Etc etc = Etc.createForTest();
         Etc.DTO response = Etc.DTO.getDTO(etc);
-        when(etcService.findEtc(id)).thenReturn(response);
+        when(etcService.findOne(id)).thenReturn(response);
 
         // When
         Etc.DTO result = helpSelectApplication.selectEtc(id);

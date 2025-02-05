@@ -40,16 +40,15 @@ public final class LineUp {
     public static LineUp register(@NonNull LineUpService.Registration dto) {
         LineUp.DTO lineUpDTO = customizeLineUpRegistration(dto);
         return new LineUp(true, HelpDetail.from(lineUpDTO), Progress.from(lineUpDTO));
-
     }
 
-    private static LineUp.DTO customizeLineUpRegistration(@NonNull LineUpService.Registration dto) {
+    public static LineUp.DTO customizeLineUpRegistration(@NonNull LineUpService.Registration dto) {
         return LineUp.DTO.builder()
                 .id(null)
                 .helpRegisterId(dto.getHelpRegisterId())
-                .title(createNewTitle(dto.getPlaceName()))
+                .title(createTitle(dto.getPlaceName()))
                 .start(dto.getStart())
-                .end(calculateEnd(dto.getStart(), dto.getOption()))
+                .end(calcuateEnd(dto.getStart(), dto.getOption()))
                 .placeId(dto.getPlaceId())
                 .reward(dto.getReward())
                 .status(Progress.DEFAULT.getStatus())
@@ -58,7 +57,8 @@ public final class LineUp {
                 .completed(Progress.DEFAULT.isCompleted())
                 .build();
     }
-    private static String createNewTitle(@NonNull String placeName) {
+      
+    private static String createTitle(@NonNull String placeName) {
         return placeName + LINE_UP_TITLE;
     }
 

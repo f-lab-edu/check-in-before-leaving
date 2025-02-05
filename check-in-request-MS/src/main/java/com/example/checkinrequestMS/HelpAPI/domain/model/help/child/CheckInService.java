@@ -28,7 +28,7 @@ public class CheckInService {
         return CheckIn.DTO.getDTO(checkInRepository.save(checkIn));
     }
 
-    public CheckIn.DTO findCheckIn(@NonNull Long id) {
+    public CheckIn.DTO findOne(@NonNull Long id) {
         return CheckIn.DTO.getDTO(checkInRepository.findById(id));
     }
 
@@ -172,15 +172,17 @@ public class CheckInService {
 
         private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
 
+        private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
+
+        private final Optional<String> photoPath = Optional.empty();
+
+        private final boolean completed = false;
+
         @Builder(access = AccessLevel.PRIVATE)
         public CheckInStarted(Long checkInId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
             this.checkInId = checkInId;
             this.helperId = helperId;
         }
-
-        private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
-        private final Optional<String> photoPath = Optional.empty();
-        private final boolean completed = false;
 
         //For Test
         public static CheckInStarted createForTest() {

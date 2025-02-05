@@ -41,6 +41,27 @@ public final class Etc {
     public static Etc register(@NonNull EtcService.Registration dto) {
         Etc.DTO etcDTO = customizeCheckInRegistration(dto);
         return new Etc(true, HelpDetail.from(etcDTO), Progress.DEFAULT, dto.getContents());
+
+    private static Etc.DTO customizeEtcRegistration(EtcService.Registration dto) {
+        return Etc.DTO.builder()
+                .id(null)
+                .helpRegisterId(dto.getHelpRegisterId())
+                .title(dto.getTitle())
+                .start(dto.getStart())
+                .end(calculateEnd(dto.getStart(), dto.getOption()))
+                .placeId(dto.getPlaceId())
+                .reward(dto.getReward())
+                .status(Progress.DEFAULT.getStatus())
+                .helperId(Progress.DEFAULT.getHelperId())
+                .photoPath(Progress.DEFAULT.getPhotoPath())
+                .completed(Progress.DEFAULT.isCompleted())
+                .build();
+    }
+
+    private static LocalDateTime calculateEnd(LocalDateTime start, Integer option) {
+        if (start == null || option == null) return null;
+        return start.plusMinutes(option);
+
     }
 
     private static Etc.DTO customizeCheckInRegistration(@NonNull EtcService.Registration dto) {

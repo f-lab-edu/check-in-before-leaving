@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.infra.db.help;
 
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpRepository;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.LineUpEntity;
@@ -15,8 +16,8 @@ public class LineUpJPARepository implements LineUpRepository {
     private final LineUpSpringJPARepository lineUpSpringJPARepository;
 
     @Override
-    public Long save(LineUp lineUp) {
-        return lineUpSpringJPARepository.save(LineUpEntity.register(lineUp)).getId();
+    public LineUp save(LineUp lineUp) {
+        return lineUpSpringJPARepository.save(LineUpEntity.register(lineUp)).returnDomainEntity();
     }
 
     @Override

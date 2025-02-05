@@ -18,32 +18,33 @@ public class EtcService {
     private final EtcRepository etcRepository;
     private final AlarmService alarmService;
 
-    public Long registerEtc(@NonNull Registration dto) {
+    public Etc.DTO register(@NonNull Registration dto) {
 
         Etc etc = Etc.register(dto);
 
         //alarmService.sendAlarmToUsersNearby(place.getId(), place.getX(), place.getY();
         //alarmService.sendAlarmToUsersNearby(dto.getHelpRegisterId(), place);
 
-        return etcRepository.save(etc);
+        return Etc.DTO.getDTO(etcRepository.save(etc));
     }
 
-    public Etc.DTO findEtc(@NonNull Long id) {
+    public Etc.DTO findOne(@NonNull Long id) {
         return Etc.DTO.getDTO(etcRepository.findById(id));
     }
 
-    public Etc.DTO updateEtc(@NonNull Update dto) {
+    public Etc.DTO update(Update dto) {
         Etc etc = etcRepository.findById(dto.getHelpId());
         etc.update(dto);
         return Etc.DTO.getDTO(etcRepository.update(etc));
     }
 
-    public Long startEtc(@NonNull EtcStarted dto) {
+    public Etc.DTO startEtc(@NonNull EtcStarted dto) {
         Etc etc = etcRepository.findById(dto.getEtcId());
         etc.start(dto);
-        return etcRepository.save(etc);
+        return Etc.DTO.getDTO(etcRepository.save(etc));
     }
 
+    //DTO
     @Getter
     @Validated
     public static final class Registration {
@@ -100,10 +101,10 @@ public class EtcService {
                     .helpRegisterId(1L)
                     .placeId("placeId")
                     .placeName("placeName")
-                    .start(LocalDateTime.now())
+                    .start(LocalDateTime.of(1993, 4, 1, 0, 0))
                     .title("title")
                     .contents("contents")
-                    .option(10)
+                    .option(30) //fixme: make option meaningful
                     .reward(100L)
                     .build();
         }
@@ -180,8 +181,7 @@ public class EtcService {
     }
 
     @Getter
-    @Builder(access = AccessLevel.PROTECTED)
-    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+    @Validated
     public static class EtcStarted implements Progress.DTO {
 
         public static final String PROGRESS_REGISTER_REQUEST_NO_HELP_ID = "요청 ID가 필요합니다.";
@@ -193,8 +193,16 @@ public class EtcService {
         private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
 
         private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
+
         private final Optional<String> photoPath = Optional.empty();
+
         private final boolean completed = false;
+
+        @Builder(access = AccessLevel.PRIVATE)
+        public EtcStarted(Long etcId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
+            this.etcId = etcId;
+            this.helperId = helperId;
+        }
 
     }
 

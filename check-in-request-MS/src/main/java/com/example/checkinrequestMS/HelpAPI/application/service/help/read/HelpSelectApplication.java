@@ -14,9 +14,9 @@ public class HelpSelectApplication {
     private final LineUpService lineUpService;
     private final EtcService etcService;
 
-    //@Cacheable(cacheNames = "help_searched", key = "'checkIn_' + #id")
+    @Cacheable(cacheNames = "help_searched", key = "'checkIn_' + #id")
     public CheckIn.DTO selectCheckIn(@NonNull Long id) {
-        return checkInService.findCheckIn(id);
+        return checkInService.findOne(id);
     }
 
     @Cacheable(cacheNames = "help_searched", key = "'lineUp_' + #id")
@@ -26,6 +26,7 @@ public class HelpSelectApplication {
 
     @Cacheable(cacheNames = "help_searched", key = "'etc_' + #id")
     public Etc.DTO selectEtc(@NonNull Long id) {
-        return etcService.findEtc(id);
+        return etcService.findOne(id);
+
     }
 }
