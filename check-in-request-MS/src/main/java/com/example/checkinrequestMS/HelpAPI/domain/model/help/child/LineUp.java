@@ -14,7 +14,7 @@ import java.util.Optional;
 @Getter
 public final class LineUp {
 
-    public static final String CHECK_IN_TITLE = "체크인 요청";
+    public static final String LINE_UP_TITLE = "줄서기 요청";
 
     private final Long id;
     @Getter(AccessLevel.PRIVATE)
@@ -29,7 +29,7 @@ public final class LineUp {
         this.progress = progress;
     }
 
-    private LineUp(@NonNull HelpDetail helpDetail, @NonNull Progress progress, @NonNull Boolean isRegister) {
+    private LineUp(@NonNull Boolean isRegister, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
         this.id = null;
         this.helpDetail = helpDetail;
         this.progress = progress;
@@ -37,7 +37,33 @@ public final class LineUp {
 
     //Business
     public static LineUp register(LineUpService.Registration dto) {
-        return new LineUp(HelpDetail.from(dto), Progress.DEFAULT, true);
+        LineUp.DTO lineUpDTO = customizeLineUpRegistration(dto);
+        return new LineUp(true, HelpDetail.from(lineUpDTO), Progress.from(lineUpDTO));
+    }
+
+    public static LineUp.DTO customizeLineUpRegistration(LineUpService.Registration dto) {
+        return LineUp.DTO.builder()
+                .id(null)
+                .helpRegisterId(dto.getHelpRegisterId())
+                .title(createTitle(dto.getPlaceName()))
+                .start(dto.getStart())
+                .end(calcuateEnd(dto.getStart(), dto.getOption()))
+                .placeId(dto.getPlaceId())
+                .reward(dto.getReward())
+                .status(Progress.DEFAULT.getStatus())
+                .helperId(Progress.DEFAULT.getHelperId())
+                .photoPath(Progress.DEFAULT.getPhotoPath())
+                .completed(Progress.DEFAULT.isCompleted())
+                .build();
+    }
+
+    private static String createTitle(String placeName) {
+        return placeName + LINE_UP_TITLE;
+    }
+
+    private static LocalDateTime calcuateEnd(LocalDateTime start, Integer option) {
+        if (start == null || option == null) return null;
+        return start.plusMinutes(option);
     }
 
     public LineUp update(LineUpService.Update dto) {

@@ -31,19 +31,19 @@ class CheckInServiceTest {
         when(checkInRepository.save(any(CheckIn.class))).thenReturn(checkIn);
 
         //when
-        CheckIn.DTO id = sut.register(dto);
+        CheckIn.DTO result = sut.register(dto);
 
         //then
-        assertEquals(checkIn.getId(), id.getId());
-        assertEquals(dto.getHelpRegisterId(), id.getHelpRegisterId());
-        assertEquals(dto.getPlaceName() + CheckIn.CHECK_IN_TITLE, id.getTitle());
-        assertEquals(dto.getPlaceId(), id.getPlaceId());
-        assertEquals(dto.getReward(), id.getReward());
-        assertEquals(dto.getStart(), id.getStart());
-        assertEquals(Progress.DEFAULT.getStatus(), id.getStatus());
-        assertEquals(Progress.DEFAULT.getHelperId(), id.getHelperId());
-        assertEquals(Progress.DEFAULT.getPhotoPath(), id.getPhotoPath());
-        assertEquals(Progress.DEFAULT.isCompleted(), id.isCompleted());
+        assertEquals(checkIn.getId(), result.getId());
+        assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
+        assertEquals(dto.getPlaceName() + CheckIn.CHECK_IN_TITLE, result.getTitle());
+        assertEquals(dto.getPlaceId(), result.getPlaceId());
+        assertEquals(dto.getReward(), result.getReward());
+        assertEquals(dto.getStart(), result.getStart());
+        assertEquals(Progress.DEFAULT.getStatus(), result.getStatus());
+        assertEquals(Progress.DEFAULT.getHelperId(), result.getHelperId());
+        assertEquals(Progress.DEFAULT.getPhotoPath(), result.getPhotoPath());
+        assertEquals(Progress.DEFAULT.isCompleted(), result.isCompleted());
     }
 
     @Test
@@ -75,7 +75,7 @@ class CheckInServiceTest {
         when(checkInRepository.findById(checkIn.getId())).thenReturn(checkIn);
 
         //when
-        CheckIn.DTO returned = sut.findCheckIn(checkIn.getId());
+        CheckIn.DTO returned = sut.findOne(checkIn.getId());
 
         //then
         assertEquals(checkIn.getId(), returned.getId());

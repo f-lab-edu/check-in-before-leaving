@@ -18,35 +18,36 @@ public class EtcService {
     private final EtcRepository etcRepository;
     private final AlarmService alarmService;
 
-    public Long registerEtc(@NonNull Registration dto) {
+    public Etc.DTO register(@NonNull Registration dto) {
 
         Etc etc = Etc.register(dto);
 
         //alarmService.sendAlarmToUsersNearby(place.getId(), place.getX(), place.getY();
         //alarmService.sendAlarmToUsersNearby(dto.getHelpRegisterId(), place);
 
-        return etcRepository.save(etc);
+        return Etc.DTO.getDTO(etcRepository.save(etc));
     }
 
-    public Etc.DTO findEtc(Long id) {
+    public Etc.DTO findOne(Long id) {
         return Etc.DTO.getDTO(etcRepository.findById(id));
     }
 
-    public Etc.DTO updateEtc(Update dto) {
+    public Etc.DTO update(Update dto) {
         Etc etc = etcRepository.findById(dto.getHelpId());
         etc.update(dto); //fixme: ??
         return Etc.DTO.getDTO(etcRepository.update(etc));
     }
 
-    public Long startEtc(@NonNull EtcStarted dto) {
+    public Etc.DTO startEtc(@NonNull EtcStarted dto) {
         Etc etc = etcRepository.findById(dto.getEtcId());
         etc.start(dto);
-        return etcRepository.save(etc);
+        return Etc.DTO.getDTO(etcRepository.save(etc));
     }
 
+    //DTO
     @Getter
     @Validated
-    public static final class Registration implements HelpDetail.DTO {
+    public static final class Registration {
 
         public static final String NO_ETC_REGISTER_ID = "체크인 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -82,8 +83,6 @@ public class EtcService {
         @NotNull(message = NO_CONTENTS)
         private final String contents;
 
-        private final LocalDateTime end;
-
         @Builder(access = AccessLevel.PRIVATE)
         public Registration(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward, String title, String contents) {
             this.helpRegisterId = helpRegisterId;
@@ -94,12 +93,6 @@ public class EtcService {
             this.reward = reward;
             this.title = title;
             this.contents = contents;
-            this.end = calculateEnd(start, option);
-        }
-
-        private LocalDateTime calculateEnd(LocalDateTime start, Integer option) {
-            if (start == null || option == null) return null;
-            return start.plusMinutes(option);
         }
 
         //For Test
@@ -108,33 +101,13 @@ public class EtcService {
                     .helpRegisterId(1L)
                     .placeId("placeId")
                     .placeName("placeName")
-                    .start(LocalDateTime.now())
+                    .start(LocalDateTime.of(1993, 4, 1, 0, 0))
                     .title("title")
                     .contents("contents")
-                    .option(10)
+                    .option(30) //fixme: make option meaningful
                     .reward(100L)
                     .build();
         }
-    }
-
-    //Request
-    @Getter
-    @Builder(access = AccessLevel.PROTECTED)
-    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class EtcStarted implements Progress.DTO {
-
-        public static final String PROGRESS_REGISTER_REQUEST_NO_HELP_ID = "요청 ID가 필요합니다.";
-        public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
-
-        @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELP_ID)
-        private final Long etcId;
-
-        private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
-
-        private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
-        private final Optional<String> photoPath = Optional.empty();
-        private final boolean completed = false;
-
     }
 
     @Getter
@@ -206,6 +179,31 @@ public class EtcService {
                     .option(10)
                     .reward(100L)
                     .build();
+        }
+    }
+
+    @Getter
+    @Validated
+    public static class EtcStarted implements Progress.DTO {
+
+        public static final String PROGRESS_REGISTER_REQUEST_NO_HELP_ID = "요청 ID가 필요합니다.";
+        public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
+
+        @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELP_ID)
+        private final Long etcId;
+
+        private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
+
+        private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
+
+        private final Optional<String> photoPath = Optional.empty();
+
+        private final boolean completed = false;
+
+        @Builder(access = AccessLevel.PRIVATE)
+        public EtcStarted(Long etcId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
+            this.etcId = etcId;
+            this.helperId = helperId;
         }
     }
 

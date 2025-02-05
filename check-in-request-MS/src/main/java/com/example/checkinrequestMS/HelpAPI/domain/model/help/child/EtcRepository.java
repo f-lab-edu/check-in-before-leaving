@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EtcRepository {
 
-    public Long save(Etc etc);
+    public Etc save(Etc etc);
 
     public Etc findById(Long id);
 
