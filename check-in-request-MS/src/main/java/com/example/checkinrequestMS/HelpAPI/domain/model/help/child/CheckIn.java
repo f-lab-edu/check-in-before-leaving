@@ -13,8 +13,6 @@ import java.util.Optional;
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 public final class CheckIn {
 
-    public static final String CHECK_IN_TITLE = "체크인 요청";
-
     @Getter
     private final Long id;
 
@@ -28,7 +26,7 @@ public final class CheckIn {
     //fixme: 널포인터인 경우 사용자에게는 내부 에러라고 하고 개발자에게 로그를 남기는게 더 맞는거 같음.
     //fixme: 어차피 필요한 값은 Request를 통해서 받고 거기에 값이 없다면 클라이언트에게 알려야 하지만 그렇지 않다면 알릴 필요 없다.
     @Builder
-    private CheckIn(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
+    public CheckIn(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
         this.id = id;
         this.helpDetail = helpDetail;
         this.progress = progress;
@@ -42,32 +40,7 @@ public final class CheckIn {
 
     //Business
     public static CheckIn register(@NonNull CheckInService.Registration dto) {
-        CheckIn.DTO checkInDTO = customizeCheckInRegistration(dto);
-        return new CheckIn(true, HelpDetail.from(checkInDTO), Progress.from(checkInDTO));
-    }
-
-    private static CheckIn.DTO customizeCheckInRegistration(@NonNull CheckInService.Registration dto) {
-        return CheckIn.DTO.builder()
-                .id(null)
-                .helpRegisterId(dto.getHelpRegisterId())
-                .title(createNewTitle(dto.getPlaceName()))
-                .start(dto.getStart())
-                .end(calculateEnd(dto.getStart(), dto.getOption()))
-                .placeId(dto.getPlaceId())
-                .reward(dto.getReward())
-                .status(Progress.DEFAULT.getStatus())
-                .helperId(Progress.DEFAULT.getHelperId())
-                .photoPath(Progress.DEFAULT.getPhotoPath())
-                .completed(Progress.DEFAULT.isCompleted())
-                .build();
-    }
-
-    private static String createNewTitle(@NonNull String placeName) {
-        return placeName + CHECK_IN_TITLE;
-    }
-
-    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
-        return start.plusMinutes(option);
+        return new CheckIn(true, HelpDetail.from(dto), Progress.DEFAULT);
     }
 
     public CheckIn update(@NonNull CheckInService.Update dto) {
@@ -112,7 +85,7 @@ public final class CheckIn {
         private final Optional<String> photoPath;
         private final boolean completed;
 
-        @Builder(access = AccessLevel.PUBLIC)
+        @Builder
         public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
                    @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status,
                    @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
@@ -144,14 +117,5 @@ public final class CheckIn {
                     .completed(checkIn.getProgress().isCompleted())
                     .build();
         }
-    }
-
-    //for Test
-    public static CheckIn createForTest() {
-        return CheckIn.builder()
-                .id(1L)
-                .helpDetail(HelpDetail.createForTest())
-                .progress(Progress.createForTest())
-                .build();
     }
 }

@@ -27,26 +27,36 @@ public class LineUpService {
         return LineUp.DTO.getDTO(lineUpRepository.save(lineUp));
     }
 
+    public static final String LINE_UP_TITLE = "줄서기 요청";
+
+    private static String createTitle(@NonNull String placeName) {
+        return placeName + LINE_UP_TITLE;
+    }
+
+    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
+        return start.plusMinutes(option);
+    }
+
     public LineUp.DTO update(@NonNull LineUpService.Update dto) {
-        LineUp lineUp = lineUpRepository.findById(dto.getHelpId());
-        lineUp.update(dto);
-        return LineUp.DTO.getDTO(lineUp);
+        LineUp lineUp = lineUpRepository.findById(dto.getLineUpId());
+        lineUp = lineUp.update(dto);
+        return LineUp.DTO.getDTO(lineUpRepository.update(lineUp));
     }
 
     public LineUp.DTO findOne(@NonNull Long id) {
         return LineUp.DTO.getDTO(lineUpRepository.findById(id));
     }
 
-    public LineUp.DTO startLineUp(@NonNull LineUpStarted dto) {
+    public LineUp.DTO start(@NonNull LineUpStarted dto) {
         LineUp lineUp = lineUpRepository.findById(dto.getLineUpId());
-        lineUp.start(dto);
-        return LineUp.DTO.getDTO(lineUpRepository.save(lineUp));
+        lineUp = lineUp.start(dto);
+        return LineUp.DTO.getDTO(lineUpRepository.update(lineUp));
     }
 
     //DTO
     @Getter
     @Validated
-    public static final class Registration {
+    public static final class Registration implements HelpDetail.DTO {
 
         public static final String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -73,7 +83,11 @@ public class LineUpService {
         @NotNull(message = NO_REWARD)
         private final Long reward;
 
-        @Builder(access = AccessLevel.PRIVATE)
+        private final String title;
+
+        private final LocalDateTime end;
+
+        @Builder
         public Registration(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward) {
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
@@ -81,18 +95,8 @@ public class LineUpService {
             this.start = start;
             this.option = option;
             this.reward = reward;
-        }
-
-        //For Test
-        public static Registration createForTest() {
-            return Registration.builder()
-                    .helpRegisterId(1L)
-                    .placeId("placeId")
-                    .placeName("placeName")
-                    .start(LocalDateTime.now())
-                    .option(10)
-                    .reward(100L)
-                    .build();
+            this.title = createTitle(placeName);
+            this.end = calculateEnd(start, option);
         }
     }
 
@@ -111,7 +115,7 @@ public class LineUpService {
         public static final String NO_END = "종료 시간은 필수입니다.";
 
         @NotNull(message = NO_ID)
-        private final Long helpId;
+        private final Long lineUpId;
 
         @NotNull(message = NO_LINE_UP_REGISTER_ID)
         private final Long helpRegisterId;
@@ -134,9 +138,9 @@ public class LineUpService {
         @NotNull(message = NO_END)
         private final LocalDateTime end;
 
-        @Builder(access = AccessLevel.PRIVATE)
-        public Update(Long helpId, Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward, String title, LocalDateTime end) {
-            this.helpId = helpId;
+        @Builder
+        public Update(Long lineUpId, Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward, String title, LocalDateTime end) {
+            this.lineUpId = lineUpId;
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
             this.placeName = placeName;
@@ -144,20 +148,6 @@ public class LineUpService {
             this.reward = reward;
             this.title = title;
             this.end = end;
-        }
-
-        //For Test
-        public static LineUpService.Update createForTest() {
-            return LineUpService.Update.builder()
-                    .helpRegisterId(1L)
-                    .placeId("placeId")
-                    .title("title")
-                    .end(LocalDateTime.now().plusMinutes(10))
-                    .placeName("placeName")
-                    .start(LocalDateTime.now())
-                    .option(10)
-                    .reward(100L)
-                    .build();
         }
     }
 
@@ -179,7 +169,7 @@ public class LineUpService {
 
         private final boolean completed = false;
 
-        @Builder(access = AccessLevel.PRIVATE)
+        @Builder
         public LineUpStarted(Long lineUpId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
             this.lineUpId = lineUpId;
             this.helperId = helperId;

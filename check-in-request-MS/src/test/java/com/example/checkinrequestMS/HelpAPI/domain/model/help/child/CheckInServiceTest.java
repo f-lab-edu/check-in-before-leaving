@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,8 +27,8 @@ class CheckInServiceTest {
     @DisplayName("체크인 등록 성공")
     void register() {
         //given
-        CheckInService.Registration dto = CheckInService.Registration.createForTest();
-        CheckIn checkIn = CheckIn.createForTest();
+        CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
         when(checkInRepository.save(any(CheckIn.class))).thenReturn(checkIn);
 
         //when
@@ -36,7 +37,7 @@ class CheckInServiceTest {
         //then
         assertEquals(checkIn.getId(), result.getId());
         assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
-        assertEquals(dto.getPlaceName() + CheckIn.CHECK_IN_TITLE, result.getTitle());
+        assertEquals(dto.getPlaceName() + CheckInService.CHECK_IN_TITLE, result.getTitle());
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
@@ -50,8 +51,8 @@ class CheckInServiceTest {
     @DisplayName("체크인 수정 성공")
     void update() {
         //given
-        CheckIn checkIn = CheckIn.createForTest();
-        CheckInService.Update dto = CheckInService.Update.createForTest();
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
+        CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create();
         when(checkInRepository.findById(dto.getCheckInId())).thenReturn(checkIn);
         when(checkInRepository.update(any(CheckIn.class))).thenAnswer(i -> i.getArgument(0));
 
@@ -71,7 +72,7 @@ class CheckInServiceTest {
     @DisplayName("체크인 조회 성공")
     void selectCheckIn() {
         //given
-        CheckIn checkIn = CheckIn.createForTest();
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
         when(checkInRepository.findById(checkIn.getId())).thenReturn(checkIn);
 
         //when
@@ -98,8 +99,8 @@ class CheckInServiceTest {
     @DisplayName("체크인 시작 성공")
     void start() {
         //given
-        CheckIn checkIn = CheckIn.createForTest();
-        CheckInService.CheckInStarted dto = CheckInService.CheckInStarted.createForTest();
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
+        CheckInService.CheckInStarted dto = CheckInFixtures.CheckInServiceT.CheckInStartedT.create();
         when(checkInRepository.findById(checkIn.getId())).thenReturn(checkIn);
         when(checkInRepository.update(any(CheckIn.class))).thenAnswer(i -> i.getArgument(0));
 

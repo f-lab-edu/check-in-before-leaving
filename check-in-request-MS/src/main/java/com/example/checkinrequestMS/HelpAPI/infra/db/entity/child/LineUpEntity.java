@@ -23,7 +23,7 @@ public class LineUpEntity {
     @Embedded
     private ProgressEntity progressEntity;
 
-    @Builder(access = AccessLevel.PROTECTED)
+    @Builder
     protected LineUpEntity(@NonNull Long id, @NonNull LineUp lineUp) {
         LineUp.DTO dto = LineUp.DTO.getDTO(lineUp);
         this.id = id;
@@ -68,15 +68,6 @@ public class LineUpEntity {
         return LineUpEntity.builder()
                 .id(lineUp.getId())
                 .lineUp(lineUp)
-                .build();
-    }
-
-
-    //for test
-    public static LineUpEntity createForTest() {
-        return LineUpEntity.builder()
-                .id(1L)
-                .lineUp(LineUp.createForTest())
                 .build();
     }
 

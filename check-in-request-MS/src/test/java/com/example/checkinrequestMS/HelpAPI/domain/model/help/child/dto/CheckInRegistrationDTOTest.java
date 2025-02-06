@@ -3,10 +3,10 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child.dto;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteApplication;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.HelpWriteController;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.URIRULE;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,7 +46,7 @@ public class CheckInRegistrationDTOTest {
     class helpValidation {
         static Stream<Arguments> requests() {
             return Stream.of(
-                    Arguments.of(CheckInService.Registration.createForTest(), "CheckInRequest", URIRULE.HELPS + URIRULE.CHECK_INS)
+                    Arguments.of(CheckInFixtures.CheckInServiceT.RegistrationT.create(), "CheckInRequest", URIRULE.HELPS + URIRULE.CHECK_INS)
             );
         }
 

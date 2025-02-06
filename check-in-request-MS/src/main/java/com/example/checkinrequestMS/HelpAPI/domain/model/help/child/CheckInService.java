@@ -11,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class CheckInService {
@@ -26,6 +25,16 @@ public class CheckInService {
         //alarmService.sendAlarmToUsersNearby(dto.getHelpRegisterId(), place);
 
         return CheckIn.DTO.getDTO(checkInRepository.save(checkIn));
+    }
+
+    public static final String CHECK_IN_TITLE = "체크인 요청";
+
+    private static String createTitle(@NonNull String placeName) {
+        return placeName + CHECK_IN_TITLE;
+    }
+
+    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
+        return start.plusMinutes(option);
     }
 
     public CheckIn.DTO findOne(@NonNull Long id) {
@@ -47,7 +56,7 @@ public class CheckInService {
     // DTO - Request
     @Getter
     @Validated
-    public static final class Registration {
+    public static final class Registration implements HelpDetail.DTO {
 
         public static final String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -75,26 +84,20 @@ public class CheckInService {
         @NotNull(message = NO_REWARD)
         private final Long reward;
 
-        @Builder(access = AccessLevel.PRIVATE)
-        public Registration(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward) {
+        private final String title;
+
+        private final LocalDateTime end;
+
+        @Builder
+        public Registration(@NonNull Long helpRegisterId, @NonNull String placeId, @NonNull String placeName, @NonNull LocalDateTime start, @NonNull Integer option, @NonNull Long reward) {
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
             this.placeName = placeName;
             this.start = start;
             this.option = option;
             this.reward = reward;
-        }
-
-        //For Test
-        public static Registration createForTest() {
-            return Registration.builder()
-                    .helpRegisterId(1L)
-                    .placeId("placeId")
-                    .placeName("placeName")
-                    .start(LocalDateTime.of(1993, 4, 1, 0, 0))
-                    .option(10)
-                    .reward(100L)
-                    .build();
+            this.title = CheckInService.createTitle(placeName);
+            this.end = CheckInService.calculateEnd(start, option);
         }
     }
 
@@ -110,8 +113,6 @@ public class CheckInService {
         public static final String NO_REWARD = "보상은 필수입니다.";
         public static final String NO_TITLE = "제목은 필수입니다.";
         public static final String NO_END = "종료 시간은 필수입니다.";
-
-        public static final String CHECK_IN_TITLE = "체크인 요청";
 
         @NotNull(message = NO_ID)
         private final Long checkInId;
@@ -134,8 +135,8 @@ public class CheckInService {
         @NotNull(message = NO_END)
         private final LocalDateTime end;
 
-        @Builder(access = AccessLevel.PRIVATE)
-        public Update(Long checkInId, Long helpRegisterId, String placeId, LocalDateTime start, Integer option, Long reward, String title, LocalDateTime end) {
+        @Builder
+        public Update(@NonNull Long checkInId, @NonNull Long helpRegisterId, @NonNull String placeId, @NonNull LocalDateTime start, @NonNull Integer option, @NonNull Long reward, @NonNull String title, @NonNull LocalDateTime end) {
             this.checkInId = checkInId;
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
@@ -143,20 +144,6 @@ public class CheckInService {
             this.reward = reward;
             this.title = title;
             this.end = end;
-        }
-
-        //For Test
-        public static Update createForTest() {
-            return Update.builder()
-                    .checkInId(1L)
-                    .helpRegisterId(1L)
-                    .placeId("placeId")
-                    .title("title")
-                    .end(LocalDateTime.of(1993, 4, 1, 0, 0).plusMinutes(10))
-                    .start(LocalDateTime.of(1993, 4, 1, 0, 0))
-                    .option(10)
-                    .reward(100L)
-                    .build();
         }
     }
 
@@ -178,18 +165,10 @@ public class CheckInService {
 
         private final boolean completed = false;
 
-        @Builder(access = AccessLevel.PRIVATE)
-        public CheckInStarted(Long checkInId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
+        @Builder
+        public CheckInStarted(@NonNull Long checkInId, @NonNull Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
             this.checkInId = checkInId;
             this.helperId = helperId;
-        }
-
-        //For Test
-        public static CheckInStarted createForTest() {
-            return CheckInStarted.builder()
-                    .checkInId(1L)
-                    .helperId(Optional.of(1L))
-                    .build();
         }
     }
 

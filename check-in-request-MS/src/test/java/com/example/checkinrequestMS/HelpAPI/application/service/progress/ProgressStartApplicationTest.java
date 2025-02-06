@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.application.service.progress;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,8 +25,8 @@ class ProgressStartApplicationTest {
     @Test
     void startCheckIn() {
         //given
-        CheckInService.CheckInStarted dto = CheckInService.CheckInStarted.createForTest();
-        CheckIn checkIn = CheckIn.createForTest();
+        CheckInService.CheckInStarted dto = CheckInFixtures.CheckInServiceT.CheckInStartedT.create();
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
         checkIn = checkIn.start(dto);
         when(checkInService.start(any(CheckInService.CheckInStarted.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
 

@@ -46,10 +46,4 @@ public final class Progress {
         boolean isCompleted();
     }
 
-    //For Test
-    public static Progress createForTest() {
-        return Progress.DEFAULT;
-    }
-
-
 }

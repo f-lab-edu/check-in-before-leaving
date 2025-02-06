@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
+import com.example.checkinrequestMS.fixtures.HelpAPI.EtcFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,8 +31,8 @@ class EtcWriteApplicationTest {
         void registerEtc() {
 
             //given
-            EtcService.Registration dto = EtcService.Registration.createForTest();
-            Etc etc = Etc.createForTest();
+            EtcService.Registration dto = EtcFixtures.EtcServiceT.RegistrationT.create();
+            Etc etc = EtcFixtures.EtcT.create();
             etc.register(dto);
             when(etcService.register(dto)).thenReturn(Etc.DTO.getDTO(etc));
 

@@ -6,6 +6,7 @@ import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWr
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.HelpWriteController;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.URIRULE;
+import com.example.checkinrequestMS.fixtures.HelpAPI.LineUpFixtures;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,7 +47,7 @@ public class LineUpRegistrationDTOTest {
     class helpValidation {
         static Stream<Arguments> requests() {
             return Stream.of(
-                    Arguments.of(LineUpService.Registration.createForTest(), "LineUpRequest", URIRULE.HELPS + URIRULE.LINE_UPS)
+                    Arguments.of(LineUpFixtures.LineUpServiceT.RegistrationT.create(), "LineUpRequest", URIRULE.HELPS + URIRULE.LINE_UPS)
             );
         }
 

@@ -28,26 +28,30 @@ public class EtcService {
         return Etc.DTO.getDTO(etcRepository.save(etc));
     }
 
+    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
+        return start.plusMinutes(option);
+    }
+
     public Etc.DTO findOne(@NonNull Long id) {
         return Etc.DTO.getDTO(etcRepository.findById(id));
     }
 
     public Etc.DTO update(Update dto) {
-        Etc etc = etcRepository.findById(dto.getHelpId());
-        etc.update(dto);
+        Etc etc = etcRepository.findById(dto.getEtcId());
+        etc = etc.update(dto);
         return Etc.DTO.getDTO(etcRepository.update(etc));
     }
 
-    public Etc.DTO startEtc(@NonNull EtcStarted dto) {
+    public Etc.DTO start(@NonNull EtcStarted dto) {
         Etc etc = etcRepository.findById(dto.getEtcId());
-        etc.start(dto);
-        return Etc.DTO.getDTO(etcRepository.save(etc));
+        etc = etc.start(dto);
+        return Etc.DTO.getDTO(etcRepository.update(etc));
     }
 
     //DTO
     @Getter
     @Validated
-    public static final class Registration {
+    public static final class Registration implements HelpDetail.DTO {
 
         public static final String NO_ETC_REGISTER_ID = "체크인 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -83,7 +87,9 @@ public class EtcService {
         @NotNull(message = NO_CONTENTS)
         private final String contents;
 
-        @Builder(access = AccessLevel.PRIVATE)
+        private final LocalDateTime end;
+
+        @Builder
         public Registration(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward, String title, String contents) {
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
@@ -93,20 +99,7 @@ public class EtcService {
             this.reward = reward;
             this.title = title;
             this.contents = contents;
-        }
-
-        //For Test
-        public static Registration createForTest() {
-            return Registration.builder()
-                    .helpRegisterId(1L)
-                    .placeId("placeId")
-                    .placeName("placeName")
-                    .start(LocalDateTime.of(1993, 4, 1, 0, 0))
-                    .title("title")
-                    .contents("contents")
-                    .option(30) //fixme: make option meaningful
-                    .reward(100L)
-                    .build();
+            this.end = calculateEnd(start, option);
         }
     }
 
@@ -126,7 +119,7 @@ public class EtcService {
         public static final String NO_END = "종료 시간은 필수입니다.";
 
         @NotNull(message = NO_ID)
-        private final Long helpId;
+        private final Long etcId;
 
         @NotNull(message = NO_LINE_UP_REGISTER_ID)
         private final Long helpRegisterId;
@@ -152,9 +145,9 @@ public class EtcService {
         @NotNull(message = NO_END)
         private final LocalDateTime end;
 
-        @Builder(access = AccessLevel.PRIVATE)
-        public Update(Long helpId, Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward, String title, LocalDateTime end, String contents) {
-            this.helpId = helpId;
+        @Builder
+        public Update(Long etcId, Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward, String title, LocalDateTime end, String contents) {
+            this.etcId = etcId;
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
             this.placeName = placeName;
@@ -163,20 +156,6 @@ public class EtcService {
             this.title = title;
             this.end = end;
             this.contents = contents;
-        }
-
-        //For Test
-        public static EtcService.Update createForTest() {
-            return EtcService.Update.builder()
-                    .helpRegisterId(1L)
-                    .placeId("placeId")
-                    .title("title")
-                    .end(LocalDateTime.now().plusMinutes(10))
-                    .placeName("placeName")
-                    .start(LocalDateTime.now())
-                    .option(10)
-                    .reward(100L)
-                    .build();
         }
     }
 
@@ -198,7 +177,7 @@ public class EtcService {
 
         private final boolean completed = false;
 
-        @Builder(access = AccessLevel.PRIVATE)
+        @Builder
         public EtcStarted(Long etcId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
             this.etcId = etcId;
             this.helperId = helperId;

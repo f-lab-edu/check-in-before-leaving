@@ -1,32 +1,24 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInEntity;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn.CHECK_IN_TITLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CheckInTest {
 
     @Test
-    void createForTest() {
-        CheckIn sut = CheckIn.builder()
-                .id(null)
-                .helpDetail(HelpDetail.createForTest())
-                .progress(Progress.createForTest())
-                .build();
-    }
-
-    @Test
     void register() {
         //given
-        CheckInService.Registration dto = CheckInService.Registration.createForTest();
+        CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
 
         //when
         CheckIn sut = CheckIn.register(dto);
@@ -35,10 +27,12 @@ class CheckInTest {
         assertNotNull(sut);
         assertEquals(null, sut.getId());
 
-        CheckIn.DTO result = CheckIn.DTO.getDTO(sut);
-        assertEquals(null, result.getId());
+        CheckIn spy = spy(sut);
+        Long temporalId = 1L;
+        when(spy.getId()).thenReturn(temporalId);
+        CheckIn.DTO result = CheckIn.DTO.getDTO(spy);
         assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
-        assertEquals(dto.getPlaceName() + CHECK_IN_TITLE, result.getTitle());
+        assertEquals(dto.getPlaceName() + CheckInService.CHECK_IN_TITLE, result.getTitle());
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
@@ -51,8 +45,8 @@ class CheckInTest {
     @Test
     void update() {
         //given
-        CheckIn sut = CheckIn.createForTest();
-        CheckInService.Update dto = CheckInService.Update.createForTest();
+        CheckIn sut = CheckInFixtures.CheckInT.create();
+        CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create();
 
         //when
         CheckIn returned = sut.update(dto);
@@ -72,7 +66,7 @@ class CheckInTest {
     @Test
     void from() {
         //given
-        CheckInEntity entity = CheckInEntity.createForTest();
+        CheckInEntity entity = CheckInFixtures.CheckInEntityT.create();
         CheckIn.DTO dto = CheckIn.DTO.builder()
                 .id(entity.getId())
                 .helpRegisterId(entity.getHelpEntity().getHelpRegisterId())
@@ -108,8 +102,8 @@ class CheckInTest {
     @Test
     void start() {
         //given
-        CheckIn sut = CheckIn.createForTest();
-        CheckInService.CheckInStarted dto = CheckInService.CheckInStarted.createForTest();
+        CheckIn sut = CheckInFixtures.CheckInT.create();
+        CheckInService.CheckInStarted dto = CheckInFixtures.CheckInServiceT.CheckInStartedT.create();
 
         //when
         CheckIn returned = sut.start(dto);

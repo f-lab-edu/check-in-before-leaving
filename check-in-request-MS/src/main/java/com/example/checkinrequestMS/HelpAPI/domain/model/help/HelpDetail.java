@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public final class HelpDetail {
     private final String placeId;
     private final Long reward;
 
-    @Builder(access = AccessLevel.PRIVATE)
+    @Builder
     private HelpDetail(@NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward) {
         this.helpRegisterId = helpRegisterId;
         this.title = title;
@@ -48,17 +49,5 @@ public final class HelpDetail {
         String getPlaceId();
 
         Long getReward();
-    }
-
-    //for Test
-    public static HelpDetail createForTest() {
-        return HelpDetail.builder()
-                .helpRegisterId(1L)
-                .title("placeName" + CheckIn.CHECK_IN_TITLE)
-                .start(LocalDateTime.of(1993, 4, 1, 0, 0))
-                .end(LocalDateTime.of(1993, 4, 1, 0, 0).plusMinutes(10))
-                .placeId("placeId")
-                .reward(100L)
-                .build();
     }
 }

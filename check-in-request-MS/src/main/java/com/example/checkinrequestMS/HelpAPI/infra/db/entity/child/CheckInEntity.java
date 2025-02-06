@@ -23,7 +23,7 @@ public class CheckInEntity {
     @Embedded
     private ProgressEntity progressEntity;
 
-    @Builder(access = AccessLevel.PROTECTED)
+    @Builder
     protected CheckInEntity(@NonNull Long id, @NonNull CheckIn checkIn) {
         CheckIn.DTO dto = CheckIn.DTO.getDTO(checkIn);
         this.id = id;
@@ -68,14 +68,6 @@ public class CheckInEntity {
         return CheckInEntity.builder()
                 .id(checkIn.getId())
                 .checkIn(checkIn)
-                .build();
-    }
-
-    //for test
-    public static CheckInEntity createForTest() {
-        return CheckInEntity.builder()
-                .id(1L)
-                .checkIn(CheckIn.createForTest())
                 .build();
     }
 

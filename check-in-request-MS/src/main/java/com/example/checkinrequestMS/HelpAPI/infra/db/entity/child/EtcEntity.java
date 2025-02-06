@@ -25,7 +25,7 @@ public class EtcEntity {
     @Embedded
     private ProgressEntity progressEntity;
 
-    @Builder(access = AccessLevel.PROTECTED)
+    @Builder
     protected EtcEntity(@NonNull Long id, @NonNull Etc etc) {
         Etc.DTO dto = Etc.DTO.getDTO(etc);
         this.id = id;
@@ -75,19 +75,4 @@ public class EtcEntity {
                 .etc(etc)
                 .build();
     }
-
-    //for test
-    public static EtcEntity createForTest() {
-        return EtcEntity.builder()
-                .id(1L)
-                .etc(Etc.createForTest())
-                .build();
-    }
-
-    public static EtcEntity createForTestWithoutId() {
-        return EtcEntity.builder()
-                .etc(Etc.createForTest())
-                .build();
-    }
-
 }

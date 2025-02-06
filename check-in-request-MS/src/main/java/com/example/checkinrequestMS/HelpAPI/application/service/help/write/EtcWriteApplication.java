@@ -12,7 +12,7 @@ public class EtcWriteApplication {
 
     private final EtcService etcService;
 
-    public Long registerEtc(@NonNull EtcService.Registration dto) {
+    public Long register(@NonNull EtcService.Registration dto) {
         return etcService.register(dto).getId();
     }
 }

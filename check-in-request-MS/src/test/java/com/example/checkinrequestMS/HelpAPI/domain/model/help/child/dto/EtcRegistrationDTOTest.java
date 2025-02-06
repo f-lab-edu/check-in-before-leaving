@@ -2,11 +2,11 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child.dto;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteApplication;
-import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineUpWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.HelpWriteController;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.URIRULE;
+import com.example.checkinrequestMS.fixtures.HelpAPI.EtcFixtures;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,7 +46,7 @@ public class EtcRegistrationDTOTest {
     class helpValidation {
         static Stream<Arguments> requests() {
             return Stream.of(
-                    Arguments.of(EtcService.Registration.createForTest(), "EtcRequest", URIRULE.HELPS + URIRULE.ETCS)
+                    Arguments.of(EtcFixtures.EtcServiceT.RegistrationT.create(), "EtcRequest", URIRULE.HELPS + URIRULE.ETCS)
             );
         }
 
