@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
+import com.example.checkinrequestMS.fixtures.HelpAPI.LineUpFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,8 +31,8 @@ class LineUpWriteApplicationTest {
         void registerLineUp() {
 
             //given
-            LineUpService.Registration dto = LineUpService.Registration.createForTest();
-            LineUp lineUp = LineUp.createForTest();
+            LineUpService.Registration dto = LineUpFixtures.LineUpServiceT.RegistrationT.create();
+            LineUp lineUp = LineUpFixtures.LineUpT.create();
             lineUp.register(dto);
             when(lineUpService.register(dto)).thenReturn(LineUp.DTO.getDTO(lineUp));
 

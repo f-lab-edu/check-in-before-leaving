@@ -5,7 +5,7 @@ import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInEntity;
-import org.junit.jupiter.api.Disabled;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,7 +30,7 @@ class CheckInJPARepositoryTest {
     @Test
     void save() {
         // Given
-        CheckIn checkIn = CheckIn.createForTest();
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
         CheckInEntity checkInEntity = CheckInEntity.from(checkIn);
         when(checkInSpringJPARepository.save(any(CheckInEntity.class))).thenReturn(checkInEntity);
 
@@ -60,7 +60,7 @@ class CheckInJPARepositoryTest {
     void findById() {
         // Given
         Long id = 1L;
-        CheckInEntity checkInEntity = CheckInEntity.createForTest();
+        CheckInEntity checkInEntity = CheckInFixtures.CheckInEntityT.create();
         when(checkInSpringJPARepository.findById(id)).thenReturn(Optional.of(checkInEntity));
 
         // When
@@ -100,11 +100,11 @@ class CheckInJPARepositoryTest {
     void update() {
 
         // Given
-        CheckIn checkIn = CheckIn.createForTest();
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
         CheckInEntity checkInEntity = CheckInEntity.from(checkIn);
         when(checkInSpringJPARepository.findById(checkIn.getId())).thenReturn(Optional.of(checkInEntity));
 
-        CheckInService.Update dto = CheckInService.Update.createForTest();
+        CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create();
         CheckIn updated = checkIn.update(dto);
 
 

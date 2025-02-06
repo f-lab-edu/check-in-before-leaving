@@ -6,6 +6,9 @@ import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineU
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
+import com.example.checkinrequestMS.fixtures.HelpAPI.EtcFixtures;
+import com.example.checkinrequestMS.fixtures.HelpAPI.LineUpFixtures;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -41,7 +44,7 @@ class HelpWriteControllerTest {
         void Request_Success() throws Exception {
             //given
             String uri = URIRULE.HELPS + URIRULE.CHECK_INS;
-            CheckInService.Registration request = CheckInService.Registration.createForTest();
+            CheckInService.Registration request = CheckInFixtures.CheckInServiceT.RegistrationT.create();
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -64,7 +67,7 @@ class HelpWriteControllerTest {
         void Request_Success() throws Exception {
             //given
             String uri = URIRULE.HELPS + URIRULE.LINE_UPS;
-            LineUpService.Registration request = LineUpService.Registration.createForTest();
+            LineUpService.Registration request = LineUpFixtures.LineUpServiceT.RegistrationT.create();
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -87,7 +90,7 @@ class HelpWriteControllerTest {
         void Request_Success() throws Exception {
             //given
             String uri = URIRULE.HELPS + URIRULE.ETCS;
-            EtcService.Registration request = EtcService.Registration.createForTest();
+            EtcService.Registration request = EtcFixtures.EtcServiceT.RegistrationT.create();
 
             //when
             ResultActions result = mockMvc.perform(post(uri)

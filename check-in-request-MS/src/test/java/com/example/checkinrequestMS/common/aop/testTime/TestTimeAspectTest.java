@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.common.aop.testTime;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ class TestTimeAspectTest {
     void log() throws Throwable {
 
         //given
-        CheckInService.Registration dto = CheckInService.Registration.createForTest();
+        CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
 
         //when
         sut.register(dto);

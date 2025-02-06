@@ -5,7 +5,7 @@ import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.EtcEntity;
-import org.junit.jupiter.api.Disabled;
+import com.example.checkinrequestMS.fixtures.HelpAPI.EtcFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,7 +30,7 @@ class EtcJPARepositoryTest {
     @Test
     void save() {
         // Given
-        Etc etc = Etc.createForTest();
+        Etc etc = EtcFixtures.EtcT.create();
         EtcEntity etcEntity = EtcEntity.from(etc);
         when(etcSpringJPARepository.save(any(EtcEntity.class))).thenReturn(etcEntity);
 
@@ -60,7 +60,7 @@ class EtcJPARepositoryTest {
     void findById() {
         // Given
         Long id = 1L;
-        EtcEntity etcEntity = EtcEntity.createForTest();
+        EtcEntity etcEntity = EtcFixtures.EtcEntityT.create();
         when(etcSpringJPARepository.findById(id)).thenReturn(Optional.of(etcEntity));
 
         // When
@@ -99,11 +99,11 @@ class EtcJPARepositoryTest {
     void update() {
 
         //Given
-        Etc etc = Etc.createForTest();
+        Etc etc = EtcFixtures.EtcT.create();
         EtcEntity etcEntity = EtcEntity.from(etc);
         when(etcSpringJPARepository.save(any(EtcEntity.class))).thenReturn(etcEntity);
 
-        EtcService.Update dto = EtcService.Update.createForTest();
+        EtcService.Update dto = EtcFixtures.EtcServiceT.UpdateT.create();
         Etc updated = etc.update(dto);
 
         //When
@@ -123,6 +123,6 @@ class EtcJPARepositoryTest {
         assertEquals(result.getReward(), etcEntity.getHelpEntity().getReward());
 
     }
-    
+
 
 }

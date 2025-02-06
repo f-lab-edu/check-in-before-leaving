@@ -1,6 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.application.service.help.read;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.*;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
+import com.example.checkinrequestMS.fixtures.HelpAPI.EtcFixtures;
+import com.example.checkinrequestMS.fixtures.HelpAPI.LineUpFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +31,7 @@ class HelpSelectApplicationTest {
     void selectCheckIn_Success() {
         // Given
         Long id = 1L;
-        CheckIn checkIn = CheckIn.createForTest();
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
         CheckIn.DTO response = CheckIn.DTO.getDTO(checkIn);
         when(checkInService.findOne(id)).thenReturn(response);
 
@@ -54,7 +57,7 @@ class HelpSelectApplicationTest {
     void selectLineUp_Success() {
         // Given
         Long id = 1L;
-        LineUp lineUp = LineUp.createForTest();
+        LineUp lineUp = LineUpFixtures.LineUpT.create();
         LineUp.DTO response = LineUp.DTO.getDTO(lineUp);
         when(lineUpService.findOne(id)).thenReturn(response);
 
@@ -80,7 +83,7 @@ class HelpSelectApplicationTest {
     void selectEtc_Success() {
         // Given
         Long id = 1L;
-        Etc etc = Etc.createForTest();
+        Etc etc = EtcFixtures.EtcT.create();
         Etc.DTO response = Etc.DTO.getDTO(etc);
         when(etcService.findOne(id)).thenReturn(response);
 

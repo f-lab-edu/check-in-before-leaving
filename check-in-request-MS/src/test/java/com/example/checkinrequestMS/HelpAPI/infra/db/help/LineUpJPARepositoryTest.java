@@ -5,7 +5,7 @@ import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.LineUpEntity;
-import org.junit.jupiter.api.Disabled;
+import com.example.checkinrequestMS.fixtures.HelpAPI.LineUpFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,7 +30,7 @@ class LineUpJPARepositoryTest {
     @Test
     void save() {
         // Given
-        LineUp lineUp = LineUp.createForTest();
+        LineUp lineUp = LineUpFixtures.LineUpT.create();
         LineUpEntity lineUpEntity = LineUpEntity.from(lineUp);
         when(lineUpSpringJPARepository.save(any(LineUpEntity.class))).thenReturn(lineUpEntity);
 
@@ -60,7 +60,7 @@ class LineUpJPARepositoryTest {
     void findById() {
         // Given
         Long id = 1L;
-        LineUpEntity lineUpEntity = LineUpEntity.createForTest();
+        LineUpEntity lineUpEntity = LineUpFixtures.LineUpEntityT.create();
         when(lineUpSpringJPARepository.findById(id)).thenReturn(Optional.of(lineUpEntity));
 
         // When
@@ -98,11 +98,11 @@ class LineUpJPARepositoryTest {
     void update() {
 
         // Given
-        LineUp lineUp = LineUp.createForTest();
+        LineUp lineUp = LineUpFixtures.LineUpT.create();
         LineUpEntity lineUpEntity = LineUpEntity.from(lineUp);
         when(lineUpSpringJPARepository.save(any(LineUpEntity.class))).thenReturn(lineUpEntity);
 
-        LineUpService.Update dto = LineUpService.Update.createForTest();
+        LineUpService.Update dto = LineUpFixtures.LineUpServiceT.UpdateT.create();
         LineUp updated = lineUp.update(dto);
 
         //When

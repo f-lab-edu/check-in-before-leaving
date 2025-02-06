@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.application.service.help.write;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,8 +35,8 @@ class CheckInWriteApplicationTest {
 
             //given
 
-            CheckInService.Registration dto = CheckInService.Registration.createForTest();
-            CheckIn checkIn = CheckIn.createForTest();
+            CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+            CheckIn checkIn = CheckInFixtures.CheckInT.create();
             checkIn.register(dto);
             when(checkInService.register(any(CheckInService.Registration.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
 
@@ -45,7 +46,7 @@ class CheckInWriteApplicationTest {
             //then
             assertEquals(checkIn.getId(), id);
             assertEquals(1L, id);
-            
+
         }
     }
 
@@ -58,8 +59,8 @@ class CheckInWriteApplicationTest {
         void registerCheckIn() {
 
             //given
-            CheckInService.Update dto = CheckInService.Update.createForTest();
-            CheckIn checkIn = CheckIn.createForTest();
+            CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create();
+            CheckIn checkIn = CheckInFixtures.CheckInT.create();
             checkIn = checkIn.update(dto);
             when(checkInService.update(any(CheckInService.Update.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
 

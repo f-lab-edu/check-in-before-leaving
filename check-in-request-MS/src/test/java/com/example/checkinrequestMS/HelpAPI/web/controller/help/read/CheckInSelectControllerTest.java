@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.web.controller.help.read;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.read.HelpSelectApplication;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.URIRULE;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ public class CheckInSelectControllerTest {
         // Given
         Long id = 1L;
         String uri = URIRULE.HELPS + URIRULE.CHECK_INS + id;
-        CheckIn checkIn = CheckIn.createForTest();
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
         CheckIn.DTO response = CheckIn.DTO.getDTO(checkIn);
         when(helpSelectApplication.selectCheckIn(id)).thenReturn(response);
 

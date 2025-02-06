@@ -2,9 +2,8 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
+import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,7 +13,7 @@ class HelpDetailTest {
     void register() {
 
         //given
-        CheckInService.Registration dto = CheckInService.Registration.createForTest();
+        CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
         CheckIn.DTO checkInDTO = CheckIn.DTO.getDTO(CheckIn.register(dto));
 
         //when
@@ -22,7 +21,7 @@ class HelpDetailTest {
 
         //then
         assertEquals(dto.getHelpRegisterId(), sut.getHelpRegisterId());
-        assertEquals(dto.getPlaceName() + CheckIn.CHECK_IN_TITLE, sut.getTitle());
+        assertEquals(dto.getPlaceName() + CheckInService.CHECK_IN_TITLE, sut.getTitle());
         assertEquals(dto.getPlaceId(), sut.getPlaceId());
         assertEquals(dto.getReward(), sut.getReward());
         assertEquals(dto.getStart(), sut.getStart());

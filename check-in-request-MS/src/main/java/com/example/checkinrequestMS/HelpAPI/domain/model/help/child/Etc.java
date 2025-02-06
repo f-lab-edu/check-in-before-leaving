@@ -22,7 +22,7 @@ public final class Etc {
     @Getter(AccessLevel.PRIVATE)
     private final Progress progress;
 
-    @Builder(access = AccessLevel.PRIVATE)
+    @Builder
     private Etc(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress, @NonNull String contents) {
         this.id = id;
         this.helpDetail = helpDetail;
@@ -39,64 +39,23 @@ public final class Etc {
 
     //Business
     public static Etc register(@NonNull EtcService.Registration dto) {
-        Etc.DTO etcDTO = customizeCheckInRegistration(dto);
-        return new Etc(true, HelpDetail.from(etcDTO), Progress.DEFAULT, dto.getContents());
-
-    private static Etc.DTO customizeEtcRegistration(EtcService.Registration dto) {
-        return Etc.DTO.builder()
-                .id(null)
-                .helpRegisterId(dto.getHelpRegisterId())
-                .title(dto.getTitle())
-                .start(dto.getStart())
-                .end(calculateEnd(dto.getStart(), dto.getOption()))
-                .placeId(dto.getPlaceId())
-                .reward(dto.getReward())
-                .status(Progress.DEFAULT.getStatus())
-                .helperId(Progress.DEFAULT.getHelperId())
-                .photoPath(Progress.DEFAULT.getPhotoPath())
-                .completed(Progress.DEFAULT.isCompleted())
-                .build();
-    }
-
-    private static LocalDateTime calculateEnd(LocalDateTime start, Integer option) {
-        if (start == null || option == null) return null;
-        return start.plusMinutes(option);
-
-    }
-
-    private static Etc.DTO customizeCheckInRegistration(@NonNull EtcService.Registration dto) {
-        return Etc.DTO.builder()
-                .id(null)
-                .helpRegisterId(dto.getHelpRegisterId())
-                .title(dto.getTitle())
-                .start(dto.getStart())
-                .end(calculateEnd(dto.getStart(), dto.getOption()))
-                .placeId(dto.getPlaceId())
-                .reward(dto.getReward())
-                .status(Progress.DEFAULT.getStatus())
-                .helperId(Progress.DEFAULT.getHelperId())
-                .photoPath(Progress.DEFAULT.getPhotoPath())
-                .completed(Progress.DEFAULT.isCompleted())
-                .build();
-    }
-
-    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
-        return start.plusMinutes(option);
+        return new Etc(true, HelpDetail.from(dto), Progress.DEFAULT, dto.getContents());
     }
 
     public Etc update(@NonNull EtcService.Update dto) {
         return Etc.builder()
                 .id(Objects.requireNonNull(this.id))
                 .helpDetail(HelpDetail.from(dto))
-                .progress(this.progress)
                 .contents(dto.getContents())
+                .progress(Objects.requireNonNull(this.progress))
                 .build();
     }
 
     public Etc start(@NonNull EtcService.EtcStarted dto) {
         return Etc.builder()
                 .id(Objects.requireNonNull(this.id))
-                .helpDetail(this.helpDetail)
+                .helpDetail(Objects.requireNonNull(this.helpDetail))
+                .contents(Objects.requireNonNull(this.contents))
                 .progress(Progress.from(dto))
                 .build();
     }
@@ -160,23 +119,6 @@ public final class Etc {
                     .build();
         }
     }
-
-    //for Test
-    public static Etc createForTest() {
-        return Etc.builder()
-                .id(1L)
-                .contents("contents")
-                .helpDetail(HelpDetail.createForTest())
-                .progress(Progress.createForTest())
-                .build();
-    }
-
-    public static Etc createForTestWithoutId() {
-        return Etc.builder()
-                .contents("contents")
-                .helpDetail(HelpDetail.createForTest())
-                .progress(Progress.createForTest())
-                .build();
-    }
-
 }
+
+
