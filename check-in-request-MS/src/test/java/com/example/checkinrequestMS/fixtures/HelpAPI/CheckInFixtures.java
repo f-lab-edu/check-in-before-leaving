@@ -35,8 +35,8 @@ public class CheckInFixtures {
 
     public static class CheckInServiceT {
         public static class RegistrationT {
-            public static CheckInService.Registration create() {
-                return CheckInService.Registration.builder()
+            public static CheckInService.Creation create() {
+                return CheckInService.Creation.builder()
                         .helpRegisterId(HELP_REGISTER_ID)
                         .placeId(PLACE_ID)
                         .placeName(PLACE_NAME)
@@ -63,8 +63,8 @@ public class CheckInFixtures {
         }
 
         public static class CheckInStartedT {
-            public static CheckInService.CheckInStarted create() {
-                return CheckInService.CheckInStarted.builder()
+            public static CheckInService.Start create() {
+                return CheckInService.Start.builder()
                         .checkInId(ID)
                         .helperId(Optional.of(HELPER_ID))
                         .build();

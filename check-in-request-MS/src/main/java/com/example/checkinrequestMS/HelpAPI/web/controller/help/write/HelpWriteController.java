@@ -35,7 +35,7 @@ public class HelpWriteController {
     public static final String ETC_SAVE_SUCCESS = "기타 요청 등록 성공";
 
     @PostMapping(URIRULE.CHECK_INS)
-    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody CheckInService.Registration request) {
+    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody CheckInService.Creation request) {
         Long id = checkInWriteApplication.register(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(CHECK_IN_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }

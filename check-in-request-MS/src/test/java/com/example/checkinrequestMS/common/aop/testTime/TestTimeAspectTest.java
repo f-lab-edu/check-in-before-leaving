@@ -54,7 +54,7 @@ class TestTimeAspectTest {
     void log() throws Throwable {
 
         //given
-        CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+        CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
 
         //when
         sut.register(dto);

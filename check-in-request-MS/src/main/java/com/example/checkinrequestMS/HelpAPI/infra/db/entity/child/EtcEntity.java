@@ -6,9 +6,11 @@ import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Optional;
+
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @Table(name = "etc")
 public class EtcEntity {
 
@@ -62,8 +64,8 @@ public class EtcEntity {
                 .placeId(this.getHelpEntity().getPlaceId())
                 .reward(this.getHelpEntity().getReward())
                 .status(this.getProgressEntity().getStatus())
-                .helperId(this.getProgressEntity().getHelperId())
-                .photoPath(this.getProgressEntity().getPhotoPath())
+                .helperId(Optional.ofNullable(this.getProgressEntity().getHelperId()))
+                .photoPath(Optional.ofNullable(this.getProgressEntity().getPhotoPath()))
                 .contents(this.getContents())
                 .build();
         return Etc.from(dto);

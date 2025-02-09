@@ -44,7 +44,7 @@ class HelpWriteControllerTest {
         void Request_Success() throws Exception {
             //given
             String uri = URIRULE.HELPS + URIRULE.CHECK_INS;
-            CheckInService.Registration request = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+            CheckInService.Creation request = CheckInFixtures.CheckInServiceT.RegistrationT.create();
 
             //when
             ResultActions result = mockMvc.perform(post(uri)

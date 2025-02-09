@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import jakarta.annotation.Nullable;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public final class CheckIn {
 
     @Getter
+    @Nullable
     private final Long id;
 
     @Getter(AccessLevel.PRIVATE)
@@ -32,15 +34,16 @@ public final class CheckIn {
         this.progress = progress;
     }
 
-    private CheckIn(@NonNull Boolean isRegister, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
+    private CheckIn(@NonNull Boolean isForCreation, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
         this.id = null;
         this.helpDetail = helpDetail;
         this.progress = progress;
     }
 
     //Business
-    public static CheckIn register(@NonNull CheckInService.Registration dto) {
-        return new CheckIn(true, HelpDetail.from(dto), Progress.DEFAULT);
+    public static CheckIn register(@NonNull CheckInService.Creation dto) {
+        final boolean isForCreation = true;
+        return new CheckIn(isForCreation, HelpDetail.from(dto), Progress.from(dto));
     }
 
     public CheckIn update(@NonNull CheckInService.Update dto) {
@@ -51,7 +54,7 @@ public final class CheckIn {
                 .build();
     }
 
-    public CheckIn start(@NonNull CheckInService.CheckInStarted dto) {
+    public CheckIn start(@NonNull CheckInService.Start dto) {
         return CheckIn.builder()
                 .id(Objects.requireNonNull(this.id))
                 .helpDetail(Objects.requireNonNull(this.helpDetail))
@@ -81,14 +84,16 @@ public final class CheckIn {
         private final String placeId;
         private final Long reward;
         private final Progress.ProgressStatus status;
-        private final Optional<Long> helperId;
-        private final Optional<String> photoPath;
+        @Nullable
+        private final Long helperId;
+        @Nullable
+        private final String photoPath;
         private final boolean completed;
 
         @Builder
         public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
                    @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status,
-                   @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
+                   @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
             this.id = id;
             this.helpRegisterId = helpRegisterId;
             this.title = title;
@@ -100,6 +105,14 @@ public final class CheckIn {
             this.helperId = helperId;
             this.photoPath = photoPath;
             this.completed = completed;
+        }
+
+        public Optional<Long> getHelperId() {
+            return Optional.ofNullable(helperId);
+        }
+
+        public Optional<String> getPhotoPath() {
+            return Optional.ofNullable(photoPath);
         }
 
         public static CheckIn.DTO getDTO(@NonNull CheckIn checkIn) {

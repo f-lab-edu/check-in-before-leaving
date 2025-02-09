@@ -35,10 +35,10 @@ class CheckInWriteApplicationTest {
 
             //given
 
-            CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+            CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
             CheckIn checkIn = CheckInFixtures.CheckInT.create();
             checkIn.register(dto);
-            when(checkInService.register(any(CheckInService.Registration.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
+            when(checkInService.register(any(CheckInService.Creation.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));
 
             //when
             Long id = sut.register(dto);

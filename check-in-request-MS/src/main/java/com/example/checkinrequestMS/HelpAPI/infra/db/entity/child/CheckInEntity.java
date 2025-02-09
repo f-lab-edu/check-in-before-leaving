@@ -23,13 +23,6 @@ public class CheckInEntity {
     @Embedded
     private ProgressEntity progressEntity;
 
-    @Builder
-    protected CheckInEntity(@NonNull Long id, @NonNull CheckIn checkIn) {
-        CheckIn.DTO dto = CheckIn.DTO.getDTO(checkIn);
-        this.id = id;
-        this.helpEntity = HelpDetailEntity.from(dto);
-        this.progressEntity = ProgressEntity.from(dto);
-    }
 
     protected CheckInEntity(CheckIn checkIn, Boolean isRegister) {
         CheckIn.DTO dto = CheckIn.DTO.getDTO(checkIn);
@@ -64,11 +57,5 @@ public class CheckInEntity {
         return CheckIn.from(dto);
     }
 
-    public static CheckInEntity from(CheckIn checkIn) {
-        return CheckInEntity.builder()
-                .id(checkIn.getId())
-                .checkIn(checkIn)
-                .build();
-    }
 
 }

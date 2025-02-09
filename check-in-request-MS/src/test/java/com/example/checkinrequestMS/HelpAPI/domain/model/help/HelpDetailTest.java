@@ -13,7 +13,7 @@ class HelpDetailTest {
     void register() {
 
         //given
-        CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+        CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
         CheckIn.DTO checkInDTO = CheckIn.DTO.getDTO(CheckIn.register(dto));
 
         //when

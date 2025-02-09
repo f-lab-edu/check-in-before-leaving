@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.stream.Stream;
 
-import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService.Registration.*;
+import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService.Creation.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.spy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -53,7 +53,7 @@ public class CheckInRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("2가지 정보 누락- 가게정보 및 요청 등록자 필요")
-        void Form_PlaceIdAndUserIdRequired(CheckInService.Registration request, String testName, String uri) throws Exception {
+        void Form_PlaceIdAndUserIdRequired(CheckInService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getPlaceId()).willReturn(null);
@@ -75,7 +75,7 @@ public class CheckInRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("보상 필요")
-        void Form_RewardRequired(CheckInService.Registration request, String testName, String uri) throws Exception {
+        void Form_RewardRequired(CheckInService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getReward()).willReturn(null);
@@ -94,7 +94,7 @@ public class CheckInRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("수행시간 옵션 필요")
-        void Form_OptionRequired(CheckInService.Registration request, String testName, String uri) throws Exception {
+        void Form_OptionRequired(CheckInService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getOption()).willReturn(null);
@@ -113,7 +113,7 @@ public class CheckInRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("시작 시간 필요")
-        void Form_StartRequired(CheckInService.Registration request, String testName, String uri) throws Exception {
+        void Form_StartRequired(CheckInService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getStart()).willReturn(null);
@@ -133,7 +133,7 @@ public class CheckInRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("가게 정보 필요")
-        void Form_PlaceIdRequired(CheckInService.Registration request, String testName, String uri) throws Exception {
+        void Form_PlaceIdRequired(CheckInService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getPlaceId()).willReturn(null);
@@ -153,7 +153,7 @@ public class CheckInRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("가게 이름 필요")
-        void Form_PlaceNameRequired(CheckInService.Registration request, String testName, String uri) throws Exception {
+        void Form_PlaceNameRequired(CheckInService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getPlaceName()).willReturn(null);
@@ -173,7 +173,7 @@ public class CheckInRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("요청 등록자 아이디 필요")
-        void Form_UserIdRequired(CheckInService.Registration request, String testName, String uri) throws Exception {
+        void Form_UserIdRequired(CheckInService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getHelpRegisterId()).willReturn(null);

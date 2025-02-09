@@ -18,7 +18,7 @@ class CheckInTest {
     @Test
     void register() {
         //given
-        CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+        CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
 
         //when
         CheckIn sut = CheckIn.register(dto);
@@ -103,7 +103,7 @@ class CheckInTest {
     void start() {
         //given
         CheckIn sut = CheckInFixtures.CheckInT.create();
-        CheckInService.CheckInStarted dto = CheckInFixtures.CheckInServiceT.CheckInStartedT.create();
+        CheckInService.Start dto = CheckInFixtures.CheckInServiceT.CheckInStartedT.create();
 
         //when
         CheckIn returned = sut.start(dto);

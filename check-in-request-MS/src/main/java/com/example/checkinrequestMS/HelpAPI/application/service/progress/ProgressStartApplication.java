@@ -13,7 +13,7 @@ public class ProgressStartApplication {
 
     private final CheckInService checkInService;
 
-    public Long startCheckIn(@NonNull CheckInService.CheckInStarted dto) {
+    public Long startCheckIn(@NonNull CheckInService.Start dto) {
         return checkInService.start(dto).getId();
     }
 }

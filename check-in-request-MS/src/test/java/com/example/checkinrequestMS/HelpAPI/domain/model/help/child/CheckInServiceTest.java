@@ -27,7 +27,7 @@ class CheckInServiceTest {
     @DisplayName("체크인 등록 성공")
     void register() {
         //given
-        CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+        CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
         when(checkInRepository.save(any(CheckIn.class))).thenReturn(checkIn);
 
@@ -100,7 +100,7 @@ class CheckInServiceTest {
     void start() {
         //given
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
-        CheckInService.CheckInStarted dto = CheckInFixtures.CheckInServiceT.CheckInStartedT.create();
+        CheckInService.Start dto = CheckInFixtures.CheckInServiceT.CheckInStartedT.create();
         when(checkInRepository.findById(checkIn.getId())).thenReturn(checkIn);
         when(checkInRepository.update(any(CheckIn.class))).thenAnswer(i -> i.getArgument(0));
 

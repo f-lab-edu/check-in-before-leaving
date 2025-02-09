@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import jakarta.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -73,12 +74,14 @@ public final class LineUp {
         private final String placeId;
         private final Long reward;
         private final Progress.ProgressStatus status;
-        private final Optional<Long> helperId;
-        private final Optional<String> photoPath;
+        @Nullable
+        private final Long helperId;
+        @Nullable
+        private final String photoPath;
         private final boolean completed;
 
         @Builder
-        public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status, @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
+        public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status, @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
             this.id = id;
             this.helpRegisterId = helpRegisterId;
             this.title = title;
@@ -90,6 +93,14 @@ public final class LineUp {
             this.helperId = helperId;
             this.photoPath = photoPath;
             this.completed = completed;
+        }
+
+        public Optional<Long> getHelperId() {
+            return Optional.ofNullable(helperId);
+        }
+
+        public Optional<String> getPhotoPath() {
+            return Optional.ofNullable(photoPath);
         }
 
         public static LineUp.DTO getDTO(@NonNull LineUp lineUp) {
