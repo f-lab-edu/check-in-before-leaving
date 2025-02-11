@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class LineUpService {
     //DTO
     @Getter
     @Validated
-    public static final class Registration implements HelpDetail.DTO {
+    public static final class Registration implements HelpDetail.DTO, Progress.DTO {
 
         public static final String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -87,8 +88,21 @@ public class LineUpService {
 
         private final LocalDateTime end;
 
+        @Nullable
+        private final Long helperId;
+
+        @Nullable
+        private final String photoPath;
+
+        private final Progress.ProgressStatus status;
+
+        private final boolean completed;
+
         @Builder
         public Registration(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward) {
+            final Long NO_HELPER_AT_CREATED = null;
+            final String NO_PHOTO_AUTHENTICATION_AT_CREATED = null;
+
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
             this.placeName = placeName;
@@ -97,6 +111,11 @@ public class LineUpService {
             this.reward = reward;
             this.title = createTitle(placeName);
             this.end = calculateEnd(start, option);
+
+            this.helperId = NO_HELPER_AT_CREATED;
+            this.photoPath = NO_PHOTO_AUTHENTICATION_AT_CREATED;
+            this.status = new Progress.Created();
+            this.completed = false;
         }
     }
 
@@ -163,7 +182,7 @@ public class LineUpService {
 
         private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
 
-        private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
+        private final Progress.ProgressStatus status = new Progress.Started();
 
         private final Optional<String> photoPath = Optional.empty();
 

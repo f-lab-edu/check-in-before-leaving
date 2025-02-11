@@ -15,7 +15,6 @@ import java.util.Optional;
 public final class CheckIn {
 
     @Getter
-    @Nullable
     private final Long id;
 
     @Getter(AccessLevel.PRIVATE)
