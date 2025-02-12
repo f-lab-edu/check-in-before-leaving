@@ -120,6 +120,14 @@ public class EtcService {
             this.status = new Progress.Created();
             this.completed = false;
         }
+
+        public Optional<String> getPhotoPath() {
+            return Optional.ofNullable(photoPath);
+        }
+
+        public Optional<Long> getHelperId() {
+            return Optional.ofNullable(helperId);
+        }
     }
 
     @Getter

@@ -64,8 +64,8 @@ public class EtcEntity {
                 .placeId(this.getHelpEntity().getPlaceId())
                 .reward(this.getHelpEntity().getReward())
                 .status(this.getProgressEntity().getStatus())
-                .helperId(Optional.ofNullable(this.getProgressEntity().getHelperId()))
-                .photoPath(Optional.ofNullable(this.getProgressEntity().getPhotoPath()))
+                .helperId(this.getProgressEntity().getHelperId())
+                .photoPath(this.getProgressEntity().getPhotoPath())
                 .contents(this.getContents())
                 .build();
         return Etc.from(dto);

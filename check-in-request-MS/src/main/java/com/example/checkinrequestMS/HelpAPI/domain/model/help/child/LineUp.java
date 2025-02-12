@@ -37,7 +37,7 @@ public final class LineUp {
 
     //Business
     public static LineUp register(@NonNull LineUpService.Registration dto) {
-        return new LineUp(true, HelpDetail.from(dto), Progress.DEFAULT);
+        return new LineUp(true, HelpDetail.from(dto), Progress.from(dto));
     }
 
     public LineUp update(@NonNull LineUpService.Update dto) {

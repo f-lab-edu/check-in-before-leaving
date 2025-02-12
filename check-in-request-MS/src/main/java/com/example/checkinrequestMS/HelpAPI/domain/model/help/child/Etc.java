@@ -2,11 +2,13 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import jakarta.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,7 +41,7 @@ public final class Etc {
 
     //Business
     public static Etc register(@NonNull EtcService.Registration dto) {
-        return new Etc(true, HelpDetail.from(dto), Progress.DEFAULT, dto.getContents());
+        return new Etc(true, HelpDetail.from(dto), Progress.from(dto), dto.getContents());
     }
 
     public Etc update(@NonNull EtcService.Update dto) {
@@ -80,14 +82,16 @@ public final class Etc {
         private final String placeId;
         private final Long reward;
         private final Progress.ProgressStatus status;
-        private final Optional<Long> helperId;
-        private final Optional<String> photoPath;
+        @Nullable
+        private final Long helperId;
+        @Nullable
+        private final String photoPath;
         private final boolean completed;
 
         @Builder
         public DTO(@NonNull Long id, @NonNull String contents, @NonNull Long helpRegisterId, @NonNull String title,
                    @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward,
-                   @NonNull Progress.ProgressStatus status, @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
+                   @NonNull Progress.ProgressStatus status, @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
             this.id = id;
             this.contents = contents;
             this.helpRegisterId = helpRegisterId;
@@ -100,6 +104,16 @@ public final class Etc {
             this.helperId = helperId;
             this.photoPath = photoPath;
             this.completed = completed;
+        }
+
+        @Nullable
+        public Optional<Long> getHelperId() {
+            return Optional.ofNullable(helperId);
+        }
+
+        @Nullable
+        public Optional<String> getPhotoPath() {
+            return Optional.ofNullable(photoPath);
         }
 
         public static Etc.DTO getDTO(@NonNull Etc etc) {

@@ -117,6 +117,16 @@ public class LineUpService {
             this.status = new Progress.Created();
             this.completed = false;
         }
+
+        @Nullable
+        public Optional<String> getPhotoPath() {
+            return Optional.ofNullable(photoPath);
+        }
+
+        @Nullable
+        public Optional<Long> getHelperId() {
+            return Optional.ofNullable(helperId);
+        }
     }
 
     @Getter
