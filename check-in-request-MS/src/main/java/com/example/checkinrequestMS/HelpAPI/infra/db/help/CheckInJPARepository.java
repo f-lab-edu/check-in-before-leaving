@@ -16,14 +16,15 @@ public class CheckInJPARepository implements CheckInRepository {
 
     @Override
     public CheckIn save(CheckIn checkIn) {
-        return checkInSpringJPARepository.save(CheckInEntity.register(checkIn)).returnDomainEntity();
+        if (checkIn.getId() != null) throw new IllegalStateException();
+        return checkInSpringJPARepository.save(CheckInEntity.register(checkIn)).returnDomainModel();
     }
 
     @Override
     public CheckIn findById(Long id) {
         CheckInEntity checkInEntity = checkInSpringJPARepository.findById(id)
                 .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO));
-        return checkInEntity.returnDomainEntity();
+        return checkInEntity.returnDomainModel();
     }
 
     @Override

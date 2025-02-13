@@ -61,11 +61,11 @@ public final class CheckIn {
                 .build();
     }
 
-    public static CheckIn from(@NonNull DTO entity) {
+    public static CheckIn from(@NonNull DTO dto) {
         return CheckIn.builder()
-                .id(entity.getId())
-                .helpDetail(HelpDetail.from(entity))
-                .progress(Progress.from(entity))
+                .id(dto.getId())
+                .helpDetail(HelpDetail.from(dto))
+                .progress(Progress.from(dto))
                 .build();
     }
 
@@ -90,9 +90,11 @@ public final class CheckIn {
         private final boolean completed;
 
         @Builder
-        public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
+        public DTO(@Nullable Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
                    @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status,
                    @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
+
+            if (id == null) throw new NullPointerException();
             this.id = id;
             this.helpRegisterId = helpRegisterId;
             this.title = title;
@@ -104,6 +106,20 @@ public final class CheckIn {
             this.helperId = helperId;
             this.photoPath = photoPath;
             this.completed = completed;
+        }
+
+        public DTO(@NonNull Boolean isRegister, @NonNull CheckIn checkIn) {
+            this.id = checkIn.getId();
+            this.helpRegisterId = checkIn.getHelpDetail().getHelpRegisterId();
+            this.title = checkIn.getHelpDetail().getTitle();
+            this.start = checkIn.getHelpDetail().getStart();
+            this.end = checkIn.getHelpDetail().getEnd();
+            this.placeId = checkIn.getHelpDetail().getPlaceId();
+            this.reward = checkIn.getHelpDetail().getReward();
+            this.status = checkIn.getProgress().getStatus();
+            this.helperId = checkIn.getProgress().getHelperId();
+            this.photoPath = checkIn.getProgress().getPhotoPath();
+            this.completed = checkIn.getProgress().isCompleted();
         }
 
         public Optional<Long> getHelperId() {
@@ -128,6 +144,12 @@ public final class CheckIn {
                     .photoPath(checkIn.getProgress().getPhotoPath())
                     .completed(checkIn.getProgress().isCompleted())
                     .build();
+        }
+
+        public static CheckIn.DTO getDTOForCreation(@NonNull CheckIn checkIn) {
+            boolean isRegister = true;
+            if (checkIn.getId() != null) throw new IllegalStateException();
+            return new CheckIn.DTO(isRegister, checkIn);
         }
     }
 }

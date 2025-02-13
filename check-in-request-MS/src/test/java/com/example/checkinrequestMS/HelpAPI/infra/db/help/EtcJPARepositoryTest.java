@@ -30,29 +30,33 @@ class EtcJPARepositoryTest {
     @Test
     void save() {
         // Given
-        Etc etc = EtcFixtures.EtcT.create();
-        EtcEntity etcEntity = EtcEntity.from(etc);
-        when(etcSpringJPARepository.save(any(EtcEntity.class))).thenReturn(etcEntity);
+        EtcService.Creation dto = EtcFixtures.EtcServiceT.CreationT.create();
+        Etc etc = Etc.register(dto);
+        Etc saved = EtcFixtures.EtcT.saved(dto);
+        EtcEntity entity = EtcFixtures.EtcEntityT.create(saved);
+        when(etcSpringJPARepository.save(any(EtcEntity.class))).thenReturn(entity);
 
         // When
         Etc returned = etcJPARepository.save(etc);
 
         // Then
         assertNotNull(returned);
-        assertEquals(etcEntity.getId(), returned);
+        assertEquals(entity.getId(), returned.getId());
 
         Etc.DTO result = Etc.DTO.getDTO(returned);
-        assertEquals(result.getId(), etcEntity.getId());
-        assertEquals(result.getHelpRegisterId(), etcEntity.getHelpEntity().getHelpRegisterId());
-        assertEquals(result.getPlaceId(), etcEntity.getHelpEntity().getPlaceId());
-        assertEquals(result.getTitle(), etcEntity.getHelpEntity().getTitle());
-        assertEquals(result.getStart(), etcEntity.getHelpEntity().getStart());
-        assertEquals(result.getEnd(), etcEntity.getHelpEntity().getEnd());
-        assertEquals(result.getReward(), etcEntity.getHelpEntity().getReward());
-        assertEquals(result.getStatus(), etcEntity.getProgressEntity().getStatus());
-        assertEquals(result.getPhotoPath(), etcEntity.getProgressEntity().getPhotoPath());
-        assertEquals(result.getHelperId(), etcEntity.getProgressEntity().getHelperId());
-        assertEquals(result.isCompleted(), etcEntity.getProgressEntity().isCompleted());
+        Etc.DTO original = Etc.DTO.getDTO(entity.returnDomainModel());
+
+        assertEquals(result.getId(), entity.getId());
+        assertEquals(result.getHelpRegisterId(), original.getHelpRegisterId());
+        assertEquals(result.getPlaceId(), original.getPlaceId());
+        assertEquals(result.getTitle(), original.getTitle());
+        assertEquals(result.getStart(), original.getStart());
+        assertEquals(result.getEnd(), original.getEnd());
+        assertEquals(result.getReward(), original.getReward());
+        assertEquals(result.getStatus(), original.getStatus());
+        assertEquals(result.getPhotoPath(), original.getPhotoPath());
+        assertEquals(result.getHelperId(), original.getHelperId());
+        assertEquals(result.isCompleted(), original.isCompleted());
 
     }
 
@@ -60,28 +64,31 @@ class EtcJPARepositoryTest {
     void findById() {
         // Given
         Long id = 1L;
-        EtcEntity etcEntity = EtcFixtures.EtcEntityT.create();
-        when(etcSpringJPARepository.findById(id)).thenReturn(Optional.of(etcEntity));
+        Etc etc = EtcFixtures.EtcT.create();
+        EtcEntity entity = EtcFixtures.EtcEntityT.create(etc);
+        when(etcSpringJPARepository.findById(id)).thenReturn(Optional.of(entity));
 
         // When
         Etc returned = etcJPARepository.findById(id);
 
         // Then
         assertNotNull(returned);
-        assertEquals(etcEntity.getId(), returned.getId());
+        assertEquals(entity.getId(), returned.getId());
 
         Etc.DTO result = Etc.DTO.getDTO(returned);
-        assertEquals(result.getId(), etcEntity.getId());
-        assertEquals(result.getHelpRegisterId(), etcEntity.getHelpEntity().getHelpRegisterId());
-        assertEquals(result.getPlaceId(), etcEntity.getHelpEntity().getPlaceId());
-        assertEquals(result.getTitle(), etcEntity.getHelpEntity().getTitle());
-        assertEquals(result.getStart(), etcEntity.getHelpEntity().getStart());
-        assertEquals(result.getEnd(), etcEntity.getHelpEntity().getEnd());
-        assertEquals(result.getReward(), etcEntity.getHelpEntity().getReward());
-        assertEquals(result.getStatus(), etcEntity.getProgressEntity().getStatus());
-        assertEquals(result.getPhotoPath(), etcEntity.getProgressEntity().getPhotoPath());
-        assertEquals(result.getHelperId(), etcEntity.getProgressEntity().getHelperId());
-        assertEquals(result.isCompleted(), etcEntity.getProgressEntity().isCompleted());
+        Etc.DTO original = Etc.DTO.getDTO(entity.returnDomainModel());
+        assertEquals(result.getId(), entity.getId());
+        assertEquals(result.getContents(), entity.getContents());
+        assertEquals(result.getHelpRegisterId(), original.getHelpRegisterId());
+        assertEquals(result.getPlaceId(), original.getPlaceId());
+        assertEquals(result.getTitle(), original.getTitle());
+        assertEquals(result.getStart(), original.getStart());
+        assertEquals(result.getEnd(), original.getEnd());
+        assertEquals(result.getReward(), original.getReward());
+        assertEquals(result.getStatus(), original.getStatus());
+        assertEquals(result.getPhotoPath(), original.getPhotoPath());
+        assertEquals(result.getHelperId(), original.getHelperId());
+        assertEquals(result.isCompleted(), original.isCompleted());
     }
 
     @Test
@@ -100,11 +107,12 @@ class EtcJPARepositoryTest {
 
         //Given
         Etc etc = EtcFixtures.EtcT.create();
-        EtcEntity etcEntity = EtcEntity.from(etc);
-        when(etcSpringJPARepository.save(any(EtcEntity.class))).thenReturn(etcEntity);
+        EtcEntity etcEntity = EtcFixtures.EtcEntityT.create(etc);
+        when(etcSpringJPARepository.findById(etc.getId())).thenReturn(Optional.of(etcEntity));
 
         EtcService.Update dto = EtcFixtures.EtcServiceT.UpdateT.create();
         Etc updated = etc.update(dto);
+
 
         //When
         Etc returned = etcJPARepository.update(updated);
@@ -114,13 +122,13 @@ class EtcJPARepositoryTest {
         assertEquals(returned.getId(), etcEntity.getId());
 
         Etc.DTO result = Etc.DTO.getDTO(returned);
-        assertEquals(result.getId(), etcEntity.getId());
-        assertEquals(result.getHelpRegisterId(), etcEntity.getHelpEntity().getHelpRegisterId());
-        assertEquals(result.getPlaceId(), etcEntity.getHelpEntity().getPlaceId());
-        assertEquals(result.getTitle(), etcEntity.getHelpEntity().getTitle());
-        assertEquals(result.getStart(), etcEntity.getHelpEntity().getStart());
-        assertEquals(result.getEnd(), etcEntity.getHelpEntity().getEnd());
-        assertEquals(result.getReward(), etcEntity.getHelpEntity().getReward());
+        assertEquals(dto.getEtcId(), result.getId());
+        assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
+        assertEquals(dto.getStart(), result.getStart());
+        assertEquals(dto.getEnd(), result.getEnd());
+        assertEquals(dto.getTitle(), result.getTitle());
+        assertEquals(dto.getPlaceId(), result.getPlaceId());
+        assertEquals(dto.getReward(), result.getReward());
 
     }
 

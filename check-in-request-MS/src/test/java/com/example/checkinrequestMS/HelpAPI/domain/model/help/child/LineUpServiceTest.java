@@ -1,7 +1,6 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.fixtures.HelpAPI.LineUpFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ class LineUpServiceTest {
     @DisplayName("줄서기 등록 성공")
     void register() {
         //given
-        LineUpService.Registration dto = LineUpFixtures.LineUpServiceT.RegistrationT.create();
+        LineUpService.Creation dto = LineUpFixtures.LineUpServiceT.CreationT.create();
         LineUp lineUp = LineUpFixtures.LineUpT.create();
         when(lineUpRepository.save(any(LineUp.class))).thenReturn(lineUp);
 
@@ -41,10 +40,10 @@ class LineUpServiceTest {
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
-        assertEquals(Progress.DEFAULT.getStatus(), result.getStatus());
-        assertEquals(Progress.DEFAULT.getHelperId(), result.getHelperId());
-        assertEquals(Progress.DEFAULT.getPhotoPath(), result.getPhotoPath());
-        assertEquals(Progress.DEFAULT.isCompleted(), result.isCompleted());
+        assertEquals(dto.getStatus().getClass().getSimpleName(), result.getStatus().getClass().getSimpleName());
+        assertEquals(dto.getHelperId(), result.getHelperId());
+        assertEquals(dto.getPhotoPath(), result.getPhotoPath());
+        assertEquals(dto.isCompleted(), result.isCompleted());
 
     }
 
@@ -101,7 +100,7 @@ class LineUpServiceTest {
     void start() {
         //given
         LineUp lineUp = LineUpFixtures.LineUpT.create();
-        LineUpService.LineUpStarted dto = LineUpFixtures.LineUpServiceT.LineUpStartedT.create();
+        LineUpService.Start dto = LineUpFixtures.LineUpServiceT.StartT.create();
         when(lineUpRepository.findById(lineUp.getId())).thenReturn(lineUp);
         when(lineUpRepository.update(any(LineUp.class))).thenAnswer(i -> i.getArgument(0));
 
@@ -111,6 +110,7 @@ class LineUpServiceTest {
         //then
         assertEquals(lineUp.getId(), returned.getId());
         assertEquals(dto.getLineUpId(), returned.getId());
+        assertEquals(dto.getStatus().getClass().getSimpleName(), returned.getStatus().getClass().getSimpleName());
         assertEquals(dto.getHelperId(), returned.getHelperId());
         assertEquals(dto.getPhotoPath(), returned.getPhotoPath());
         assertEquals(dto.isCompleted(), returned.isCompleted());

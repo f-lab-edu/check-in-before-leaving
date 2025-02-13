@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.stream.Stream;
 
-import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService.Registration.*;
+import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService.Creation.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.spy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,14 +47,14 @@ public class LineUpRegistrationDTOTest {
     class helpValidation {
         static Stream<Arguments> requests() {
             return Stream.of(
-                    Arguments.of(LineUpFixtures.LineUpServiceT.RegistrationT.create(), "LineUpRequest", URIRULE.HELPS + URIRULE.LINE_UPS)
+                    Arguments.of(LineUpFixtures.LineUpServiceT.CreationT.create(), "LineUpRequest", URIRULE.HELPS + URIRULE.LINE_UPS)
             );
         }
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("2가지 정보 누락- 가게정보 및 요청 등록자 필요")
-        void Form_PlaceIdAndUserIdRequired(LineUpService.Registration request, String testName, String uri) throws Exception {
+        void Form_PlaceIdAndUserIdRequired(LineUpService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getPlaceId()).willReturn(null);
@@ -76,7 +76,7 @@ public class LineUpRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("보상 필요")
-        void Form_RewardRequired(LineUpService.Registration request, String testName, String uri) throws Exception {
+        void Form_RewardRequired(LineUpService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getReward()).willReturn(null);
@@ -96,7 +96,7 @@ public class LineUpRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("수행시간 옵션 필요")
-        void Form_OptionRequired(LineUpService.Registration request, String testName, String uri) throws Exception {
+        void Form_OptionRequired(LineUpService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getOption()).willReturn(null);
@@ -116,7 +116,7 @@ public class LineUpRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("시작 시간 필요")
-        void Form_StartRequired(LineUpService.Registration request, String testName, String uri) throws Exception {
+        void Form_StartRequired(LineUpService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getStart()).willReturn(null);
@@ -136,7 +136,7 @@ public class LineUpRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("가게 정보 필요")
-        void Form_PlaceIdRequired(LineUpService.Registration request, String testName, String uri) throws Exception {
+        void Form_PlaceIdRequired(LineUpService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getPlaceId()).willReturn(null);
@@ -156,7 +156,7 @@ public class LineUpRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("가게 이름 필요")
-        void Form_PlaceNameRequired(LineUpService.Registration request, String testName, String uri) throws Exception {
+        void Form_PlaceNameRequired(LineUpService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getPlaceName()).willReturn(null);
@@ -176,7 +176,7 @@ public class LineUpRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("요청 등록자 아이디 필요")
-        void Form_UserIdRequired(LineUpService.Registration request, String testName, String uri) throws Exception {
+        void Form_UserIdRequired(LineUpService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getHelpRegisterId()).willReturn(null);

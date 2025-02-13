@@ -25,7 +25,7 @@ class ProgressStartApplicationTest {
     @Test
     void startCheckIn() {
         //given
-        CheckInService.Start dto = CheckInFixtures.CheckInServiceT.CheckInStartedT.create();
+        CheckInService.Start dto = CheckInFixtures.CheckInServiceT.StartT.create();
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
         checkIn = checkIn.start(dto);
         when(checkInService.start(any(CheckInService.Start.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));

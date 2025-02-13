@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.fixtures.HelpAPI;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.EtcEntity;
@@ -26,19 +27,48 @@ public class EtcFixtures {
 
     public static class EtcT {
         public static Etc create() {
+            Etc.DTO dto = createBasicDTO();
             return Etc.builder()
                     .id(ID)
-                    .helpDetail(EtcFixtures.HelpDetailT.create())
-                    .progress(Progress.DEFAULT)
                     .contents(CONTENTS)
+                    .helpDetail(HelpDetail.from(dto))
+                    .progress(Progress.from(dto))
+                    .build();
+        }
+
+        public static Etc saved(EtcService.Creation dto) {
+            return Etc.builder()
+                    .id(ID)
+                    .contents(CONTENTS)
+                    .helpDetail(HelpDetail.from(dto))
+                    .progress(Progress.from(dto))
+                    .build();
+        }
+
+        public static Etc.DTO createBasicDTO() {
+            EtcService.Creation created = EtcFixtures.EtcServiceT.CreationT.create();
+            Progress.ProgressStatus status = created.getStatus();
+            return Etc.DTO.builder()
+                    .id(ID)
+                    .contents(CONTENTS)
+                    .helpRegisterId(created.getHelpRegisterId())
+                    .placeId(created.getPlaceId())
+                    .title(created.getTitle())
+                    .start(created.getStart())
+                    .end(created.getEnd())
+                    .reward(created.getReward())
+                    .status(status)
+                    .helperId(status.validateStatusRules(created, created.getHelperId()))
+                    .photoPath(status.validateStatusRules(created, created.getPhotoPath()))
+                    .completed(created.isCompleted())
                     .build();
         }
     }
 
     public static class EtcServiceT {
-        public static class RegistrationT {
-            public static EtcService.Registration create() {
-                return EtcService.Registration.builder()
+        public static class CreationT {
+            public static EtcService.Creation create() {
+                return EtcService.Creation.builder()
                         .helpRegisterId(HELP_REGISTER_ID)
                         .placeId(PLACE_ID)
                         .placeName(PLACE_NAME)
@@ -68,8 +98,8 @@ public class EtcFixtures {
         }
 
         public static class EtcStartedT {
-            public static EtcService.EtcStarted create() {
-                return EtcService.EtcStarted.builder()
+            public static EtcService.Start create() {
+                return EtcService.Start.builder()
                         .etcId(ID)
                         .helperId(Optional.of(HELPER_ID))
                         .build();
@@ -78,23 +108,10 @@ public class EtcFixtures {
     }
 
     public static class EtcEntityT {
-        public static EtcEntity create() {
+        public static EtcEntity create(Etc etc) {
             return EtcEntity.builder()
                     .id(ID)
-                    .etc(EtcFixtures.EtcT.create())
-                    .build();
-        }
-    }
-
-    public static class HelpDetailT {
-        public static HelpDetail create() {
-            return HelpDetail.builder()
-                    .helpRegisterId(ID)
-                    .title(TITLE)
-                    .start(START)
-                    .end(END)
-                    .placeId(PLACE_ID)
-                    .reward(REWARD)
+                    .etc(etc)
                     .build();
         }
     }

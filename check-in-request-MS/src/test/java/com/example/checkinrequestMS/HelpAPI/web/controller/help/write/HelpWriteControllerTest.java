@@ -44,7 +44,7 @@ class HelpWriteControllerTest {
         void Request_Success() throws Exception {
             //given
             String uri = URIRULE.HELPS + URIRULE.CHECK_INS;
-            CheckInService.Creation request = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+            CheckInService.Creation request = CheckInFixtures.CheckInServiceT.CreationT.create();
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -67,7 +67,7 @@ class HelpWriteControllerTest {
         void Request_Success() throws Exception {
             //given
             String uri = URIRULE.HELPS + URIRULE.LINE_UPS;
-            LineUpService.Registration request = LineUpFixtures.LineUpServiceT.RegistrationT.create();
+            LineUpService.Creation request = LineUpFixtures.LineUpServiceT.CreationT.create();
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -90,7 +90,7 @@ class HelpWriteControllerTest {
         void Request_Success() throws Exception {
             //given
             String uri = URIRULE.HELPS + URIRULE.ETCS;
-            EtcService.Registration request = EtcFixtures.EtcServiceT.RegistrationT.create();
+            EtcService.Creation request = EtcFixtures.EtcServiceT.CreationT.create();
 
             //when
             ResultActions result = mockMvc.perform(post(uri)

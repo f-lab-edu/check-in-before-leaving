@@ -6,19 +6,17 @@ import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Optional;
-
-@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @Table(name = "etc")
 public class EtcEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "etc_id", nullable = false)
+    @Getter
     private Long id;
 
+    @Getter
     private String contents;
 
     @Embedded
@@ -36,45 +34,38 @@ public class EtcEntity {
         this.progressEntity = ProgressEntity.from(dto);
     }
 
-    protected EtcEntity(Etc etc, boolean isRegister) {
-        Etc.DTO dto = Etc.DTO.getDTO(etc);
-        this.contents = etc.getContents();
+    private EtcEntity(@NonNull Boolean isRegister, @NonNull Etc etc) {
+        Etc.DTO dto = Etc.DTO.getDTOForCreation(etc);
         this.helpEntity = HelpDetailEntity.from(dto);
         this.progressEntity = ProgressEntity.from(dto);
     }
 
     //Business
     public static EtcEntity register(Etc etc) {
-        return new EtcEntity(etc, true);
+        return new EtcEntity(true, etc);
     }
 
     public Etc update(Etc etc) {
         this.contents = etc.getContents();
         this.helpEntity = HelpDetailEntity.from(Etc.DTO.getDTO(etc));
-        return returnDomainEntity();
+        return returnDomainModel();
     }
 
-    public Etc returnDomainEntity() {
+    public Etc returnDomainModel() {
         Etc.DTO dto = Etc.DTO.builder()
                 .id(this.getId())
-                .helpRegisterId(this.getHelpEntity().getHelpRegisterId())
-                .title(this.getHelpEntity().getTitle())
-                .start(this.getHelpEntity().getStart())
-                .end(this.getHelpEntity().getEnd())
-                .placeId(this.getHelpEntity().getPlaceId())
-                .reward(this.getHelpEntity().getReward())
-                .status(this.getProgressEntity().getStatus())
-                .helperId(this.getProgressEntity().getHelperId())
-                .photoPath(this.getProgressEntity().getPhotoPath())
                 .contents(this.getContents())
+                .helpRegisterId(this.helpEntity.getHelpRegisterId())
+                .title(this.helpEntity.getTitle())
+                .start(this.helpEntity.getStart())
+                .end(this.helpEntity.getEnd())
+                .placeId(this.helpEntity.getPlaceId())
+                .reward(this.helpEntity.getReward())
+                .helperId(this.progressEntity.getHelperId())
+                .status(this.progressEntity.getStatus())
+                .photoPath(this.progressEntity.getPhotoPath())
+                .completed(this.progressEntity.isCompleted())
                 .build();
         return Etc.from(dto);
-    }
-
-    public static EtcEntity from(Etc etc) {
-        return EtcEntity.builder()
-                .id(etc.getId())
-                .etc(etc)
-                .build();
     }
 }

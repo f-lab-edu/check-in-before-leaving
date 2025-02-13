@@ -6,7 +6,6 @@ import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "line_up")
@@ -15,6 +14,7 @@ public class LineUpEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "line_up", nullable = false)
+    @Getter
     private Long id;
 
     @Embedded
@@ -37,39 +37,37 @@ public class LineUpEntity {
         this.progressEntity = ProgressEntity.from(dto);
     }
 
+    private LineUpEntity(@NonNull Boolean isRegister, @NonNull LineUp lineUp) {
+        LineUp.DTO dto = LineUp.DTO.getDTOForCreation(lineUp);
+        this.helpEntity = HelpDetailEntity.from(dto);
+        this.progressEntity = ProgressEntity.from(dto);
+    }
+
     //Business
     public static LineUpEntity register(LineUp lineUp) {
-        return new LineUpEntity(lineUp, true);
+        return new LineUpEntity(true, lineUp);
     }
 
     public LineUp update(LineUp lineUp) {
         this.helpEntity = HelpDetailEntity.from(LineUp.DTO.getDTO(lineUp));
-        return returnDomainEntity();
+        return returnDomainModel();
     }
 
-    public LineUp returnDomainEntity() {
+    public LineUp returnDomainModel() {
         LineUp.DTO dto = LineUp.DTO.builder()
                 .id(this.getId())
-                .helpRegisterId(this.getHelpEntity().getHelpRegisterId())
-                .title(this.getHelpEntity().getTitle())
-                .start(this.getHelpEntity().getStart())
-                .end(this.getHelpEntity().getEnd())
-                .placeId(this.getHelpEntity().getPlaceId())
-                .reward(this.getHelpEntity().getReward())
-                .status(this.getProgressEntity().getStatus())
-                .helperId(this.getProgressEntity().getHelperId())
-                .photoPath(this.getProgressEntity().getPhotoPath())
-                .completed(this.getProgressEntity().isCompleted())
+                .helpRegisterId(this.helpEntity.getHelpRegisterId())
+                .title(this.helpEntity.getTitle())
+                .start(this.helpEntity.getStart())
+                .end(this.helpEntity.getEnd())
+                .placeId(this.helpEntity.getPlaceId())
+                .reward(this.helpEntity.getReward())
+                .helperId(this.progressEntity.getHelperId())
+                .status(this.progressEntity.getStatus())
+                .photoPath(this.progressEntity.getPhotoPath())
+                .completed(this.progressEntity.isCompleted())
                 .build();
         return LineUp.from(dto);
     }
-
-    public static LineUpEntity from(LineUp lineUp) {
-        return LineUpEntity.builder()
-                .id(lineUp.getId())
-                .lineUp(lineUp)
-                .build();
-    }
-
 
 }
