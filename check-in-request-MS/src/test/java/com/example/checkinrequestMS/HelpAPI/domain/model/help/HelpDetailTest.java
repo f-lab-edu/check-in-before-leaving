@@ -13,18 +13,17 @@ class HelpDetailTest {
     void register() {
 
         //given
-        CheckInService.Registration dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
-        CheckIn.DTO checkInDTO = CheckIn.DTO.getDTO(CheckIn.register(dto));
+        CheckIn.DTO checkInDTO = CheckInFixtures.CheckInT.createBasicDTO();
 
         //when
         HelpDetail sut = HelpDetail.from(checkInDTO);
 
         //then
-        assertEquals(dto.getHelpRegisterId(), sut.getHelpRegisterId());
-        assertEquals(dto.getPlaceName() + CheckInService.CHECK_IN_TITLE, sut.getTitle());
-        assertEquals(dto.getPlaceId(), sut.getPlaceId());
-        assertEquals(dto.getReward(), sut.getReward());
-        assertEquals(dto.getStart(), sut.getStart());
+        assertEquals(checkInDTO.getHelpRegisterId(), sut.getHelpRegisterId());
+        assertEquals(checkInDTO.getTitle(), sut.getTitle());
+        assertEquals(checkInDTO.getPlaceId(), sut.getPlaceId());
+        assertEquals(checkInDTO.getReward(), sut.getReward());
+        assertEquals(checkInDTO.getStart(), sut.getStart());
     }
 
 }

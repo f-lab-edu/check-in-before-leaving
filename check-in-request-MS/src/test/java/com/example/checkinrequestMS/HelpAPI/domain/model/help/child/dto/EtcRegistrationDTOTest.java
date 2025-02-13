@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.stream.Stream;
 
-import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService.Registration.*;
+import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService.Creation.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.spy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -46,14 +46,14 @@ public class EtcRegistrationDTOTest {
     class helpValidation {
         static Stream<Arguments> requests() {
             return Stream.of(
-                    Arguments.of(EtcFixtures.EtcServiceT.RegistrationT.create(), "EtcRequest", URIRULE.HELPS + URIRULE.ETCS)
+                    Arguments.of(EtcFixtures.EtcServiceT.CreationT.create(), "EtcRequest", URIRULE.HELPS + URIRULE.ETCS)
             );
         }
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("2가지 정보 누락- 가게정보 및 요청 등록자 필요")
-        void Request_PlaceIdAndUserIdRequired(EtcService.Registration request, String testName, String uri) throws Exception {
+        void Request_PlaceIdAndUserIdRequired(EtcService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getPlaceId()).willReturn(null);
@@ -75,7 +75,7 @@ public class EtcRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("보상 필요")
-        void Request_RewardRequired(EtcService.Registration request, String testName, String uri) throws Exception {
+        void Request_RewardRequired(EtcService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getReward()).willReturn(null);
@@ -95,7 +95,7 @@ public class EtcRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("수행시간 옵션 필요")
-        void Request_OptionRequired(EtcService.Registration request, String testName, String uri) throws Exception {
+        void Request_OptionRequired(EtcService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getOption()).willReturn(null);
@@ -115,7 +115,7 @@ public class EtcRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("시작 시간 필요")
-        void Request_StartRequired(EtcService.Registration request, String testName, String uri) throws Exception {
+        void Request_StartRequired(EtcService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getStart()).willReturn(null);
@@ -135,7 +135,7 @@ public class EtcRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("가게 정보 필요")
-        void Request_PlaceIdRequired(EtcService.Registration request, String testName, String uri) throws Exception {
+        void Request_PlaceIdRequired(EtcService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getPlaceId()).willReturn(null);
@@ -155,7 +155,7 @@ public class EtcRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("가게 이름 필요")
-        void Request_PlaceNameRequired(EtcService.Registration request, String testName, String uri) throws Exception {
+        void Request_PlaceNameRequired(EtcService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getPlaceName()).willReturn(null);
@@ -175,7 +175,7 @@ public class EtcRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("요청 등록자 아이디 필요")
-        void Request_UserIdRequired(EtcService.Registration request, String testName, String uri) throws Exception {
+        void Request_UserIdRequired(EtcService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getHelpRegisterId()).willReturn(null);
@@ -194,7 +194,7 @@ public class EtcRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("등록할 이름 필요")
-        void Request_TitleRequired(EtcService.Registration request, String testName, String uri) throws Exception {
+        void Request_TitleRequired(EtcService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getTitle()).willReturn(null);
@@ -213,7 +213,7 @@ public class EtcRegistrationDTOTest {
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("등록 내용 필요")
-        void Request_ContentsRequired(EtcService.Registration request, String testName, String uri) throws Exception {
+        void Request_ContentsRequired(EtcService.Creation request, String testName, String uri) throws Exception {
             //given
             request = spy(request);
             given(request.getContents()).willReturn(null);

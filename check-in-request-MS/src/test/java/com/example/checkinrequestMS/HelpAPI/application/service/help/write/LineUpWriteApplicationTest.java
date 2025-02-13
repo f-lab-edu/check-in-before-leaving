@@ -31,7 +31,7 @@ class LineUpWriteApplicationTest {
         void registerLineUp() {
 
             //given
-            LineUpService.Registration dto = LineUpFixtures.LineUpServiceT.RegistrationT.create();
+            LineUpService.Creation dto = LineUpFixtures.LineUpServiceT.CreationT.create();
             LineUp lineUp = LineUpFixtures.LineUpT.create();
             lineUp.register(dto);
             when(lineUpService.register(dto)).thenReturn(LineUp.DTO.getDTO(lineUp));

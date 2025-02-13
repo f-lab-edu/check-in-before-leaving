@@ -1,31 +1,69 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
-import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
-import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
-import lombok.*;
+import jakarta.annotation.Nullable;
+import lombok.Getter;
+import lombok.NonNull;
 
 import java.util.Optional;
 
+
 @Getter
 public final class Progress {
+
+    @Nullable
+    private final Long helperId;
+
+    @Nullable
+    private final String photoPath;
+
     private final ProgressStatus status;
-    private final Optional<Long> helperId;
-    private final Optional<String> photoPath;
+
     private final boolean completed;
 
-    public enum ProgressStatus {
-        CREATED(0), ONGOING(1), AUTHENTICATED(2), COMPLETED(3);
+    public interface ProgressStatus {
 
-        private final int order;
+        <T> T validateStatusRules(Progress.DTO dto, Optional<T> value); //helper // photoPath
+    }
 
-        ProgressStatus(int order) {
-            this.order = order;
+    public final static class Created implements ProgressStatus {
+
+        @Override
+        public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
+            if (!dto.getHelperId().isEmpty() || !dto.getPhotoPath().isEmpty()) {
+                throw new IllegalStateException();
+            }
+            return value.orElse(null);
         }
     }
 
-    public static Progress DEFAULT = new Progress(Progress.ProgressStatus.CREATED, Optional.empty(), Optional.empty(), false);
+    public final static class Started implements ProgressStatus {
 
-    private Progress(@NonNull Progress.ProgressStatus status, @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
+        @Override
+        public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
+            if (dto.getHelperId().isEmpty()) throw new NullPointerException();
+            if (!dto.getPhotoPath().isEmpty()) throw new IllegalStateException();
+            return value.orElse(null);
+        }
+    }
+
+    public final static class Authenticated implements ProgressStatus {
+
+        @Override
+        public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
+            return value.orElseThrow(() -> new NullPointerException());
+        }
+    }
+
+    public final static class Completed implements ProgressStatus {
+
+        @Override
+        public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
+            return value.orElseThrow(() -> new NullPointerException());
+        }
+    }
+
+
+    private Progress(@NonNull Progress.ProgressStatus status, @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
         this.status = status;
         this.helperId = helperId;
         this.photoPath = photoPath;
@@ -33,7 +71,8 @@ public final class Progress {
     }
 
     public static Progress from(@NonNull DTO dto) {
-        return new Progress(dto.getStatus(), dto.getHelperId(), dto.getPhotoPath(), dto.isCompleted());
+        ProgressStatus status = dto.getStatus();
+        return new Progress(status, status.validateStatusRules(dto, dto.getHelperId()), status.validateStatusRules(dto, dto.getPhotoPath()), dto.isCompleted());
     }
 
     public interface DTO {
@@ -44,6 +83,7 @@ public final class Progress {
         Optional<String> getPhotoPath();
 
         boolean isCompleted();
+
     }
 
 }

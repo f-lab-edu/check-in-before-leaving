@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import jakarta.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,8 +36,8 @@ public final class LineUp {
     }
 
     //Business
-    public static LineUp register(@NonNull LineUpService.Registration dto) {
-        return new LineUp(true, HelpDetail.from(dto), Progress.DEFAULT);
+    public static LineUp register(@NonNull LineUpService.Creation dto) {
+        return new LineUp(true, HelpDetail.from(dto), Progress.from(dto));
     }
 
     public LineUp update(@NonNull LineUpService.Update dto) {
@@ -47,7 +48,7 @@ public final class LineUp {
                 .build();
     }
 
-    public LineUp start(@NonNull LineUpService.LineUpStarted dto) {
+    public LineUp start(@NonNull LineUpService.Start dto) {
         return LineUp.builder()
                 .id(Objects.requireNonNull(this.id))
                 .helpDetail(Objects.requireNonNull(this.helpDetail))
@@ -73,12 +74,14 @@ public final class LineUp {
         private final String placeId;
         private final Long reward;
         private final Progress.ProgressStatus status;
-        private final Optional<Long> helperId;
-        private final Optional<String> photoPath;
+        @Nullable
+        private final Long helperId;
+        @Nullable
+        private final String photoPath;
         private final boolean completed;
 
         @Builder
-        public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status, @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
+        public DTO(@NonNull Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status, @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
             this.id = id;
             this.helpRegisterId = helpRegisterId;
             this.title = title;
@@ -90,6 +93,28 @@ public final class LineUp {
             this.helperId = helperId;
             this.photoPath = photoPath;
             this.completed = completed;
+        }
+
+        public DTO(@NonNull Boolean isRegister, @NonNull LineUp lineUp) {
+            this.id = lineUp.getId();
+            this.helpRegisterId = lineUp.getHelpDetail().getHelpRegisterId();
+            this.title = lineUp.getHelpDetail().getTitle();
+            this.start = lineUp.getHelpDetail().getStart();
+            this.end = lineUp.getHelpDetail().getEnd();
+            this.placeId = lineUp.getHelpDetail().getPlaceId();
+            this.reward = lineUp.getHelpDetail().getReward();
+            this.status = lineUp.getProgress().getStatus();
+            this.helperId = lineUp.getProgress().getHelperId();
+            this.photoPath = lineUp.getProgress().getPhotoPath();
+            this.completed = lineUp.getProgress().isCompleted();
+        }
+
+        public Optional<Long> getHelperId() {
+            return Optional.ofNullable(helperId);
+        }
+
+        public Optional<String> getPhotoPath() {
+            return Optional.ofNullable(photoPath);
         }
 
         public static LineUp.DTO getDTO(@NonNull LineUp lineUp) {
@@ -107,6 +132,13 @@ public final class LineUp {
                     .completed(lineUp.getProgress().isCompleted())
                     .build();
         }
+
+        public static LineUp.DTO getDTOForCreation(@NonNull LineUp lineUp) {
+            boolean isRegister = true;
+            if (lineUp.getId() != null) throw new IllegalStateException();
+            return new LineUp.DTO(isRegister, lineUp);
+        }
     }
+
 
 }

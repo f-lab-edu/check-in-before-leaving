@@ -3,6 +3,8 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ public class LineUpService {
     private final LineUpRepository lineUpRepository;
     private final AlarmService alarmService;
 
-    public LineUp.DTO register(@NonNull Registration dto) {
+    public LineUp.DTO register(@NonNull LineUpService.Creation dto) {
         LineUp lineUp = LineUp.register(dto);
 
         //alarmService.sendAlarmToUsersNearby(place.getId(), place.getX(), place.getY();
@@ -47,7 +49,7 @@ public class LineUpService {
         return LineUp.DTO.getDTO(lineUpRepository.findById(id));
     }
 
-    public LineUp.DTO start(@NonNull LineUpStarted dto) {
+    public LineUp.DTO start(@NonNull LineUpService.Start dto) {
         LineUp lineUp = lineUpRepository.findById(dto.getLineUpId());
         lineUp = lineUp.start(dto);
         return LineUp.DTO.getDTO(lineUpRepository.update(lineUp));
@@ -56,7 +58,8 @@ public class LineUpService {
     //DTO
     @Getter
     @Validated
-    public static final class Registration implements HelpDetail.DTO {
+    @NoArgsConstructor(force = true)
+    public static final class Creation implements HelpDetail.DTO, Progress.DTO {
 
         public static final String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
         public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
@@ -87,8 +90,22 @@ public class LineUpService {
 
         private final LocalDateTime end;
 
+        @Nullable
+        private final Long helperId;
+
+        @Nullable
+        private final String photoPath;
+
+        @JsonIgnore
+        private final Progress.ProgressStatus status;
+
+        private final boolean completed;
+
         @Builder
-        public Registration(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward) {
+        public Creation(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward) {
+            final Long NO_HELPER_AT_CREATED = null;
+            final String NO_PHOTO_AUTHENTICATION_AT_CREATED = null;
+
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
             this.placeName = placeName;
@@ -97,6 +114,21 @@ public class LineUpService {
             this.reward = reward;
             this.title = createTitle(placeName);
             this.end = calculateEnd(start, option);
+
+            this.helperId = NO_HELPER_AT_CREATED;
+            this.photoPath = NO_PHOTO_AUTHENTICATION_AT_CREATED;
+            this.status = new Progress.Created();
+            this.completed = false;
+        }
+
+        @Nullable
+        public Optional<String> getPhotoPath() {
+            return Optional.ofNullable(photoPath);
+        }
+
+        @Nullable
+        public Optional<Long> getHelperId() {
+            return Optional.ofNullable(helperId);
         }
     }
 
@@ -153,7 +185,7 @@ public class LineUpService {
 
     @Getter
     @Validated
-    public static class LineUpStarted implements Progress.DTO {
+    public static class Start implements Progress.DTO {
 
         public static final String PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID = "줄서기 ID가 필요합니다.";
         public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
@@ -163,14 +195,15 @@ public class LineUpService {
 
         private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
 
-        private final Progress.ProgressStatus status = Progress.ProgressStatus.ONGOING;
+        @JsonIgnore
+        private final Progress.ProgressStatus status = new Progress.Started();
 
         private final Optional<String> photoPath = Optional.empty();
 
         private final boolean completed = false;
 
         @Builder
-        public LineUpStarted(Long lineUpId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
+        public Start(Long lineUpId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
             this.lineUpId = lineUpId;
             this.helperId = helperId;
         }

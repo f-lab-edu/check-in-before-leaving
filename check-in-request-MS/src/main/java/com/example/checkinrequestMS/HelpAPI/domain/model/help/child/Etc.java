@@ -2,6 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import jakarta.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,8 +39,8 @@ public final class Etc {
     }
 
     //Business
-    public static Etc register(@NonNull EtcService.Registration dto) {
-        return new Etc(true, HelpDetail.from(dto), Progress.DEFAULT, dto.getContents());
+    public static Etc register(@NonNull EtcService.Creation dto) {
+        return new Etc(true, HelpDetail.from(dto), Progress.from(dto), dto.getContents());
     }
 
     public Etc update(@NonNull EtcService.Update dto) {
@@ -51,7 +52,7 @@ public final class Etc {
                 .build();
     }
 
-    public Etc start(@NonNull EtcService.EtcStarted dto) {
+    public Etc start(@NonNull EtcService.Start dto) {
         return Etc.builder()
                 .id(Objects.requireNonNull(this.id))
                 .helpDetail(Objects.requireNonNull(this.helpDetail))
@@ -80,14 +81,16 @@ public final class Etc {
         private final String placeId;
         private final Long reward;
         private final Progress.ProgressStatus status;
-        private final Optional<Long> helperId;
-        private final Optional<String> photoPath;
+        @Nullable
+        private final Long helperId;
+        @Nullable
+        private final String photoPath;
         private final boolean completed;
 
         @Builder
         public DTO(@NonNull Long id, @NonNull String contents, @NonNull Long helpRegisterId, @NonNull String title,
                    @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward,
-                   @NonNull Progress.ProgressStatus status, @NonNull Optional<Long> helperId, @NonNull Optional<String> photoPath, @NonNull Boolean completed) {
+                   @NonNull Progress.ProgressStatus status, @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
             this.id = id;
             this.contents = contents;
             this.helpRegisterId = helpRegisterId;
@@ -100,6 +103,31 @@ public final class Etc {
             this.helperId = helperId;
             this.photoPath = photoPath;
             this.completed = completed;
+        }
+
+        public DTO(@NonNull Boolean isRegister, @NonNull Etc etc) {
+            this.id = etc.getId();
+            this.contents = etc.getContents();
+            this.helpRegisterId = etc.getHelpDetail().getHelpRegisterId();
+            this.title = etc.getHelpDetail().getTitle();
+            this.start = etc.getHelpDetail().getStart();
+            this.end = etc.getHelpDetail().getEnd();
+            this.placeId = etc.getHelpDetail().getPlaceId();
+            this.reward = etc.getHelpDetail().getReward();
+            this.status = etc.getProgress().getStatus();
+            this.helperId = etc.getProgress().getHelperId();
+            this.photoPath = etc.getProgress().getPhotoPath();
+            this.completed = etc.getProgress().isCompleted();
+        }
+
+        @Nullable
+        public Optional<Long> getHelperId() {
+            return Optional.ofNullable(helperId);
+        }
+
+        @Nullable
+        public Optional<String> getPhotoPath() {
+            return Optional.ofNullable(photoPath);
         }
 
         public static Etc.DTO getDTO(@NonNull Etc etc) {
@@ -117,6 +145,12 @@ public final class Etc {
                     .photoPath(etc.getProgress().getPhotoPath())
                     .completed(etc.getProgress().isCompleted())
                     .build();
+        }
+
+        public static Etc.DTO getDTOForCreation(@NonNull Etc etc) {
+            boolean isRegister = true;
+            if (etc.getId() != null) throw new IllegalStateException();
+            return new Etc.DTO(isRegister, etc);
         }
     }
 }

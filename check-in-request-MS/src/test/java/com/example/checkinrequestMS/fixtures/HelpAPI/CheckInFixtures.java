@@ -7,7 +7,6 @@ import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInServi
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.CheckInEntity;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class CheckInFixtures {
 
@@ -25,18 +24,45 @@ public class CheckInFixtures {
 
     public static class CheckInT {
         public static CheckIn create() {
+            CheckIn.DTO dto = createBasicDTO();
+            return CheckIn.builder()
+                    .id(dto.getId())
+                    .helpDetail(HelpDetail.from(dto))
+                    .progress(Progress.from(dto))
+                    .build();
+        }
+
+        public static CheckIn saved(CheckInService.Creation dto) {
             return CheckIn.builder()
                     .id(ID)
-                    .helpDetail(CheckInFixtures.HelpDetailT.create())
-                    .progress(Progress.DEFAULT)
+                    .helpDetail(HelpDetail.from(dto))
+                    .progress(Progress.from(dto))
+                    .build();
+        }
+
+        public static CheckIn.DTO createBasicDTO() {
+            CheckInService.Creation created = CheckInServiceT.CreationT.create();
+            Progress.ProgressStatus status = created.getStatus();
+            return CheckIn.DTO.builder()
+                    .id(ID)
+                    .helpRegisterId(created.getHelpRegisterId())
+                    .placeId(created.getPlaceId())
+                    .title(created.getTitle())
+                    .start(created.getStart())
+                    .end(created.getEnd())
+                    .reward(created.getReward())
+                    .status(status)
+                    .helperId(status.validateStatusRules(created, created.getHelperId()))
+                    .photoPath(status.validateStatusRules(created, created.getPhotoPath()))
+                    .completed(created.isCompleted())
                     .build();
         }
     }
 
     public static class CheckInServiceT {
-        public static class RegistrationT {
-            public static CheckInService.Registration create() {
-                return CheckInService.Registration.builder()
+        public static class CreationT {
+            public static CheckInService.Creation create() {
+                return CheckInService.Creation.builder()
                         .helpRegisterId(HELP_REGISTER_ID)
                         .placeId(PLACE_ID)
                         .placeName(PLACE_NAME)
@@ -62,34 +88,21 @@ public class CheckInFixtures {
             }
         }
 
-        public static class CheckInStartedT {
-            public static CheckInService.CheckInStarted create() {
-                return CheckInService.CheckInStarted.builder()
+        public static class StartT {
+            public static CheckInService.Start create() {
+                return CheckInService.Start.builder()
                         .checkInId(ID)
-                        .helperId(Optional.of(HELPER_ID))
+                        .helperId(HELPER_ID)
                         .build();
             }
         }
     }
 
     public static class CheckInEntityT {
-        public static CheckInEntity create() {
+        public static CheckInEntity create(CheckIn checkIn) {
             return CheckInEntity.builder()
-                    .id(ID)
-                    .checkIn(CheckInFixtures.CheckInT.create())
-                    .build();
-        }
-    }
-
-    public static class HelpDetailT {
-        public static HelpDetail create() {
-            return HelpDetail.builder()
-                    .helpRegisterId(ID)
-                    .title(TITLE)
-                    .start(START)
-                    .end(END)
-                    .placeId(PLACE_ID)
-                    .reward(REWARD)
+                    .id(checkIn.getId())
+                    .checkIn(checkIn)
                     .build();
         }
     }
