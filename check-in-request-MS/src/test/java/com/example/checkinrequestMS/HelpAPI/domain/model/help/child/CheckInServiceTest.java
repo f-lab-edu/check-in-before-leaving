@@ -1,6 +1,5 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ class CheckInServiceTest {
     @DisplayName("체크인 등록 성공")
     void register() {
         //given
-        CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+        CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.CreationT.create();
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
         when(checkInRepository.save(any(CheckIn.class))).thenReturn(checkIn);
 
@@ -41,10 +40,10 @@ class CheckInServiceTest {
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
-        assertEquals(Progress.DEFAULT.getStatus(), result.getStatus());
-        assertEquals(Progress.DEFAULT.getHelperId(), result.getHelperId());
-        assertEquals(Progress.DEFAULT.getPhotoPath(), result.getPhotoPath());
-        assertEquals(Progress.DEFAULT.isCompleted(), result.isCompleted());
+        assertEquals(dto.getStatus().getClass().getSimpleName(), result.getStatus().getClass().getSimpleName());
+        assertEquals(dto.getHelperId(), result.getHelperId());
+        assertEquals(dto.getPhotoPath(), result.getPhotoPath());
+        assertEquals(dto.isCompleted(), result.isCompleted());
     }
 
     @Test
@@ -100,7 +99,7 @@ class CheckInServiceTest {
     void start() {
         //given
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
-        CheckInService.Start dto = CheckInFixtures.CheckInServiceT.CheckInStartedT.create();
+        CheckInService.Start dto = CheckInFixtures.CheckInServiceT.StartT.create();
         when(checkInRepository.findById(checkIn.getId())).thenReturn(checkIn);
         when(checkInRepository.update(any(CheckIn.class))).thenAnswer(i -> i.getArgument(0));
 
@@ -109,6 +108,7 @@ class CheckInServiceTest {
 
         //then
         assertEquals(checkIn.getId(), returned.getId());
+        assertEquals(dto.getStatus().getClass().getSimpleName(), returned.getStatus().getClass().getSimpleName());
         assertEquals(dto.getCheckInId(), returned.getId());
         assertEquals(dto.getHelperId(), returned.getHelperId());
         assertEquals(dto.getPhotoPath(), returned.getPhotoPath());

@@ -1,7 +1,5 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.EtcEntity;
 import com.example.checkinrequestMS.fixtures.HelpAPI.EtcFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +16,7 @@ class EtcTest {
     @Test
     void register() {
         //given
-        EtcService.Registration dto = EtcFixtures.EtcServiceT.RegistrationT.create();
+        EtcService.Creation dto = EtcFixtures.EtcServiceT.CreationT.create();
 
         //when
         Etc sut = Etc.register(dto);
@@ -36,10 +34,10 @@ class EtcTest {
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
-        assertEquals(Progress.DEFAULT.getStatus(), result.getStatus());
-        assertEquals(Progress.DEFAULT.getHelperId(), result.getHelperId());
-        assertEquals(Progress.DEFAULT.getPhotoPath(), result.getPhotoPath());
-        assertEquals(Progress.DEFAULT.isCompleted(), result.isCompleted());
+        assertEquals(dto.getStatus(), result.getStatus());
+        assertEquals(dto.getHelperId(), result.getHelperId());
+        assertEquals(dto.getPhotoPath(), result.getPhotoPath());
+        assertEquals(dto.isCompleted(), result.isCompleted());
     }
 
     @Test
@@ -66,21 +64,7 @@ class EtcTest {
     @Test
     void from() {
         //given
-        EtcEntity entity = EtcFixtures.EtcEntityT.create();
-        Etc.DTO dto = Etc.DTO.builder()
-                .id(entity.getId())
-                .helpRegisterId(entity.getHelpEntity().getHelpRegisterId())
-                .title(entity.getHelpEntity().getTitle())
-                .start(entity.getHelpEntity().getStart())
-                .end(entity.getHelpEntity().getEnd())
-                .placeId(entity.getHelpEntity().getPlaceId())
-                .reward(entity.getHelpEntity().getReward())
-                .helperId(entity.getProgressEntity().getHelperId())
-                .status(entity.getProgressEntity().getStatus())
-                .photoPath(entity.getProgressEntity().getPhotoPath())
-                .completed(entity.getProgressEntity().isCompleted())
-                .contents(entity.getContents())
-                .build();
+        Etc.DTO dto = EtcFixtures.EtcT.createBasicDTO();
         //when
         Etc sut = Etc.from(dto);
 
@@ -104,7 +88,7 @@ class EtcTest {
     void start() {
         //given
         Etc sut = EtcFixtures.EtcT.create();
-        EtcService.EtcStarted dto = EtcFixtures.EtcServiceT.EtcStartedT.create();
+        EtcService.Start dto = EtcFixtures.EtcServiceT.EtcStartedT.create();
 
         //when
         Etc returned = sut.start(dto);

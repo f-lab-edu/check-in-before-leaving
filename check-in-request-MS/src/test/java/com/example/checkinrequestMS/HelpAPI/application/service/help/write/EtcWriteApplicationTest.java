@@ -31,7 +31,7 @@ class EtcWriteApplicationTest {
         void registerEtc() {
 
             //given
-            EtcService.Registration dto = EtcFixtures.EtcServiceT.RegistrationT.create();
+            EtcService.Creation dto = EtcFixtures.EtcServiceT.CreationT.create();
             Etc etc = EtcFixtures.EtcT.create();
             etc.register(dto);
             when(etcService.register(dto)).thenReturn(Etc.DTO.getDTO(etc));

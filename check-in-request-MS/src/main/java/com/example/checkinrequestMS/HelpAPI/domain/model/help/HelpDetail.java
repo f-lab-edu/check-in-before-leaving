@@ -1,8 +1,9 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NonNull;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +17,7 @@ public final class HelpDetail {
     private final String placeId;
     private final Long reward;
 
-    @Builder
+    @Builder(access = AccessLevel.PRIVATE)
     private HelpDetail(@NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward) {
         this.helpRegisterId = helpRegisterId;
         this.title = title;

@@ -2,6 +2,8 @@ package com.example.checkinrequestMS.fixtures.HelpAPI;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.LineUpEntity;
@@ -25,18 +27,45 @@ public class LineUpFixtures {
 
     public static class LineUpT {
         public static LineUp create() {
+            LineUp.DTO dto = createBasicDTO();
             return LineUp.builder()
                     .id(ID)
-                    .helpDetail(LineUpFixtures.HelpDetailT.create())
-                    .progress(Progress.DEFAULT)
+                    .helpDetail(HelpDetail.from(dto))
+                    .progress(Progress.from(dto))
+                    .build();
+        }
+
+        public static LineUp saved(LineUpService.Creation dto) {
+            return LineUp.builder()
+                    .id(ID)
+                    .helpDetail(HelpDetail.from(dto))
+                    .progress(Progress.from(dto))
+                    .build();
+        }
+
+        public static LineUp.DTO createBasicDTO() {
+            LineUpService.Creation created = LineUpFixtures.LineUpServiceT.CreationT.create();
+            Progress.ProgressStatus status = created.getStatus();
+            return LineUp.DTO.builder()
+                    .id(ID)
+                    .helpRegisterId(created.getHelpRegisterId())
+                    .placeId(created.getPlaceId())
+                    .title(created.getTitle())
+                    .start(created.getStart())
+                    .end(created.getEnd())
+                    .reward(created.getReward())
+                    .status(status)
+                    .helperId(status.validateStatusRules(created, created.getHelperId()))
+                    .photoPath(status.validateStatusRules(created, created.getPhotoPath()))
+                    .completed(created.isCompleted())
                     .build();
         }
     }
 
     public static class LineUpServiceT {
-        public static class RegistrationT {
-            public static LineUpService.Registration create() {
-                return LineUpService.Registration.builder()
+        public static class CreationT {
+            public static LineUpService.Creation create() {
+                return LineUpService.Creation.builder()
                         .helpRegisterId(HELP_REGISTER_ID)
                         .placeId(PLACE_ID)
                         .placeName(PLACE_NAME)
@@ -62,9 +91,9 @@ public class LineUpFixtures {
             }
         }
 
-        public static class LineUpStartedT {
-            public static LineUpService.LineUpStarted create() {
-                return LineUpService.LineUpStarted.builder()
+        public static class StartT {
+            public static LineUpService.Start create() {
+                return LineUpService.Start.builder()
                         .lineUpId(ID)
                         .helperId(Optional.of(HELPER_ID))
                         .build();
@@ -73,23 +102,10 @@ public class LineUpFixtures {
     }
 
     public static class LineUpEntityT {
-        public static LineUpEntity create() {
+        public static LineUpEntity create(LineUp lineUp) {
             return LineUpEntity.builder()
                     .id(ID)
-                    .lineUp(LineUpFixtures.LineUpT.create())
-                    .build();
-        }
-    }
-
-    public static class HelpDetailT {
-        public static HelpDetail create() {
-            return HelpDetail.builder()
-                    .helpRegisterId(ID)
-                    .title(TITLE)
-                    .start(START)
-                    .end(END)
-                    .placeId(PLACE_ID)
-                    .reward(REWARD)
+                    .lineUp(lineUp)
                     .build();
         }
     }

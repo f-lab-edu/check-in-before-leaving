@@ -3,6 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 import com.example.checkinrequestMS.HelpAPI.application.service.alarm.AlarmService;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -57,6 +58,7 @@ public class CheckInService {
     // DTO - Request
     @Getter
     @Validated
+    @NoArgsConstructor(force = true)
     public static final class Creation implements HelpDetail.DTO, Progress.DTO {
 
         public static final String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";
@@ -95,6 +97,7 @@ public class CheckInService {
         @Nullable
         private final String photoPath;
 
+        @JsonIgnore
         private final Progress.ProgressStatus status;
 
         private final boolean completed;
@@ -126,6 +129,8 @@ public class CheckInService {
         public Optional<String> getPhotoPath() {
             return Optional.ofNullable(photoPath);
         }
+
+
     }
 
     @Getter
@@ -186,6 +191,7 @@ public class CheckInService {
         @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID)
         private final Long helperId;
 
+        @JsonIgnore
         private final Progress.ProgressStatus status;
 
         @Nullable

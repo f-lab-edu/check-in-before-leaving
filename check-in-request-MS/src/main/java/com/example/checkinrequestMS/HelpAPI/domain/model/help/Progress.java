@@ -29,7 +29,9 @@ public final class Progress {
 
         @Override
         public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
-            if (dto.getHelperId() != null || dto.getPhotoPath() != null) throw new IllegalStateException();
+            if (!dto.getHelperId().isEmpty() || !dto.getPhotoPath().isEmpty()) {
+                throw new IllegalStateException();
+            }
             return value.orElse(null);
         }
     }
@@ -38,8 +40,8 @@ public final class Progress {
 
         @Override
         public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
-            if (dto.getHelperId() == null) throw new NullPointerException();
-            if (dto.getPhotoPath() != null) throw new IllegalStateException();
+            if (dto.getHelperId().isEmpty()) throw new NullPointerException();
+            if (!dto.getPhotoPath().isEmpty()) throw new IllegalStateException();
             return value.orElse(null);
         }
     }

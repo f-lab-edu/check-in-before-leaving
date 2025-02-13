@@ -2,10 +2,7 @@ package com.example.checkinrequestMS.HelpAPI.infra.db.entity;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +19,7 @@ public class HelpDetailEntity {
     private final Long reward;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private HelpDetailEntity(Long helpRegisterId, String title, LocalDateTime start, LocalDateTime end, String placeId, Long reward) {
+    private HelpDetailEntity(@NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start, @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward) {
         this.helpRegisterId = helpRegisterId;
         this.title = title;
         this.start = start;
@@ -31,7 +28,7 @@ public class HelpDetailEntity {
         this.reward = reward;
     }
 
-    public static HelpDetailEntity from(HelpDetail.DTO dto) {
+    public static HelpDetailEntity from(@NonNull HelpDetail.DTO dto) {
         return HelpDetailEntity.builder()
                 .helpRegisterId(dto.getHelpRegisterId())
                 .title(dto.getTitle())

@@ -16,14 +16,14 @@ public class EtcJPARepository implements EtcRepository {
 
     @Override
     public Etc save(Etc etc) {
-        return etcSpringJPARepository.save(EtcEntity.register(etc)).returnDomainEntity();
+        return etcSpringJPARepository.save(EtcEntity.register(etc)).returnDomainModel();
     }
 
     @Override
     public Etc findById(Long id) {
         EtcEntity entity = etcSpringJPARepository.findById(id)
                 .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO));
-        return entity.returnDomainEntity();
+        return entity.returnDomainModel();
     }
 
     @Override

@@ -35,7 +35,7 @@ class CheckInWriteApplicationTest {
 
             //given
 
-            CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.RegistrationT.create();
+            CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.CreationT.create();
             CheckIn checkIn = CheckInFixtures.CheckInT.create();
             checkIn.register(dto);
             when(checkInService.register(any(CheckInService.Creation.class))).thenReturn(CheckIn.DTO.getDTO(checkIn));

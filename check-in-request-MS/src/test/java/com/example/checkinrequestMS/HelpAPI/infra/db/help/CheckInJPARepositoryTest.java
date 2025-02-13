@@ -28,60 +28,65 @@ class CheckInJPARepositoryTest {
     private CheckInJPARepository checkInJPARepository;
 
     @Test
-    void save() {
+    void save_register() {
         // Given
-        CheckIn checkIn = CheckInFixtures.CheckInT.create();
-        CheckInEntity checkInEntity = CheckInEntity.from(checkIn);
-        when(checkInSpringJPARepository.save(any(CheckInEntity.class))).thenReturn(checkInEntity);
+        CheckInService.Creation dto = CheckInFixtures.CheckInServiceT.CreationT.create();
+        CheckIn checkIn = CheckIn.register(dto);
+        CheckIn saved = CheckInFixtures.CheckInT.saved(dto);
+        CheckInEntity entity = CheckInFixtures.CheckInEntityT.create(saved);
+        when(checkInSpringJPARepository.save(any(CheckInEntity.class))).thenReturn(entity);
 
         // When
         CheckIn returned = checkInJPARepository.save(checkIn);
 
         // Then
-        assertEquals(checkInEntity.getId(), returned.getId());
+        assertEquals(entity.getId(), returned.getId());
 
         //fixme: 기차충돌 문제 해결 -> DTO
         CheckIn.DTO result = CheckIn.DTO.getDTO(returned);
-        assertEquals(result.getId(), checkInEntity.getId());
-        assertEquals(result.getHelpRegisterId(), checkInEntity.getHelpEntity().getHelpRegisterId());
-        assertEquals(result.getPlaceId(), checkInEntity.getHelpEntity().getPlaceId());
-        assertEquals(result.getTitle(), checkInEntity.getHelpEntity().getTitle());
-        assertEquals(result.getStart(), checkInEntity.getHelpEntity().getStart());
-        assertEquals(result.getEnd(), checkInEntity.getHelpEntity().getEnd());
-        assertEquals(result.getReward(), checkInEntity.getHelpEntity().getReward());
-        assertEquals(result.getStatus(), checkInEntity.getProgressEntity().getStatus());
-        assertEquals(result.getPhotoPath(), checkInEntity.getProgressEntity().getPhotoPath());
-        assertEquals(result.getHelperId(), checkInEntity.getProgressEntity().getHelperId());
-        assertEquals(result.isCompleted(), checkInEntity.getProgressEntity().isCompleted());
+        CheckIn.DTO original = CheckIn.DTO.getDTO(entity.returnDomainModel());
 
+        assertEquals(result.getId(), entity.getId());
+        assertEquals(result.getHelpRegisterId(), original.getHelpRegisterId());
+        assertEquals(result.getPlaceId(), original.getPlaceId());
+        assertEquals(result.getTitle(), original.getTitle());
+        assertEquals(result.getStart(), original.getStart());
+        assertEquals(result.getEnd(), original.getEnd());
+        assertEquals(result.getReward(), original.getReward());
+        assertEquals(result.getStatus(), original.getStatus());
+        assertEquals(result.getPhotoPath(), original.getPhotoPath());
+        assertEquals(result.getHelperId(), original.getHelperId());
+        assertEquals(result.isCompleted(), original.isCompleted());
     }
 
     @Test
     void findById() {
         // Given
         Long id = 1L;
-        CheckInEntity checkInEntity = CheckInFixtures.CheckInEntityT.create();
-        when(checkInSpringJPARepository.findById(id)).thenReturn(Optional.of(checkInEntity));
+        CheckIn checkIn = CheckInFixtures.CheckInT.create();
+        CheckInEntity sut = CheckInFixtures.CheckInEntityT.create(checkIn);
+        when(checkInSpringJPARepository.findById(id)).thenReturn(Optional.of(sut));
 
         // When
         CheckIn returned = checkInJPARepository.findById(id);
 
         // Then
         assertNotNull(returned);
-        assertEquals(checkInEntity.getId(), returned.getId());
+        assertEquals(sut.getId(), returned.getId());
 
         CheckIn.DTO result = CheckIn.DTO.getDTO(returned);
-        assertEquals(result.getId(), checkInEntity.getId());
-        assertEquals(result.getHelpRegisterId(), checkInEntity.getHelpEntity().getHelpRegisterId());
-        assertEquals(result.getPlaceId(), checkInEntity.getHelpEntity().getPlaceId());
-        assertEquals(result.getTitle(), checkInEntity.getHelpEntity().getTitle());
-        assertEquals(result.getStart(), checkInEntity.getHelpEntity().getStart());
-        assertEquals(result.getEnd(), checkInEntity.getHelpEntity().getEnd());
-        assertEquals(result.getReward(), checkInEntity.getHelpEntity().getReward());
-        assertEquals(result.getStatus(), checkInEntity.getProgressEntity().getStatus());
-        assertEquals(result.getPhotoPath(), checkInEntity.getProgressEntity().getPhotoPath());
-        assertEquals(result.getHelperId(), checkInEntity.getProgressEntity().getHelperId());
-        assertEquals(result.isCompleted(), checkInEntity.getProgressEntity().isCompleted());
+        CheckIn.DTO original = CheckIn.DTO.getDTO(sut.returnDomainModel());
+        assertEquals(result.getId(), sut.getId());
+        assertEquals(result.getHelpRegisterId(), original.getHelpRegisterId());
+        assertEquals(result.getPlaceId(), original.getPlaceId());
+        assertEquals(result.getTitle(), original.getTitle());
+        assertEquals(result.getStart(), original.getStart());
+        assertEquals(result.getEnd(), original.getEnd());
+        assertEquals(result.getReward(), original.getReward());
+        assertEquals(result.getStatus(), original.getStatus());
+        assertEquals(result.getPhotoPath(), original.getPhotoPath());
+        assertEquals(result.getHelperId(), original.getHelperId());
+        assertEquals(result.isCompleted(), original.isCompleted());
 
     }
 
@@ -101,12 +106,11 @@ class CheckInJPARepositoryTest {
 
         // Given
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
-        CheckInEntity checkInEntity = CheckInEntity.from(checkIn);
+        CheckInEntity checkInEntity = CheckInFixtures.CheckInEntityT.create(checkIn);
         when(checkInSpringJPARepository.findById(checkIn.getId())).thenReturn(Optional.of(checkInEntity));
 
         CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create();
         CheckIn updated = checkIn.update(dto);
-
 
         // When
         CheckIn returned = checkInJPARepository.update(updated);
@@ -114,7 +118,6 @@ class CheckInJPARepositoryTest {
         // Then
         assertEquals(checkInEntity.getId(), returned.getId());
 
-        //fixme: 기차충돌 문제 해결 -> DTO
         CheckIn.DTO result = CheckIn.DTO.getDTO(returned);
         assertEquals(dto.getCheckInId(), result.getId());
         assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());

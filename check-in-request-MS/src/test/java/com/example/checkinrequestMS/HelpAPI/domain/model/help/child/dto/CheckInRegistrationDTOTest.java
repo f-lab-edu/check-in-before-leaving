@@ -46,7 +46,7 @@ public class CheckInRegistrationDTOTest {
     class helpValidation {
         static Stream<Arguments> requests() {
             return Stream.of(
-                    Arguments.of(CheckInFixtures.CheckInServiceT.RegistrationT.create(), "CheckInRequest", URIRULE.HELPS + URIRULE.CHECK_INS)
+                    Arguments.of(CheckInFixtures.CheckInServiceT.CreationT.create(), "CheckInRequest", URIRULE.HELPS + URIRULE.CHECK_INS)
             );
         }
 

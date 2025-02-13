@@ -39,7 +39,7 @@ public final class Etc {
     }
 
     //Business
-    public static Etc register(@NonNull EtcService.Registration dto) {
+    public static Etc register(@NonNull EtcService.Creation dto) {
         return new Etc(true, HelpDetail.from(dto), Progress.from(dto), dto.getContents());
     }
 
@@ -52,7 +52,7 @@ public final class Etc {
                 .build();
     }
 
-    public Etc start(@NonNull EtcService.EtcStarted dto) {
+    public Etc start(@NonNull EtcService.Start dto) {
         return Etc.builder()
                 .id(Objects.requireNonNull(this.id))
                 .helpDetail(Objects.requireNonNull(this.helpDetail))
@@ -105,6 +105,21 @@ public final class Etc {
             this.completed = completed;
         }
 
+        public DTO(@NonNull Boolean isRegister, @NonNull Etc etc) {
+            this.id = etc.getId();
+            this.contents = etc.getContents();
+            this.helpRegisterId = etc.getHelpDetail().getHelpRegisterId();
+            this.title = etc.getHelpDetail().getTitle();
+            this.start = etc.getHelpDetail().getStart();
+            this.end = etc.getHelpDetail().getEnd();
+            this.placeId = etc.getHelpDetail().getPlaceId();
+            this.reward = etc.getHelpDetail().getReward();
+            this.status = etc.getProgress().getStatus();
+            this.helperId = etc.getProgress().getHelperId();
+            this.photoPath = etc.getProgress().getPhotoPath();
+            this.completed = etc.getProgress().isCompleted();
+        }
+
         @Nullable
         public Optional<Long> getHelperId() {
             return Optional.ofNullable(helperId);
@@ -130,6 +145,12 @@ public final class Etc {
                     .photoPath(etc.getProgress().getPhotoPath())
                     .completed(etc.getProgress().isCompleted())
                     .build();
+        }
+
+        public static Etc.DTO getDTOForCreation(@NonNull Etc etc) {
+            boolean isRegister = true;
+            if (etc.getId() != null) throw new IllegalStateException();
+            return new Etc.DTO(isRegister, etc);
         }
     }
 }

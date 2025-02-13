@@ -36,7 +36,7 @@ public final class LineUp {
     }
 
     //Business
-    public static LineUp register(@NonNull LineUpService.Registration dto) {
+    public static LineUp register(@NonNull LineUpService.Creation dto) {
         return new LineUp(true, HelpDetail.from(dto), Progress.from(dto));
     }
 
@@ -48,7 +48,7 @@ public final class LineUp {
                 .build();
     }
 
-    public LineUp start(@NonNull LineUpService.LineUpStarted dto) {
+    public LineUp start(@NonNull LineUpService.Start dto) {
         return LineUp.builder()
                 .id(Objects.requireNonNull(this.id))
                 .helpDetail(Objects.requireNonNull(this.helpDetail))
@@ -95,6 +95,20 @@ public final class LineUp {
             this.completed = completed;
         }
 
+        public DTO(@NonNull Boolean isRegister, @NonNull LineUp lineUp) {
+            this.id = lineUp.getId();
+            this.helpRegisterId = lineUp.getHelpDetail().getHelpRegisterId();
+            this.title = lineUp.getHelpDetail().getTitle();
+            this.start = lineUp.getHelpDetail().getStart();
+            this.end = lineUp.getHelpDetail().getEnd();
+            this.placeId = lineUp.getHelpDetail().getPlaceId();
+            this.reward = lineUp.getHelpDetail().getReward();
+            this.status = lineUp.getProgress().getStatus();
+            this.helperId = lineUp.getProgress().getHelperId();
+            this.photoPath = lineUp.getProgress().getPhotoPath();
+            this.completed = lineUp.getProgress().isCompleted();
+        }
+
         public Optional<Long> getHelperId() {
             return Optional.ofNullable(helperId);
         }
@@ -118,6 +132,13 @@ public final class LineUp {
                     .completed(lineUp.getProgress().isCompleted())
                     .build();
         }
+
+        public static LineUp.DTO getDTOForCreation(@NonNull LineUp lineUp) {
+            boolean isRegister = true;
+            if (lineUp.getId() != null) throw new IllegalStateException();
+            return new LineUp.DTO(isRegister, lineUp);
+        }
     }
+
 
 }

@@ -46,14 +46,14 @@ public class HelpWriteController {
     }
 
     @PostMapping(URIRULE.LINE_UPS)
-    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody LineUpService.Registration request) {
+    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody LineUpService.Creation request) {
         Long id = lineUpWriteService.register(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(LINE_UP_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
 
     @PostMapping(URIRULE.ETCS)
-    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerEtc(@Validated @RequestBody EtcService.Registration request) {
+    public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerEtc(@Validated @RequestBody EtcService.Creation request) {
         Long id = etcWriteService.register(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(ETC_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }

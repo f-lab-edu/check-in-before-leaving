@@ -2,7 +2,6 @@ package com.example.checkinrequestMS.HelpAPI.infra.db.help;
 
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpErrorCode;
 import com.example.checkinrequestMS.HelpAPI.domain.exceptions.help.HelpException;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUp;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpRepository;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.LineUpEntity;
@@ -17,14 +16,14 @@ public class LineUpJPARepository implements LineUpRepository {
 
     @Override
     public LineUp save(LineUp lineUp) {
-        return lineUpSpringJPARepository.save(LineUpEntity.register(lineUp)).returnDomainEntity();
+        return lineUpSpringJPARepository.save(LineUpEntity.register(lineUp)).returnDomainModel();
     }
 
     @Override
     public LineUp findById(Long id) {
         LineUpEntity entity = lineUpSpringJPARepository.findById(id)
                 .orElseThrow(() -> new HelpException(HelpErrorCode.NO_HELP_INFO));
-        return entity.returnDomainEntity();
+        return entity.returnDomainModel();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import com.example.checkinrequestMS.fixtures.HelpAPI.EtcFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ class EtcServiceTest {
     @DisplayName("기타 요청 등록 성공")
     void register() {
         //given
-        EtcService.Registration dto = EtcFixtures.EtcServiceT.RegistrationT.create();
+        EtcService.Creation dto = EtcFixtures.EtcServiceT.CreationT.create();
         Etc etc = EtcFixtures.EtcT.create();
         when(etcRepository.save(any(Etc.class))).thenReturn(etc);
 
@@ -40,10 +39,10 @@ class EtcServiceTest {
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
-        assertEquals(Progress.DEFAULT.getStatus(), result.getStatus());
-        assertEquals(Progress.DEFAULT.getHelperId(), result.getHelperId());
-        assertEquals(Progress.DEFAULT.getPhotoPath(), result.getPhotoPath());
-        assertEquals(Progress.DEFAULT.isCompleted(), result.isCompleted());
+        assertEquals(dto.getStatus().getClass().getSimpleName(), result.getStatus().getClass().getSimpleName());
+        assertEquals(dto.getHelperId(), result.getHelperId());
+        assertEquals(dto.getPhotoPath(), result.getPhotoPath());
+        assertEquals(dto.isCompleted(), result.isCompleted());
     }
 
     @Test
@@ -99,7 +98,7 @@ class EtcServiceTest {
     void start() {
         //given
         Etc etc = EtcFixtures.EtcT.create();
-        EtcService.EtcStarted dto = EtcFixtures.EtcServiceT.EtcStartedT.create();
+        EtcService.Start dto = EtcFixtures.EtcServiceT.EtcStartedT.create();
         when(etcRepository.findById(etc.getId())).thenReturn(etc);
         when(etcRepository.update(any(Etc.class))).thenAnswer(i -> i.getArgument(0));
 
@@ -109,6 +108,7 @@ class EtcServiceTest {
         //then
         assertEquals(etc.getId(), returned.getId());
         assertEquals(dto.getEtcId(), returned.getId());
+        assertEquals(dto.getStatus().getClass().getSimpleName(), returned.getStatus().getClass().getSimpleName());
         assertEquals(dto.getHelperId(), returned.getHelperId());
         assertEquals(dto.getPhotoPath(), returned.getPhotoPath());
         assertEquals(dto.isCompleted(), returned.isCompleted());
