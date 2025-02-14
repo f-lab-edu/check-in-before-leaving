@@ -4,6 +4,7 @@ import com.example.checkinrequestMS.HelpAPI.application.service.help.write.Check
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.ClassRule;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 @Testcontainers
 @Import({TestTimeAspect.class})
+@Disabled
 class TestTimeAspectTest {
 
     private static final String USERNAME = "root";

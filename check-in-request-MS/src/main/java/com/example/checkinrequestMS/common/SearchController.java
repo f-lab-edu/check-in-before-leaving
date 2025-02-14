@@ -1,3 +1,4 @@
+
 //package com.example.checkinrequestMS.common;
 //
 //import com.example.checkinrequestMS.PlaceAPI.domain.PlaceRedis;
