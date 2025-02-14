@@ -20,12 +20,21 @@ public final class Progress {
 
     private final boolean completed;
 
+    public enum StatusType {
+        CREATED, STARTED, AUTHENTICATED, COMPLETED
+    }
+
     public interface ProgressStatus {
 
         <T> T validateStatusRules(Progress.DTO dto, Optional<T> value); //helper // photoPath
+
+        StatusType getStatusType();
     }
 
     public final static class Created implements ProgressStatus {
+
+        @Getter
+        private StatusType statusType = StatusType.CREATED;
 
         @Override
         public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
@@ -38,6 +47,9 @@ public final class Progress {
 
     public final static class Started implements ProgressStatus {
 
+        @Getter
+        private StatusType statusType = StatusType.STARTED;
+
         @Override
         public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
             if (dto.getHelperId().isEmpty()) throw new NullPointerException();
@@ -48,6 +60,9 @@ public final class Progress {
 
     public final static class Authenticated implements ProgressStatus {
 
+        @Getter
+        private StatusType statusType = StatusType.AUTHENTICATED;
+
         @Override
         public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
             return value.orElseThrow(() -> new NullPointerException());
@@ -55,6 +70,9 @@ public final class Progress {
     }
 
     public final static class Completed implements ProgressStatus {
+
+        @Getter
+        private StatusType statusType = StatusType.COMPLETED;
 
         @Override
         public <T> T validateStatusRules(Progress.DTO dto, Optional<T> value) {
