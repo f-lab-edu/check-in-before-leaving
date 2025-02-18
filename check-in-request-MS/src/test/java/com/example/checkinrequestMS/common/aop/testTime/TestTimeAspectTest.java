@@ -22,9 +22,9 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 @Testcontainers
 @Import({TestTimeAspect.class})
-@Disabled
 class TestTimeAspectTest {
 
+    //check: testContainer 사용해 도커 백그라운드에 있어야 테스트 성공.
     private static final String USERNAME = "root";
     private static final String PASSWORD = "password";
     private static final String DATABASE_NAME = "mysql_testcontainer";
