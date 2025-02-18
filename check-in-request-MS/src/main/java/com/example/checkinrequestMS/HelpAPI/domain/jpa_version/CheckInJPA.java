@@ -1,8 +1,10 @@
-package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
+package com.example.checkinrequestMS.HelpAPI.domain.jpa_version;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
+import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService;
 import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,71 +13,76 @@ import java.util.Optional;
 
 
 @Setter(AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-public final class CheckIn {
+@NoArgsConstructor(force = true)
+@Entity
+@Table(name = "checkIn_jpa")
+public class CheckInJPA {
+//check: JPA 의존성을 도메인 모델에서 제거하려면 DB Entity와 나누어 구현하고
+//       심플하게 이렇게 JPA로 구현할 수 있다.
+//       도메인 모델과 JPA 엔티티를 나눌때 DTO를 이용해서 DIP 할 수 있다. (현재 모델의 방식)
 
     @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private final Long id;
 
     @Getter(AccessLevel.PRIVATE)
-    private final HelpDetail helpDetail;
+    @Embedded
+    private final HelpDetailJPA helpDetail;
 
-    //check: 디미터의 원칙을 지키며 기차충돌 방지. 응집도 Up. 결합도 Down.
     @Getter(AccessLevel.PRIVATE)
-    private final Progress progress;
+    @Embedded
+    private final ProgressJPA progress;
 
-    //check: 내부에서 Null값 관련해서 커스텀 하게 어노테이션을 만들까 했지만 NPE 터트리는 NonNull을 유지하기로 함.
-    //        NPE인 경우 사용자에게는 내부 에러(500)라고 알리고 개발자에게 로그를 남기는게 더 맞는거 같음.
-    //        클라이언트 제공 값의 유효성 검증은 MethodArgumentNotValidException 통해서 감지(400) (책임 분리)
     @Builder
-    public CheckIn(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
+    public CheckInJPA(@NonNull Long id, @NonNull HelpDetailJPA helpDetail, @NonNull ProgressJPA progress) {
         this.id = id;
         this.helpDetail = helpDetail;
         this.progress = progress;
     }
 
-    private CheckIn(@NonNull Boolean isForCreation, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
+    private CheckInJPA(@NonNull Boolean isForCreation, @NonNull HelpDetailJPA helpDetail, @NonNull ProgressJPA progress) {
         this.id = null;
         this.helpDetail = helpDetail;
         this.progress = progress;
     }
 
     //Business
-    public static CheckIn register(@NonNull CheckInService.Creation dto) {
+    public static CheckInJPA register(@NonNull CheckInServiceJPA.Creation dto) {
         final boolean isForCreation = true;
-        return new CheckIn(isForCreation, HelpDetail.from(dto), Progress.from(dto));
+        return new CheckInJPA(isForCreation, HelpDetailJPA.from(dto), ProgressJPA.from(dto));
     }
 
-    public CheckIn update(@NonNull CheckInService.Update dto) {
-        return CheckIn.builder()
+    public CheckInJPA update(@NonNull CheckInServiceJPA.Update dto) {
+        return CheckInJPA.builder()
                 .id(Objects.requireNonNull(this.id))
-                .helpDetail(HelpDetail.from(dto))
+                .helpDetail(HelpDetailJPA.from(dto))
                 .progress(Objects.requireNonNull(this.progress))
                 .build();
     }
 
-    public CheckIn start(@NonNull CheckInService.Start dto) {
-        return CheckIn.builder()
+    public CheckInJPA start(@NonNull CheckInServiceJPA.Start dto) {
+        return CheckInJPA.builder()
                 .id(Objects.requireNonNull(this.id))
                 .helpDetail(Objects.requireNonNull(this.helpDetail))
-                .progress(Progress.from(dto))
+                .progress(ProgressJPA.from(dto))
                 .build();
     }
 
-    public static CheckIn from(@NonNull DTO dto) {
-        return CheckIn.builder()
+    public static CheckInJPA from(@NonNull DTO dto) {
+        return CheckInJPA.builder()
                 .id(dto.getId())
-                .helpDetail(HelpDetail.from(dto))
-                .progress(Progress.from(dto))
+                .helpDetail(HelpDetailJPA.from(dto))
+                .progress(ProgressJPA.from(dto))
                 .build();
     }
 
-    //check: DTO
-    // 원칙 1: 기본 DTO는 AG에 두고 기본 응답 값으로도 사용한다.
-    // 원칙 2: 도메인계층의 모델과 인프라의 엔티티 로직 분리시 값을 받을때는 도메인 모델의 DTO 이용. DIP 구조.(현재 방식)
-    // 원칙 3: 커스텀한 응답은 기본 DTO들을 바탕으로 어플리케이션이나 컨트롤러에서 조합한다.
+    // DTO
+    // remember: 기본 DTO는 AG에 두고 기본 응답 값으로도 사용한다.
+    // remember: 리포지토리에서 값을 받을때도 기본 DTO의 포멧에 맞추어 보내도록 받아 DIP 유지
+    // remembe: 커스텀한 응답은 기본 DTO들을 바탕으로 어플리케이션이나 컨트롤러에서 조합한다.
     @Getter
-    public static final class DTO implements HelpDetail.DTO, Progress.DTO {
+    public static final class DTO implements HelpDetailJPA.DTO, ProgressJPA.DTO {
         private final Long id;
         private final Long helpRegisterId;
         private final String title;
@@ -83,7 +90,7 @@ public final class CheckIn {
         private final LocalDateTime end;
         private final String placeId;
         private final Long reward;
-        private final Progress.ProgressStatus status;
+        private final ProgressJPA.ProgressStatus status;
         @Nullable
         private final Long helperId;
         @Nullable
@@ -92,7 +99,7 @@ public final class CheckIn {
 
         @Builder
         public DTO(@Nullable Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
-                   @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status,
+                   @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull ProgressJPA.ProgressStatus status,
                    @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
 
             if (id == null) throw new NullPointerException();
@@ -109,7 +116,7 @@ public final class CheckIn {
             this.completed = completed;
         }
 
-        public DTO(@NonNull Boolean isRegister, @NonNull CheckIn checkIn) {
+        public DTO(@NonNull Boolean isRegister, @NonNull CheckInJPA checkIn) {
             this.id = checkIn.getId();
             this.helpRegisterId = checkIn.getHelpDetail().getHelpRegisterId();
             this.title = checkIn.getHelpDetail().getTitle();
@@ -131,8 +138,8 @@ public final class CheckIn {
             return Optional.ofNullable(photoPath);
         }
 
-        public static CheckIn.DTO getDTO(@NonNull CheckIn checkIn) {
-            return CheckIn.DTO.builder()
+        public static DTO getDTO(@NonNull CheckInJPA checkIn) {
+            return DTO.builder()
                     .id(checkIn.getId())
                     .helpRegisterId(checkIn.getHelpDetail().getHelpRegisterId())
                     .title(checkIn.getHelpDetail().getTitle())
@@ -147,10 +154,10 @@ public final class CheckIn {
                     .build();
         }
 
-        public static CheckIn.DTO getDTOForCreation(@NonNull CheckIn checkIn) {
+        public static DTO getDTOForCreation(@NonNull CheckInJPA checkIn) {
             boolean isRegister = true;
             if (checkIn.getId() != null) throw new IllegalStateException();
-            return new CheckIn.DTO(isRegister, checkIn);
+            return new DTO(isRegister, checkIn);
         }
     }
 }
