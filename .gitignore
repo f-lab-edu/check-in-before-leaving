@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+
 ### STS ###
 .apt_generated
 .classpath
@@ -35,3 +36,14 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### SQL 설정 ###
+*.cnf
+
+### ENV 파일 ###
+*.env
+
+### NPM ###
+*.json
+node_modules/
+
