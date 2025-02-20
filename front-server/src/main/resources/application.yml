@@ -1,5 +1,9 @@
 server:
   port: 8086
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10GB
+      max-request-size: 500MB
   config:
     import: classpath:Firebase.env[.properties]
