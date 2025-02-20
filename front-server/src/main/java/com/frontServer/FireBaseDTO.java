@@ -1,4 +1,4 @@
-package com.littleSNSMS;
+package com.frontServer;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
