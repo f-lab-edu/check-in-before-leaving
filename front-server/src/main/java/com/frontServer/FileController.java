@@ -1,6 +1,6 @@
 package com.frontServer;
 
-import com.frontServer.infra.FileChunkUploader;
+import com.frontServer.infra.chunkUpload.FileChunkUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

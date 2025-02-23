@@ -7,12 +7,12 @@ spring:
       max-request-size: 500MB
   config:
     import: classpath:Firebase.env[.properties]
-
+    
 upload:
   chunk:
     file:
       extension: .part
   dir:
-    upload: uploads
-    chunk: temp-uploads
+    upload: test-uploads
+    chunk: test-temp-uploads
 

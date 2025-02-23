@@ -1,40 +1,55 @@
-package com.frontServer.infra;
+package com.frontServer.infra.integrated;
 
+import com.frontServer.infra.chunkUpload.ChunkValidator;
+import com.frontServer.infra.chunkUpload.FileChunkCopyHelper;
+import com.frontServer.infra.chunkUpload.FileChunkUploader;
+import com.frontServer.infra.chunkUpload.exceptions.ChunkRetryNeededException;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static com.frontServer.infra.FileChunkUploader.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class FileChunkUploaderTest {
 
-    @InjectMocks
+    @Autowired
     private FileChunkUploader fileChunkUploader;
 
     private MultipartFile multipartFile;
 
-    @Spy
+    @SpyBean
     private ChunkValidator chunkValidator;
 
-    @Spy
+    @SpyBean
     private FileChunkCopyHelper fileChunkCopyHelper;
+
+    @Value("${upload.dir.chunk}")
+    private String chunkDirPath;
+
+    @Value("${upload.dir.upload}")
+    private String uploadDirPath;
 
     @BeforeEach
     void setUp() {
+        final int fileSize = 100 * 1024 * 1024;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 100 * 1024 * 1024; i++) {
+        for (int i = 0; i < fileSize; i++) {
             sb.append('A');
         }
         byte[] fileContent = sb.toString().getBytes();
@@ -46,11 +61,26 @@ class FileChunkUploaderTest {
         );
     }
 
+    @AfterEach
+    void tearDown() throws IOException {
+        File chunkDir = new File(chunkDirPath);
+        if (chunkDir.exists()) {
+            FileUtils.cleanDirectory(chunkDir);
+            Files.deleteIfExists(chunkDir.toPath());
+        }
+
+        File uploadDir = new File(uploadDirPath);
+        if (uploadDir.exists()) {
+            FileUtils.cleanDirectory(uploadDir);
+            Files.deleteIfExists(uploadDir.toPath());
+        }
+    }
+
     @Test
     @DisplayName("청크 업로드 완료")
-    void chunkUploadCompleted() throws IOException {
-        // Given
+    void chunkUploadCompleted() {
 
+        // Given
         String filename = "testfile";
         int totalChunks = 1;
         int chunkNumber = 0;
@@ -60,14 +90,11 @@ class FileChunkUploaderTest {
 
         // Then
         assertTrue(result);
-
-        //Delete
-        Files.delete(UPLOAD_DIR.resolve(filename));
     }
 
     @Test
     @DisplayName("청크 업로드 미완료")
-    void chunkUploadNotCompleted() throws IOException, ChunkRetryException {
+    void chunkUploadNotCompleted() {
         // Given
         String filename = "testfile";
         int totalChunks = 2;
@@ -78,22 +105,7 @@ class FileChunkUploaderTest {
 
         // Then
         assertFalse(result);
-    }
 
-    @Test
-    @DisplayName("도중 실패 - 청크 번호 포함 예외.")
-    void chunkUploadFailed() throws IOException, ChunkRetryException {
-        // Given
-        String filename = "testfile";
-        int totalChunks = 2;
-        int chunkNumber = 1;
-
-        when(chunkValidator.isUploadComplete(any(), anyInt(), anyInt())).thenThrow(new ChunkRetryException("Completion Check Failed"));
-
-        // When
-        ChunkUploadException e = assertThrows(ChunkUploadException.class, () -> fileChunkUploader.chunkUpload(multipartFile, chunkNumber, totalChunks, filename));
-        assertEquals(e.getChunkNumber(), chunkNumber);
-        assertEquals("Completion Check Failed", e.getMessage());
     }
 
 

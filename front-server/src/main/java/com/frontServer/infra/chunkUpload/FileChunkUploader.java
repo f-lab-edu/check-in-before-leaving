@@ -1,25 +1,40 @@
-package com.frontServer.infra;
+package com.frontServer.infra.chunkUpload;
 
+import com.frontServer.infra.chunkUpload.exceptions.ChunkRetryNeededException;
+import com.frontServer.infra.chunkUpload.exceptions.ChunkUploadRetryException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
 
+import static com.frontServer.infra.chunkUpload.exceptions.ChunkUploadError.CHUNK_DIR_CREATION_FAILED;
+import static com.frontServer.infra.chunkUpload.exceptions.ChunkUploadError.UPLOD_DIR_CREATION_FAILED;
+
 @Repository
 public class FileChunkUploader {
 
-    public static final Path CHUNK_DIR = Paths.get("temp-uploads");
-    public static final Path UPLOAD_DIR = Paths.get("uploads");
-    public static final String CHUNK_FILE_EXTENSION = ".part";
+    private final Path CHUNK_DIR;
+    private final Path UPLOAD_DIR;
+    private final String CHUNK_FILE_EXTENSION;
 
     private final ChunkValidator chunkValidator;
 
     private final FileChunkCopyHelper fileChunkCopyHelper;
 
     @Autowired
-    public FileChunkUploader(ChunkValidator chunkValidator, FileChunkCopyHelper fileChunkCopyHelper) {
+    public FileChunkUploader(
+            @NonNull @Value("${upload.dir.chunk}") String chunkDir,
+            @NonNull @Value("${upload.dir.upload}") String uploadDir,
+            @NonNull @Value("${upload.chunk.file.extension}") String chunkFileExtension,
+            @NonNull ChunkValidator chunkValidator, @NonNull FileChunkCopyHelper fileChunkCopyHelper) {
+
+        this.CHUNK_DIR = Paths.get(chunkDir);
+        this.UPLOAD_DIR = Paths.get(uploadDir);
+        this.CHUNK_FILE_EXTENSION = chunkFileExtension;
         this.chunkValidator = chunkValidator;
         this.fileChunkCopyHelper = fileChunkCopyHelper;
     }
@@ -47,22 +62,28 @@ public class FileChunkUploader {
             } else {
                 return needMoreChunks;
             }
-        } catch (ChunkRetryException e) {
-            throw new ChunkUploadException(e.getMessage(), chunkNumber);
+        } catch (ChunkRetryNeededException e) {
+            throw new ChunkUploadRetryException(e.getErrorCode(), chunkNumber, e);
+        }
+    }
+
+    private void createChunkDir() throws ChunkRetryNeededException {
+        try {
+            if (!Files.exists(CHUNK_DIR)) {
+                Files.createDirectories(CHUNK_DIR);
+            }
         } catch (IOException e) {
-            throw new ChunkUploadException("Directory Creation Failed", chunkNumber);
+            throw new ChunkRetryNeededException(CHUNK_DIR_CREATION_FAILED, e);
         }
     }
 
-    private void createChunkDir() throws IOException {
-        if (!Files.exists(CHUNK_DIR)) {
-            Files.createDirectories(CHUNK_DIR);
-        }
-    }
-
-    private void createUploadsDir() throws IOException {
-        if (!Files.exists(UPLOAD_DIR)) {
-            Files.createDirectories(UPLOAD_DIR);
+    private void createUploadsDir() throws ChunkRetryNeededException {
+        try {
+            if (!Files.exists(UPLOAD_DIR)) {
+                Files.createDirectories(UPLOAD_DIR);
+            }
+        } catch (IOException e) {
+            throw new ChunkRetryNeededException(UPLOD_DIR_CREATION_FAILED, e);
         }
     }
 //

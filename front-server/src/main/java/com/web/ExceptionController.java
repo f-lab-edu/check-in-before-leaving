@@ -1,6 +1,7 @@
 package com.web;
 
-import com.frontServer.infra.ChunkUploadException;
+import com.frontServer.infra.chunkUpload.exceptions.ChunkUploadRetryException;
+import com.frontServer.infra.chunkUpload.exceptions.ChunkUploadTechnicalException;
 import com.web.response.ChunkRetryResponse;
 import com.web.response.ExceptionResponse;
 import org.springframework.http.HttpStatus;
@@ -11,16 +12,28 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler({
-            ChunkUploadException.class
-    })
-    public ResponseEntity<ExceptionResponse> chunkUploadException(final ChunkUploadException e) {
+    private final static String INTERNAL_ERROR = "내부 에러가 발생했습니다.";
+    private final static String RETRY_NEEDED = "전송 중 오류 발생으로 재시도 요청합니다.";
 
-        if (e.getException().isPresent())
+    @ExceptionHandler({
+            ChunkUploadRetryException.class
+    })
+    public ResponseEntity<ExceptionResponse> chunkUploadException(final ChunkUploadRetryException e) {
+
+        if (e.getException().isPresent()) {
             //로그
-            return ResponseEntity.internalServerError().body(new ExceptionResponse("internal error"));
-        else {
-            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body(new ChunkRetryResponse("retry neede", e.getChunkNumber()));
         }
+        return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body(new ChunkRetryResponse(RETRY_NEEDED, e.getChunkNumber()));
+
+    }
+
+    @ExceptionHandler({
+            ChunkUploadTechnicalException.class
+    })
+    public ResponseEntity<ExceptionResponse> chunkUploadException(final ChunkUploadTechnicalException e) {
+
+        //로그
+        return ResponseEntity.internalServerError().body(new ExceptionResponse("internal error"));
+
     }
 }
