@@ -48,5 +48,13 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 <img src="https://github.com/user-attachments/assets/dd58736e-24a7-4c3c-b4f6-f28b48c2c8b2" width="550" height="580"/>
 </p>
 
+### 주요 도메인 클래스 다이어그램 (Check-In-Request-MS)
+<br>
+<p align="center">
+<img src="https://github.com/user-attachments/assets/9f894877-664c-4438-8381-5ed89ceeb533" width="550" height="580"/>
+</p>
+
+
+
 
 
