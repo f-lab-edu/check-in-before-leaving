@@ -54,8 +54,9 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 <table>
   <tr>
     <td align="left">
-    <img src="https://github.com/user-attachments/assets/2a8d3731-a154-4c9a-9f44-1b7d73ba4135" width="550" height="600"/>
+    <img src="https://github.com/user-attachments/assets/62c38fdb-4120-4669-8160-1cba9f8026f8" width="550" height="600"/>
     </td>
+
   </tr>
   <tr>
     <td align="left">
