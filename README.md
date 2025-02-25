@@ -50,11 +50,14 @@ Spring boot, Gradle, JPA, MySQL, Redis, Kafka, Docker, NHN Cloud, Spring Webflux
 
 ### 메인 도메인 클래스 다이어그램 (Check-In-Request-MS)
 <br>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/d85a4e09-fd8b-439d-9ac4-80291cf3b3ef" width="550" height="600"/>
-  <img src="https://github.com/user-attachments/assets/6f242639-78ff-4e8b-afe5-f23d2264b1d5" width="330" height="600"/>
-</p>
-<br>
+<div align="center">
+  <p>
+    <img src="https://github.com/user-attachments/assets/d85a4e09-fd8b-439d-9ac4-80291cf3b3ef" width="550" height="600"/>
+    <br><br>
+    <img src="https://github.com/user-attachments/assets/6f242639-78ff-4e8b-afe5-f23d2264b1d5" width="350" height="500"/>
+  </p>
+</div>
+
 
 
 
