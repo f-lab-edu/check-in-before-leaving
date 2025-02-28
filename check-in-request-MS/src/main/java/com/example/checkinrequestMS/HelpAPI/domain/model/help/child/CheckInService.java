@@ -7,11 +7,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
+
+import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService.CheckInServiceValidationError.*;
 
 @Service
 @RequiredArgsConstructor
@@ -58,16 +62,7 @@ public class CheckInService {
     // DTO - Request
     @Getter
     @Validated
-    @NoArgsConstructor(force = true)
     public static final class Creation implements HelpDetail.DTO, Progress.DTO {
-
-        public static final String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";
-        public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
-        public static final String NO_PLACE_NAME = "가게 이름은 필수입니다.";
-        public static final String NO_START = "시작 시간은 필수입니다.";
-        public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
-        public static final String NO_REWARD = "보상은 필수입니다.";
-        public static final String NO_DETAIL = "디테일은 필수입니다.";
 
         @NotNull(message = NO_CHECK_IN_REGISTER_ID)
         private final Long helpRegisterId;
@@ -89,7 +84,7 @@ public class CheckInService {
 
         private final String title;
 
-        private final LocalDateTime end;
+        private LocalDateTime end;
 
         @Nullable
         private final Long helperId;
@@ -103,23 +98,23 @@ public class CheckInService {
         private final boolean completed;
 
         @Builder
-        public Creation(@NonNull Long helpRegisterId, @NonNull String placeId, @NonNull String placeName, @NonNull LocalDateTime start, @NonNull Integer option, @NonNull Long reward) {
-            final Long NO_HELPER_AT_CREATED = null;
-            final String NO_PHOTO_AUTHENTICATION_AT_CREATED = null;
-
+        @Jacksonized
+        public Creation(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward) {
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
             this.placeName = placeName;
             this.start = start;
             this.option = option;
             this.reward = reward;
-            this.title = CheckInService.createTitle(placeName);
-            this.end = CheckInService.calculateEnd(start, option);
+            this.title = Objects.requireNonNull(CheckInService.createTitle(placeName));
+            this.end = Objects.requireNonNull(CheckInService.calculateEnd(start, option));
 
+            final Long NO_HELPER_AT_CREATED = null;
+            final String NO_PHOTO_AUTHENTICATION_AT_CREATED = null;
             this.helperId = NO_HELPER_AT_CREATED;
             this.photoPath = NO_PHOTO_AUTHENTICATION_AT_CREATED;
-            this.status = new Progress.Created();
-            this.completed = false;
+            this.status = Objects.requireNonNull(new Progress.Created());
+            this.completed = Objects.requireNonNull(false);
         }
 
         public Optional<Long> getHelperId() {
@@ -129,21 +124,14 @@ public class CheckInService {
         public Optional<String> getPhotoPath() {
             return Optional.ofNullable(photoPath);
         }
-
-
     }
 
     @Getter
     @Validated
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor(force = true)
     public static final class Update implements HelpDetail.DTO {
-
-        public static final String NO_ID = "체크인 ID는 필수입니다.";
-        public static final String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";
-        public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
-        public static final String NO_START = "시작 시간은 필수입니다.";
-        public static final String NO_REWARD = "보상은 필수입니다.";
-        public static final String NO_TITLE = "제목은 필수입니다.";
-        public static final String NO_END = "종료 시간은 필수입니다.";
 
         @NotNull(message = NO_ID)
         private final Long checkInId;
@@ -165,22 +153,11 @@ public class CheckInService {
 
         @NotNull(message = NO_END)
         private final LocalDateTime end;
-
-        @Builder
-        public Update(@NonNull Long checkInId, @NonNull Long helpRegisterId, @NonNull String placeId, @NonNull LocalDateTime start, @NonNull Integer option, @NonNull Long reward, @NonNull String title, @NonNull LocalDateTime end) {
-            this.checkInId = checkInId;
-            this.helpRegisterId = helpRegisterId;
-            this.placeId = placeId;
-            this.start = start;
-            this.reward = reward;
-            this.title = title;
-            this.end = end;
-        }
     }
 
     @Getter
     @Validated
-    public static class Start implements Progress.DTO {
+    public static final class Start implements Progress.DTO {
 
         public static final String PROGRESS_REGISTER_REQUEST_NO_HELP_ID = "요청 ID가 필요합니다.";
         public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
@@ -200,7 +177,8 @@ public class CheckInService {
         private final boolean completed;
 
         @Builder
-        public Start(@NonNull Long checkInId, @NonNull Long helperId) {
+        @Jacksonized
+        public Start(Long checkInId, Long helperId) {
             final String NO_PHOTO_AUTHENTICATION_AT_ONGOING = null;
 
             this.checkInId = checkInId;
@@ -217,6 +195,20 @@ public class CheckInService {
         public Optional<Long> getHelperId() {
             return Optional.ofNullable(helperId);
         }
+    }
+
+    public interface CheckInServiceValidationError {
+
+        String NO_ID = "체크인 ID는 필수입니다.";
+        String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";
+        String NO_PLACE_ID = "가게 아이디는 필수입니다.";
+        String NO_START = "시작 시간은 필수입니다.";
+        String NO_REWARD = "보상은 필수입니다.";
+        String NO_TITLE = "제목은 필수입니다.";
+        String NO_END = "종료 시간은 필수입니다.";
+
+        String NO_PLACE_NAME = "가게 이름은 필수입니다.";
+        String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
     }
 
 }
