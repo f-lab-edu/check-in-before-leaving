@@ -47,3 +47,7 @@ out/
 *.json
 node_modules/
 
+###테스트파일###
+*.mp4
+*.m4v
+*.png
