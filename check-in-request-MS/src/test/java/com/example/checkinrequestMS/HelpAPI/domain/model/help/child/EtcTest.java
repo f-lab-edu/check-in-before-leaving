@@ -44,7 +44,7 @@ class EtcTest {
     void update() {
         //given
         Etc sut = EtcFixtures.EtcT.create();
-        EtcService.Update dto = EtcFixtures.EtcServiceT.UpdateT.create();
+        EtcService.Update dto = EtcFixtures.EtcServiceT.UpdateT.create(sut.getId());
 
         //when
         Etc returned = sut.update(dto);
@@ -88,7 +88,7 @@ class EtcTest {
     void start() {
         //given
         Etc sut = EtcFixtures.EtcT.create();
-        EtcService.Start dto = EtcFixtures.EtcServiceT.EtcStartedT.create();
+        EtcService.Start dto = EtcFixtures.EtcServiceT.StartT.create();
 
         //when
         Etc returned = sut.start(dto);

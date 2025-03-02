@@ -109,7 +109,7 @@ class CheckInJPARepositoryTest {
         CheckInEntity checkInEntity = CheckInFixtures.CheckInEntityT.create(checkIn);
         when(checkInSpringJPARepository.findById(checkIn.getId())).thenReturn(Optional.of(checkInEntity));
 
-        CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create();
+        CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create(checkIn.getId());
         CheckIn updated = checkIn.update(dto);
 
         // When

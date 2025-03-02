@@ -50,7 +50,7 @@ class EtcServiceTest {
     void update() {
         //given
         Etc etc = EtcFixtures.EtcT.create();
-        EtcService.Update dto = EtcFixtures.EtcServiceT.UpdateT.create();
+        EtcService.Update dto = EtcFixtures.EtcServiceT.UpdateT.create(etc.getId());
         when(etcRepository.findById(dto.getEtcId())).thenReturn(etc);
         when(etcRepository.update(any(Etc.class))).thenAnswer(i -> i.getArgument(0));
 
@@ -98,7 +98,7 @@ class EtcServiceTest {
     void start() {
         //given
         Etc etc = EtcFixtures.EtcT.create();
-        EtcService.Start dto = EtcFixtures.EtcServiceT.EtcStartedT.create();
+        EtcService.Start dto = EtcFixtures.EtcServiceT.StartT.create();
         when(etcRepository.findById(etc.getId())).thenReturn(etc);
         when(etcRepository.update(any(Etc.class))).thenAnswer(i -> i.getArgument(0));
 

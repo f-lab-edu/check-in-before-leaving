@@ -30,7 +30,7 @@ class LineUpTest {
         when(spy.getId()).thenReturn(temporalId);
         LineUp.DTO result = LineUp.DTO.getDTO(spy);
         assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
-        assertEquals(dto.getPlaceName() + LineUpService.LINE_UP_TITLE, result.getTitle());
+        assertEquals(dto.getPlaceName() + " " + LineUpService.CreationInitializer.LINE_UP_TITLE, result.getTitle());
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
@@ -44,7 +44,7 @@ class LineUpTest {
     void update() {
         //given
         LineUp sut = LineUpFixtures.LineUpT.create();
-        LineUpService.Update dto = LineUpFixtures.LineUpServiceT.UpdateT.create();
+        LineUpService.Update dto = LineUpFixtures.LineUpServiceT.UpdateT.create(sut.getId());
 
         //when
         LineUp returned = sut.update(dto);

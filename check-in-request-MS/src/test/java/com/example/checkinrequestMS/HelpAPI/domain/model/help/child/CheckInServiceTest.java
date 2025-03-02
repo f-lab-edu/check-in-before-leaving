@@ -36,7 +36,7 @@ class CheckInServiceTest {
         //then
         assertEquals(checkIn.getId(), result.getId());
         assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
-        assertEquals(dto.getPlaceName() + CheckInService.CHECK_IN_TITLE, result.getTitle());
+        assertEquals(dto.getPlaceName() + " " + CheckInService.CreationInitializer.CHECK_IN_TITLE, result.getTitle());
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
@@ -51,7 +51,7 @@ class CheckInServiceTest {
     void update() {
         //given
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
-        CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create();
+        CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create(checkIn.getId());
         when(checkInRepository.findById(dto.getCheckInId())).thenReturn(checkIn);
         when(checkInRepository.update(any(CheckIn.class))).thenAnswer(i -> i.getArgument(0));
 
