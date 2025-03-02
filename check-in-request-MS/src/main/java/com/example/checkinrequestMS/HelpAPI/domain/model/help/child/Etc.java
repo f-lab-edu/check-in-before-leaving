@@ -3,10 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import jakarta.annotation.Nullable;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -14,10 +11,15 @@ import java.util.Optional;
 
 
 @Getter
+@EqualsAndHashCode
 public final class Etc {
 
+
+    @Nullable
     private final Long id;
+    
     private final String contents;
+
     @Getter(AccessLevel.PRIVATE)
     private final HelpDetail helpDetail;
     @Getter(AccessLevel.PRIVATE)
@@ -71,6 +73,7 @@ public final class Etc {
     }
 
     @Getter
+    @EqualsAndHashCode
     public static final class DTO implements HelpDetail.DTO, Progress.DTO {
         private final Long id;
         private final String contents;
@@ -120,12 +123,10 @@ public final class Etc {
             this.completed = etc.getProgress().isCompleted();
         }
 
-        @Nullable
         public Optional<Long> getHelperId() {
             return Optional.ofNullable(helperId);
         }
 
-        @Nullable
         public Optional<String> getPhotoPath() {
             return Optional.ofNullable(photoPath);
         }

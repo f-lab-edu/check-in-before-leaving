@@ -6,6 +6,8 @@ import com.example.checkinrequestMS.HelpAPI.infra.db.entity.ProgressEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "check_in")
@@ -37,11 +39,11 @@ public class CheckInEntity {
         this.progressEntity = ProgressEntity.from(dto);
     }
 
-    public static CheckInEntity register(CheckIn checkIn) {
+    public static CheckInEntity register(@NonNull CheckIn checkIn) {
         return new CheckInEntity(true, checkIn);
     }
 
-    public CheckIn update(CheckIn checkIn) {
+    public CheckIn update(@NonNull CheckIn checkIn) {
         this.helpEntity = HelpDetailEntity.from(CheckIn.DTO.getDTO(checkIn));
         return returnDomainModel();
     }
@@ -49,7 +51,7 @@ public class CheckInEntity {
     public CheckIn returnDomainModel() {
         //fixme: dto 빠지는 경우.
         CheckIn.DTO dto = CheckIn.DTO.builder()
-                .id(this.getId())
+                .id(Objects.requireNonNull(this.getId()))
                 .helpRegisterId(this.helpEntity.getHelpRegisterId())
                 .title(this.helpEntity.getTitle())
                 .start(this.helpEntity.getStart())
@@ -57,7 +59,7 @@ public class CheckInEntity {
                 .placeId(this.helpEntity.getPlaceId())
                 .reward(this.helpEntity.getReward())
                 .helperId(this.progressEntity.getHelperId())
-                .status(this.progressEntity.getStatus())
+                .status(this.progressEntity.getStatusType().getStatus())
                 .photoPath(this.progressEntity.getPhotoPath())
                 .completed(this.progressEntity.isCompleted())
                 .build();

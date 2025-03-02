@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService.CheckInServiceValidationError.NO_START_AND_TIME_OPTION;
 import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService.EtcServiceValidationError.*;
 
 @Service
@@ -24,7 +25,7 @@ public class EtcService {
     private final EtcRepository etcRepository;
     private final AlarmService alarmService;
 
-    public Etc.DTO register(@NonNull EtcService.Creation dto) {
+    public Etc.DTO register(EtcService.Creation dto) {
 
         Etc etc = Etc.register(dto);
 
@@ -34,11 +35,11 @@ public class EtcService {
         return Etc.DTO.getDTO(etcRepository.save(etc));
     }
 
-    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
+    private static LocalDateTime calculateEnd(LocalDateTime start, Integer option) {
         return start.plusMinutes(option);
     }
 
-    public Etc.DTO findOne(@NonNull Long id) {
+    public Etc.DTO findOne(Long id) {
         return Etc.DTO.getDTO(etcRepository.findById(id));
     }
 
@@ -48,10 +49,18 @@ public class EtcService {
         return Etc.DTO.getDTO(etcRepository.update(etc));
     }
 
-    public Etc.DTO start(@NonNull EtcService.Start dto) {
+    public Etc.DTO start(EtcService.Start dto) {
         Etc etc = etcRepository.findById(dto.getEtcId());
         etc = etc.start(dto);
         return Etc.DTO.getDTO(etcRepository.update(etc));
+    }
+
+    //DTO Initializer
+    public static final class CreationInitializer {
+
+        public static LocalDateTime calculateEnd(LocalDateTime start, Integer option) {
+            return start.plusMinutes(option);
+        }
     }
 
     //DTO
@@ -81,9 +90,10 @@ public class EtcService {
         private final String title;
 
         @NotNull(message = NO_CONTENTS)
-        private final String contents;
+        private String contents;
 
-        private final LocalDateTime end;
+        @NotNull(message = NO_START_AND_TIME_OPTION)
+        private LocalDateTime end;
 
         @Nullable
         private final Long helperId;
@@ -92,13 +102,14 @@ public class EtcService {
         private final String photoPath;
 
         @JsonIgnore
+        @NonNull
         private final Progress.ProgressStatus status;
 
         private final boolean completed;
 
         @Builder
         @Jacksonized
-        public Creation(@NonNull Long helpRegisterId, @NonNull String placeId, @NonNull String placeName, @NonNull LocalDateTime start, @NonNull Integer option, @NonNull Long reward, @NonNull String title, @NonNull String contents) {
+        public Creation(Long helpRegisterId, String placeId, String placeName, LocalDateTime start, Integer option, Long reward, String title, String contents) {
 
             this.helpRegisterId = helpRegisterId;
             this.placeId = placeId;
@@ -107,12 +118,16 @@ public class EtcService {
             this.option = option;
             this.reward = reward;
             this.title = title;
-            this.contents = Objects.requireNonNull(contents);
-            this.end = Objects.requireNonNull(calculateEnd(start, option));
+            this.contents = contents;
+
+            boolean willFailEndRelatedValidation = (start == null || option == null);
+            boolean willFailValidation = willFailEndRelatedValidation;
+            if (!willFailValidation) {
+                this.end = EtcService.CreationInitializer.calculateEnd(start, option);
+            }
 
             final Long NO_HELPER_AT_CREATED = null;
             final String NO_PHOTO_AUTHENTICATION_AT_CREATED = null;
-
             this.helperId = NO_HELPER_AT_CREATED;
             this.photoPath = NO_PHOTO_AUTHENTICATION_AT_CREATED;
             this.status = Objects.requireNonNull(new Progress.Created());

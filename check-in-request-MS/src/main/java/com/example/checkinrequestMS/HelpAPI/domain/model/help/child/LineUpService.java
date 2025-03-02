@@ -15,7 +15,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService.LineServiceValidationError.*;
+import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService.CheckInServiceValidationError.NO_PLACE_NAME;
+import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckInService.CheckInServiceValidationError.NO_START_AND_TIME_OPTION;
+import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.LineUpService.LineUpServiceValidationError.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,16 +33,6 @@ public class LineUpService {
         //alarmService.sendAlarmToUsersNearby(dto.getHelpRegisterId(), place);
 
         return LineUp.DTO.getDTO(lineUpRepository.save(lineUp));
-    }
-
-    public static final String LINE_UP_TITLE = "줄서기 요청";
-
-    private static String createTitle(@NonNull String placeName) {
-        return placeName + LINE_UP_TITLE;
-    }
-
-    private static LocalDateTime calculateEnd(@NonNull LocalDateTime start, @NonNull Integer option) {
-        return start.plusMinutes(option);
     }
 
     public LineUp.DTO update(@NonNull LineUpService.Update dto) {
@@ -59,12 +51,26 @@ public class LineUpService {
         return LineUp.DTO.getDTO(lineUpRepository.update(lineUp));
     }
 
+    //DTO Initializer
+    public static final class CreationInitializer {
+
+        public static final String LINE_UP_TITLE = "줄서기 요청";
+
+        public static String createTitle(String placeName) {
+            final String SPACE = " ";
+            return placeName + SPACE + LINE_UP_TITLE;
+        }
+
+        public static LocalDateTime calculateEnd(LocalDateTime start, Integer option) {
+            return start.plusMinutes(option);
+        }
+    }
+
     //DTO
     @Getter
     @Validated
-    @EqualsAndHashCode
     public static final class Creation implements HelpDetail.DTO, Progress.DTO {
-
+        //fixme: URL
         @NotNull(message = NO_LINE_UP_REGISTER_ID)
         private final Long helpRegisterId;
 
@@ -83,9 +89,11 @@ public class LineUpService {
         @NotNull(message = NO_REWARD)
         private final Long reward;
 
-        private final String title;
+        @NotNull(message = NO_PLACE_NAME)
+        private String title;
 
-        private final LocalDateTime end;
+        @NotNull(message = NO_START_AND_TIME_OPTION)
+        private LocalDateTime end;
 
         @Nullable
         private final Long helperId;
@@ -94,6 +102,7 @@ public class LineUpService {
         private final String photoPath;
 
         @JsonIgnore
+        @NonNull
         private final Progress.ProgressStatus status;
 
         private final boolean completed;
@@ -108,12 +117,17 @@ public class LineUpService {
             this.start = start;
             this.option = option;
             this.reward = reward;
-            this.title = Objects.requireNonNull(createTitle(placeName));
-            this.end = Objects.requireNonNull(calculateEnd(start, option));
+
+            boolean willFailTitleRelatedValidation = placeName == null;
+            boolean willFailEndRelatedValidation = (start == null || option == null);
+            boolean willFailValidation = willFailTitleRelatedValidation || willFailEndRelatedValidation;
+            if (!willFailValidation) {
+                this.title = LineUpService.CreationInitializer.createTitle(placeName);
+                this.end = LineUpService.CreationInitializer.calculateEnd(start, option);
+            }
 
             final Long NO_HELPER_AT_CREATED = null;
             final String NO_PHOTO_AUTHENTICATION_AT_CREATED = null;
-
             this.helperId = NO_HELPER_AT_CREATED;
             this.photoPath = NO_PHOTO_AUTHENTICATION_AT_CREATED;
             this.status = Objects.requireNonNull(new Progress.Created());
@@ -131,13 +145,13 @@ public class LineUpService {
         }
     }
 
+
     @Getter
     @Validated
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor(force = true)
     public static final class Update implements HelpDetail.DTO {
-
 
         @NotNull(message = NO_ID)
         private final Long lineUpId;
@@ -191,7 +205,7 @@ public class LineUpService {
         }
     }
 
-    public interface LineServiceValidationError {
+    public interface LineUpServiceValidationError {
 
         String NO_ID = "줄서기 ID는 필수입니다.";
         String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
