@@ -1,10 +1,11 @@
 package com.company.checkin.place.domain.service.tools.deprecated.redisGeo;
 
-import com.company.checkin.place.infra.redis.PlaceRedisRepository;
-import com.company.checkin.place.infra.redis.RedisGeo;
-import com.company.checkin.place.web.restAPI.KakaoStoreAPIRequest;
-import com.company.checkin.place.web.restAPI.SearchCategory;
-import com.company.checkin.place.web.restAPI.SearchType;
+import com.company.checkin.place.domain.model.place.service.tools.deprecated.redisGeo.KakaoAPIStoreInfoRedisSaver;
+import com.company.checkin.place.infra.adapter.cache.redis.PlaceRedisRepository;
+import com.company.checkin.place.infra.adapter.cache.redis.RedisGeo;
+import com.company.checkin.place.infra.adapter.rest.kakao.KakaoStoreAPIRequest;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchCategory;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

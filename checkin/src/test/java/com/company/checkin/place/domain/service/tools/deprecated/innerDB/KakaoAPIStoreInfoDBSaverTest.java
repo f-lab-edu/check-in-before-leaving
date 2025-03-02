@@ -1,10 +1,11 @@
 package com.company.checkin.place.domain.service.tools.deprecated.innerDB;
 
-import com.company.checkin.place.domain.Place;
-import com.company.checkin.place.infra.PlaceJPARepository;
-import com.company.checkin.place.web.restAPI.KakaoStoreAPIRequest;
-import com.company.checkin.place.web.restAPI.SearchCategory;
-import com.company.checkin.place.web.restAPI.SearchType;
+import com.company.checkin.place.domain.model.place.Place;
+import com.company.checkin.place.domain.model.place.service.tools.deprecated.innerDB.KakaoAPIStoreInfoDBSaver;
+import com.company.checkin.place.infra.adapter.db.PlaceJPARepository;
+import com.company.checkin.place.infra.adapter.rest.kakao.KakaoStoreAPIRequest;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchCategory;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;

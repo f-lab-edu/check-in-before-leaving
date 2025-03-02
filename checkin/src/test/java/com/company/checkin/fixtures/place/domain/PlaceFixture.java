@@ -1,6 +1,6 @@
 package com.company.checkin.fixtures.place.domain;
 
-import com.company.checkin.place.domain.Place;
+import com.company.checkin.place.domain.model.place.Place;
 
 import static com.company.checkin.fixtures.Variables.*;
 

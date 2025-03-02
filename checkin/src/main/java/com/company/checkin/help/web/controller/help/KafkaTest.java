@@ -1,8 +1,8 @@
 package com.company.checkin.help.web.controller.help;
 
 import com.company.checkin.help.application.alarm.AlarmService;
-import com.company.checkin.place.domain.Place;
-import com.company.checkin.place.web.restAPI.SearchCategory;
+import com.company.checkin.place.domain.model.place.Place;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

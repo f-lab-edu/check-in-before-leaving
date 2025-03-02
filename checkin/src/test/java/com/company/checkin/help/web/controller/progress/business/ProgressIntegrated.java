@@ -1,6 +1,6 @@
 package com.company.checkin.help.web.controller.progress.business;
 
-import com.company.checkin.place.infra.PlaceJPARepository;
+import com.company.checkin.place.infra.adapter.db.PlaceJPARepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

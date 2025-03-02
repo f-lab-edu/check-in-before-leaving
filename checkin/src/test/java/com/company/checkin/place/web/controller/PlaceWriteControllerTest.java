@@ -1,6 +1,6 @@
 package com.company.checkin.place.web.controller;
 
-import com.company.checkin.place.domain.service.PlaceWriteService;
+import com.company.checkin.place.domain.model.place.service.PlaceWriteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

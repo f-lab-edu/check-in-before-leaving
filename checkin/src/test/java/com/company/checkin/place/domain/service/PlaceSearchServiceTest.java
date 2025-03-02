@@ -1,10 +1,11 @@
 package com.company.checkin.place.domain.service;
 
-import com.company.checkin.place.domain.PlaceRedis;
-import com.company.checkin.place.domain.service.tools.KakaoStoreInfoClient;
-import com.company.checkin.place.infra.PlaceJPARepository;
-import com.company.checkin.place.infra.redis.PlaceRedisRepository;
-import com.company.checkin.place.web.restAPI.SearchCategory;
+import com.company.checkin.place.domain.model.place.service.PlaceSearchService;
+import com.company.checkin.place.infra.adapter.cache.redis.PlaceRedis;
+import com.company.checkin.place.domain.model.place.service.tools.KakaoStoreInfoClient;
+import com.company.checkin.place.infra.adapter.db.PlaceJPARepository;
+import com.company.checkin.place.infra.adapter.cache.redis.PlaceRedisRepository;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchCategory;
 import com.company.checkin.fixtures.place.domain.PlaceRedisFixture;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

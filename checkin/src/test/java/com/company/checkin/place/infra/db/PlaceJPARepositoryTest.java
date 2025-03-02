@@ -1,8 +1,8 @@
 package com.company.checkin.place.infra.db;
 
-import com.company.checkin.place.domain.Place;
-import com.company.checkin.place.domain.PlaceRedis;
-import com.company.checkin.place.infra.PlaceJPARepository;
+import com.company.checkin.place.domain.model.place.Place;
+import com.company.checkin.place.infra.adapter.cache.redis.PlaceRedis;
+import com.company.checkin.place.infra.adapter.db.PlaceJPARepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

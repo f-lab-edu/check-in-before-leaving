@@ -1,9 +1,10 @@
 package com.company.checkin.place.domain.service.tools;
 
-import com.company.checkin.place.domain.PlaceRedis;
-import com.company.checkin.place.web.restAPI.KakaoStoreAPIRequest;
-import com.company.checkin.place.web.restAPI.SearchCategory;
-import com.company.checkin.place.web.restAPI.SearchType;
+import com.company.checkin.place.domain.model.place.service.tools.KakaoStoreInfoClient;
+import com.company.checkin.place.infra.adapter.cache.redis.PlaceRedis;
+import com.company.checkin.place.infra.adapter.rest.kakao.KakaoStoreAPIRequest;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchCategory;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
