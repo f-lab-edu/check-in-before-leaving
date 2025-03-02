@@ -1,10 +1,12 @@
 package com.company.checkin.place.domain.service.tools.deprecated.redisGeo;
 
-import com.company.checkin.place.domain.PlaceRedis;
+import com.company.checkin.place.domain.model.place.service.tools.deprecated.redisGeo.KakaoAPIStoreInfoRedisSaver;
+import com.company.checkin.place.domain.model.place.service.tools.deprecated.redisGeo.PlaceSearchServiceRedis;
+import com.company.checkin.place.infra.adapter.cache.redis.PlaceRedis;
 import com.company.checkin.place.domain.exceptions.place.PlaceException;
-import com.company.checkin.place.infra.redis.PlaceRedisRepository;
-import com.company.checkin.place.infra.redis.RedisGeo;
-import com.company.checkin.place.web.restAPI.SearchCategory;
+import com.company.checkin.place.infra.adapter.cache.redis.PlaceRedisRepository;
+import com.company.checkin.place.infra.adapter.cache.redis.RedisGeo;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchCategory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static com.company.checkin.place.infra.redis.RedisGeo.GEO_KEY;
+import static com.company.checkin.place.infra.adapter.cache.redis.RedisGeo.GEO_KEY;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;

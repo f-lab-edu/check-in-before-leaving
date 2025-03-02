@@ -1,6 +1,7 @@
 package com.company.checkin.place.infra.redis;
 
 
+import com.company.checkin.place.infra.adapter.cache.redis.RedisGeo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,7 @@ import org.springframework.data.redis.domain.geo.Metrics;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.company.checkin.place.infra.redis.RedisGeo.GEO_KEY;
+import static com.company.checkin.place.infra.adapter.cache.redis.RedisGeo.GEO_KEY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;

@@ -1,9 +1,9 @@
 package com.company.checkin.place.web.controller;
 
 
-import com.company.checkin.place.domain.Place;
-import com.company.checkin.place.domain.service.PlaceWriteService;
-import com.company.checkin.place.web.form.PlaceRegisterForm;
+import com.company.checkin.place.domain.model.place.Place;
+import com.company.checkin.place.domain.model.place.service.PlaceWriteService;
+import com.company.checkin.place.web.controller.place.dto.PlaceRegisterForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

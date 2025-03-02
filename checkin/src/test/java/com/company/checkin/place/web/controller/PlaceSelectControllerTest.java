@@ -1,8 +1,8 @@
 package com.company.checkin.place.web.controller;
 
-import com.company.checkin.place.domain.Place;
-import com.company.checkin.place.domain.service.PlaceSelectService;
-import com.company.checkin.place.web.dto.PlaceDTO;
+import com.company.checkin.place.domain.model.place.Place;
+import com.company.checkin.place.domain.model.place.service.PlaceSelectService;
+import com.company.checkin.place.web.controller.place.dto.PlaceDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.springframework.beans.factory.annotation.Autowired;

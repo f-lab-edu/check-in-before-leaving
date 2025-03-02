@@ -1,6 +1,6 @@
 package com.company.checkin.fixtures.place.domain;
 
-import com.company.checkin.place.domain.PlaceRedis;
+import com.company.checkin.place.infra.adapter.cache.redis.PlaceRedis;
 
 import static com.company.checkin.fixtures.Variables.*;
 

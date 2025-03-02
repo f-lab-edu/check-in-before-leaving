@@ -1,6 +1,6 @@
 package com.company.checkin.help.web.controller.progress;
 
-import com.company.checkin.place.infra.PlaceJPARepository;
+import com.company.checkin.place.infra.adapter.db.PlaceJPARepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

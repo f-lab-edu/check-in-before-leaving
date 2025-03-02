@@ -1,6 +1,6 @@
 package com.company.checkin.fixtures;
 
-import com.company.checkin.place.web.restAPI.SearchCategory;
+import com.company.checkin.place.infra.adapter.rest.kakao.SearchCategory;
 
 import java.time.LocalDateTime;
 

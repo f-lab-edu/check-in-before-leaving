@@ -1,8 +1,9 @@
 package com.company.checkin.place.domain.service;
 
-import com.company.checkin.place.domain.Place;
+import com.company.checkin.place.domain.model.place.Place;
 import com.company.checkin.place.domain.exceptions.place.PlaceException;
-import com.company.checkin.place.infra.PlaceJPARepository;
+import com.company.checkin.place.domain.model.place.service.PlaceSelectService;
+import com.company.checkin.place.infra.adapter.db.PlaceJPARepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
