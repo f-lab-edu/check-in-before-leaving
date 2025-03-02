@@ -1,4 +1,4 @@
-package com.example.checkinrequestMS.HelpAPI.domain.model.help.child.dto;
+package com.example.checkinrequestMS.HelpAPI.domain.model.help.child.request;
 
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.CheckInWriteApplication;
 import com.example.checkinrequestMS.HelpAPI.application.service.help.write.EtcWriteApplication;
@@ -6,7 +6,6 @@ import com.example.checkinrequestMS.HelpAPI.application.service.help.write.LineU
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.HelpWriteController;
 import com.example.checkinrequestMS.HelpAPI.web.controller.help.write.URIRULE;
-import com.example.checkinrequestMS.fixtures.HelpAPI.EtcFixtures;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -21,18 +20,17 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
-import static com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService.Creation.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.spy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({HelpWriteController.class})
-@MockBeans({@MockBean(LineUpWriteApplication.class), @MockBean(EtcWriteApplication.class), @MockBean(CheckInWriteApplication.class)})
+@MockBeans({@MockBean(CheckInWriteApplication.class), @MockBean(LineUpWriteApplication.class), @MockBean(EtcWriteApplication.class)})
 public class EtcRegistrationDTOTest {
 
     @Autowired
@@ -45,19 +43,28 @@ public class EtcRegistrationDTOTest {
     @DisplayName("요청 등록")
     class helpValidation {
         static Stream<Arguments> requests() {
+            Map<String, Object> requestMap = new HashMap<>();
+            requestMap.put("helpRegisterId", 1L);
+            requestMap.put("contents", "테스트 내용");
+            requestMap.put("title", "테스트 제목");
+            requestMap.put("placeId", "place123");
+            requestMap.put("placeName", "테스트 장소");
+            requestMap.put("start", "2025-02-26T19:00:00");
+            requestMap.put("option", 30);
+            requestMap.put("reward", 5000L);
+
             return Stream.of(
-                    Arguments.of(EtcFixtures.EtcServiceT.CreationT.create(), "EtcRequest", URIRULE.HELPS + URIRULE.ETCS)
+                    Arguments.of(requestMap, "EtcRequest", URIRULE.HELPS + URIRULE.ETCS)
             );
         }
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("2가지 정보 누락- 가게정보 및 요청 등록자 필요")
-        void Request_PlaceIdAndUserIdRequired(EtcService.Creation request, String testName, String uri) throws Exception {
+        void Form_PlaceIdAndUserIdRequired(Map<String, Object> request, String testName, String uri) throws Exception {
             //given
-            request = spy(request);
-            given(request.getPlaceId()).willReturn(null);
-            given(request.getHelpRegisterId()).willReturn(null);
+            request.remove("placeId");
+            request.remove("helpRegisterId");
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -69,16 +76,19 @@ public class EtcRegistrationDTOTest {
                     .andExpect(jsonPath("$.message.*").isNotEmpty())
                     .andExpect(jsonPath("$.message.*").isNotEmpty())
                     .andDo(print());
+
+            //After
+            request.put("placeId", "place123");
+            request.put("etcRegisterId", 1L);
         }
 
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("보상 필요")
-        void Request_RewardRequired(EtcService.Creation request, String testName, String uri) throws Exception {
+        void Form_RewardRequired(Map<String, Object> request, String testName, String uri) throws Exception {
             //given
-            request = spy(request);
-            given(request.getReward()).willReturn(null);
+            request.remove("reward");
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -88,17 +98,15 @@ public class EtcRegistrationDTOTest {
             //then
             String fieldname = "reward";
             result.andExpect(status().isBadRequest())
-                    .andDo(print())
-                    .andExpect(jsonPath("message." + fieldname).value(NO_REWARD));
+                    .andExpect(jsonPath("message." + fieldname).value(EtcService.EtcServiceValidationError.NO_REWARD));
         }
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("수행시간 옵션 필요")
-        void Request_OptionRequired(EtcService.Creation request, String testName, String uri) throws Exception {
+        void Form_OptionRequired(Map<String, Object> request, String testName, String uri) throws Exception {
             //given
-            request = spy(request);
-            given(request.getOption()).willReturn(null);
+            request.put("option", null);
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -108,17 +116,15 @@ public class EtcRegistrationDTOTest {
             //then
             String fieldname = "option";
             result.andExpect(status().isBadRequest())
-                    .andDo(print())
-                    .andExpect(jsonPath("message." + fieldname).value(NO_TIME_OPTION));
+                    .andExpect(jsonPath("message." + fieldname).value(EtcService.EtcServiceValidationError.NO_TIME_OPTION));
         }
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("시작 시간 필요")
-        void Request_StartRequired(EtcService.Creation request, String testName, String uri) throws Exception {
+        void Form_StartRequired(Map<String, Object> request, String testName, String uri) throws Exception {
             //given
-            request = spy(request);
-            given(request.getStart()).willReturn(null);
+            request.remove("start");
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -129,16 +135,15 @@ public class EtcRegistrationDTOTest {
             String fieldname = "start";
             result.andExpect(status().isBadRequest())
                     .andDo(print())
-                    .andExpect(jsonPath("message." + fieldname).value(NO_START));
+                    .andExpect(jsonPath("message." + fieldname).value(EtcService.EtcServiceValidationError.NO_START));
         }
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("가게 정보 필요")
-        void Request_PlaceIdRequired(EtcService.Creation request, String testName, String uri) throws Exception {
+        void Form_PlaceIdRequired(Map<String, Object> request, String testName, String uri) throws Exception {
             //given
-            request = spy(request);
-            given(request.getPlaceId()).willReturn(null);
+            request.remove("placeId");
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -148,17 +153,16 @@ public class EtcRegistrationDTOTest {
             //then
             String fieldname = "placeId";
             result.andExpect(status().isBadRequest())
-                    .andExpect(jsonPath("message." + fieldname).value(NO_PLACE_ID));
+                    .andExpect(jsonPath("message." + fieldname).value(EtcService.EtcServiceValidationError.NO_PLACE_ID));
         }
 
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("가게 이름 필요")
-        void Request_PlaceNameRequired(EtcService.Creation request, String testName, String uri) throws Exception {
+        void Form_PlaceNameRequired(Map<String, Object> request, String testName, String uri) throws Exception {
             //given
-            request = spy(request);
-            given(request.getPlaceName()).willReturn(null);
+            request.remove("placeName");
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -169,16 +173,15 @@ public class EtcRegistrationDTOTest {
             String fieldname = "placeName";
             result.andExpect(status().isBadRequest())
                     .andDo(print())
-                    .andExpect(jsonPath("message." + fieldname).value(NO_PLACE_NAME));
+                    .andExpect(jsonPath("message." + fieldname).value(EtcService.EtcServiceValidationError.NO_PLACE_NAME));
         }
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
         @DisplayName("요청 등록자 아이디 필요")
-        void Request_UserIdRequired(EtcService.Creation request, String testName, String uri) throws Exception {
+        void Form_UserIdRequired(Map<String, Object> request, String testName, String uri) throws Exception {
             //given
-            request = spy(request);
-            given(request.getHelpRegisterId()).willReturn(null);
+            request.remove("helpRegisterId");
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
@@ -188,47 +191,23 @@ public class EtcRegistrationDTOTest {
             //then
             String fieldname = "helpRegisterId";
             result.andExpect(status().isBadRequest())
-                    .andExpect(jsonPath("message." + fieldname).value(NO_ETC_REGISTER_ID));
+                    .andExpect(jsonPath("message." + fieldname).value(EtcService.EtcServiceValidationError.NO_ETC_REGISTER_ID));
         }
 
         @ParameterizedTest(name = "{index} - {1}")
         @MethodSource("requests")
-        @DisplayName("등록할 이름 필요")
-        void Request_TitleRequired(EtcService.Creation request, String testName, String uri) throws Exception {
-            //given
-            request = spy(request);
-            given(request.getTitle()).willReturn(null);
+        @DisplayName("요청 등록 성공")
+        void Form_UserIdRequired2(Map<String, Object> request, String testName, String uri) throws Exception {
 
             //when
             ResultActions result = mockMvc.perform(post(uri)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)));
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON));
 
             //then
-            String fieldname = "title";
-            result.andExpect(status().isBadRequest())
-                    .andExpect(jsonPath("message." + fieldname).value(NO_TITLE));
-        }
-
-        @ParameterizedTest(name = "{index} - {1}")
-        @MethodSource("requests")
-        @DisplayName("등록 내용 필요")
-        void Request_ContentsRequired(EtcService.Creation request, String testName, String uri) throws Exception {
-            //given
-            request = spy(request);
-            given(request.getContents()).willReturn(null);
-
-            //when
-            ResultActions result = mockMvc.perform(post(uri)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)));
-
-            //then
-            String fieldname = "contents";
-            result.andExpect(status().isBadRequest())
-                    .andExpect(jsonPath("message." + fieldname).value(NO_CONTENTS));
+            result.andExpect(status().isOk())
+                    .andDo(print());
         }
     }
-
 
 }

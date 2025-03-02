@@ -3,10 +3,7 @@ package com.example.checkinrequestMS.HelpAPI.domain.model.help.child;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
 import jakarta.annotation.Nullable;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -14,11 +11,15 @@ import java.util.Optional;
 
 
 @Getter
+@EqualsAndHashCode
 public final class LineUp {
 
+    @Nullable
     private final Long id;
+
     @Getter(AccessLevel.PRIVATE)
     private final HelpDetail helpDetail;
+
     @Getter(AccessLevel.PRIVATE)
     private final Progress progress;
 
@@ -65,6 +66,7 @@ public final class LineUp {
     }
 
     @Getter
+    @EqualsAndHashCode
     public static final class DTO implements HelpDetail.DTO, Progress.DTO {
         private final Long id;
         private final Long helpRegisterId;

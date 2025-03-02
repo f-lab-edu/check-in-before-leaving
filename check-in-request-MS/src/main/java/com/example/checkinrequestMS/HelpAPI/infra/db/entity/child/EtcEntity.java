@@ -36,6 +36,7 @@ public class EtcEntity {
 
     private EtcEntity(@NonNull Boolean isRegister, @NonNull Etc etc) {
         Etc.DTO dto = Etc.DTO.getDTOForCreation(etc);
+        this.contents = etc.getContents();
         this.helpEntity = HelpDetailEntity.from(dto);
         this.progressEntity = ProgressEntity.from(dto);
     }
@@ -62,7 +63,7 @@ public class EtcEntity {
                 .placeId(this.helpEntity.getPlaceId())
                 .reward(this.helpEntity.getReward())
                 .helperId(this.progressEntity.getHelperId())
-                .status(this.progressEntity.getStatus())
+                .status(this.progressEntity.getStatusType().getStatus())
                 .photoPath(this.progressEntity.getPhotoPath())
                 .completed(this.progressEntity.isCompleted())
                 .build();

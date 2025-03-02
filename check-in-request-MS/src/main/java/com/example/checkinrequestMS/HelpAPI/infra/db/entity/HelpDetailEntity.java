@@ -1,6 +1,7 @@
 package com.example.checkinrequestMS.HelpAPI.infra.db.entity;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
@@ -11,11 +12,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 public class HelpDetailEntity {
 
+    @Column(nullable = false)
     private final Long helpRegisterId; //help owner
+
+    @Column(nullable = false)
     private final String title;
+
+    @Column(nullable = false)
     private final LocalDateTime start;
+
+    @Column(nullable = false)
     private final LocalDateTime end;
+
+    @Column(nullable = false)
     private final String placeId;
+
+    @Column(nullable = false)
     private final Long reward;
 
     @Builder(access = AccessLevel.PRIVATE)

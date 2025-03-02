@@ -10,25 +10,28 @@ import java.util.Objects;
 import java.util.Optional;
 
 
-@Setter(AccessLevel.PRIVATE)
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@EqualsAndHashCode
 public final class CheckIn {
 
-    @Getter
+    @Nullable
     private final Long id;
 
     @Getter(AccessLevel.PRIVATE)
     private final HelpDetail helpDetail;
 
-    //check: 디미터의 원칙을 지키며 기차충돌 방지. 응집도 Up. 결합도 Down.
+    //lesson: 디미터의 원칙
+    //       기차충돌 방지. 응집도 Up. 결합도 Down.
     @Getter(AccessLevel.PRIVATE)
     private final Progress progress;
 
-    //check: 내부에서 Null값 관련해서 커스텀 하게 어노테이션을 만들까 했지만 NPE 터트리는 NonNull을 유지하기로 함.
+    //lesson:  nonNull
+    //        내부에서 Null값 관련해서 커스텀 하게 어노테이션을 만들까 했지만 NPE 터트리는 NonNull을 유지하기로 함.
     //        NPE인 경우 사용자에게는 내부 에러(500)라고 알리고 개발자에게 로그를 남기는게 더 맞는거 같음.
     //        클라이언트 제공 값의 유효성 검증은 MethodArgumentNotValidException 통해서 감지(400) (책임 분리)
     @Builder
-    public CheckIn(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
+    private CheckIn(@NonNull Long id, @NonNull HelpDetail helpDetail, @NonNull Progress progress) {
         this.id = id;
         this.helpDetail = helpDetail;
         this.progress = progress;
@@ -46,9 +49,10 @@ public final class CheckIn {
         return new CheckIn(isForCreation, HelpDetail.from(dto), Progress.from(dto));
     }
 
+
     public CheckIn update(@NonNull CheckInService.Update dto) {
         return CheckIn.builder()
-                .id(Objects.requireNonNull(this.id))
+                .id(Objects.requireNonNull(dto.getCheckInId()))
                 .helpDetail(HelpDetail.from(dto))
                 .progress(Objects.requireNonNull(this.progress))
                 .build();
@@ -70,12 +74,14 @@ public final class CheckIn {
                 .build();
     }
 
-    //check: DTO
+    //lesson: DTO
     // 원칙 1: 기본 DTO는 AG에 두고 기본 응답 값으로도 사용한다.
     // 원칙 2: 도메인계층의 모델과 인프라의 엔티티 로직 분리시 값을 받을때는 도메인 모델의 DTO 이용. DIP 구조.(현재 방식)
     // 원칙 3: 커스텀한 응답은 기본 DTO들을 바탕으로 어플리케이션이나 컨트롤러에서 조합한다.
     @Getter
+    @EqualsAndHashCode
     public static final class DTO implements HelpDetail.DTO, Progress.DTO {
+
         private final Long id;
         private final Long helpRegisterId;
         private final String title;
@@ -83,7 +89,7 @@ public final class CheckIn {
         private final LocalDateTime end;
         private final String placeId;
         private final Long reward;
-        private final Progress.ProgressStatus status;
+        private final Progress.ProgressStatus status; //fixme: 적절히 무시되는 방법 찾기.
         @Nullable
         private final Long helperId;
         @Nullable
@@ -91,9 +97,9 @@ public final class CheckIn {
         private final boolean completed;
 
         @Builder
-        public DTO(@Nullable Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
-                   @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status,
-                   @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
+        private DTO(@Nullable Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
+                    @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress.ProgressStatus status,
+                    @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
 
             if (id == null) throw new NullPointerException();
             this.id = id;
@@ -109,7 +115,7 @@ public final class CheckIn {
             this.completed = completed;
         }
 
-        public DTO(@NonNull Boolean isRegister, @NonNull CheckIn checkIn) {
+        private DTO(@NonNull Boolean isRegister, @NonNull CheckIn checkIn) {
             this.id = checkIn.getId();
             this.helpRegisterId = checkIn.getHelpDetail().getHelpRegisterId();
             this.title = checkIn.getHelpDetail().getTitle();

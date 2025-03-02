@@ -2,7 +2,6 @@ package com.example.checkinrequestMS.fixtures.HelpAPI;
 
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.HelpDetail;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.Progress;
-import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.CheckIn;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.Etc;
 import com.example.checkinrequestMS.HelpAPI.domain.model.help.child.EtcService;
 import com.example.checkinrequestMS.HelpAPI.infra.db.entity.child.EtcEntity;
@@ -70,6 +69,7 @@ public class EtcFixtures {
             public static EtcService.Creation create() {
                 return EtcService.Creation.builder()
                         .helpRegisterId(HELP_REGISTER_ID)
+                        .contents(CONTENTS)
                         .placeId(PLACE_ID)
                         .placeName(PLACE_NAME)
                         .start(START)
@@ -82,22 +82,21 @@ public class EtcFixtures {
         }
 
         public static class UpdateT {
-            public static EtcService.Update create() {
+            public static EtcService.Update create(Long id) {
                 return EtcService.Update.builder()
-                        .etcId(ID)
+                        .etcId(id)
                         .helpRegisterId(HELP_REGISTER_ID)
                         .placeId(PLACE_ID + "updated")
                         .start(START)
                         .reward(REWARD)
                         .title(TITLE)
                         .end(END)
-                        .option(OPTION)
                         .contents(CONTENTS)
                         .build();
             }
         }
 
-        public static class EtcStartedT {
+        public static class StartT {
             public static EtcService.Start create() {
                 return EtcService.Start.builder()
                         .etcId(ID)

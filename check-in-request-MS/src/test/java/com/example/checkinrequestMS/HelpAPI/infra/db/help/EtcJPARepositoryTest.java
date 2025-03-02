@@ -110,7 +110,7 @@ class EtcJPARepositoryTest {
         EtcEntity etcEntity = EtcFixtures.EtcEntityT.create(etc);
         when(etcSpringJPARepository.findById(etc.getId())).thenReturn(Optional.of(etcEntity));
 
-        EtcService.Update dto = EtcFixtures.EtcServiceT.UpdateT.create();
+        EtcService.Update dto = EtcFixtures.EtcServiceT.UpdateT.create(etc.getId());
         Etc updated = etc.update(dto);
 
 

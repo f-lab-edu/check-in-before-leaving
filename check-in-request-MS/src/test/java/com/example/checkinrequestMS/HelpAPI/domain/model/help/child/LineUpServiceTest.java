@@ -36,7 +36,7 @@ class LineUpServiceTest {
         //then
         assertEquals(lineUp.getId(), result.getId());
         assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
-        assertEquals(dto.getPlaceName() + LineUpService.LINE_UP_TITLE, result.getTitle());
+        assertEquals(dto.getPlaceName() + " " + LineUpService.CreationInitializer.LINE_UP_TITLE, result.getTitle());
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
@@ -52,7 +52,7 @@ class LineUpServiceTest {
     void update() {
         //given
         LineUp lineUp = LineUpFixtures.LineUpT.create();
-        LineUpService.Update dto = LineUpFixtures.LineUpServiceT.UpdateT.create();
+        LineUpService.Update dto = LineUpFixtures.LineUpServiceT.UpdateT.create(lineUp.getId());
         when(lineUpRepository.findById(dto.getLineUpId())).thenReturn(lineUp);
         when(lineUpRepository.update(any(LineUp.class))).thenAnswer(i -> i.getArgument(0));
 

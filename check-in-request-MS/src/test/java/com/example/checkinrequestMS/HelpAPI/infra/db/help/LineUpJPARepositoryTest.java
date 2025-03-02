@@ -109,7 +109,7 @@ class LineUpJPARepositoryTest {
         LineUpEntity lineUpEntity = LineUpFixtures.LineUpEntityT.create(lineUp);
         when(lineUpSpringJPARepository.findById(lineUp.getId())).thenReturn(Optional.of(lineUpEntity));
 
-        LineUpService.Update dto = LineUpFixtures.LineUpServiceT.UpdateT.create();
+        LineUpService.Update dto = LineUpFixtures.LineUpServiceT.UpdateT.create(lineUp.getId());
         LineUp updated = lineUp.update(dto);
 
         // When

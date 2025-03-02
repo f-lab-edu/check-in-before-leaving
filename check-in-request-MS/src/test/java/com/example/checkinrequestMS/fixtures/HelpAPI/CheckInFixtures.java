@@ -18,7 +18,7 @@ public class CheckInFixtures {
     private static final LocalDateTime END = START.plusMinutes(10);
     private static final int OPTION = 10;
     private static final long REWARD = 100L;
-    private static final String TITLE = PLACE_NAME + CheckInService.CHECK_IN_TITLE;
+    private static final String TITLE = PLACE_NAME + CheckInService.CreationInitializer.CHECK_IN_TITLE;
 
     private static final long HELPER_ID = 1L;
 
@@ -32,6 +32,7 @@ public class CheckInFixtures {
                     .build();
         }
 
+        //fixme: 픽스처 수정.
         public static CheckIn saved(CheckInService.Creation dto) {
             return CheckIn.builder()
                     .id(ID)
@@ -74,16 +75,15 @@ public class CheckInFixtures {
         }
 
         public static class UpdateT {
-            public static CheckInService.Update create() {
+            public static CheckInService.Update create(Long id) {
                 return CheckInService.Update.builder()
-                        .checkInId(ID)
+                        .checkInId(id)
                         .helpRegisterId(HELP_REGISTER_ID)
                         .placeId(PLACE_ID + "updated")
                         .start(START)
                         .reward(REWARD)
                         .title(TITLE)
                         .end(END)
-                        .option(OPTION)
                         .build();
             }
         }

@@ -21,7 +21,7 @@ public class LineUpFixtures {
     private static final LocalDateTime END = START.plusMinutes(10);
     private static final int OPTION = 10;
     private static final long REWARD = 100L;
-    private static final String TITLE = PLACE_NAME + LineUpService.LINE_UP_TITLE;
+    private static final String TITLE = PLACE_NAME + LineUpService.CreationInitializer.LINE_UP_TITLE;
 
     private static final long HELPER_ID = 1L;
 
@@ -77,16 +77,15 @@ public class LineUpFixtures {
         }
 
         public static class UpdateT {
-            public static LineUpService.Update create() {
+            public static LineUpService.Update create(Long id) {
                 return LineUpService.Update.builder()
-                        .lineUpId(ID)
+                        .lineUpId(id)
                         .helpRegisterId(HELP_REGISTER_ID)
                         .placeId(PLACE_ID + "updated")
                         .start(START)
                         .reward(REWARD)
                         .title(TITLE)
                         .end(END)
-                        .option(OPTION)
                         .build();
             }
         }

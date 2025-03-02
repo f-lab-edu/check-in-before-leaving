@@ -30,7 +30,7 @@ class CheckInTest {
         when(spy.getId()).thenReturn(temporalId);
         CheckIn.DTO result = CheckIn.DTO.getDTO(spy);
         assertEquals(dto.getHelpRegisterId(), result.getHelpRegisterId());
-        assertEquals(dto.getPlaceName() + CheckInService.CHECK_IN_TITLE, result.getTitle());
+        assertEquals(dto.getPlaceName() + " " + CheckInService.CreationInitializer.CHECK_IN_TITLE, result.getTitle());
         assertEquals(dto.getPlaceId(), result.getPlaceId());
         assertEquals(dto.getReward(), result.getReward());
         assertEquals(dto.getStart(), result.getStart());
@@ -44,7 +44,7 @@ class CheckInTest {
     void update() {
         //given
         CheckIn sut = CheckInFixtures.CheckInT.create();
-        CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create();
+        CheckInService.Update dto = CheckInFixtures.CheckInServiceT.UpdateT.create(sut.getId());
 
         //when
         CheckIn returned = sut.update(dto);

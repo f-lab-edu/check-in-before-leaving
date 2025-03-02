@@ -6,6 +6,7 @@ import com.example.checkinrequestMS.fixtures.HelpAPI.CheckInFixtures;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ProgressEntityTest {
 
@@ -19,8 +20,8 @@ class ProgressEntityTest {
         ProgressEntity sut = ProgressEntity.from(dto);
 
         //then
-        Progress.ProgressStatus status = sut.getStatus();
-        assertEquals(dto.getStatus(), sut.getStatus());
+        Progress.ProgressStatus status = dto.getStatus();
+        assertEquals(status.getStatusType(), sut.getStatusType());
         assertEquals(status.validateStatusRules(dto, dto.getHelperId()), sut.getHelperId());
         assertEquals(status.validateStatusRules(dto, dto.getPhotoPath()), sut.getPhotoPath());
         assertEquals(dto.isCompleted(), sut.isCompleted());
