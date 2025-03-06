@@ -1,6 +1,7 @@
 package com.company.checkin.place.web.controller;
 
-import com.company.checkin.place.domain.model.place.service.PlaceWriteService;
+
+import com.company.checkin.place.domain.model.place.place.PlaceService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -10,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,21 +21,22 @@ class PlaceWriteControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private PlaceWriteService placeCRUDService;
+    private PlaceService placeCRUDService;
 
     @Test
     void registerPlace() throws Exception {
-        String content = "{\n" +
-                "    \"placeId\": 1,\n" +
-                "    \"placeName\": \"테스트중 맛집\",\n" +
-                "    \"address\": \"맛집의 주소\",\n" +
-                "    \"roadAddressName\": \"맛집의 도로명\",\n" +
-                "    \"category\": \"FD6\",\n" +
-                "    \"phone\": \"010-1111-1111\",\n" +
-                "    \"placeUrl\": \"test@test.com\",\n" +
-                "    \"x\": 0,\n" +
-                "    \"y\": 0\n" +
-                "}";
+        String content = """
+                {
+                    "placeId": 1,
+                    "placeName": "테스트중 맛집",
+                    "address": "맛집의 주소",
+                    "roadAddressName": "맛집의 도로명",
+                    "category": "FD6",
+                    "phone": "010-1111-1111",
+                    "placeUrl": "test@test.com",
+                    "x": 0,
+                    "y": 0
+                }""";
 
         ResultActions result = mockMvc.perform(post("/place")
                 .contentType(MediaType.APPLICATION_JSON)

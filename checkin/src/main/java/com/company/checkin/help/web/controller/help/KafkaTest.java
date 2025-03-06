@@ -1,8 +1,9 @@
 package com.company.checkin.help.web.controller.help;
 
 import com.company.checkin.help.application.alarm.AlarmService;
-import com.company.checkin.place.domain.model.place.Place;
+import com.company.checkin.place.domain.model.place.place.Place;
 import com.company.checkin.place.infra.adapter.rest.kakao.SearchCategory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/kafka")
+@RequiredArgsConstructor
 public class KafkaTest {
-
-    @Autowired
-    private AlarmService alarmService;
+    
+    private final AlarmService alarmService;
 
     @PostMapping
     public void test() {

@@ -1,10 +1,11 @@
 // CheckInIntegratedTest.java
 package com.company.checkin.help.integrated;
 
+import com.company.checkin.common.testContainer.SharedTestContainerMySQL;
 import com.company.checkin.fixtures.checkin.help.CheckInFixtures;
 import com.company.checkin.help.application.help.checkin.command.CheckInWriteApplication;
 import com.company.checkin.help.domain.model.help.checkin.CheckInService;
-import com.company.checkin.help.web.controller.help.URIRULE;
+import com.company.checkin.help.web.controller.help.URIAddress;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Disabled;
@@ -27,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Disabled
 class CheckInIntegratedTest {
 
     @Autowired
@@ -61,7 +61,7 @@ class CheckInIntegratedTest {
         CheckInService.Creation creationDto = CheckInFixtures.CheckInServiceT.CreationT.create();
 
         // When
-        ResultActions result = mockMvc.perform(post(URIRULE.HELPS + URIRULE.CHECK_INS)
+        ResultActions result = mockMvc.perform(post(URIAddress.HELPS + URIAddress.CHECK_INS)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(creationDto)));
 
@@ -82,19 +82,18 @@ class CheckInIntegratedTest {
         CheckInService.Update updateDto = CheckInFixtures.CheckInServiceT.UpdateT.create(checkInId);
 
         // When
-        ResultActions result = mockMvc.perform(put(URIRULE.HELPS + URIRULE.CHECK_INS + "/" + checkInId)
+        ResultActions result = mockMvc.perform(put(URIAddress.HELPS + URIAddress.CHECK_INS + "/" + checkInId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateDto)));
 
         // Then
         result.andExpect(status().isOk())
                 .andDo(print());
-        //.andExpect(jsonPath("$.id").value(checkInId));
     }
 
     @Test
     @DisplayName("CheckIn 시작 통합 테스트")
-    @Disabled
+    @Disabled("제작 중")
     void startCheckIn() throws Exception {
         // Given
         CheckInService.Creation creationDto = CheckInFixtures.CheckInServiceT.CreationT.create();

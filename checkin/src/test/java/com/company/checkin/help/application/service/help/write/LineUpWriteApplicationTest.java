@@ -29,7 +29,7 @@ class LineUpWriteApplicationTest {
 
         @Test
         @DisplayName("체크인 등록 성공")
-        void registerLineUp() {
+        void registerLineUpSuccessful() {
 
             //given
             LineUpService.Creation dto = LineUpFixtures.LineUpServiceT.CreationT.create();

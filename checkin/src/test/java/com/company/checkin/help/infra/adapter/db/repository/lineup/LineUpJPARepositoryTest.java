@@ -44,7 +44,7 @@ class LineUpJPARepositoryTest {
         // Then
         assertEquals(entity.getId(), returned.getId());
 
-        //fixme: 기차충돌 문제 해결 -> DTO
+        //check: 기차충돌 문제 해결 -> DTO
         LineUp.DTO result = LineUp.DTO.getDTO(returned);
         LineUp.DTO original = LineUp.DTO.getDTO(entity.returnDomainModel());
 

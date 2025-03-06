@@ -18,7 +18,7 @@ public class PlaceRegisterForm {
     private String address;
     @NotBlank
     private String roadAddressName;
-    @NotNull //todo: custom.
+    @NotNull //check: custom.
     private SearchCategory category;
     @NotBlank
     private String phone;

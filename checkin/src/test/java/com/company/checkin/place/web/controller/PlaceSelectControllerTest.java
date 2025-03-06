@@ -1,7 +1,7 @@
 package com.company.checkin.place.web.controller;
 
-import com.company.checkin.place.domain.model.place.Place;
-import com.company.checkin.place.domain.model.place.service.PlaceSelectService;
+import com.company.checkin.place.domain.model.place.place.Place;
+import com.company.checkin.place.domain.model.place.place.PlaceService;
 import com.company.checkin.place.web.controller.place.dto.PlaceDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -24,15 +24,16 @@ class PlaceSelectControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private PlaceSelectService placeSelectService;
+    private PlaceService placeSelectService;
 
     @Test
     void selectPlaceDetail() throws Exception {
 
-        MockedStatic<PlaceDTO> placeDTO = mockStatic(PlaceDTO.class);
-        given(PlaceDTO.from(any(Place.class))).willReturn(mock(PlaceDTO.class));
+        try (MockedStatic<PlaceDTO> placeDTO = mockStatic(PlaceDTO.class)) {
+            given(PlaceDTO.from(any(Place.class))).willReturn(mock(PlaceDTO.class));
 
-        mockMvc.perform(get("/place/{name}", "test"))
-                .andExpect(status().isOk());
+            mockMvc.perform(get("/place/{name}", "test"))
+                    .andExpect(status().isOk());
+        }
     }
 }

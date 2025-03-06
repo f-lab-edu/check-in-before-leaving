@@ -114,6 +114,6 @@ class CheckInServiceTest {
         assertEquals(dto.getPhotoPath(), returned.getPhotoPath());
         assertEquals(dto.isCompleted(), returned.isCompleted());
 
-        //fixme: 변경의 책임은 각 VO에 있게 됨.
+        //check: 변경의 책임은 각 VO에 있게 됨.
     }
 }

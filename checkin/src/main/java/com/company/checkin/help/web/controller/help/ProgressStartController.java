@@ -17,41 +17,41 @@ import java.util.List;
 @RequestMapping("/helps/progress")
 public class ProgressStartController {
 
-    public static String PICKED = "도와주실 분을 구했습니다.";
+    public static final String PICKED = "도와주실 분을 구했습니다.";
 
     private final CheckInStartApplication progressStartApplication;
 
     @PostMapping
     public ResponseEntity<DefaultHTTPResponse<ProgressChangeResponse>> checkInStart(@Validated @RequestBody CheckInService.Start dto) {
-        Long helpId = progressStartApplication.startCheckIn(dto);
-        return ResponseEntity.ok(new DefaultHTTPResponse<ProgressChangeResponse>(PICKED, ProgressChangeResponse.of(dto.getCheckInId())));
+        progressStartApplication.startCheckIn(dto);
+        return ResponseEntity.ok(new DefaultHTTPResponse<>(PICKED, ProgressChangeResponse.of(dto.getCheckInId())));
     }
 
     public static final String APPROVED = "요청자에 의해 인증이 승인 되었습니다.";
 
     @PatchMapping
     public ResponseEntity<DefaultHTTPResponse<ProgressChangeResponse>> approveProgress(@Validated @RequestBody ProgressApproveRequest request) {
-        return ResponseEntity.ok(new DefaultHTTPResponse<ProgressChangeResponse>(APPROVED, ProgressChangeResponse.of(request.getHelpId())));
+        return ResponseEntity.ok(new DefaultHTTPResponse<>(APPROVED, ProgressChangeResponse.of(request.getHelpId())));
     }
 
-    public static String PHOTO_UPLOADED = "사진이 업로드 되었습니다.";
-    public static String NOT_ONE_PHOTO = "사진은 하나만 업로드 가능합니다.";
-    public static String NO_HELP_ID = "요청 정보가 필요합니다.";
+    public static final String PHOTO_UPLOADED = "사진이 업로드 되었습니다.";
+    public static final String NOT_ONE_PHOTO = "사진은 하나만 업로드 가능합니다.";
+    public static final String NO_HELP_ID = "요청 정보가 필요합니다.";
 
     @PostMapping("/photo")
     public ResponseEntity<DefaultHTTPResponse<ProgressChangeResponse>> addPhoto(@RequestPart("file") List<MultipartFile> file,
                                                                                 @RequestParam(value = "helpId", defaultValue = "0") long helpId) {
         if (file.size() > 1) {
-            return ResponseEntity.badRequest().body(new DefaultHTTPResponse<ProgressChangeResponse>(NOT_ONE_PHOTO));
+            return ResponseEntity.badRequest().body(new DefaultHTTPResponse<>(NOT_ONE_PHOTO));
         }
         if (helpId == 0) {
-            return ResponseEntity.badRequest().body(new DefaultHTTPResponse<ProgressChangeResponse>(NO_HELP_ID));
+            return ResponseEntity.badRequest().body(new DefaultHTTPResponse<>(NO_HELP_ID));
 
         }
 
-        //   Long id = progressBusinessService.addPhoto(helpId, file.get(0)); //todo: 여러개 저장하도록 변경.
+        //check: 여러개 저장하도록 변경.
         Long id = null;
-        return ResponseEntity.ok(new DefaultHTTPResponse<ProgressChangeResponse>(PHOTO_UPLOADED, ProgressChangeResponse.of(id)));
+        return ResponseEntity.ok(new DefaultHTTPResponse<>(PHOTO_UPLOADED, ProgressChangeResponse.of(id)));
     }
 
     @Getter

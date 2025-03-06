@@ -1,17 +1,19 @@
 package com.company.checkin.help.domain.model.help.etc;
 
+import com.company.checkin.fixtures.checkin.help.EtcFixtures;
 import com.company.checkin.help.domain.model.help.HelpDetail;
 import com.company.checkin.help.domain.model.help.Progress;
-import com.company.checkin.fixtures.checkin.help.EtcFixtures;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class EtcDTOTest {
+class EtcDTOTest {
 
     @Test
     @DisplayName("DTO를 비교한다")
@@ -21,7 +23,7 @@ public class EtcDTOTest {
         Etc.DTO copy = EtcFixtures.EtcT.createBasicDTO();
 
         //When & Then
-        assertTrue(sut.equals(copy));
+        assertEquals(sut, copy);
     }
 
     @Test
@@ -46,7 +48,7 @@ public class EtcDTOTest {
         Etc.DTO sut = EtcFixtures.EtcT.createBasicDTO();
 
         //When & Then
-        assertFalse(sut.equals(custome));
+        assertNotEquals(sut, custome);
     }
 
     @Test
@@ -139,17 +141,17 @@ public class EtcDTOTest {
         Etc.DTO expectedDTO = Etc.DTO.getDTOForCreation(etc);
 
         // Then
-        assertEquals(expectedDTO.getId(), etc.getId());
-        assertEquals(expectedDTO.getHelpRegisterId(), dto.getHelpRegisterId());
-        assertEquals(expectedDTO.getPlaceId(), dto.getPlaceId());
-        assertEquals(expectedDTO.getStart(), dto.getStart());
-        assertEquals(expectedDTO.getEnd(), dto.getEnd());
-        assertEquals(expectedDTO.getReward(), dto.getReward());
-        assertEquals(expectedDTO.getTitle(), dto.getTitle());
-        assertThat(expectedDTO.getHelperId()).isEmpty();
-        assertThat(expectedDTO.getPhotoPath()).isEmpty();
-        assertEquals(expectedDTO.getStatus(), new Progress.Created());
-        assertEquals(expectedDTO.isCompleted(), false);
+        assertEquals(etc.getId(), expectedDTO.getId());
+        assertEquals(etc.getContents(), expectedDTO.getContents());
+        assertEquals(dto.getHelpRegisterId(), expectedDTO.getHelpRegisterId());
+        assertEquals(dto.getPlaceId(), expectedDTO.getPlaceId());
+        assertEquals(dto.getStart(), expectedDTO.getStart());
+        assertEquals(dto.getEnd(), expectedDTO.getEnd());
+        assertEquals(dto.getReward(), expectedDTO.getReward());
+        assertEquals(dto.getTitle(), expectedDTO.getTitle());
+        Assertions.assertThat(expectedDTO.getHelperId()).isEmpty();
+        Assertions.assertThat(expectedDTO.getPhotoPath()).isEmpty();
+        assertEquals(false, expectedDTO.isCompleted());
     }
 
 

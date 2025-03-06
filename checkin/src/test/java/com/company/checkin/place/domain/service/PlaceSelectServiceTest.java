@@ -1,9 +1,9 @@
 package com.company.checkin.place.domain.service;
 
-import com.company.checkin.place.domain.model.place.Place;
+import com.company.checkin.place.domain.model.place.place.Place;
 import com.company.checkin.place.domain.exceptions.place.PlaceException;
-import com.company.checkin.place.domain.model.place.service.PlaceSelectService;
-import com.company.checkin.place.infra.adapter.db.PlaceJPARepository;
+import com.company.checkin.place.domain.model.place.place.PlaceService;
+import com.company.checkin.place.infra.adapter.storage.db.PlaceJPARepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,20 +21,20 @@ import static org.mockito.Mockito.*;
 class PlaceSelectServiceTest {
 
     @InjectMocks
-    private PlaceSelectService sut;
+    private PlaceService sut;
 
     @Mock
     private PlaceJPARepository placeJPARepository;
 
     @Test
     @DisplayName("가게 조회 - 성공")
-    void selectPlaceDetail() {
+    void findOne() {
         String placeName = "test";
         Place place = spy(Place.class);
         given(placeJPARepository.findByPlaceName(placeName)).willReturn(Optional.of(place));
 
         //when
-        Place returned = sut.selectPlaceDetail(placeName);
+        sut.findOne(placeName);
 
         //then
         verify(placeJPARepository, times(1)).findByPlaceName("test");
@@ -47,7 +47,7 @@ class PlaceSelectServiceTest {
         given(placeJPARepository.findByPlaceName(placeName)).willReturn(Optional.empty());
 
         //when
-        Exception exception = assertThrows(PlaceException.class, () -> sut.selectPlaceDetail(placeName));
+        Exception exception = assertThrows(PlaceException.class, () -> sut.findOne(placeName));
 
         //then
         assertEquals("가게 정보가 없습니다.", exception.getMessage());

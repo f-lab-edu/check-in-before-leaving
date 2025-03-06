@@ -7,8 +7,7 @@ import com.company.checkin.help.infra.adapter.db.entity.help.checkin.CheckInEnti
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +31,7 @@ class CheckInEntityTest {
         CheckIn.DTO dto = CheckIn.DTO.getDTO(checkIn);
         CheckIn.DTO dto2 = CheckIn.DTO.getDTO(checkInEntity.returnDomainModel());
 
-        assertTrue(CheckIn.DTO.getDTO(checkIn).equals(dto2));
+        assertEquals(dto, dto2);
     }
 
     @Test
@@ -53,7 +52,7 @@ class CheckInEntityTest {
         assertNotNull(updated);
         CheckIn.DTO result = CheckIn.DTO.getDTO(updated);
         CheckIn.DTO original = CheckIn.DTO.getDTO(checkInToUpdate);
-        assertTrue(result.equals(original));
+        assertEquals(result, original);
     }
 
     @Test
@@ -70,7 +69,6 @@ class CheckInEntityTest {
         assertNotNull(returned);
         CheckIn.DTO result = CheckIn.DTO.getDTO(returned);
         CheckIn.DTO original = CheckIn.DTO.getDTO(checkIn);
-        assertTrue(result.equals(original));
-        
+        assertEquals(result, original);
     }
 }

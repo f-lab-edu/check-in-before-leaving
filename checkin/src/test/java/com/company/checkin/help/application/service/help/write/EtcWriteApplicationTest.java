@@ -29,7 +29,7 @@ class EtcWriteApplicationTest {
 
         @Test
         @DisplayName("체크인 등록 성공")
-        void registerEtc() {
+        void registerEtcSuccessful() {
 
             //given
             EtcService.Creation dto = EtcFixtures.EtcServiceT.CreationT.create();

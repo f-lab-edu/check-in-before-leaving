@@ -44,7 +44,7 @@ class CheckInJPARepositoryTest {
         // Then
         assertEquals(entity.getId(), returned.getId());
 
-        //fixme: 기차충돌 문제 해결 -> DTO
+        //check: 기차충돌 문제 해결 -> DTO
         CheckIn.DTO result = CheckIn.DTO.getDTO(returned);
         CheckIn.DTO original = CheckIn.DTO.getDTO(entity.returnDomainModel());
 

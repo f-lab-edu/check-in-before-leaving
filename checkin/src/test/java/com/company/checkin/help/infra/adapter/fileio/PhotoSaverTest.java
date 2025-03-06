@@ -25,9 +25,9 @@ class PhotoSaverTest {
     @InjectMocks
     private PhotoSaver sut;
 
-    //fixme: filePath 수정
+    //check: filePath 수정
     @Test
-    @Disabled
+    @Disabled("통합이라 끔. 다시 작동 예정")
     @DisplayName("사진 저장 - 정상적인 사진 저장")
     void saveOnePhoto() throws IOException {
         Long progressId = 1L;
@@ -82,7 +82,7 @@ class PhotoSaverTest {
 
     @Test
     @DisplayName("사진 저장 - 파일 이름이 null일 때")
-    void saveOnePhoto_No_File_Name() throws IOException {
+    void saveOnePhoto_No_File_Name() {
         //given
         Long progressId = 1L;
         MultipartFile photo = mock(MultipartFile.class);

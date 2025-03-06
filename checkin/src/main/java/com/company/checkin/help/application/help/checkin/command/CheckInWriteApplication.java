@@ -2,7 +2,7 @@ package com.company.checkin.help.application.help.checkin.command;
 
 import com.company.checkin.help.domain.model.help.checkin.CheckIn;
 import com.company.checkin.help.domain.model.help.checkin.CheckInService;
-import com.company.checkin.common.aop.testTime.TestTime;
+import com.company.checkin.common.aop.testtime.TestTime;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -32,10 +32,11 @@ class ProgressStartControllerTest {
     @Test
     void checkInStart() throws Exception {
         //given
-        String dto = "{\n" +
-                "  \"checkInId\": 1,\n" +
-                "  \"helperId\": 1\n" +
-                "}";
+        String dto = """
+                {
+                  "checkInId": 1,
+                  "helperId": 1
+                }""";
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/helps/progress")

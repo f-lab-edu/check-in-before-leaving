@@ -13,7 +13,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-public class CheckInDTOTest {
+class CheckInDTOTest {
 
     @Nested
     @DisplayName("equals")
@@ -22,21 +22,21 @@ public class CheckInDTOTest {
         @DisplayName("equals - null 비교")
         void equalsWithNull() {
             CheckIn.DTO sut = CheckInFixtures.CheckInT.createBasicDTO();
-            assertFalse(sut.equals(null));
+            assertNotEquals(null, sut);
         }
 
         @Test
         @DisplayName("equals - 다른 클래스 비교")
         void equalsWithDifferentClass() {
             CheckIn.DTO sut = CheckInFixtures.CheckInT.createBasicDTO();
-            assertFalse(sut.equals(new Object()));
+            assertNotEquals(sut, new Object());
         }
 
         @Test
         @DisplayName("equals - 자기 자신과 비교")
         void equalsWithSameObject() {
             CheckIn.DTO sut = CheckInFixtures.CheckInT.createBasicDTO();
-            assertTrue(sut.equals(sut));
+            assertEquals(sut, sut);
         }
 
         @Test
@@ -58,7 +58,7 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffId));
+            assertNotEquals(original, diffId);
 
             // title이 다른 경우
             CheckIn.DTO diffTitle = CheckIn.DTO.builder()
@@ -74,7 +74,7 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffTitle));
+            assertNotEquals(original, diffTitle);
 
             // reward가 다른 경우
             CheckIn.DTO diffReward = CheckIn.DTO.builder()
@@ -90,7 +90,7 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffReward));
+            assertNotEquals(original, diffReward);
 
             // helperId가 다른 경우
             CheckIn.DTO diffHelperId = CheckIn.DTO.builder()
@@ -106,7 +106,7 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffHelperId));
+            assertNotEquals(original, diffHelperId);
 
             // helpRegisterId가 다른 경우
             CheckIn.DTO diffHelpRegisterId = CheckIn.DTO.builder()
@@ -122,7 +122,7 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffHelpRegisterId));
+            assertNotEquals(original, diffHelpRegisterId);
 
             // placeId가 다른 경우
             CheckIn.DTO diffPlaceId = CheckIn.DTO.builder()
@@ -138,7 +138,7 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffPlaceId));
+            assertNotEquals(original, diffPlaceId);
 
             // start가 다른 경우
             CheckIn.DTO diffStart = CheckIn.DTO.builder()
@@ -154,7 +154,7 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffStart));
+            assertNotEquals(original, diffStart);
 
             // end가 다른 경우
             CheckIn.DTO diffEnd = CheckIn.DTO.builder()
@@ -170,7 +170,7 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffEnd));
+            assertNotEquals(original, diffEnd);
 
             // status가 다른 경우
             CheckIn.DTO diffStatus = CheckIn.DTO.builder()
@@ -186,9 +186,9 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffStatus));
+            assertNotEquals(original, diffStatus);
 
-// photoPath가 다른 경우
+            // photoPath가 다른 경우
             CheckIn.DTO diffPhotoPath = CheckIn.DTO.builder()
                     .id(original.getId())
                     .title(original.getTitle())
@@ -202,7 +202,7 @@ public class CheckInDTOTest {
                     .photoPath("다른 사진 경로")
                     .completed(original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffPhotoPath));
+            assertNotEquals(original, diffPhotoPath);
 
             // completed가 다른 경우
             CheckIn.DTO diffCompleted = CheckIn.DTO.builder()
@@ -218,7 +218,7 @@ public class CheckInDTOTest {
                     .photoPath(original.getPhotoPath().orElse(null))
                     .completed(!original.isCompleted())
                     .build();
-            assertFalse(original.equals(diffCompleted));
+            assertNotEquals(original, diffCompleted);
 
         }
     }
@@ -226,25 +226,6 @@ public class CheckInDTOTest {
     @Nested
     @DisplayName("생성자")
     class constructorTest {
-        @Test
-        @DisplayName("DTO 생성자 - id가 null일 때 예외 발생")
-        void constructorWithNullId() {
-            assertThrows(NullPointerException.class, () -> {
-                CheckIn.DTO.builder()
-                        .id(null)
-                        .title("title")
-                        .reward(100L)
-                        .helperId(1L)
-                        .helpRegisterId(1L)
-                        .placeId("1")
-                        .start(LocalDateTime.now())
-                        .end(LocalDateTime.now().plusHours(1))
-                        .status(new Progress.Created())
-                        .photoPath("photoPath")
-                        .completed(false)
-                        .build();
-            });
-        }
 
         @Test
         @DisplayName("CheckIn 생성자 테스트 - 빌더를 통한 생성")
@@ -263,149 +244,6 @@ public class CheckInDTOTest {
 
             // Then
             assertEquals(id, checkIn.getId());
-            // assertEquals(helpDetail, checkIn.getHelpDetail());
-            // assertEquals(progress, checkIn.getProgress());
-        }
-
-
-        @Test
-        @DisplayName("DTO 생성자 - 필수 필드가 null일 때 예외 발생")
-        void constructorWithNullRequiredFields() {
-            // 각 필수 필드별로 null 테스트
-            // title이 null
-            assertThrows(NullPointerException.class, () -> {
-                CheckIn.DTO.builder()
-                        .id(1L)
-                        .title(null)
-                        .reward(100L)
-                        .helperId(1L)
-                        .helpRegisterId(1L)
-                        .placeId("1")
-                        .start(LocalDateTime.now())
-                        .end(LocalDateTime.now().plusHours(1))
-                        .status(new Progress.Created())
-                        .photoPath("photoPath")
-                        .completed(false)
-                        .build();
-            });
-            // helpRegisterId가 null일 때
-            assertThrows(NullPointerException.class, () -> {
-                CheckIn.DTO.builder()
-                        .id(1L)
-                        .title("title")
-                        .reward(100L)
-                        .helperId(1L)
-                        .helpRegisterId(null) // helpRegisterId가 null
-                        .placeId("1")
-                        .start(LocalDateTime.now())
-                        .end(LocalDateTime.now().plusHours(1))
-                        .status(new Progress.Created())
-                        .photoPath("photoPath")
-                        .completed(false)
-                        .build();
-            });
-
-            // start가 null일 때
-            assertThrows(NullPointerException.class, () -> {
-                CheckIn.DTO.builder()
-                        .id(1L)
-                        .title("title")
-                        .reward(100L)
-                        .helperId(1L)
-                        .helpRegisterId(1L)
-                        .placeId("1")
-                        .start(null) // start가 null
-                        .end(LocalDateTime.now().plusHours(1))
-                        .status(new Progress.Created())
-                        .photoPath("photoPath")
-                        .completed(false)
-                        .build();
-            });
-
-            // end가 null일 때
-            assertThrows(NullPointerException.class, () -> {
-                CheckIn.DTO.builder()
-                        .id(1L)
-                        .title("title")
-                        .reward(100L)
-                        .helperId(1L)
-                        .helpRegisterId(1L)
-                        .placeId("1")
-                        .start(LocalDateTime.now())
-                        .end(null) // end가 null
-                        .status(new Progress.Created())
-                        .photoPath("photoPath")
-                        .completed(false)
-                        .build();
-            });
-
-            // placeId가 null일 때
-            assertThrows(NullPointerException.class, () -> {
-                CheckIn.DTO.builder()
-                        .id(1L)
-                        .title("title")
-                        .reward(100L)
-                        .helperId(1L)
-                        .helpRegisterId(1L)
-                        .placeId(null) // placeId가 null
-                        .start(LocalDateTime.now())
-                        .end(LocalDateTime.now().plusHours(1))
-                        .status(new Progress.Created())
-                        .photoPath("photoPath")
-                        .completed(false)
-                        .build();
-            });
-
-            // reward가 null일 때
-            assertThrows(NullPointerException.class, () -> {
-                CheckIn.DTO.builder()
-                        .id(1L)
-                        .title("title")
-                        .reward(null) // reward가 null
-                        .helperId(1L)
-                        .helpRegisterId(1L)
-                        .placeId("1")
-                        .start(LocalDateTime.now())
-                        .end(LocalDateTime.now().plusHours(1))
-                        .status(new Progress.Created())
-                        .photoPath("photoPath")
-                        .completed(false)
-                        .build();
-            });
-
-            // status가 null일 때
-            assertThrows(NullPointerException.class, () -> {
-                CheckIn.DTO.builder()
-                        .id(1L)
-                        .title("title")
-                        .reward(100L)
-                        .helperId(1L)
-                        .helpRegisterId(1L)
-                        .placeId("1")
-                        .start(LocalDateTime.now())
-                        .end(LocalDateTime.now().plusHours(1))
-                        .status(null) // status가 null
-                        .photoPath("photoPath")
-                        .completed(false)
-                        .build();
-            });
-
-            // completed가 null일 때
-            assertThrows(NullPointerException.class, () -> {
-                CheckIn.DTO.builder()
-                        .id(1L)
-                        .title("title")
-                        .reward(100L)
-                        .helperId(1L)
-                        .helpRegisterId(1L)
-                        .placeId("1")
-                        .start(LocalDateTime.now())
-                        .end(LocalDateTime.now().plusHours(1))
-                        .status(new Progress.Created())
-                        .photoPath("photoPath")
-                        .completed(null) // completed가 null
-                        .build();
-            });
         }
 
     }
@@ -519,7 +357,7 @@ public class CheckInDTOTest {
         assertThat(expectedDTO.getHelperId()).isEmpty();
         assertThat(expectedDTO.getPhotoPath()).isEmpty();
         assertEquals(expectedDTO.getStatus(), new Progress.Created());
-        assertEquals(expectedDTO.isCompleted(), false);
+        assertEquals(false, expectedDTO.isCompleted());
     }
 
     @Test

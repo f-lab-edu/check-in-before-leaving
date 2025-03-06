@@ -50,7 +50,7 @@ public class RedisCacheConfig {
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         objectMapper.activateDefaultTyping(
                 objectMapper.getPolymorphicTypeValidator(),
-                ObjectMapper.DefaultTyping.EVERYTHING,
+                ObjectMapper.DefaultTyping.NON_FINAL_AND_ENUMS,
                 JsonTypeInfo.As.PROPERTY
         );
         objectMapper.registerModule(new JavaTimeModule());

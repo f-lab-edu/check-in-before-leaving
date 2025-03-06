@@ -71,7 +71,6 @@ class HelpSelectApplicationTest {
         LineUp.DTO result = helpSelectApplication.selectLineUp(id);
 
         // Then
-//        assertNotNull(result);
         assertEquals(response.getId(), result.getId());
         assertEquals(response.getHelpRegisterId(), result.getHelpRegisterId());
         assertEquals(response.getTitle(), result.getTitle());

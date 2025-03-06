@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping(URIRULE.HELPS)
+@RequestMapping(URIAddress.HELPS)
 @RequiredArgsConstructor
 public class HelpWriteController {
 
@@ -34,25 +34,25 @@ public class HelpWriteController {
 
     public static final String ETC_SAVE_SUCCESS = "기타 요청 등록 성공";
 
-    @PostMapping(URIRULE.CHECK_INS)
+    @PostMapping(URIAddress.CHECK_INS)
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody CheckInService.Creation request) {
         Long id = checkInWriteApplication.register(request);
         return ResponseEntity.status(HttpStatus.OK).body(new DefaultHTTPResponse<HelpSaveResponse>(CHECK_IN_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
-    @PutMapping(URIRULE.CHECK_INS + "/{id}")
+    @PutMapping(URIAddress.CHECK_INS + "/{id}")
     public ResponseEntity<DefaultHTTPResponse<HelpUpdateResponse>> updateCheckIn(@PathVariable Long id, @Validated @RequestBody CheckInService.Update request) {
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpUpdateResponse>(CHECK_IN_UPDATE_SUCCESS, HelpUpdateResponse.from(checkInWriteApplication.update(request))));
     }
 
-    @PostMapping(URIRULE.LINE_UPS)
+    @PostMapping(URIAddress.LINE_UPS)
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerCheckIn(@Validated @RequestBody LineUpService.Creation request) {
         Long id = lineUpWriteService.register(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(LINE_UP_SAVE_SUCCESS, HelpSaveResponse.from(id)));
     }
 
 
-    @PostMapping(URIRULE.ETCS)
+    @PostMapping(URIAddress.ETCS)
     public ResponseEntity<DefaultHTTPResponse<HelpSaveResponse>> registerEtc(@Validated @RequestBody EtcService.Creation request) {
         Long id = etcWriteService.register(request);
         return ResponseEntity.ok(new DefaultHTTPResponse<HelpSaveResponse>(ETC_SAVE_SUCCESS, HelpSaveResponse.from(id)));

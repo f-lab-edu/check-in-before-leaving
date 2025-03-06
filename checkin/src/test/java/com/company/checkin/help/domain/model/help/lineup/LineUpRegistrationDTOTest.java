@@ -4,18 +4,16 @@ import com.company.checkin.help.application.help.checkin.command.CheckInWriteApp
 import com.company.checkin.help.application.help.etc.command.EtcWriteApplication;
 import com.company.checkin.help.application.help.lineup.command.LineUpWriteApplication;
 import com.company.checkin.help.web.controller.help.HelpWriteController;
-import com.company.checkin.help.web.controller.help.URIRULE;
+import com.company.checkin.help.web.controller.help.URIAddress;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -30,7 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({HelpWriteController.class})
-@MockBeans({@MockBean(CheckInWriteApplication.class), @MockBean(EtcWriteApplication.class), @MockBean(LineUpWriteApplication.class)})
+@MockBean(CheckInWriteApplication.class)
+@MockBean(EtcWriteApplication.class)
+@MockBean(LineUpWriteApplication.class)
 public class LineUpRegistrationDTOTest {
 
     @Autowired
@@ -52,7 +52,7 @@ public class LineUpRegistrationDTOTest {
             requestMap.put("reward", 5000L);
 
             return Stream.of(
-                    Arguments.of(requestMap, "LineUpRequest", URIRULE.HELPS + URIRULE.LINE_UPS)
+                    Arguments.of(requestMap, "LineUpRequest", URIAddress.HELPS + URIAddress.LINE_UPS)
             );
         }
 
@@ -207,23 +207,4 @@ public class LineUpRegistrationDTOTest {
                     .andDo(print());
         }
     }
-
-    @Nested
-    @DisplayName("메서드")
-    class methodTests {
-        @Test
-        void compareDTO() {
-
-            LineUpService.Creation sut = LineUpService
-                    .Creation.builder().build();
-
-            //LineUpService.Creation sut = LineUpFixtures.LineUpServiceT.CreationT.create();
-
-
-            //sut.equals()
-
-        }
-    }
-
-
 }

@@ -89,7 +89,7 @@ public final class CheckIn {
         private final LocalDateTime end;
         private final String placeId;
         private final Long reward;
-        private final Progress.ProgressStatus status; //fixme: 적절히 무시되는 방법 찾기.
+        private final Progress.ProgressStatus status; //check: 적절히 무시되는 방법 찾기.
         @Nullable
         private final Long helperId;
         @Nullable
