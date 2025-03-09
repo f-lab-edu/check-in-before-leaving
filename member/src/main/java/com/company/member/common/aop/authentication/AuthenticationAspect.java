@@ -19,7 +19,7 @@ public class AuthenticationAspect {
     @Autowired
     private HttpServletRequest request;
 
-    @Before("execution(public * com.company.member.web.controller.*.*(..)) " +
+    @Before("execution(public * com.company.member.web.controller..*.*(..)) " +
             "&& !@annotation(com.company.member.common.aop.authentication.NoAuthentication)")
     public void authenticate() {
         String cookieValue = checkCookie();
