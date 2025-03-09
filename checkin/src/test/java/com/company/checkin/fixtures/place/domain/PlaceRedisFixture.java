@@ -1,6 +1,6 @@
 package com.company.checkin.fixtures.place.domain;
 
-import com.company.checkin.place.infra.adapter.cache.redis.PlaceRedis;
+import com.company.checkin.place.infra.adapter.storage.cache.redis.PlaceRedis;
 
 import static com.company.checkin.fixtures.Variables.*;
 
@@ -9,7 +9,7 @@ public class PlaceRedisFixture extends PlaceRedis {
 
     public static PlaceRedis createPlaceRedisFromAPIWithId(Long id) {
         return PlaceRedis.builder()
-                .id("API:" + id.toString())
+                .id("API." + id.toString())
                 .placeName(PLACE_NAME)
                 .address(PLACE_ADDRESS)
                 .roadAddress(PLACE_ROAD_ADDRESS)
@@ -23,7 +23,7 @@ public class PlaceRedisFixture extends PlaceRedis {
 
     public static PlaceRedis createPlaceRedisFromDBWithId(Long id) {
         return PlaceRedis.builder()
-                .id("DB:" + id.toString())
+                .id("DB." + id.toString())
                 .placeName(PLACE_NAME)
                 .address(PLACE_ADDRESS)
                 .roadAddress(PLACE_ROAD_ADDRESS)

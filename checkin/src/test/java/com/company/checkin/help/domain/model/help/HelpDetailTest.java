@@ -5,6 +5,7 @@ import com.company.checkin.help.domain.model.help.checkin.CheckIn;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HelpDetailTest {
 
@@ -23,6 +24,11 @@ class HelpDetailTest {
         assertEquals(checkInDTO.getPlaceId(), sut.getPlaceId());
         assertEquals(checkInDTO.getReward(), sut.getReward());
         assertEquals(checkInDTO.getStart(), sut.getStart());
+    }
+
+    @Test
+    void from_NPE() {
+        assertThrows(NullPointerException.class, () -> HelpDetail.from(null));
     }
 
 }

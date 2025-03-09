@@ -17,12 +17,12 @@ import static com.company.checkin.help.infra.exceptions.fileio.FileIOErrorCode.*
 @Slf4j
 public class PhotoSaver {
 
-    private static String PROPERTY_ROOT = "user.home";
-    private static String FOLDER_NAME = "photo_for_authentication";
+    private static final String PROPERTY_ROOT = "user.home";
+    private static final String FOLDER_NAME = "photo_for_authentication";
 
     public String saveOnePhoto(Long progressId, MultipartFile photo) {
 
-        //fixme: 진행ID를 가지고 파일을 저장하는 방식이 문제가 없을까요?
+        //check: 진행ID를 가지고 파일을 저장하는 방식이 문제가 없을까요?
         //       암호화를 살짝 고민 했지만 민감한 정보는 아니라고 생각하여 사용해도 괜찮지 않을까 생각했습니다.
         Path directoryPath = getPath(progressId);
 
@@ -44,9 +44,8 @@ public class PhotoSaver {
 
     private Path getPath(Long progressId) {
         try {
-            String desktopPath = System.getProperty(PROPERTY_ROOT).toString();
-            Path directoryPath = Paths.get(desktopPath, FOLDER_NAME, progressId.toString());
-            return directoryPath;
+            String desktopPath = System.getProperty(PROPERTY_ROOT);
+            return Paths.get(desktopPath, FOLDER_NAME, progressId.toString());
         } catch (NullPointerException e) {
             throw new FileIOException(NULL_POINTER_WHILE_GETTING_PATH, e);
         }

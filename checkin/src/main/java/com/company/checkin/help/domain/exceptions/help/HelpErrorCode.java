@@ -17,7 +17,7 @@ public enum HelpErrorCode {
     NO_LINE_UP_INFO("라인업 정보가 존재하지 않습니다."),
 
     //Etc.
-    No_ETC_INFO("기타 정보가 존재하지 않습니다."),
+    NO_ETC_INFO("기타 정보가 존재하지 않습니다."),
 
     NO_HELPER_ID("도움을 주기로한 사람의 정보가 없습니다."),
     NO_PHOTO("사진이 없습니다."),

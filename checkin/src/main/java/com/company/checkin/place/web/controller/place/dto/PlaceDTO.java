@@ -1,6 +1,6 @@
 package com.company.checkin.place.web.controller.place.dto;
 
-import com.company.checkin.place.domain.model.place.Place;
+import com.company.checkin.place.domain.model.place.place.Place;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

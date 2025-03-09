@@ -32,7 +32,7 @@ public class CheckInFixtures {
                     .build();
         }
 
-        //fixme: 픽스처 수정.
+        //check: 픽스처 수정.
         public static CheckIn saved(CheckInService.Creation dto) {
             return CheckIn.builder()
                     .id(ID)

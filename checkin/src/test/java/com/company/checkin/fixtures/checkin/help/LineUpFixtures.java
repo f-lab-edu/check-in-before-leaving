@@ -7,7 +7,6 @@ import com.company.checkin.help.domain.model.help.lineup.LineUpService;
 import com.company.checkin.help.infra.adapter.db.entity.help.lineup.LineUpEntity;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class LineUpFixtures {
 
@@ -92,7 +91,7 @@ public class LineUpFixtures {
             public static LineUpService.Start create() {
                 return LineUpService.Start.builder()
                         .lineUpId(ID)
-                        .helperId(Optional.of(HELPER_ID))
+                        .helperId(HELPER_ID)
                         .build();
             }
         }

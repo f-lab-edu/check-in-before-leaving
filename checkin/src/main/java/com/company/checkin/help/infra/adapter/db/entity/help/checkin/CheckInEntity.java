@@ -49,7 +49,7 @@ public class CheckInEntity {
     }
 
     public CheckIn returnDomainModel() {
-        //fixme: dto 빠지는 경우.
+        //check: dto 빠지는 경우.
         CheckIn.DTO dto = CheckIn.DTO.builder()
                 .id(Objects.requireNonNull(this.getId()))
                 .helpRegisterId(this.helpEntity.getHelpRegisterId())

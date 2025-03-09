@@ -4,7 +4,7 @@ import com.company.checkin.help.application.help.checkin.command.CheckInWriteApp
 import com.company.checkin.help.application.help.etc.command.EtcWriteApplication;
 import com.company.checkin.help.application.help.lineup.command.LineUpWriteApplication;
 import com.company.checkin.help.web.controller.help.HelpWriteController;
-import com.company.checkin.help.web.controller.help.URIRULE;
+import com.company.checkin.help.web.controller.help.URIAddress;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,7 +14,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -29,7 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({HelpWriteController.class})
-@MockBeans({@MockBean(LineUpWriteApplication.class), @MockBean(EtcWriteApplication.class), @MockBean(CheckInWriteApplication.class)})
+@MockBean(LineUpWriteApplication.class)
+@MockBean(EtcWriteApplication.class)
+@MockBean(CheckInWriteApplication.class)
 public class CheckInRegistrationDTOTest {
 
     @Autowired
@@ -51,7 +52,7 @@ public class CheckInRegistrationDTOTest {
             requestMap.put("reward", 5000L);
 
             return Stream.of(
-                    Arguments.of(requestMap, "CheckInRequest", URIRULE.HELPS + URIRULE.CHECK_INS)
+                    Arguments.of(requestMap, "CheckInRequest", URIAddress.HELPS + URIAddress.CHECK_INS)
             );
         }
 

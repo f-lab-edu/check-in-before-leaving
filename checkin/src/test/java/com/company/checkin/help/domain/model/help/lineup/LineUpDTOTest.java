@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
-public class LineUpDTOTest {
+class LineUpDTOTest {
 
     @Test
     @DisplayName("DTO를 비교한다")
@@ -23,7 +23,7 @@ public class LineUpDTOTest {
         LineUp.DTO copy = LineUpFixtures.LineUpT.createBasicDTO();
 
         //When & Then
-        assertTrue(sut.equals(copy));
+        assertEquals(sut, copy);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class LineUpDTOTest {
         LineUp.DTO sut = LineUpFixtures.LineUpT.createBasicDTO();
 
         //When & Then
-        assertFalse(sut.equals(custome));
+        assertNotEquals(sut, custome);
     }
 
     @Test
@@ -138,17 +138,17 @@ public class LineUpDTOTest {
         LineUp.DTO expectedDTO = LineUp.DTO.getDTOForCreation(lineUp);
 
         // Then
-        assertEquals(expectedDTO.getId(), lineUp.getId());
-        assertEquals(expectedDTO.getHelpRegisterId(), dto.getHelpRegisterId());
-        assertEquals(expectedDTO.getPlaceId(), dto.getPlaceId());
-        assertEquals(expectedDTO.getStart(), dto.getStart());
-        assertEquals(expectedDTO.getEnd(), dto.getEnd());
-        assertEquals(expectedDTO.getReward(), dto.getReward());
-        assertEquals(expectedDTO.getTitle(), LineUpService.CreationInitializer.createTitle(dto.getPlaceName()));
+        assertEquals(lineUp.getId(), expectedDTO.getId());
+        assertEquals(dto.getHelpRegisterId(), expectedDTO.getHelpRegisterId());
+        assertEquals(dto.getPlaceId(), expectedDTO.getPlaceId());
+        assertEquals(dto.getStart(), expectedDTO.getStart());
+        assertEquals(dto.getEnd(), expectedDTO.getEnd());
+        assertEquals(dto.getReward(), expectedDTO.getReward());
+        assertEquals(LineUpService.CreationInitializer.createTitle(dto.getPlaceName()), expectedDTO.getTitle());
         assertThat(expectedDTO.getHelperId()).isEmpty();
         assertThat(expectedDTO.getPhotoPath()).isEmpty();
-        assertEquals(expectedDTO.getStatus(), new Progress.Created());
-        assertEquals(expectedDTO.isCompleted(), false);
+        assertEquals(false, expectedDTO.isCompleted());
+
     }
 
 

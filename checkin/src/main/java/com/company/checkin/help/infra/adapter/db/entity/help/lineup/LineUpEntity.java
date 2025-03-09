@@ -63,7 +63,7 @@ public class LineUpEntity {
                 .placeId(this.helpEntity.getPlaceId())
                 .reward(this.helpEntity.getReward())
                 .helperId(this.progressEntity.getHelperId())
-                .status(this.progressEntity.getStatusType().getStatus()) //fixme: 여기는 왜 false negative..?
+                .status(this.progressEntity.getStatusType().getStatus()) //check: 여기는 왜 false negative..?
                 .photoPath(this.progressEntity.getPhotoPath())
                 .completed(this.progressEntity.isCompleted())
                 .build();

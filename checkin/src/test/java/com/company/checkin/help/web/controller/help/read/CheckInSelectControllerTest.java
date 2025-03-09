@@ -4,8 +4,7 @@ import com.company.checkin.fixtures.checkin.help.CheckInFixtures;
 import com.company.checkin.help.application.help.HelpSelectApplication;
 import com.company.checkin.help.domain.model.help.checkin.CheckIn;
 import com.company.checkin.help.web.controller.help.HelpSelectController;
-import com.company.checkin.help.web.controller.help.URIRULE;
-import org.junit.jupiter.api.Disabled;
+import com.company.checkin.help.web.controller.help.URIAddress;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +18,12 @@ import java.time.format.DateTimeFormatter;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(HelpSelectController.class)
-public class CheckInSelectControllerTest {
+class CheckInSelectControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,11 +33,10 @@ public class CheckInSelectControllerTest {
 
     @Test
     @DisplayName("CheckIn 조회 성공")
-    @Disabled
     void selectHelp_Success() throws Exception {
         // Given
         Long id = 1L;
-        String uri = URIRULE.HELPS + URIRULE.CHECK_INS + id;
+        String uri = URIAddress.HELPS + URIAddress.CHECK_INS + id;
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
         CheckIn.DTO response = CheckIn.DTO.getDTO(checkIn);
         when(helpSelectApplication.selectCheckIn(id)).thenReturn(response);
@@ -48,16 +47,17 @@ public class CheckInSelectControllerTest {
 
         // Then
         result.andExpect(status().isOk())
-                .andExpect(jsonPath("$.checkInId").value(response.getId()))
-                .andExpect(jsonPath("$.helpDetail.helpRegisterId").value(response.getHelpRegisterId()))
-                .andExpect(jsonPath("$.helpDetail.title").value(response.getTitle()))
-                .andExpect(jsonPath("$.helpDetail.placeId").value(response.getPlaceId()))
-                .andExpect(jsonPath("$.helpDetail.start").value(response.getStart().toString()))
-                .andExpect(jsonPath("$.helpDetail.end").value(DateTimeFormatter.ISO_DATE_TIME.format(response.getEnd())))
-                .andExpect(jsonPath("$.helpDetail.reward").value(response.getReward()))
-                .andExpect(jsonPath("$.progress.status").value(response.getStatus().toString()))
-                .andExpect(jsonPath("$.progress.helperId").value(response.getHelperId()))
-                .andExpect(jsonPath("$.progress.photoPath").value(response.getPhotoPath()))
-                .andExpect(jsonPath("$.progress.completed").value(response.isCompleted()));
+                .andDo(print())
+                .andExpect(jsonPath("$.id").value(response.getId()))
+                .andExpect(jsonPath("$.helpRegisterId").value(response.getHelpRegisterId()))
+                .andExpect(jsonPath("$.title").value(response.getTitle()))
+                .andExpect(jsonPath("$.placeId").value(response.getPlaceId()))
+                .andExpect(jsonPath("$.start").value(DateTimeFormatter.ISO_DATE_TIME.format(response.getStart())))
+                .andExpect(jsonPath("$.end").value(DateTimeFormatter.ISO_DATE_TIME.format(response.getEnd())))
+                .andExpect(jsonPath("$.reward").value(response.getReward()))
+                .andExpect(jsonPath("$.status.statusType").value(response.getStatus().getStatusType().name()))
+                .andExpect(jsonPath("$.helperId").value(response.getHelperId().orElse(null)))
+                .andExpect(jsonPath("$.photoPath").value(response.getPhotoPath().orElse(null)))
+                .andExpect(jsonPath("$.completed").value(response.isCompleted()));
     }
 }

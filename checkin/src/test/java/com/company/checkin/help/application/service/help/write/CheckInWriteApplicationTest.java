@@ -32,7 +32,7 @@ class CheckInWriteApplicationTest {
 
         @Test
         @DisplayName("체크인 등록 성공")
-        void registerCheckIn() {
+        void registerCheckInSuccessful() {
 
             //given
 

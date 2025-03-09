@@ -1,6 +1,5 @@
 package com.company.checkin.help.domain.model.help.lineup;
 
-import com.company.checkin.help.application.alarm.AlarmService;
 import com.company.checkin.help.domain.model.help.HelpDetail;
 import com.company.checkin.help.domain.model.help.Progress;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,11 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Optional;
 
-import static com.company.checkin.help.domain.model.help.checkin.CheckInService.CheckInServiceValidationError.NO_PLACE_NAME;
-import static com.company.checkin.help.domain.model.help.checkin.CheckInService.CheckInServiceValidationError.NO_START_AND_TIME_OPTION;
 import static com.company.checkin.help.domain.model.help.lineup.LineUpService.LineUpServiceValidationError.*;
 
 @Service
@@ -24,13 +20,9 @@ import static com.company.checkin.help.domain.model.help.lineup.LineUpService.Li
 public class LineUpService {
 
     private final LineUpRepository lineUpRepository;
-    private final AlarmService alarmService;
 
     public LineUp.DTO register(@NonNull LineUpService.Creation dto) {
         LineUp lineUp = LineUp.register(dto);
-
-        //alarmService.sendAlarmToUsersNearby(place.getId(), place.getX(), place.getY();
-        //alarmService.sendAlarmToUsersNearby(dto.getHelpRegisterId(), place);
 
         return LineUp.DTO.getDTO(lineUpRepository.save(lineUp));
     }
@@ -52,6 +44,7 @@ public class LineUpService {
     }
 
     //DTO Initializer
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class CreationInitializer {
 
         public static final String LINE_UP_TITLE = "줄서기 요청";
@@ -70,7 +63,7 @@ public class LineUpService {
     @Getter
     @Validated
     public static final class Creation implements HelpDetail.DTO, Progress.DTO {
-        //fixme: URL
+        //check: URL
         @NotNull(message = NO_LINE_UP_REGISTER_ID)
         private final Long helpRegisterId;
 
@@ -130,16 +123,14 @@ public class LineUpService {
             final String NO_PHOTO_AUTHENTICATION_AT_CREATED = null;
             this.helperId = NO_HELPER_AT_CREATED;
             this.photoPath = NO_PHOTO_AUTHENTICATION_AT_CREATED;
-            this.status = Objects.requireNonNull(new Progress.Created());
-            this.completed = Objects.requireNonNull(false);
+            this.status = new Progress.Created();
+            this.completed = false;
         }
 
-        @Nullable
         public Optional<String> getPhotoPath() {
             return Optional.ofNullable(photoPath);
         }
 
-        @Nullable
         public Optional<Long> getHelperId() {
             return Optional.ofNullable(helperId);
         }
@@ -182,41 +173,62 @@ public class LineUpService {
     @Validated
     public static class Start implements Progress.DTO {
 
-        public static final String PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID = "줄서기 ID가 필요합니다.";
-        public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
-
         @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID)
         private final Long lineUpId;
 
-        private final Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId;
+        @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID)
+        private final Long helperId;
 
         @JsonIgnore
-        private final Progress.ProgressStatus status = new Progress.Started();
+        @NonNull
+        private final Progress.ProgressStatus status;
 
-        private final Optional<String> photoPath = Optional.empty();
+        @Nullable
+        private final String photoPath;
 
-        private final boolean completed = false;
+        private final boolean completed;
 
         @Builder
         @Jacksonized
-        public Start(Long lineUpId, Optional<@NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELPER_ID) Long> helperId) {
+        public Start(Long lineUpId, Long helperId) {
+
+
             this.lineUpId = lineUpId;
             this.helperId = helperId;
+
+            final String NO_PHOTO_AUTHENTICATION_AT_ONGOING = null;
+            this.photoPath = NO_PHOTO_AUTHENTICATION_AT_ONGOING;
+            this.status = new Progress.Started();
+            this.completed = false;
+        }
+
+        public Optional<String> getPhotoPath() {
+            return Optional.ofNullable(photoPath);
+        }
+
+        public Optional<Long> getHelperId() {
+            return Optional.ofNullable(helperId);
         }
     }
 
-    public interface LineUpServiceValidationError {
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class LineUpServiceValidationError {
 
-        String NO_ID = "줄서기 ID는 필수입니다.";
-        String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
-        String NO_PLACE_ID = "가게 아이디는 필수입니다.";
-        String NO_START = "시작 시간은 필수입니다.";
-        String NO_REWARD = "보상은 필수입니다.";
-        String NO_TITLE = "제목은 필수입니다.";
-        String NO_END = "종료 시간은 필수입니다.";
+        public static final String NO_ID = "줄서기 ID는 필수입니다.";
+        public static final String NO_LINE_UP_REGISTER_ID = "줄서기 등록자는 필수입니다.";
+        public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
+        public static final String NO_START = "시작 시간은 필수입니다.";
+        public static final String NO_REWARD = "보상은 필수입니다.";
+        public static final String NO_TITLE = "제목은 필수입니다.";
+        public static final String NO_END = "종료 시간은 필수입니다.";
+        public static final String NO_START_AND_TIME_OPTION = "시작 시간과 수행 시간 옵션은 필수입니다.";
 
-        String NO_PLACE_NAME = "가게 이름은 필수입니다.";
-        String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
+        public static final String NO_PLACE_NAME = "가게 이름은 필수입니다.";
+        public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
+
+        public static final String PROGRESS_REGISTER_REQUEST_NO_LINE_UP_ID = "줄서기 ID가 필요합니다.";
+        public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
+
     }
 
 }

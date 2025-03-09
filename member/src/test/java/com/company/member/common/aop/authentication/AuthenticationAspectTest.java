@@ -9,7 +9,6 @@ import com.company.member.domain.exceptions.member.MemberErrorCode;
 import com.company.member.domain.exceptions.member.MemberException;
 import com.company.member.application.member.MemberWriteSerivces.MemberWriteService;
 import com.company.member.domain.model.member.Member;
-import com.company.member.infrastructure.encryption.aes256.JavaCryptoUtil;
 import com.company.member.web.controller.member.SignUpController;
 import com.company.member.web.controller.member.URIInfo;
 import jakarta.servlet.http.Cookie;
@@ -34,17 +33,13 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest({SignUpController.class})
-@Disabled
+@WebMvcTest({SignUpController.class, AuthenticationAspect.class})
 class AuthenticationAspectTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper mapper;
-
-    @MockBean
-    JavaCryptoUtil encryption;
 
     @SpyBean
     private AuthenticationAspect authenticationAspect; //이게 빈으로 있어야 AOP 작동.

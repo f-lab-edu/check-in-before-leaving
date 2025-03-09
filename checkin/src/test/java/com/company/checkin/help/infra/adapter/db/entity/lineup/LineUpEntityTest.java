@@ -7,8 +7,7 @@ import com.company.checkin.help.infra.adapter.db.entity.help.lineup.LineUpEntity
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +31,7 @@ class LineUpEntityTest {
         LineUp.DTO dto = LineUp.DTO.getDTO(lineUp);
         LineUp.DTO dto2 = LineUp.DTO.getDTO(lineUpEntity.returnDomainModel());
 
-        assertTrue(LineUp.DTO.getDTO(lineUp).equals(dto2));
+        assertEquals(dto, dto2);
     }
 
     @Test
@@ -53,7 +52,7 @@ class LineUpEntityTest {
         assertNotNull(updated);
         LineUp.DTO result = LineUp.DTO.getDTO(updated);
         LineUp.DTO original = LineUp.DTO.getDTO(lineUpToUpdate);
-        assertTrue(result.equals(original));
+        assertEquals(result, original);
     }
 
     @Test
@@ -70,7 +69,6 @@ class LineUpEntityTest {
         assertNotNull(returned);
         LineUp.DTO result = LineUp.DTO.getDTO(returned);
         LineUp.DTO original = LineUp.DTO.getDTO(lineUp);
-        assertTrue(result.equals(original));
-        
+        assertEquals(result, original);
     }
 }

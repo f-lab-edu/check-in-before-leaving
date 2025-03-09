@@ -22,13 +22,9 @@ import static com.company.checkin.help.domain.model.help.checkin.CheckInService.
 public class CheckInService {
 
     private final CheckInRepository checkInRepository;
-    //private final AlarmService alarmService;
 
     public CheckIn.DTO register(@NonNull CheckInService.Creation dto) {
         CheckIn checkIn = CheckIn.register(dto);
-
-        //alarmService.sendAlarmToUsersNearby(place.getId(), place.getX(), place.getY();
-        //alarmService.sendAlarmToUsersNearby(dto.getHelpRegisterId(), place);
 
         return CheckIn.DTO.getDTO(checkInRepository.save(checkIn));
     }
@@ -50,6 +46,7 @@ public class CheckInService {
     }
 
     //DTO Initializer
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class CreationInitializer {
 
         public static final String CHECK_IN_TITLE = "체크인 요청";
@@ -134,8 +131,8 @@ public class CheckInService {
             final String NO_PHOTO_AUTHENTICATION_AT_CREATED = null;
             this.helperId = NO_HELPER_AT_CREATED;
             this.photoPath = NO_PHOTO_AUTHENTICATION_AT_CREATED;
-            this.status = Objects.requireNonNull(new Progress.Created());
-            this.completed = Objects.requireNonNull(false);
+            this.status = new Progress.Created();
+            this.completed = false;
         }
 
         public Optional<Long> getHelperId() {
@@ -198,13 +195,15 @@ public class CheckInService {
         @Builder
         @Jacksonized
         public Start(Long checkInId, Long helperId) {
-            final String NO_PHOTO_AUTHENTICATION_AT_ONGOING = null;
+
 
             this.checkInId = checkInId;
             this.helperId = helperId;
+
+            final String NO_PHOTO_AUTHENTICATION_AT_ONGOING = null;
             this.photoPath = NO_PHOTO_AUTHENTICATION_AT_ONGOING;
-            this.status = Objects.requireNonNull(new Progress.Started());
-            this.completed = Objects.requireNonNull(false);
+            this.status = new Progress.Started();
+            this.completed = false;
         }
 
         public Optional<String> getPhotoPath() {
@@ -216,22 +215,22 @@ public class CheckInService {
         }
     }
 
-    public interface CheckInServiceValidationError {
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class CheckInServiceValidationError {
 
-        String NO_ID = "체크인 ID는 필수입니다.";
-        String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";
-        String NO_PLACE_ID = "가게 아이디는 필수입니다.";
-        String NO_START = "시작 시간은 필수입니다.";
-        String NO_REWARD = "보상은 필수입니다.";
-        String NO_TITLE = "제목은 필수입니다.";
-        String NO_END = "종료 시간은 필수입니다.";
-        String NO_PLACE_NAME = "가게 이름은 필수입니다.";
-        String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
-        String NO_START_AND_TIME_OPTION = "시작 시간과 수행 시간 옵션은 필수입니다.";
+        public static final String NO_ID = "체크인 ID는 필수입니다.";
+        public static final String NO_CHECK_IN_REGISTER_ID = "체크인 등록자는 필수입니다.";
+        public static final String NO_PLACE_ID = "가게 아이디는 필수입니다.";
+        public static final String NO_START = "시작 시간은 필수입니다.";
+        public static final String NO_REWARD = "보상은 필수입니다.";
+        public static final String NO_TITLE = "제목은 필수입니다.";
+        public static final String NO_END = "종료 시간은 필수입니다.";
+        public static final String NO_PLACE_NAME = "가게 이름은 필수입니다.";
+        public static final String NO_TIME_OPTION = "수행 시간 옵션은 필수입니다.";
+        public static final String NO_START_AND_TIME_OPTION = "시작 시간과 수행 시간 옵션은 필수입니다.";
 
-        String PROGRESS_REGISTER_REQUEST_NO_HELP_ID = "요청 ID가 필요합니다.";
-        String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
-
+        public static final String PROGRESS_REGISTER_REQUEST_NO_HELP_ID = "요청 ID가 필요합니다.";
+        public static final String PROGRESS_REGISTER_REQUEST_NO_HELPER_ID = "요청 도우미의 ID가 필요합니다.";
     }
 
 }

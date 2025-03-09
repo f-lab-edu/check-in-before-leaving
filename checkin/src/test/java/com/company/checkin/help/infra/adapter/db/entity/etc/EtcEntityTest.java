@@ -7,8 +7,7 @@ import com.company.checkin.help.infra.adapter.db.entity.help.etc.EtcEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -31,7 +30,7 @@ class EtcEntityTest {
         assertNotNull(etcEntity);
         Etc.DTO dto = Etc.DTO.getDTO(etc);
         Etc.DTO dto2 = Etc.DTO.getDTO(etcEntity.returnDomainModel());
-        assertTrue(dto.equals(dto2));
+        assertEquals(dto, dto2);
     }
 
     @Test
@@ -52,7 +51,7 @@ class EtcEntityTest {
         assertNotNull(updated);
         Etc.DTO result = Etc.DTO.getDTO(updated);
         Etc.DTO original = Etc.DTO.getDTO(etcToUpdate);
-        assertTrue(result.equals(original));
+        assertEquals(result, original);
     }
 
     @Test
@@ -69,7 +68,7 @@ class EtcEntityTest {
         assertNotNull(returned);
         Etc.DTO result = Etc.DTO.getDTO(returned);
         Etc.DTO original = Etc.DTO.getDTO(etc);
-        assertTrue(result.equals(original));
+        assertEquals(result, original);
 
     }
 }

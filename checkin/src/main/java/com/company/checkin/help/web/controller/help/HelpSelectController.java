@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(URIRULE.HELPS)
+@RequestMapping(URIAddress.HELPS)
 @RequiredArgsConstructor
 @RestController
 public class HelpSelectController {
 
     private final HelpSelectApplication helpSelectApplication;
 
-    @GetMapping(URIRULE.CHECK_INS + "{id}")
+    @GetMapping(URIAddress.CHECK_INS + "{id}")
     public ResponseEntity<CheckIn.DTO> selectCheckIn(@PathVariable Long id) {
         return ResponseEntity.ok(helpSelectApplication.selectCheckIn(id));
     }
 
-    @GetMapping(URIRULE.LINE_UPS + "{id}")
+    @GetMapping(URIAddress.LINE_UPS + "{id}")
     public ResponseEntity<LineUp.DTO> selectLineUp(@PathVariable Long id) {
         return ResponseEntity.ok(helpSelectApplication.selectLineUp(id));
     }
 
-    @GetMapping(URIRULE.ETCS + "{id}")
+    @GetMapping(URIAddress.ETCS + "{id}")
     public ResponseEntity<Etc.DTO> selectEtc(@PathVariable Long id) {
         return ResponseEntity.ok(helpSelectApplication.selectEtc(id));
     }

@@ -7,7 +7,6 @@ import com.company.checkin.help.domain.model.help.etc.EtcService;
 import com.company.checkin.help.infra.adapter.db.entity.help.etc.EtcEntity;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class EtcFixtures {
 
@@ -100,7 +99,7 @@ public class EtcFixtures {
             public static EtcService.Start create() {
                 return EtcService.Start.builder()
                         .etcId(ID)
-                        .helperId(Optional.of(HELPER_ID))
+                        .helperId(HELPER_ID)
                         .build();
             }
         }

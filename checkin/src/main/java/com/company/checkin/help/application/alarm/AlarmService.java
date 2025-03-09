@@ -1,6 +1,6 @@
 package com.company.checkin.help.application.alarm;
 
-import com.company.checkin.place.domain.model.place.Place;
+import com.company.checkin.place.domain.model.place.place.Place;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

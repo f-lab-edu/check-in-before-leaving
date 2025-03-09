@@ -11,7 +11,7 @@ import com.company.checkin.help.domain.model.help.checkin.CheckInService;
 import com.company.checkin.help.domain.model.help.etc.EtcService;
 import com.company.checkin.help.domain.model.help.lineup.LineUpService;
 import com.company.checkin.help.web.controller.help.HelpWriteController;
-import com.company.checkin.help.web.controller.help.URIRULE;
+import com.company.checkin.help.web.controller.help.URIAddress;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -57,7 +57,7 @@ class HelpWriteControllerTest {
         @DisplayName("체크인 요청 등록 성공")
         void Request_Success() throws Exception {
             //given
-            String uri = URIRULE.HELPS + URIRULE.CHECK_INS;
+            String uri = URIAddress.HELPS + URIAddress.CHECK_INS;
             CheckInService.Creation request = CheckInFixtures.CheckInServiceT.CreationT.create();
             when(checkInWriteApplication.register(any())).thenReturn(1L);
 
@@ -79,7 +79,7 @@ class HelpWriteControllerTest {
         @DisplayName("업데이트")
         void Request_Update() throws Exception {
             //given
-            String uri = URIRULE.HELPS + URIRULE.CHECK_INS + "/1";
+            String uri = URIAddress.HELPS + URIAddress.CHECK_INS + "/1";
             CheckIn checkIn = CheckInFixtures.CheckInT.create();
             CheckInService.Update request = CheckInFixtures.CheckInServiceT.UpdateT.create(checkIn.getId());
             checkIn.update(request);
@@ -104,7 +104,7 @@ class HelpWriteControllerTest {
         @DisplayName("줄서기 요청 등록 성공")
         void Request_Success() throws Exception {
             //given
-            String uri = URIRULE.HELPS + URIRULE.LINE_UPS;
+            String uri = URIAddress.HELPS + URIAddress.LINE_UPS;
             LineUpService.Creation request = LineUpFixtures.LineUpServiceT.CreationT.create();
 
             //when
@@ -127,7 +127,7 @@ class HelpWriteControllerTest {
         @DisplayName("기타 요청 등록 성공")
         void Request_Success() throws Exception {
             //given
-            String uri = URIRULE.HELPS + URIRULE.ETCS;
+            String uri = URIAddress.HELPS + URIAddress.ETCS;
             EtcService.Creation request = EtcFixtures.EtcServiceT.CreationT.create();
 
             //when
