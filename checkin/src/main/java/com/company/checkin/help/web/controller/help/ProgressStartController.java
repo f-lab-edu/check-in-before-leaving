@@ -1,6 +1,7 @@
 package com.company.checkin.help.web.controller.help;
 
 import com.company.checkin.help.application.help.checkin.command.CheckInStartApplication;
+import com.company.checkin.help.domain.model.help.checkin.CheckIn;
 import com.company.checkin.help.domain.model.help.checkin.CheckInService;
 import com.company.checkin.help.web.controller.dto.DefaultHTTPResponse;
 import jakarta.validation.constraints.NotNull;
