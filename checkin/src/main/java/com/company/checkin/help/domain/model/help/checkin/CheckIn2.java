@@ -2,6 +2,7 @@ package com.company.checkin.help.domain.model.help.checkin;
 
 import com.company.checkin.help.domain.model.help.HelpDetail;
 import com.company.checkin.help.domain.model.help.Progress2;
+import com.company.checkin.help.domain.model.help.ProgressStatus;
 import jakarta.annotation.Nullable;
 import lombok.*;
 
@@ -45,10 +46,10 @@ public final class CheckIn2 {
 
     //Business
     public static CheckIn2 register(@NonNull CheckInService2.Creation dto) {
-        final boolean isForCreation = true;
-        return new CheckIn2(isForCreation, HelpDetail.from(dto), Progress2.Created.from(dto));
+        final boolean isForRegistration = true;
+        return new CheckIn2(isForRegistration, HelpDetail.from(dto),
+                Progress2.of(dto, ProgressStatus.Created.getInstance()));
     }
-
 
     public CheckIn2 update(@NonNull CheckInService2.Update dto) {
         return CheckIn2.builder()
@@ -62,7 +63,7 @@ public final class CheckIn2 {
         return CheckIn2.builder()
                 .id(Objects.requireNonNull(this.id))
                 .helpDetail(Objects.requireNonNull(this.helpDetail))
-                .progress(Progress2.Started.from(dto))
+                .progress(Progress2.of(dto, ProgressStatus.Started.getInstance()))
                 .build();
     }
 
@@ -80,7 +81,7 @@ public final class CheckIn2 {
     // 원칙 3: 커스텀한 응답은 기본 DTO들을 바탕으로 어플리케이션이나 컨트롤러에서 조합한다.
     @Getter
     @EqualsAndHashCode
-    public static final class DTO implements HelpDetail.DTO, Progress2.PersistenceDTO {
+    public static final class DTO implements HelpDetail.DTO, Progress2.OutputDTO {
 
         private final Long id;
         private final Long helpRegisterId;
@@ -89,17 +90,17 @@ public final class CheckIn2 {
         private final LocalDateTime end;
         private final String placeId;
         private final Long reward;
-        private final Progress2.StatusType statusType; //check: 적절히 무시되는 방법 찾기.
         @Nullable
         private final Long helperId;
         @Nullable
         private final String photoPath;
         private final boolean completed;
+        private final ProgressStatus status;
 
         @Builder
         private DTO(@Nullable Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
-                    @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward, @NonNull Progress2.StatusType statusType,
-                    @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed) {
+                    @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward,
+                    @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed, @NonNull ProgressStatus status) {
 
             if (id == null) throw new NullPointerException();
             this.id = id;
@@ -109,10 +110,10 @@ public final class CheckIn2 {
             this.end = end;
             this.placeId = placeId;
             this.reward = reward;
-            this.statusType = statusType;
             this.helperId = helperId;
             this.photoPath = photoPath;
             this.completed = completed;
+            this.status = status;
         }
 
         private DTO(@NonNull Boolean isRegister, @NonNull CheckIn2 checkIn) {
@@ -123,10 +124,10 @@ public final class CheckIn2 {
             this.end = checkIn.getHelpDetail().getEnd();
             this.placeId = checkIn.getHelpDetail().getPlaceId();
             this.reward = checkIn.getHelpDetail().getReward();
-            this.statusType = checkIn.getProgress().getStatusType();
             this.helperId = checkIn.getProgress().getHelperId();
             this.photoPath = checkIn.getProgress().getPhotoPath();
             this.completed = checkIn.getProgress().isCompleted();
+            this.status = checkIn.getProgress().getStatus();
         }
 
         public Optional<Long> getHelperId() {
@@ -146,10 +147,10 @@ public final class CheckIn2 {
                     .end(checkIn.getHelpDetail().getEnd())
                     .placeId(checkIn.getHelpDetail().getPlaceId())
                     .reward(checkIn.getHelpDetail().getReward())
-                    .statusType(checkIn.getProgress().getStatusType())
                     .helperId(checkIn.getProgress().getHelperId())
                     .photoPath(checkIn.getProgress().getPhotoPath())
                     .completed(checkIn.getProgress().isCompleted())
+                    .status(checkIn.getProgress().getStatus())
                     .build();
         }
 

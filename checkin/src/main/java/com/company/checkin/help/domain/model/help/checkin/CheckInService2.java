@@ -2,8 +2,8 @@ package com.company.checkin.help.domain.model.help.checkin;
 
 import com.company.checkin.common.exception.types.InfraException;
 import com.company.checkin.help.domain.model.help.HelpDetail;
-import com.company.checkin.help.domain.model.help.Progress;
 import com.company.checkin.help.domain.model.help.Progress2;
+import com.company.checkin.help.domain.model.help.ProgressStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Optional;
 
 import static com.company.checkin.help.domain.model.help.checkin.CheckInService.CheckInServiceValidationError.*;
@@ -70,7 +69,7 @@ public class CheckInService2 {
     // DTO - Request
     @Getter
     @Validated
-    public static final class Creation implements HelpDetail.DTO, Progress2.DTO {
+    public static final class Creation implements HelpDetail.DTO, Progress2.InputDTO {
 
         @NotNull(message = NO_CHECK_IN_REGISTER_ID)
         private final Long helpRegisterId;
@@ -96,14 +95,13 @@ public class CheckInService2 {
         @NotNull(message = NO_START_AND_TIME_OPTION)
         private LocalDateTime end;
 
-        @Nullable
-        private final Long helperId;
+        private final Long helperId = null;
 
-        @Nullable
-        private final String photoPath;
+        private final String photoPath = null;
 
-        private final boolean completed;
+        private final boolean completed = false;
 
+        private final ProgressStatus status = ProgressStatus.Created.getInstance();
 
         @Builder
         @Jacksonized
@@ -122,15 +120,9 @@ public class CheckInService2 {
             boolean willFailEndRelatedValidation = (start == null || option == null);
             boolean willFailValidation = willFailTitleRelatedValidation || willFailEndRelatedValidation;
             if (!willFailValidation) {
-                this.title = Objects.requireNonNull(CreationInitializer.createTitle(placeName));
-                this.end = Objects.requireNonNull(CreationInitializer.calculateEnd(start, option));
+                this.title = CreationInitializer.createTitle(placeName);
+                this.end = CreationInitializer.calculateEnd(start, option);
             }
-
-            final Long NO_HELPER_AT_CREATED = null;
-            final String NO_PHOTO_AUTHENTICATION_AT_CREATED = null;
-            this.helperId = NO_HELPER_AT_CREATED;
-            this.photoPath = NO_PHOTO_AUTHENTICATION_AT_CREATED;
-            this.completed = false;
         }
 
         public Optional<Long> getHelperId() {
@@ -173,7 +165,7 @@ public class CheckInService2 {
 
     @Getter
     @Validated
-    public static final class Start implements Progress2.DTO {
+    public static final class Start implements Progress2.InputDTO {
 
         @NotNull(message = PROGRESS_REGISTER_REQUEST_NO_HELP_ID)
         private final Long checkInId;
@@ -182,26 +174,20 @@ public class CheckInService2 {
         private final Long helperId;
 
         @JsonIgnore
-        @NonNull
-        private final Progress.ProgressStatus status;
+        @NotNull
+        private final ProgressStatus status = ProgressStatus.Started.getInstance();
 
         @Nullable
-        private final String photoPath;
+        private final String photoPath = null;
 
-        private final boolean completed;
+        private final boolean completed = false;
 
         @Builder
         @Jacksonized
         public Start(Long checkInId, Long helperId) {
 
-
             this.checkInId = checkInId;
             this.helperId = helperId;
-
-            final String NO_PHOTO_AUTHENTICATION_AT_ONGOING = null;
-            this.photoPath = NO_PHOTO_AUTHENTICATION_AT_ONGOING;
-            this.status = new Progress.Started();
-            this.completed = false;
         }
 
         public Optional<String> getPhotoPath() {

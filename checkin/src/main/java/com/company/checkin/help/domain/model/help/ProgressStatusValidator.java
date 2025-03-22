@@ -10,45 +10,45 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class ProgressValidator {
+public class ProgressStatusValidator {
 
     Set<String> messages = new HashSet<>();
 
-    public static ProgressValidator validator() {
-        return new ProgressValidator();
+    public static ProgressStatusValidator validator() {
+        return new ProgressStatusValidator();
     }
 
-    public ProgressValidator checkNotCompleted(boolean completed) {
+    public ProgressStatusValidator checkNotCompleted(boolean completed) {
         if (completed == true) messages.add("완료되지 않은 상태여야 합니다.");
         return this;
     }
 
-    public ProgressValidator checkCompleted(boolean completed) {
+    public ProgressStatusValidator checkCompleted(boolean completed) {
         if (completed == false) messages.add("완료된 상태여야 합니다.");
         return this;
     }
 
-    public ProgressValidator checkNoHelperYet(Optional<Long> helperId) {
+    public ProgressStatusValidator checkNoHelperYet(Optional<Long> helperId) {
         if (helperId.isPresent()) messages.add("도우미가 없어야 합니다.");
         return this;
     }
 
-    public ProgressValidator checkHelperPresent(Optional<Long> helperId) {
+    public ProgressStatusValidator checkHelperPresent(Optional<Long> helperId) {
         if (helperId.isEmpty()) messages.add("도우미가 있어야 합니다.");
         return this;
     }
 
-    public ProgressValidator checkNoPhotoValidationYet(Optional<String> photoPath) {
+    public ProgressStatusValidator checkNoPhotoValidationYet(Optional<String> photoPath) {
         if (photoPath.isPresent()) messages.add("사진이 없어야 합니다.");
         return this;
     }
 
-    public ProgressValidator checkPhotoValidationPresent(Optional<String> photoPath) {
+    public ProgressStatusValidator checkPhotoValidationPresent(Optional<String> photoPath) {
         if (photoPath.isEmpty()) messages.add("사진이 있어야 합니다.");
         return this;
     }
 
-    public ValidDTO finish(Progress2.DTO dto) {
+    public ValidDTO finish(Progress2.InputDTO dto) {
         if (messages != null && !messages.isEmpty()) {
             Set copied = Set.copyOf(this.messages);
             this.messages = null;
