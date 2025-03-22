@@ -36,9 +36,9 @@ class CheckInSelectControllerTest {
     void selectHelp_Success() throws Exception {
         // Given
         Long id = 1L;
-        String uri = URIAddress.HELPS + URIAddress.CHECK_INS + id;
+        String uri = URIAddress.HELPS + URIAddress.CHECK_INS + "/" + id;
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
-        CheckIn.DTO response = CheckIn.DTO.getDTO(checkIn);
+        HelpSelectApplication.CheckInSelectDTO response = HelpSelectApplication.CheckInSelectDTO.from(CheckIn.DTO.getDTO(checkIn));
         when(helpSelectApplication.selectCheckIn(id)).thenReturn(response);
 
         // When
@@ -55,9 +55,8 @@ class CheckInSelectControllerTest {
                 .andExpect(jsonPath("$.start").value(DateTimeFormatter.ISO_DATE_TIME.format(response.getStart())))
                 .andExpect(jsonPath("$.end").value(DateTimeFormatter.ISO_DATE_TIME.format(response.getEnd())))
                 .andExpect(jsonPath("$.reward").value(response.getReward()))
-                .andExpect(jsonPath("$.status.statusType").value(response.getStatus().getStatusType().name()))
-                .andExpect(jsonPath("$.helperId").value(response.getHelperId().orElse(null)))
-                .andExpect(jsonPath("$.photoPath").value(response.getPhotoPath().orElse(null)))
+                .andExpect(jsonPath("$.helperId").value(response.getHelperId()))
+                .andExpect(jsonPath("$.photoPath").value(response.getPhotoPath()))
                 .andExpect(jsonPath("$.completed").value(response.isCompleted()));
     }
 }
