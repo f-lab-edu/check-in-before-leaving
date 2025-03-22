@@ -1,18 +1,14 @@
 package com.company.checkin.help.domain.model.help;
 
 import jakarta.annotation.Nullable;
-import jakarta.persistence.Entity;
 import lombok.*;
 
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 
 
-@Getter
 @EqualsAndHashCode
-@RequiredArgsConstructor
-public abstract class Progress2 {
+@Getter //check: getter 관련 고민.
+public class Progress2 {
 
     @Nullable
     private final Long helperId;
@@ -22,123 +18,49 @@ public abstract class Progress2 {
 
     private final boolean completed;
 
-    private final StatusType statusType;
+    private final ProgressStatus status;
 
-    //StatusType이 여기 있지 않는게 맞을 수 있다.
-    public static Progress2 from(PersistenceDTO dto) {
-        StatusType type = Arrays.stream(StatusType.values()).filter(statusType -> statusType.equals(dto.getStatusType()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unknown status: " + dto.getStatusType()));
-        return type.from(dto);
+    @Builder
+    public Progress2(@Nullable Long helperId, @Nullable String photoPath, boolean completed, @NonNull ProgressStatus status) {
+        this.status = status;
+        this.helperId = helperId;
+        this.photoPath = photoPath;
+        this.completed = completed;
     }
 
-    @Getter
-    public enum StatusType {
-        CREATED {
-            public Created from(DTO dto) {
-                return Created.from(dto);
-            }
-        }, STARTED {
-            public Started from(DTO dto) {
-                return Started.from(dto);
-            }
-        }, AUTHENTICATED {
-            public Authenticated from(DTO dto) {
-                return Authenticated.from(dto);
-            }
-        }, COMPLETED {
-            public Completed from(DTO dto) {
-                return Completed.from(dto);
-            }
-        };
+    public static Progress2 of(InputDTO dto, ProgressStatus status) {
+        return ProgressFactory.create(dto, status);
+    }
 
-        public abstract Progress2 from(DTO dto);
+    public static Progress2 from(OutputDTO dto) {
+        return ProgressFactory.create(dto, dto.getStatus());
     }
 
     //DTO
-    public interface DTO {
+    public interface InputDTO {
 
         Optional<Long> getHelperId();
 
         Optional<String> getPhotoPath();
 
         boolean isCompleted();
-
     }
 
-    public interface PersistenceDTO extends DTO {
-
-        StatusType getStatusType();
-
+    public interface OutputDTO extends InputDTO {
+        ProgressStatus getStatus();
     }
 
-    //Status
-    @EqualsAndHashCode(callSuper = true)
-    public static final class Created extends Progress2 {
-
-        private Created(ProgressValidator.ValidDTO dto) {
-            super(dto.getHelperId(), dto.getPhotoPath(), dto.isCompleted(), StatusType.CREATED);
-        }
-
-        public static Created from(DTO dto) {
-            ProgressValidator.ValidDTO validDto = ProgressValidator.validator()
-                    .checkNotCompleted(dto.isCompleted())
-                    .checkNoHelperYet(dto.getHelperId())
-                    .checkNoPhotoValidationYet(dto.getPhotoPath())
-                    .finish(dto);
-            return new Created(validDto);
+    //Factory
+    public static class ProgressFactory {
+        public static Progress2 create(InputDTO dto, ProgressStatus status) {
+            ProgressStatusValidator.ValidDTO validDTO = status.validate(dto);
+            return Progress2.builder()
+                    .helperId(validDTO.getHelperId())
+                    .photoPath(validDTO.getPhotoPath())
+                    .completed(validDTO.isCompleted())
+                    .status(status)
+                    .build();
         }
     }
 
-    @EqualsAndHashCode(callSuper = true)
-    public static final class Started extends Progress2 {
-        // trade-off: DTO로 받던지 아니면 다시 널체크를 해주어야 한다.
-        //            다만, 이렇게 짜면 Validator에 대한 널체크 의존성이 높다.
-        private Started(ProgressValidator.ValidDTO dto) {
-            super(dto.getHelperId(), dto.getPhotoPath(), dto.isCompleted(), StatusType.STARTED);
-        }
-
-        public static Started from(DTO dto) {
-            ProgressValidator.ValidDTO validDto = ProgressValidator.validator()
-                    .checkNotCompleted(dto.isCompleted())
-                    .checkHelperPresent(dto.getHelperId())
-                    .checkNoPhotoValidationYet(dto.getPhotoPath())
-                    .finish(dto);
-            return new Started(validDto);
-        }
-    }
-
-    @EqualsAndHashCode(callSuper = true)
-    public static final class Authenticated extends Progress2 {
-
-        private Authenticated(ProgressValidator.ValidDTO dto) {
-            super(dto.getHelperId(), dto.getPhotoPath(), dto.isCompleted(), StatusType.AUTHENTICATED);
-        }
-
-        public static Authenticated from(DTO dto) {
-            ProgressValidator.ValidDTO validDto = ProgressValidator.validator()
-                    .checkNotCompleted(dto.isCompleted())
-                    .checkHelperPresent(dto.getHelperId())
-                    .checkPhotoValidationPresent(dto.getPhotoPath())
-                    .finish(dto);
-            return new Authenticated(validDto);
-        }
-    }
-
-    @EqualsAndHashCode(callSuper = true)
-    public static final class Completed extends Progress2 {
-
-        public Completed(ProgressValidator.ValidDTO dto) {
-            super(dto.getHelperId(), dto.getPhotoPath(), dto.isCompleted(), StatusType.COMPLETED);
-        }
-
-        public static Completed from(DTO dto) {
-            ProgressValidator.ValidDTO validDto = ProgressValidator.validator()
-                    .checkCompleted(dto.isCompleted())
-                    .checkHelperPresent(dto.getHelperId())
-                    .checkPhotoValidationPresent(dto.getPhotoPath())
-                    .finish(dto);
-            return new Completed(validDto);
-        }
-    }
 }
