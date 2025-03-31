@@ -1,15 +1,17 @@
 package com.company.checkin.help.web.controller.help;
 
 import com.company.checkin.help.application.help.HelpSelectApplication;
-import com.company.checkin.help.domain.model.help.checkin.CheckIn;
 import com.company.checkin.help.domain.model.help.etc.Etc;
 import com.company.checkin.help.domain.model.help.lineup.LineUp;
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 @RequestMapping(URIAddress.HELPS)
 @RequiredArgsConstructor
@@ -18,8 +20,9 @@ public class HelpSelectController {
 
     private final HelpSelectApplication helpSelectApplication;
 
-    @GetMapping(URIAddress.CHECK_INS + "{id}")
-    public ResponseEntity<CheckIn.DTO> selectCheckIn(@PathVariable Long id) {
+    @GetMapping(URIAddress.CHECK_INS + "/{id}")
+    public ResponseEntity<HelpSelectApplication.CheckInSelectDTO> selectCheckIn(@PathVariable Long id) {
+        Queue<Integer> q = new LinkedList<>();
         return ResponseEntity.ok(helpSelectApplication.selectCheckIn(id));
     }
 

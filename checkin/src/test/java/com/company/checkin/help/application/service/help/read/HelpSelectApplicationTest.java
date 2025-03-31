@@ -1,5 +1,6 @@
 package com.company.checkin.help.application.service.help.read;
 
+import com.company.checkin.CheckInApplication;
 import com.company.checkin.fixtures.checkin.help.CheckInFixtures;
 import com.company.checkin.fixtures.checkin.help.EtcFixtures;
 import com.company.checkin.fixtures.checkin.help.LineUpFixtures;
@@ -42,21 +43,21 @@ class HelpSelectApplicationTest {
         when(checkInService.findOne(id)).thenReturn(response);
 
         // When
-        CheckIn.DTO result = helpSelectApplication.selectCheckIn(id);
+        HelpSelectApplication.CheckInSelectDTO result = helpSelectApplication.selectCheckIn(id);
 
         // Then
+        HelpSelectApplication.CheckInSelectDTO responseResult = HelpSelectApplication.CheckInSelectDTO.from(response);
         assertNotNull(result);
-        assertEquals(response.getId(), result.getId());
-        assertEquals(response.getHelpRegisterId(), result.getHelpRegisterId());
-        assertEquals(response.getTitle(), result.getTitle());
-        assertEquals(response.getPlaceId(), result.getPlaceId());
-        assertEquals(response.getStart(), result.getStart());
-        assertEquals(response.getEnd(), result.getEnd());
-        assertEquals(response.getReward(), result.getReward());
-        assertEquals(response.getStatus(), result.getStatus());
-        assertEquals(response.getHelperId(), result.getHelperId());
-        assertEquals(response.getPhotoPath(), result.getPhotoPath());
-        assertEquals(response.isCompleted(), result.isCompleted());
+        assertEquals(responseResult.getId(), result.getId());
+        assertEquals(responseResult.getHelpRegisterId(), result.getHelpRegisterId());
+        assertEquals(responseResult.getTitle(), result.getTitle());
+        assertEquals(responseResult.getPlaceId(), result.getPlaceId());
+        assertEquals(responseResult.getStart(), result.getStart());
+        assertEquals(responseResult.getEnd(), result.getEnd());
+        assertEquals(responseResult.getReward(), result.getReward());
+        assertEquals(responseResult.getHelperId(), result.getHelperId());
+        assertEquals(responseResult.getPhotoPath(), result.getPhotoPath());
+        assertEquals(responseResult.isCompleted(), result.isCompleted());
     }
 
     @Test
