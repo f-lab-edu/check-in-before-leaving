@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: lb
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/place?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+  data:
+    redis:
+      host: redis
+      port: 6379

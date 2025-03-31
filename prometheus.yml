@@ -16,7 +16,8 @@ scrape_configs:
       - targets: ['localhost:9090']
   - job_name: 'spring-acutator'
     metrics_path: '/actuator/prometheus'
-    scrape_interval: 1s
+    scrape_interval: 5s
+    scrape_timeout: 4s
     static_configs:
       - targets: ['member-context:8080', 'check-in-request-ms:8081']
   - job_name: 'node_exporter'

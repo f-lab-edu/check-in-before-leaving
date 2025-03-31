@@ -1,5 +1,5 @@
 FROM gradle:8.7-jdk17 AS base
-WORKDIR /build
+WORKDIR ../../build
 COPY build.gradle settings.gradle /build/
 RUN gradle build --parallel --continue > /dev/null 2>&1 || true
 COPY . /build
@@ -11,4 +11,4 @@ FROM openjdk:17.0-slim
 WORKDIR /app
 COPY --from=build /build/build/libs/checkin-0.0.1-SNAPSHOT.jar .
 USER root
-ENTRYPOINT ["java","-DSpring.profiles.active=docker","-jar","checkin-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-DSpring.profiles.active=lb","-jar","checkin-0.0.1-SNAPSHOT.jar"]
