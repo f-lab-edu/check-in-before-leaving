@@ -21,7 +21,7 @@ services:
     networks:
       - check-in
   check-in-request-ms:
-    container_name: check-in-request-ms
+    container_name: check-in
     build:
       context: ./
       dockerfile: Dockerfile
