@@ -1,7 +1,7 @@
 package com.company.checkin.help.infra.adapter.db.entity.help;
 
 import com.company.checkin.help.domain.model.help.Progress2;
-import com.company.checkin.help.domain.model.help.ProgressStatus;
+import com.company.checkin.help.domain.model.help.ProgressStatusType;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -29,37 +29,10 @@ public class ProgressEntity2 {
     @Column(nullable = false)
     private boolean completed;
 
-    @Getter
-    public enum ProgressStatusType {
-        CREATED {
-            public ProgressStatus.Created getStatus() {
-                return ProgressStatus.Created.getInstance();
-            }
-        }, STARTED {
-            public ProgressStatus.Started getStatus() {
-                return ProgressStatus.Started.getInstance();
-            }
-        }, AUTHENTICATED {
-            public ProgressStatus.Authenticated getStatus() {
-                return ProgressStatus.Authenticated.getInstance();
-            }
-        }, COMPLETED {
-            public ProgressStatus.Completed getStatus() {
-                return ProgressStatus.Completed.getInstance();
-            }
-        };
-
-        abstract public ProgressStatus getStatus();
-
-        public static ProgressStatusType findType(ProgressStatus status) {
-            return valueOf(status.getClass().getSimpleName().toUpperCase());
-        }
-    }
-
     public static ProgressEntity2 register(Progress2.OutputDTO dto) {
         Progress2 progress = Progress2.from(dto);
         return ProgressEntity2.builder()
-                .statusType(ProgressStatusType.findType(dto.getStatus()))
+                .statusType(dto.getStatusType())
                 .helperId(progress.getHelperId())
                 .photoPath(progress.getPhotoPath())
                 .completed(progress.isCompleted())
@@ -69,7 +42,7 @@ public class ProgressEntity2 {
     public ProgressEntity2 start(Progress2.OutputDTO dto) {
         Progress2 progress = Progress2.from(dto); //think again.
         return ProgressEntity2.builder()
-                .statusType(ProgressStatusType.findType(dto.getStatus()))
+                .statusType(dto.getStatusType())
                 .helperId(progress.getHelperId())
                 .photoPath(progress.getPhotoPath())
                 .completed(progress.isCompleted())
