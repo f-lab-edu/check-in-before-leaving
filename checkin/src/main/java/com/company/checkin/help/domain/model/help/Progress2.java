@@ -33,7 +33,7 @@ public class Progress2 {
     }
 
     public static Progress2 from(OutputDTO dto) {
-        return ProgressFactory.create(dto, dto.getStatus());
+        return ProgressFactory.create(dto, dto.getStatusType().getStatus());
     }
 
     //DTO
@@ -47,7 +47,8 @@ public class Progress2 {
     }
 
     public interface OutputDTO extends InputDTO {
-        ProgressStatus getStatus();
+
+        ProgressStatusType getStatusType();
     }
 
     //Factory
