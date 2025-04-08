@@ -1,11 +1,11 @@
 package com.company.checkin.help.application.help;
 
 import com.company.checkin.help.domain.model.help.checkin.CheckIn;
-import com.company.checkin.help.domain.model.help.checkin.CheckInService;
 import com.company.checkin.help.domain.model.help.etc.Etc;
 import com.company.checkin.help.domain.model.help.etc.EtcService;
 import com.company.checkin.help.domain.model.help.lineup.LineUp;
 import com.company.checkin.help.domain.model.help.lineup.LineUpService;
+import com.company.checkin.help.infra.adapter.cache.CheckInRedisRepository;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
@@ -21,13 +21,13 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class HelpSelectApplication {
 
-    private final CheckInService checkInService;
+    private final CheckInRedisRepository checkInRedisRepository;
     private final LineUpService lineUpService;
     private final EtcService etcService;
 
-    @Cacheable(cacheNames = "help_searched", key = "'checkIn_' + #id")
+
     public CheckInSelectDTO selectCheckIn(@NonNull Long id) {
-        return CheckInSelectDTO.from(checkInService.findOne(id));
+        return checkInRedisRepository.get(id);
     }
 
     @Cacheable(cacheNames = "help_searched", key = "'lineUp_' + #id")
@@ -45,7 +45,7 @@ public class HelpSelectApplication {
     @NoArgsConstructor(force = true)
     @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
     public static final class CheckInSelectDTO {
-        
+
         private final Long id;
         private final Long helpRegisterId;
         private final String title;
