@@ -1,35 +1,36 @@
 package com.company.checkin.help.application.service.help.read;
 
-import com.company.checkin.CheckInApplication;
 import com.company.checkin.fixtures.checkin.help.CheckInFixtures;
 import com.company.checkin.fixtures.checkin.help.EtcFixtures;
 import com.company.checkin.fixtures.checkin.help.LineUpFixtures;
 import com.company.checkin.help.application.help.HelpSelectApplication;
 import com.company.checkin.help.domain.model.help.checkin.CheckIn;
-import com.company.checkin.help.domain.model.help.checkin.CheckInService;
 import com.company.checkin.help.domain.model.help.etc.Etc;
 import com.company.checkin.help.domain.model.help.etc.EtcService;
 import com.company.checkin.help.domain.model.help.lineup.LineUp;
 import com.company.checkin.help.domain.model.help.lineup.LineUpService;
+import com.company.checkin.help.infra.adapter.cache.CheckInRedisRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class HelpSelectApplicationTest {
-    @Mock
-    private CheckInService checkInService;
 
     @Mock
     private LineUpService lineUpService;
 
     @Mock
     private EtcService etcService;
+
+    @Mock
+    private CheckInRedisRepository checkInRedisRepository;
 
     @InjectMocks
     private HelpSelectApplication helpSelectApplication;
@@ -40,7 +41,8 @@ class HelpSelectApplicationTest {
         Long id = 1L;
         CheckIn checkIn = CheckInFixtures.CheckInT.create();
         CheckIn.DTO response = CheckIn.DTO.getDTO(checkIn);
-        when(checkInService.findOne(id)).thenReturn(response);
+        HelpSelectApplication.CheckInSelectDTO finalResponse = HelpSelectApplication.CheckInSelectDTO.from(response);
+        when(checkInRedisRepository.get(id)).thenReturn(finalResponse);
 
         // When
         HelpSelectApplication.CheckInSelectDTO result = helpSelectApplication.selectCheckIn(id);

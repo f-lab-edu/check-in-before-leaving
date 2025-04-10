@@ -3,6 +3,7 @@ package com.company.checkin.help.domain.model.help.checkin;
 import com.company.checkin.help.domain.model.help.HelpDetail;
 import com.company.checkin.help.domain.model.help.Progress2;
 import com.company.checkin.help.domain.model.help.ProgressStatus;
+import com.company.checkin.help.domain.model.help.ProgressStatusType;
 import jakarta.annotation.Nullable;
 import lombok.*;
 
@@ -95,12 +96,13 @@ public final class CheckIn2 {
         @Nullable
         private final String photoPath;
         private final boolean completed;
-        private final ProgressStatus status;
+        private final ProgressStatusType statusType;
 
         @Builder
         private DTO(@Nullable Long id, @NonNull Long helpRegisterId, @NonNull String title, @NonNull LocalDateTime start,
                     @NonNull LocalDateTime end, @NonNull String placeId, @NonNull Long reward,
-                    @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed, @NonNull ProgressStatus status) {
+                    @Nullable Long helperId, @Nullable String photoPath, @NonNull Boolean completed,
+                    @NonNull ProgressStatus status) {
 
             if (id == null) throw new NullPointerException();
             this.id = id;
@@ -113,7 +115,7 @@ public final class CheckIn2 {
             this.helperId = helperId;
             this.photoPath = photoPath;
             this.completed = completed;
-            this.status = status;
+            this.statusType = status.getStatusType();
         }
 
         private DTO(@NonNull Boolean isRegister, @NonNull CheckIn2 checkIn) {
@@ -127,7 +129,7 @@ public final class CheckIn2 {
             this.helperId = checkIn.getProgress().getHelperId();
             this.photoPath = checkIn.getProgress().getPhotoPath();
             this.completed = checkIn.getProgress().isCompleted();
-            this.status = checkIn.getProgress().getStatus();
+            this.statusType = checkIn.getProgress().getStatus().getStatusType();
         }
 
         public Optional<Long> getHelperId() {
