@@ -6,6 +6,11 @@ build/
 !**/src/test/**/build/
 
 
+### HeapDump ###
+.index
+.threads
+.hprof
+
 ### STS ###
 .apt_generated
 .classpath

@@ -39,8 +39,26 @@ public class RedisCacheConfig {
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
+
+        // 시간
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule()); // JavaTimeModule 등록
+        objectMapper.findAndRegisterModules(); // 다른 모듈 자동 등록
+        objectMapper.configure(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false); // ISO-8601 포맷 사용
+
+        //직렬화, 역직렬화
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        objectMapper.activateDefaultTyping(
+                objectMapper.getPolymorphicTypeValidator(),
+                ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE,
+                JsonTypeInfo.As.PROPERTY
+        );
+
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
+
         return redisTemplate;
     }
 
@@ -67,7 +85,7 @@ public class RedisCacheConfig {
 
         //캐싱 종류별 TTL 설정
         Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
-        redisCacheConfigurationMap.put("help_searched", redisCacheConfiguration.entryTtl(Duration.ofSeconds(30)));
+        redisCacheConfigurationMap.put("help_searched", redisCacheConfiguration.entryTtl(Duration.ofSeconds(5)));
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(connectionFactory)
@@ -75,4 +93,5 @@ public class RedisCacheConfig {
                 .withInitialCacheConfigurations(redisCacheConfigurationMap)
                 .build();
     }
+
 }
